@@ -58,6 +58,9 @@ const ServicesComponent = ({ isShow }) => {
                   src="https://static.wikia.nocookie.net/gtawiki/images/b/be/LosSantosSeal-GTAV.png"
                   className="w-14 h-14 object-cover rounded-full mb-1"
                   alt=""
+                  onError={(error) => {
+                    error.target.src = "./images/noimage.jpg";
+                  }}
                 />
                 <div
                   className="flex flex-col items-center"

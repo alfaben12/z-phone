@@ -28,7 +28,7 @@ const HomeComponent = ({ isShow }) => {
               className="w-11 h-11 flex flex-col items-center mb-6 cursor-pointer"
             >
               <div>
-                <img className="rounded-xl" src={v.icon} alt={v.label} />
+                <img className="rounded-xl" src={v.icon} alt="" />
               </div>
               <div>
                 <p className="text-xs text-white font-normal">{v.label}</p>

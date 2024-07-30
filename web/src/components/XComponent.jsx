@@ -91,6 +91,9 @@ const XComponent = ({ isShow }) => {
                         className="h-11 w-11 rounded-full object-cover"
                         src="https://resized-image.uwufufu.com/selection/16733109502208426/720/Tommy%20T.jpg"
                         alt=""
+                        onError={(error) => {
+                          error.target.src = "./images/noimage.jpg";
+                        }}
                       />
                       <div className="flex justify-between w-full">
                         <div className="ml-1.5 leading-tight">
@@ -115,6 +118,9 @@ const XComponent = ({ isShow }) => {
                       className="mt-2 rounded-lg border border-gray-700"
                       src="https://live.staticflickr.com/4323/35987264406_c0b2af1dcc_b.jpg"
                       alt=""
+                      onError={(error) => {
+                        error.target.src = "./images/noimage.jpg";
+                      }}
                     />
                   ) : null}
 
@@ -158,6 +164,9 @@ const XComponent = ({ isShow }) => {
               className="w-9 h-9 rounded-full"
               src="https://live.staticflickr.com/4323/35987264406_c0b2af1dcc_b.jpg"
               alt=""
+              onError={(error) => {
+                error.target.src = "./images/noimage.jpg";
+              }}
             />
 
             <div className="flex-col space-y-2 w-full">

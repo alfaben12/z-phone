@@ -31,6 +31,9 @@ const InCallComponent = ({ isShow }) => {
               src="https://resized-image.uwufufu.com/selection/16733109502208426/720/Tommy%20T.jpg"
               className="w-24 h-24 object-cover rounded-full"
               alt=""
+              onError={(error) => {
+                error.target.src = "./images/noimage.jpg";
+              }}
             />
           </div>
           <span className="text-white text-2xl text-bold truncate px-14">

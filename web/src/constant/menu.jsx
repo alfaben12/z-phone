@@ -17,7 +17,7 @@ export const MENU_INCALL = "In Call";
 export const MENU_INCOMING_CALL_NOTIFICATION = "Incoming Call";
 export const MENU_DEFAULT = "Home";
 
-export const MENU_MESSAGE_CHATTING = "Chat";
+export const MENU_MESSAGE_CHATTING = "Chatting";
 export const MENU_EMAIL_DETAIL = "Email Detail";
 
 export const MENU_CONSTANT = [

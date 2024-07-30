@@ -89,7 +89,10 @@ const LockScreenComponent = ({ isShow }) => {
                   <img
                     className="rounded-lg h-24 w-full object-cover"
                     src="https://images.unsplash.com/photo-1588974269162-4c0d5ccc6094?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3302&q=80"
-                    alt="Surfer at sunset"
+                    alt=""
+                    onError={(error) => {
+                      error.target.src = "./images/noimage.jpg";
+                    }}
                   />
                 </div>
                 <div className="w-1/2">
@@ -115,6 +118,9 @@ const LockScreenComponent = ({ isShow }) => {
                   className="h-8 w-8 rounded-full object-cover"
                   src="https://seeklogo.com/images/K/keystonejs-logo-C77FDB0662-seeklogo.com.png"
                   alt=""
+                  onError={(error) => {
+                    error.target.src = "./images/noimage.jpg";
+                  }}
                 />
               </div>
             </div>

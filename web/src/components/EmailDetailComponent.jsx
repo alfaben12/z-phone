@@ -44,6 +44,9 @@ const EmailDetailComponent = ({ isShow }) => {
               src="https://resized-image.uwufufu.com/selection/16733109502208426/720/Tommy%20T.jpg"
               className="w-9 h-9 object-cover rounded-full"
               alt=""
+              onError={(error) => {
+                error.target.src = "./images/noimage.jpg";
+              }}
             />
             <div className="leading-none col-span-4 text-sm border-b border-gray-900 pb-2 mb-2">
               <span>Brandon O'Connell</span>

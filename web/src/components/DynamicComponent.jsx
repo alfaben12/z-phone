@@ -41,10 +41,10 @@ import CallingNotificationComponent from "./notif/CallingNotificationComponent";
 import InCallComponent from "./InCallComponent";
 
 const DynamicComponent = () => {
-  const { menu } = useContext(MenuContext);
+  const { menu, contacts } = useContext(MenuContext);
 
   useEffect(() => {
-    console.log(menu);
+    console.log("change state " + menu);
   }, [menu]);
   return (
     <LayoutComponent>

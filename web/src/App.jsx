@@ -2,6 +2,11 @@ import React from "react";
 import { useContext, useEffect, useState } from "react";
 import MenuContext from "./context/MenuContext";
 import {
+  MENU_CONTACT,
+  MENU_DEFAULT,
+  MENU_LOCKSCREEN,
+  MENU_MESSAGE,
+  MENU_MESSAGE_CHATTING,
   PHONE_FRAME_HEIGHT,
   PHONE_FRAME_WIDTH,
   PHONE_HEIGHT,
@@ -9,49 +14,83 @@ import {
   PHONE_WIDTH,
 } from "./constant/menu";
 import DynamicComponent from "./components/DynamicComponent";
+import { faker } from "@faker-js/faker";
 
 function App() {
-  const date = new Date();
-  const options = {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Asia/Jakarta",
-  };
-  const jakartaTime = date.toLocaleString("en-US", options);
-
-  const { menu, setMenu } = useContext(MenuContext);
-  const [time, setTime] = useState(jakartaTime);
+  const {
+    menu,
+    time,
+    setMenu,
+    setContacts,
+    setContactsBk,
+    setChats,
+    setChatsBk,
+    setChattings,
+  } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    console.log(menu);
-  }, [menu]);
-
-  const handleMessage = (event) => {
-    let data = event.data;
-    console.log(JSON.stringify(data));
-    if (data.event !== "z-phone") {
-      return;
-    }
-    setIsOpen(data.isOpen);
-
-    console.log(data.isOpen);
-    switch (data.event) {
-      case "z-phone":
-        if (data.isOpen) {
-          console.log("OPEN");
-          show();
-        } else {
-          hide();
-        }
+    switch (menu) {
+      case MENU_CONTACT:
+        getContacts();
+        break;
+      case MENU_MESSAGE:
+        getChats();
+        break;
+      case MENU_MESSAGE_CHATTING:
+        getChattings();
         break;
       default:
-        hide();
+        return;
     }
+  }, [menu]);
+
+  const getContacts = () => {
+    const data = Array.from({ length: 50 }, (v, i) => ({
+      name: faker.person.fullName(),
+      phone: faker.phone.number(),
+      add_at: faker.date.past().toDateString(),
+    }));
+    sendEventData({ contacts: data });
   };
 
-  const sendMessage = (isOpen) => {
+  const getChats = () => {
+    const data = Array.from({ length: 25 }, (v, i) => ({
+      name: faker.person.fullName(),
+      phone: faker.phone.number(),
+      time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
+        faker.date.past().getMinutes()
+      ).padStart(2, "0")}`,
+      message: faker.lorem.paragraphs(),
+      isRead: Math.random() < 0.5,
+    }));
+    sendEventData({ chats: data });
+  };
+
+  const getChattings = () => {
+    const data = Array.from({ length: 300 }, (v, i) => ({
+      time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
+        faker.date.past().getMinutes()
+      ).padStart(2, "0")}`,
+      message: faker.lorem.sentence(),
+      isMe: Math.random() < 0.5 ? true : false,
+    }));
+    sendEventData({ chattings: data });
+  };
+
+  const sendEventData = (data) => {
+    const targetWindow = window;
+    const targetOrigin = "*";
+
+    const message = {
+      event: "z-phone",
+      ...data,
+    };
+
+    targetWindow.postMessage(message, targetOrigin);
+  };
+
+  const openPhone = (isOpen) => {
     const targetWindow = window;
     const targetOrigin = "*";
 
@@ -79,27 +118,67 @@ function App() {
     }, 300);
   }
 
+  const handleOpenPhone = (event) => {
+    let data = event.data;
+    if (data.event !== "z-phone") {
+      return;
+    }
+
+    if (data.isOpen === undefined) {
+      return;
+    }
+
+    setMenu(MENU_LOCKSCREEN);
+    setIsOpen(data.isOpen);
+    switch (data.event) {
+      case "z-phone":
+        if (data.isOpen) {
+          show();
+        } else {
+          hide();
+        }
+        break;
+      default:
+        hide();
+    }
+  };
+
+  const handleEventPhone = (event) => {
+    let data = event.data;
+    if (data.event !== "z-phone") {
+      return;
+    }
+
+    setContacts(data.contacts ? data.contacts : []);
+    setContactsBk(data.contacts ? data.contacts : []);
+    setChats(data.chats ? data.chats : []);
+    setChatsBk(data.chats ? data.chats : []);
+    setChattings(data.chattings ? data.chattings : []);
+  };
+
   useEffect(() => {
-    // hide();
-    window.addEventListener("message", handleMessage);
+    window.addEventListener("message", handleEventPhone);
+    window.addEventListener("message", handleOpenPhone);
     return () => {
-      window.removeEventListener("message", handleMessage);
+      window.removeEventListener("message", handleEventPhone);
+      window.removeEventListener("message", handleOpenPhone);
     };
   }, []);
 
   return (
     <div>
-      <div>
+      <div className="flex-col space-y-2">
         <button
           className={`${
             isOpen ? "bg-blue-500" : "bg-red-500"
-          } p-5 rounded text-white`}
-          onClick={() => sendMessage(!isOpen)}
+          } px-5 py-2 rounded text-white`}
+          onClick={() => openPhone(!isOpen)}
         >
-          test
+          INIT DATA
         </button>
       </div>
-      <div id="z-phone-root-frame" className="z-phone-invisible">
+      {/* <div id="z-phone-root-frame" className="z-phone-invisible"> */}
+      <div id="z-phone-root-frame">
         <div
           className="absolute bottom-10 right-10"
           style={{
@@ -110,7 +189,7 @@ function App() {
         >
           <img
             src={`./images/iphone-15pro.png`}
-            alt="Background Image"
+            alt=""
             className="w-full h-full object-cover"
           />
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">

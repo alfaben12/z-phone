@@ -19,6 +19,9 @@ const CallingNotificationComponent = ({ isShow }) => {
             src="https://resized-image.uwufufu.com/selection/16733109502208426/720/Tommy%20T.jpg"
             className="object-cover rounded-full"
             alt=""
+            onError={(error) => {
+              error.target.src = "./images/noimage.jpg";
+            }}
           />
         </div>
         <div className="flex justify-between w-full items-center space-x-2">

@@ -44,8 +44,11 @@ const HouseComponent = ({ isShow }) => {
             <div className="w-full">
               <img
                 src="https://gunungrizki.com/wp-content/uploads/2017/01/House-PNG-Clipart.png"
-                alt="chippz"
+                alt=""
                 className="mx-auto w-28"
+                onError={(error) => {
+                  error.target.src = "./images/noimage.jpg";
+                }}
               />
               <div className="flex flex-col justify-center items-center gap-2">
                 {/* <h4 className="font-semibold">Business Name</h4> */}
@@ -133,6 +136,9 @@ const HouseComponent = ({ isShow }) => {
                   src="https://gunungrizki.com/wp-content/uploads/2017/01/House-PNG-Clipart.png"
                   className="h-auto w-full object-cover"
                   alt=""
+                  onError={(error) => {
+                    error.target.src = "./images/noimage.jpg";
+                  }}
                 />
               </div>
               <div className="px-6 pt-4 pb-2">

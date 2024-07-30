@@ -61,7 +61,7 @@ const PhoneComponent = ({ isShow }) => {
       >
         {/* CALL */}
         <div
-          class="pb-16"
+          className="pb-16"
           style={{
             ...(subMenu !== subMenuList["call"] ? { display: "none" } : {}),
           }}
@@ -92,6 +92,9 @@ const PhoneComponent = ({ isShow }) => {
                     src="https://resized-image.uwufufu.com/selection/16733109502208426/720/Tommy%20T.jpg"
                     className="w-9 h-9 object-cover rounded-full"
                     alt=""
+                    onError={(error) => {
+                      error.target.src = "./images/noimage.jpg";
+                    }}
                   />
                   <div className="flex flex-col">
                     <span className="text-sm font-medium">

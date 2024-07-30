@@ -29,8 +29,11 @@ const GalleryComponent = ({ isShow }) => {
             <div className="w-full pb-2">
               <img
                 src="https://api.duniagames.co.id/api/content/upload/file/5235668621655981951.jpg"
-                alt="chippz"
+                alt=""
                 className="mx-auto w-full rounded"
+                onError={(error) => {
+                  error.target.src = "./images/noimage.jpg";
+                }}
               />
             </div>
             <div className="flex justify-center items-center">
@@ -83,6 +86,9 @@ const GalleryComponent = ({ isShow }) => {
                   }}
                   src="https://api.duniagames.co.id/api/content/upload/file/5235668621655981951.jpg"
                   alt=""
+                  onError={(error) => {
+                    error.target.src = "./images/noimage.jpg";
+                  }}
                 />
               </div>
             );

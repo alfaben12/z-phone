@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { MENU_DEFAULT, MENU_LOCKSCREEN } from "../constant/menu";
+import { MENU_LOCKSCREEN } from "../constant/menu";
 
 const MenuContext = createContext();
 
@@ -17,9 +17,30 @@ export const MenuProvider = ({ children }) => {
 
   const [time, setTime] = useState(jakartaTime);
   const [menu, setMenu] = useState(MENU_LOCKSCREEN);
+  const [contacts, setContacts] = useState([]);
+  const [contactsBk, setContactsBk] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [chatsBk, setChatsBk] = useState([]);
+  const [chattings, setChattings] = useState([]);
 
   return (
-    <MenuContext.Provider value={{ time, menu, setMenu }}>
+    <MenuContext.Provider
+      value={{
+        time,
+        menu,
+        setMenu,
+        contacts,
+        setContacts,
+        contactsBk,
+        setContactsBk,
+        chats,
+        setChats,
+        chatsBk,
+        setChatsBk,
+        chattings,
+        setChattings,
+      }}
+    >
       {children}
     </MenuContext.Provider>
   );

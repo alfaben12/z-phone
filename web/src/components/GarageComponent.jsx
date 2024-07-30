@@ -80,8 +80,11 @@ const GarageComponent = ({ isShow }) => {
             <div className="w-full">
               <img
                 src="https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/lynx.png"
-                alt="chippz"
+                alt=""
                 className="mx-auto w-28"
+                onError={(error) => {
+                  error.target.src = "./images/noimage.jpg";
+                }}
               />
               <div className="flex flex-col justify-center items-center gap-2">
                 {/* <h4 className="font-semibold">Business Name</h4> */}
@@ -194,6 +197,9 @@ const GarageComponent = ({ isShow }) => {
                   className="relative object-cover h-20"
                   src="https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/lynx.png"
                   alt=""
+                  onError={(error) => {
+                    error.target.src = "./images/noimage.jpg";
+                  }}
                 />
               </div>
               <div className="relative text-white px-2 pb-2">

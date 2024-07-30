@@ -43,6 +43,9 @@ const AdsComponent = ({ isShow }) => {
                     src="https://resized-image.uwufufu.com/selection/16733109502208426/720/Tommy%20T.jpg"
                     className="w-9 h-9 object-cover rounded-full"
                     alt=""
+                    onError={(error) => {
+                      error.target.src = "./images/noimage.jpg";
+                    }}
                   />
                   <div className="leading-none col-span-4 space-y-1">
                     <div className="flex justify-between w-full">
@@ -72,6 +75,9 @@ const AdsComponent = ({ isShow }) => {
                   className="mt-2 rounded-2xl border border-gray-800"
                   src="https://img.gta5-mods.com/q95/images/2019-toyota-supra-gr-add-on-jp-spec/e272f6-70586135_2352786718319603_8588253215382831104_o.jpg"
                   alt=""
+                  onError={(error) => {
+                    error.target.src = "./images/noimage.jpg";
+                  }}
                 />
               ) : null}
               <div className="flex justify-center w-full">
