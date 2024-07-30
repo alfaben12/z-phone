@@ -17,11 +17,21 @@ export const MenuProvider = ({ children }) => {
 
   const [time, setTime] = useState(jakartaTime);
   const [menu, setMenu] = useState(MENU_LOCKSCREEN);
+  const [profile, setProfile] = useState({
+    name: "Alfaben",
+    phone: "085123876",
+  });
   const [contacts, setContacts] = useState([]);
   const [contactsBk, setContactsBk] = useState([]);
   const [chats, setChats] = useState([]);
   const [chatsBk, setChatsBk] = useState([]);
-  const [chattings, setChattings] = useState([]);
+  const [chatting, setChatting] = useState({});
+  const [emails, setEmails] = useState([]);
+  const [emailsBk, setEmailsBk] = useState([]);
+  const [email, setEmail] = useState(null);
+  const [ads, setAds] = useState([]);
+  const [garages, setGarages] = useState([]);
+  const [garagesBk, setGaragesBk] = useState([]);
 
   return (
     <MenuContext.Provider
@@ -29,6 +39,8 @@ export const MenuProvider = ({ children }) => {
         time,
         menu,
         setMenu,
+        profile,
+        setProfile,
         contacts,
         setContacts,
         contactsBk,
@@ -37,8 +49,20 @@ export const MenuProvider = ({ children }) => {
         setChats,
         chatsBk,
         setChatsBk,
-        chattings,
-        setChattings,
+        chatting,
+        setChatting,
+        emails,
+        setEmails,
+        emailsBk,
+        setEmailsBk,
+        email,
+        setEmail,
+        ads,
+        setAds,
+        garagesBk,
+        setGaragesBk,
+        garages,
+        setGarages,
       }}
     >
       {children}

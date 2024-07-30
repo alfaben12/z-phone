@@ -69,9 +69,12 @@ const MessageComponent = ({ isShow }) => {
                 key={i}
                 onClick={() => setMenu(MENU_MESSAGE_CHATTING)}
               >
-                <div className="w-full cursor-pointer grid grid-cols-6">
+                <div
+                  className={`w-full cursor-pointer grid grid-cols-6
+                ${v.isRead ? "text-gray-400" : "text-white"}`}
+                >
                   <img
-                    src="https://resized-image.uwufufu.com/selection/16733109502208426/720/Tommy%20T.jpg"
+                    src={v.photo}
                     className="w-9 h-9 object-cover rounded-full"
                     alt=""
                     onError={(error) => {
@@ -80,19 +83,9 @@ const MessageComponent = ({ isShow }) => {
                   />
                   <div className="leading-none col-span-4 text-sm border-b border-gray-900 pb-2 mb-2">
                     <div className="line-clamp-1">{v.name}</div>
-                    <div
-                      className={`text-xs line-clamp-1 ${
-                        v.isRead ? "text-gray-500" : "text-white"
-                      }`}
-                    >
-                      {v.message}
-                    </div>
+                    <div className="text-xs line-clamp-1">{v.message}</div>
                   </div>
-                  <div
-                    className={`flex flex-col items-end justify-between ${
-                      v.isRead ? "text-gray-400" : "text-white"
-                    }`}
-                  >
+                  <div className="flex flex-col items-end justify-between">
                     <div className="text-xs">{v.time}</div>
                   </div>
                 </div>

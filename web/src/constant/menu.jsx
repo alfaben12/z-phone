@@ -91,9 +91,8 @@ export const BOTTOM_MENU_CONSTANT = [
   },
 ];
 
-export const STORAGE_KEY = "ZPHONE";
 export const PHONE_FRAME_HEIGHT = 600;
 export const PHONE_FRAME_WIDTH = 300;
 export const PHONE_HEIGHT = 600 - 30;
-export const PHONE_WIDTH = 300 - 37;
+export const PHONE_WIDTH = 300 - 36;
 export const PHONE_ROUNDED = 33;
