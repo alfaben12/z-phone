@@ -3,13 +3,16 @@ import { useContext, useEffect, useState } from "react";
 import MenuContext from "./context/MenuContext";
 import {
   MENU_ADS,
+  MENU_BANK,
   MENU_CONTACT,
   MENU_EMAIL,
   MENU_GALLERY,
   MENU_GARAGE,
+  MENU_HOUSE,
   MENU_LOCKSCREEN,
   MENU_MESSAGE,
   MENU_MESSAGE_CHATTING,
+  MENU_SERVICE,
   MENU_X,
   PHONE_FRAME_HEIGHT,
   PHONE_FRAME_WIDTH,
@@ -39,6 +42,10 @@ function App() {
     setGaragesBk,
     setPhotos,
     setTweets,
+    setBank,
+    setHouses,
+    setServices,
+    setMenuNotif,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -67,6 +74,15 @@ function App() {
         break;
       case MENU_X:
         getTweets();
+        break;
+      case MENU_BANK:
+        getBank();
+        break;
+      case MENU_HOUSE:
+        getHouses();
+        break;
+      case MENU_SERVICE:
+        getServices();
         break;
       default:
         return;
@@ -188,6 +204,60 @@ function App() {
     sendEventData({ tweets: data });
   };
 
+  const getBank = () => {
+    const histories = Array.from({ length: 25 }, (v, i) => ({
+      type: Math.random() < 0.5 ? "Debit" : "Credit",
+      label: faker.lorem.sentence(),
+      total: faker.string.numeric(5),
+      created_at: faker.date.past({ years: 2 }).toDateString(),
+    }));
+
+    const bills = Array.from({ length: 25 }, (v, i) => ({
+      type: Math.random() < 0.5 ? "Ambulance" : "Police",
+      label: faker.lorem.sentence(),
+      total: faker.string.numeric(5),
+      created_at: faker.date.past({ years: 2 }).toDateString(),
+    }));
+
+    const balance = faker.string.numeric(6);
+    sendEventData({
+      bank: {
+        histories,
+        bills,
+        balance,
+      },
+    });
+  };
+
+  const getHouses = () => {
+    const data = Array.from({ length: 25 }, (v, i) => ({
+      name: faker.address.streetName(),
+      tier: `Tier ${faker.string.numeric(1)}`,
+      image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
+      keyholders: [
+        faker.string.alphanumeric(8).toLocaleUpperCase(),
+        faker.string.alphanumeric(8).toLocaleUpperCase(),
+        faker.string.alphanumeric(8).toLocaleUpperCase(),
+        faker.string.alphanumeric(8).toLocaleUpperCase(),
+        faker.string.alphanumeric(8).toLocaleUpperCase(),
+      ],
+      is_has_garage: Math.random() > 0.5 ? true : false,
+      is_house_locked: Math.random() > 0.5 ? true : false,
+      is_garage_locked: Math.random() > 0.5 ? true : false,
+      is_stash_locked: Math.random() > 0.5 ? true : false,
+    }));
+    sendEventData({ houses: data });
+  };
+
+  const getServices = () => {
+    const data = Array.from({ length: 25 }, (v, i) => ({
+      logo: faker.image.avatar(),
+      service: faker.company.name(),
+      onduty: faker.string.numeric(2),
+    }));
+    sendEventData({ services: data });
+  };
+
   const sendEventData = (data) => {
     const targetWindow = window;
     const targetOrigin = "*";
@@ -266,12 +336,24 @@ function App() {
     setChatting(data.chatting ? data.chatting : []);
     setEmails(data.emails ? data.emails : []);
     setEmailsBk(data.emails ? data.emails : []);
-    setEmail(null);
+    setEmail({});
     setAds(data.ads ? data.ads : []);
     setGarages(data.garages ? data.garages : []);
     setGaragesBk(data.garages ? data.garages : []);
     setPhotos(data.photos ? data.photos : []);
     setTweets(data.tweets ? data.tweets : []);
+    setBank(
+      data.bank
+        ? data.bank
+        : {
+            balance: 0,
+            histories: [],
+            bills: [],
+          }
+    );
+    setHouses(data.houses ? data.houses : []);
+    setServices(data.services ? data.services : []);
+    setMenuNotif(data.)
   };
 
   useEffect(() => {

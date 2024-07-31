@@ -39,6 +39,7 @@ import SettingComponent from "./SettingComponent";
 import HouseComponent from "./HouseComponent";
 import CallingNotificationComponent from "./notif/CallingNotificationComponent";
 import InCallComponent from "./InCallComponent";
+import NewMessageNotificationComponent from "./notif/NewMessageNotificationComponent";
 
 const DynamicComponent = () => {
   const { menu, contacts } = useContext(MenuContext);
@@ -67,10 +68,11 @@ const DynamicComponent = () => {
         <HouseComponent isShow={menu === MENU_HOUSE} />
         <InCallComponent isShow={menu === MENU_INCALL} />
         <SettingComponent isShow={menu === MENU_SETTING} />
-        <div className="absolute top-0 left-0 pt-10 px-2 w-full">
+        <div className="absolute top-0 left-0 pt-8 px-2 w-full">
           <CallingNotificationComponent
             isShow={menu === MENU_INCOMING_CALL_NOTIFICATION}
           />
+          <NewMessageNotificationComponent isShow={true} />
         </div>
       </div>
     </LayoutComponent>

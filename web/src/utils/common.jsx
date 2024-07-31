@@ -7,3 +7,11 @@ export function searchByKeyValueContains(data, key, value) {
     (data) => data[key] && data[key].toLowerCase().includes(value.toLowerCase())
   );
 }
+
+export function currencyFormat(amount) {
+  return new Intl.NumberFormat("en-US", {
+    style: "decimal",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}

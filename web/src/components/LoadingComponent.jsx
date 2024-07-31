@@ -3,7 +3,7 @@ import React from "react";
 const LoadingComponent = () => {
   return (
     <div className={`flex`}>
-      <div className="m-auto pt-[150px]">
+      <div className="m-auto pt-[64px]">
         <div className="flex flex-col items-center">
           <svg
             className="w-8 h-8 text-gray-300 animate-spin"

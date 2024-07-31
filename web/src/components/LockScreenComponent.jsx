@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-  BOTTOM_MENU_CONSTANT,
-  MENU_CONSTANT,
   MENU_DEFAULT,
 } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
@@ -79,7 +77,7 @@ const LockScreenComponent = ({ isShow }) => {
           <div className="px-3 py-4 bg-white/40 backdrop-blur-md rounded-3xl shadow">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs font-bold">Merpati Reporter</p>
+                <p className="text-xs font-bold">Kota Manis Reporter</p>
                 <h2 className="text-lg font-bold">Latest News</h2>
               </div>
             </div>

@@ -17,6 +17,7 @@ export const MenuProvider = ({ children }) => {
 
   const [time, setTime] = useState(jakartaTime);
   const [menu, setMenu] = useState(MENU_LOCKSCREEN);
+  const [menuNotif, setMenuNotif] = useState(null);
   const [profile, setProfile] = useState({
     name: "Alfaben",
     phone: "085123876",
@@ -34,6 +35,9 @@ export const MenuProvider = ({ children }) => {
   const [garagesBk, setGaragesBk] = useState([]);
   const [photos, setPhotos] = useState([]);
   const [tweets, setTweets] = useState([]);
+  const [bank, setBank] = useState(null);
+  const [houses, setHouses] = useState([]);
+  const [services, setServices] = useState([]);
 
   return (
     <MenuContext.Provider
@@ -41,6 +45,8 @@ export const MenuProvider = ({ children }) => {
         time,
         menu,
         setMenu,
+        menuNotif,
+        setMenuNotif,
         profile,
         setProfile,
         contacts,
@@ -69,6 +75,12 @@ export const MenuProvider = ({ children }) => {
         setPhotos,
         tweets,
         setTweets,
+        bank,
+        setBank,
+        houses,
+        setHouses,
+        services,
+        setServices,
       }}
     >
       {children}

@@ -79,7 +79,7 @@ const XComponent = ({ isShow }) => {
             ...(subMenu !== subMenuList.tweet ? { display: "none" } : {}),
           }}
         >
-          {tweets == null ? (
+          {tweets == undefined ? (
             <LoadingComponent />
           ) : (
             <>

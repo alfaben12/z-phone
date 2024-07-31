@@ -52,7 +52,7 @@ const GarageComponent = ({ isShow }) => {
       }}
     >
       <div
-        className={`absolute w-full z-20 ${
+        className={`no-scrollbar absolute w-full z-30 overflow-auto py-10 ${
           isShowModal ? "visible" : "invisible"
         }`}
         style={{

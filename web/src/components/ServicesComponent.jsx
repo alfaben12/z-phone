@@ -4,7 +4,7 @@ import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
 
 const ServicesComponent = ({ isShow }) => {
-  const { setMenu } = useContext(MenuContext);
+  const { setMenu, services } = useContext(MenuContext);
 
   return (
     <div
@@ -36,58 +36,56 @@ const ServicesComponent = ({ isShow }) => {
       >
         <div className="flex flex-col -mt-1 pb-2 px-2 absolute bg-black z-10">
           <div className="text-lg font-semibold text-white">
-            Merpati Services
+            Kota Manis Services
           </div>
           <div className="text-xs text-gray-300">
-            You can access Merpati City's Services anytime and anywhere.
+            You can access Kota Manis City's Services anytime and anywhere.
           </div>
         </div>
-        <div
-          className="grid grid-cols-2 gap-4 px-2 pb-3"
-          style={{
-            marginTop: 75,
-          }}
-        >
-          {[...Array(10)].map((_, i) => {
-            return (
-              <div
-                className="relative flex flex-col bg-white rounded-xl items-center p-2"
-                key={i}
-              >
-                <img
-                  src="https://static.wikia.nocookie.net/gtawiki/images/b/be/LosSantosSeal-GTAV.png"
-                  className="w-14 h-14 object-cover rounded-full mb-1"
-                  alt=""
-                  onError={(error) => {
-                    error.target.src = "./images/noimage.jpg";
-                  }}
-                />
+        {services == undefined ? (
+          <LoadingComponent />
+        ) : (
+          <div
+            className="grid grid-cols-2 gap-4 px-2 pb-3"
+            style={{
+              marginTop: 75,
+            }}
+          >
+            {services.map((v, i) => {
+              return (
                 <div
-                  className="flex flex-col items-center"
-                  style={{
-                    minHeight: 80,
-                  }}
+                  className="relative flex flex-col bg-white rounded-xl items-center p-2"
+                  key={i}
                 >
-                  <div className="text-center text-sm font-semibold">
-                    <span>
-                      {Math.random() < 0.4 ? (
-                        <span className="text-xs">PEMERINTAHAN</span>
-                      ) : (
-                        <span className="text-xs">PEMERINTAHAN MERPATI</span>
-                      )}
+                  <img
+                    src={v.logo}
+                    className="w-14 h-14 object-cover rounded-full mb-1"
+                    alt=""
+                    onError={(error) => {
+                      error.target.src = "./images/noimage.jpg";
+                    }}
+                  />
+                  <div
+                    className="flex flex-col items-center"
+                    style={{
+                      minHeight: 80,
+                    }}
+                  >
+                    <span className="text-center text-xs line-clamp-2">
+                      {v.service}
+                    </span>
+                    <span className="text-xs text-gray-400 font-medium pb-2">
+                      Total: {v.onduty}
                     </span>
                   </div>
-                  <span className="text-xs text-gray-400 font-medium pb-2">
-                    Total: 10
-                  </span>
+                  <div className="absolute bottom-0 flex justify-center border-t w-full border-gray-200 py-1 cursor-pointer">
+                    <span className="text-sm font-semibold">Message</span>
+                  </div>
                 </div>
-                <div className="absolute bottom-0 flex justify-center border-t w-full border-gray-200 py-1 cursor-pointer">
-                  <span className="text-sm font-semibold">Message</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
