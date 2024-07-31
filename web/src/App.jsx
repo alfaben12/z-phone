@@ -12,6 +12,7 @@ import {
   MENU_LOCKSCREEN,
   MENU_MESSAGE,
   MENU_MESSAGE_CHATTING,
+  MENU_NEW_MESSAGE_NOTIFICATION,
   MENU_SERVICE,
   MENU_X,
   PHONE_FRAME_HEIGHT,
@@ -45,7 +46,7 @@ function App() {
     setBank,
     setHouses,
     setServices,
-    setMenuNotif,
+    setNotification,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -258,6 +259,16 @@ function App() {
     sendEventData({ services: data });
   };
 
+  const sendMessageNotification = () => {
+    console.log("SSSSSS");
+    sendEventData({
+      notification: {
+        type: MENU_NEW_MESSAGE_NOTIFICATION,
+        from: faker.phone.number(),
+        message: faker.lorem.paragraph(),
+      },
+    });
+  };
   const sendEventData = (data) => {
     const targetWindow = window;
     const targetOrigin = "*";
@@ -329,31 +340,34 @@ function App() {
       return;
     }
 
-    setContacts(data.contacts ? data.contacts : []);
-    setContactsBk(data.contacts ? data.contacts : []);
-    setChats(data.chats ? data.chats : []);
-    setChatsBk(data.chats ? data.chats : []);
-    setChatting(data.chatting ? data.chatting : []);
-    setEmails(data.emails ? data.emails : []);
-    setEmailsBk(data.emails ? data.emails : []);
-    setEmail({});
-    setAds(data.ads ? data.ads : []);
-    setGarages(data.garages ? data.garages : []);
-    setGaragesBk(data.garages ? data.garages : []);
-    setPhotos(data.photos ? data.photos : []);
-    setTweets(data.tweets ? data.tweets : []);
-    setBank(
-      data.bank
-        ? data.bank
-        : {
-            balance: 0,
-            histories: [],
-            bills: [],
-          }
-    );
-    setHouses(data.houses ? data.houses : []);
-    setServices(data.services ? data.services : []);
-    setMenuNotif(data.)
+    if (data.notification) {
+      setNotification(data.notification);
+    } else {
+      setContacts(data.contacts ? data.contacts : []);
+      setContactsBk(data.contacts ? data.contacts : []);
+      setChats(data.chats ? data.chats : []);
+      setChatsBk(data.chats ? data.chats : []);
+      setChatting(data.chatting ? data.chatting : []);
+      setEmails(data.emails ? data.emails : []);
+      setEmailsBk(data.emails ? data.emails : []);
+      setEmail({});
+      setAds(data.ads ? data.ads : []);
+      setGarages(data.garages ? data.garages : []);
+      setGaragesBk(data.garages ? data.garages : []);
+      setPhotos(data.photos ? data.photos : []);
+      setTweets(data.tweets ? data.tweets : []);
+      setBank(
+        data.bank
+          ? data.bank
+          : {
+              balance: 0,
+              histories: [],
+              bills: [],
+            }
+      );
+      setHouses(data.houses ? data.houses : []);
+      setServices(data.services ? data.services : []);
+    }
   };
 
   useEffect(() => {
@@ -368,14 +382,26 @@ function App() {
   return (
     <div className="font-normal">
       <div className="flex-col space-y-2">
-        <button
-          className={`${
-            isOpen ? "bg-blue-500" : "bg-red-500"
-          } px-5 py-2 rounded text-white`}
-          onClick={() => openPhone(!isOpen)}
-        >
-          INIT DATA
-        </button>
+        <div>
+          <button
+            className={`${
+              isOpen ? "bg-blue-500" : "bg-red-500"
+            } px-5 py-2 rounded text-white`}
+            onClick={() => openPhone(!isOpen)}
+          >
+            INIT DATA
+          </button>
+        </div>
+        <div>
+          <button
+            className={`${
+              isOpen ? "bg-blue-500" : "bg-red-500"
+            } px-5 py-2 rounded text-white`}
+            onClick={() => sendMessageNotification()}
+          >
+            New Message
+          </button>
+        </div>
       </div>
       {/* <div id="z-phone-root-frame" className="z-phone-invisible"> */}
       <div id="z-phone-root-frame">

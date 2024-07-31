@@ -17,7 +17,9 @@ export const MenuProvider = ({ children }) => {
 
   const [time, setTime] = useState(jakartaTime);
   const [menu, setMenu] = useState(MENU_LOCKSCREEN);
-  const [menuNotif, setMenuNotif] = useState(null);
+  const [notification, setNotification] = useState({
+    type: null,
+  });
   const [profile, setProfile] = useState({
     name: "Alfaben",
     phone: "085123876",
@@ -45,8 +47,8 @@ export const MenuProvider = ({ children }) => {
         time,
         menu,
         setMenu,
-        menuNotif,
-        setMenuNotif,
+        notification,
+        setNotification,
         profile,
         setProfile,
         contacts,
