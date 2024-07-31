@@ -89,7 +89,7 @@ const EmailComponent = ({ isShow }) => {
                       error.target.src = "./images/noimage.jpg";
                     }}
                   />
-                  <div className="leading-none col-span-4 text-sm">
+                  <div className="leading-1 col-span-4 text-sm">
                     <div className="line-clamp-1">{v.name}</div>
                     <div className="line-clamp-1 text-xs">{v.title}</div>
                     <div className="text-xs line-clamp-1">{v.body}</div>

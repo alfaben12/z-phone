@@ -10,6 +10,7 @@ import {
   MENU_LOCKSCREEN,
   MENU_MESSAGE,
   MENU_MESSAGE_CHATTING,
+  MENU_X,
   PHONE_FRAME_HEIGHT,
   PHONE_FRAME_WIDTH,
   PHONE_HEIGHT,
@@ -37,6 +38,7 @@ function App() {
     setGarages,
     setGaragesBk,
     setPhotos,
+    setTweets,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -62,6 +64,9 @@ function App() {
         break;
       case MENU_GALLERY:
         getGallery();
+        break;
+      case MENU_X:
+        getTweets();
         break;
       default:
         return;
@@ -144,7 +149,6 @@ function App() {
   const getGarages = () => {
     const data = Array.from({ length: 25 }, (v, i) => ({
       name: faker.person.fullName(),
-      plate: faker.person.fullName(),
       image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
       model: faker.vehicle.manufacturer(),
       brand: faker.vehicle.type(),
@@ -167,6 +171,21 @@ function App() {
       created_at: faker.date.past({ years: 2 }).toDateString(),
     }));
     sendEventData({ photos: data });
+  };
+
+  const getTweets = () => {
+    const data = Array.from({ length: 25 }, (v, i) => ({
+      tweet:
+        Math.random() < 0.5 ? faker.lorem.paragraphs() : faker.lorem.word(),
+      photo:
+        Math.random() < 0.5
+          ? faker.image.urlLoremFlickr({ height: 250, width: 444 })
+          : "",
+      name: faker.person.fullName(),
+      username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
+      created_at: faker.date.past({ years: 2 }).toDateString(),
+    }));
+    sendEventData({ tweets: data });
   };
 
   const sendEventData = (data) => {
@@ -252,6 +271,7 @@ function App() {
     setGarages(data.garages ? data.garages : []);
     setGaragesBk(data.garages ? data.garages : []);
     setPhotos(data.photos ? data.photos : []);
+    setTweets(data.tweets ? data.tweets : []);
   };
 
   useEffect(() => {

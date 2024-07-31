@@ -45,7 +45,12 @@ const GalleryComponent = ({ isShow }) => {
                 </div>
               </div>
             )}
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center space-x-2">
+              <div>
+                <button className="rounded-full bg-red-500 text-white text-xs px-2 py-1">
+                  Delete
+                </button>
+              </div>
               <div>
                 <MdCancel
                   className="text-3xl text-white cursor-pointer"

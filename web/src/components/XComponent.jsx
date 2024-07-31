@@ -5,6 +5,7 @@ import { MdArrowBackIosNew, MdReply } from "react-icons/md";
 import { FaXTwitter, FaHashtag } from "react-icons/fa6";
 import { GoMention } from "react-icons/go";
 import { IoCamera } from "react-icons/io5";
+import LoadingComponent from "./LoadingComponent";
 
 const subMenuList = {
   create: "create",
@@ -14,7 +15,7 @@ const subMenuList = {
 };
 
 const XComponent = ({ isShow }) => {
-  const { setMenu } = useContext(MenuContext);
+  const { setMenu, tweets } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList.tweet);
 
   const [formDataTweet, setFormDataTweet] = useState({
@@ -78,64 +79,65 @@ const XComponent = ({ isShow }) => {
             ...(subMenu !== subMenuList.tweet ? { display: "none" } : {}),
           }}
         >
-          {[...Array(50)].map((_, i) => {
-            return (
-              <div
-                className="bg-black px-2 pb-2 flex items-center justify-center"
-                key={i}
-              >
-                <div className="border-gray-800 px-4 py-3 rounded-xl border">
-                  <div className="flex justify-between items-center pt-1">
-                    <div className="flex items-center">
-                      <img
-                        className="h-11 w-11 rounded-full object-cover"
-                        src="https://resized-image.uwufufu.com/selection/16733109502208426/720/Tommy%20T.jpg"
-                        alt=""
-                        onError={(error) => {
-                          error.target.src = "./images/noimage.jpg";
-                        }}
-                      />
-                      <div className="flex justify-between w-full">
-                        <div className="ml-1.5 leading-tight">
-                          <div className="line-clamp-1 text-white text-sm">
-                            Luka Aleksy
+          {tweets == null ? (
+            <LoadingComponent />
+          ) : (
+            <>
+              {tweets.map((v, i) => {
+                return (
+                  <div
+                    className="bg-black px-2 pb-2 flex items-center justify-center"
+                    key={i}
+                  >
+                    <div className="border-gray-800 px-4 py-3 rounded-xl border w-full">
+                      <div className="flex justify-between items-center pt-1">
+                        <div className="flex items-center">
+                          <img
+                            className="h-11 w-11 rounded-full object-cover"
+                            src={v.photo}
+                            alt=""
+                            onError={(error) => {
+                              error.target.src = "./images/noimage.jpg";
+                            }}
+                          />
+                          <div className="flex justify-between w-full">
+                            <div className="ml-1.5 leading-tight">
+                              <div className="line-clamp-1 text-white text-sm">
+                                {v.name}
+                              </div>
+                              <div className="line-clamp-1 text-xs text-gray-400 font-normal">
+                                {v.username}
+                              </div>
+                            </div>
                           </div>
-                          <div className="line-clamp-1 text-xs text-gray-400 font-normal">
-                            @lukaleksy18
-                          </div>
+                        </div>
+                        <FaXTwitter className="text-lg text-white" />
+                      </div>
+
+                      <p className="text-white block text-xs mt-2">{v.tweet}</p>
+                      {v.photo != "" ? (
+                        <img
+                          className="mt-2 rounded-lg border border-gray-800"
+                          src={v.photo}
+                          alt=""
+                          onError={(error) => {
+                            error.target.src = "./images/noimage.jpg";
+                          }}
+                        />
+                      ) : null}
+
+                      <div className="flex justify-between items-center pt-1">
+                        <p className="text-gray-400 text-xs">{v.created_at}</p>
+                        <div className="cursor-pointer">
+                          <MdReply className="text-2xl text-white hover:text-[#1d9cf0]" />
                         </div>
                       </div>
                     </div>
-                    <FaXTwitter className="text-lg text-white" />
                   </div>
-
-                  <p className="text-white block text-xs leading-snug mt-3">
-                    No one ever made a decision because of a number. They need a
-                    story. — Daniel Kahneman
-                  </p>
-                  {Math.random() < 0.4 ? (
-                    <img
-                      className="mt-2 rounded-lg border border-gray-700"
-                      src="https://live.staticflickr.com/4323/35987264406_c0b2af1dcc_b.jpg"
-                      alt=""
-                      onError={(error) => {
-                        error.target.src = "./images/noimage.jpg";
-                      }}
-                    />
-                  ) : null}
-
-                  <div className="flex justify-between items-center pt-1">
-                    <p className="text-gray-400 text-xs">
-                      10:05 AM · Dec 19, 2020
-                    </p>
-                    <div className="cursor-pointer">
-                      <MdReply className="text-2xl text-white hover:text-[#1d9cf0]" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </>
+          )}
         </div>
         <div
           style={{

@@ -81,7 +81,7 @@ const MessageComponent = ({ isShow }) => {
                       error.target.src = "./images/noimage.jpg";
                     }}
                   />
-                  <div className="leading-none col-span-4 text-sm border-b border-gray-900 pb-2 mb-2">
+                  <div className="leading-1 col-span-4 text-sm border-b border-gray-900 pb-2 mb-2">
                     <div className="line-clamp-1">{v.name}</div>
                     <div className="text-xs line-clamp-1">{v.message}</div>
                   </div>

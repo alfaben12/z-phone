@@ -68,11 +68,4 @@
   .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
     border-radius: 0.25rem;
   }
-
-  div,
-  span,
-  p,
-  h1 {
-    line-height: 1.5em;
-  }
 }
