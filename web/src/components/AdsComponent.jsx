@@ -118,7 +118,7 @@ const AdsComponent = ({ isShow }) => {
                   </p>
                   {v.bodyImg != "" ? (
                     <img
-                      className="mt-2 rounded-2xl border border-gray-800"
+                      className="mt-2 rounded-xl border border-gray-800"
                       src="https://img.gta5-mods.com/q95/images/2019-toyota-supra-gr-add-on-jp-spec/e272f6-70586135_2352786718319603_8588253215382831104_o.jpg"
                       alt=""
                       onError={(error) => {

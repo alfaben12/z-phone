@@ -10,43 +10,36 @@ import LoadingComponent from "./LoadingComponent";
 const GarageComponent = ({ isShow }) => {
   const { setMenu, garages, setGarages, garagesBk } = useContext(MenuContext);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [dataModal, setDataModal] = useState(null);
 
   const getStatus = (typ) => {
     switch (typ) {
       case 1:
         return (
-          <div className="absolute -top-2.5 right-2 z-10">
-            <div className="flex space-x-1 bg-green-600 py-0.5 px-2 text-xs text-white rounded items-center">
-              <span>Garage</span>
-              <GiHomeGarage />
-            </div>
+          <div className="flex space-x-1 bg-green-600 py-0.5 px-2 text-xs text-white rounded items-center">
+            <span>Garage</span>
+            <GiHomeGarage />
           </div>
         );
       case 2:
         return (
-          <div className="absolute -top-2.5 right-2 z-10">
-            <div className="flex space-x-1 bg-red-600 py-0.5 px-2 text-xs text-white rounded items-center">
-              <span>Tersita</span>
-              <GiPoliceBadge />
-            </div>
+          <div className="flex space-x-1 bg-red-600 py-0.5 px-2 text-xs text-white rounded items-center">
+            <span>Tersita</span>
+            <GiPoliceBadge />
           </div>
         );
       case 3:
         return (
-          <div className="absolute -top-2.5 right-2 z-10">
-            <div className="flex space-x-1 bg-yellow-600 py-0.5 px-2 text-xs text-white rounded items-center">
-              <span>Diluar</span>
-              <FaRoad />
-            </div>
+          <div className="flex space-x-1 bg-yellow-600 py-0.5 px-2 text-xs text-white rounded items-center">
+            <span>Diluar</span>
+            <FaRoad />
           </div>
         );
       default:
         return (
-          <div className="absolute -top-2.5 right-2 z-10">
-            <div className="flex space-x-1 bg-yellow-600 py-0.5 px-2 text-xs text-white rounded items-center">
-              <span>Diluar</span>
-              <GiPoliceBadge />
-            </div>
+          <div className="flex space-x-1 bg-yellow-600 py-0.5 px-2 text-xs text-white rounded items-center">
+            <span>Diluar</span>
+            <GiPoliceBadge />
           </div>
         );
     }
@@ -70,7 +63,7 @@ const GarageComponent = ({ isShow }) => {
       >
         <div className="flex flex-col justify-center rounded-xl h-full w-full px-3 px-3">
           <div className="bg-white rounded-lg py-2 flex flex-col w-full p-3">
-            <div className="flex justify-between items-center pb-5">
+            <div className="flex justify-between items-center pb-2">
               <span className="truncate font-semibold">Supra GR 2020</span>
               <div>
                 <MdCancel
@@ -79,54 +72,62 @@ const GarageComponent = ({ isShow }) => {
                 />
               </div>
             </div>
-            <div className="w-full">
-              <img
-                src="https://raw.githubusercontent.com/MericcaN41/gta5carimages/main/images/lynx.png"
-                alt=""
-                className="mx-auto w-28"
-                onError={(error) => {
-                  error.target.src = "./images/noimage.jpg";
-                }}
-              />
-              <div className="flex flex-col justify-center items-center gap-2">
-                {/* <h4 className="font-semibold">Business Name</h4> */}
+            {dataModal == null ? (
+              <LoadingComponent />
+            ) : (
+              <div className="w-full">
+                <img
+                  src={dataModal.image}
+                  alt=""
+                  className="mx-auto w-28 pb-2"
+                  onError={(error) => {
+                    error.target.src = "./images/noimage.jpg";
+                  }}
+                />
+                <div className="flex flex-col justify-center items-center gap-2">
+                  {/* <h4 className="font-semibold">Business Name</h4> */}
+                </div>
+                <div className="flex flex-col gap-1 border-b py-2 text-xs">
+                  <span className="flex justify-between">
+                    <span className="text-gray-400">Plate:</span>
+                    <span className="font-bold">{dataModal.plate}</span>
+                  </span>
+                  <span className="flex justify-between">
+                    <span className="text-gray-400">Model:</span>
+                    <span>{dataModal.name}</span>
+                  </span>
+                  <span className="flex justify-between">
+                    <span className="text-gray-400">Brand:</span>
+                    <span>{dataModal.brand}</span>
+                  </span>
+                  <span className="flex justify-between">
+                    <span className="text-gray-400">Category:</span>
+                    <span>{dataModal.category}</span>
+                  </span>
+                  <span className="flex justify-between">
+                    <span className="text-gray-400">Garage:</span>
+                    <span>{dataModal.garage}</span>
+                  </span>
+                  <span className="flex justify-between">
+                    <span className="text-gray-400">Status:</span>
+                    <span>{getStatus(dataModal.status)}</span>
+                  </span>
+                </div>
+                <div className="flex flex-col gap-3 pb-2 pt-2 text-xs">
+                  <span className="flex justify-between">
+                    <span className="text-gray-400">Pembelian:</span>
+                    <span>{dataModal.created_at}</span>
+                  </span>
+                  <div className=" border-b border border-dashed"></div>
+                  <span className="flex justify-center space-x-2 items-center">
+                    <div>
+                      <GiMechanicGarage className="text-sm" />
+                    </div>
+                    <span>Powered by Mechanic</span>
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-col gap-3 border-b py-2 text-xs">
-                <span className="flex justify-between">
-                  <span className="text-gray-400">Plate:</span>
-                  <span className="font-bold">M 123 BF</span>
-                </span>
-                <span className="flex justify-between">
-                  <span className="text-gray-400">Brand:</span>
-                  <span>Honda</span>
-                </span>
-                <span className="flex justify-between">
-                  <span className="text-gray-400">Model:</span>
-                  <span>Sport</span>
-                </span>
-                <span className="flex justify-between">
-                  <span className="text-gray-400">Garage:</span>
-                  <span>Garasi Kota</span>
-                </span>
-                <span className="flex justify-between">
-                  <span className="text-gray-400">Status:</span>
-                  <span>Impound</span>
-                </span>
-              </div>
-              <div className="flex flex-col gap-3 pb-2 pt-2 text-xs">
-                <span className="flex justify-between">
-                  <span className="text-gray-400">Pembelian:</span>
-                  <span>2024-07-09</span>
-                </span>
-                <div className=" border-b border border-dashed"></div>
-                <span className="flex justify-center space-x-2 items-center">
-                  <div>
-                    <GiMechanicGarage className="text-sm" />
-                  </div>
-                  <span>Powered by Mechanic</span>
-                </span>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -183,9 +184,14 @@ const GarageComponent = ({ isShow }) => {
               <div
                 key={i}
                 className="flex-shrink-0 mx-3 my-3 relative bg-gray-800 rounded-lg max-w-xs shadow-lg cursor-pointer"
-                onClick={() => setIsShowModal(true)}
+                onClick={() => {
+                  setIsShowModal(true);
+                  setDataModal(v);
+                }}
               >
-                {getStatus(v.status)}
+                <div className="absolute -top-2.5 right-2 z-10">
+                  {getStatus(v.status)}
+                </div>
                 <div
                   className="absolute bottom-5 right-14 w-20 h-20 bg-white opacity-5 rounded-xl"
                   style={{
@@ -198,7 +204,7 @@ const GarageComponent = ({ isShow }) => {
                     transform: "rotate(40deg)",
                   }}
                 ></div>
-                <div className="relative pt-3 px-10 flex items-center justify-center">
+                <div className="relative pt-4 px-10 flex items-center justify-center">
                   <div
                     className="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3"
                     style={{

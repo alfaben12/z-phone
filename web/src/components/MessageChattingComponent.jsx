@@ -48,7 +48,7 @@ const MessageChattingComponent = ({ isShow }) => {
         <LoadingComponent />
       ) : (
         <>
-          <div className="absolute top-0 flex w-full justify-between py-3 bg-black pt-8 z-10">
+          <div className="absolute top-0 flex w-full justify-between py-1.5 bg-black pt-8 z-10">
             <div className="flex items-center px-2 space-x-2 cursor-pointer">
               <div>
                 <MdArrowBackIosNew
@@ -65,9 +65,15 @@ const MessageChattingComponent = ({ isShow }) => {
                   error.target.src = "./images/noimage.jpg";
                 }}
               />
-              <span className="text-sm text-white line-clamp-1 font-medium">
-                {chatting.name}
-              </span>
+              <div className="flex flex-col">
+                <div className="text-sm text-white line-clamp-1 font-medium">
+                  {chatting.name} asdaksl jdklas jdklas jdklaalskdklas jkldajs
+                  kls j
+                </div>
+                <span className="text-xss font-light text-gray-400 -mt-1">
+                  last seen 09:23
+                </span>
+              </div>
             </div>
 
             <div className="flex items-center px-2 text-white cursor-pointer">

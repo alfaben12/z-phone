@@ -32,6 +32,7 @@ export const MenuProvider = ({ children }) => {
   const [ads, setAds] = useState([]);
   const [garages, setGarages] = useState([]);
   const [garagesBk, setGaragesBk] = useState([]);
+  const [photos, setPhotos] = useState([]);
 
   return (
     <MenuContext.Provider
@@ -63,6 +64,8 @@ export const MenuProvider = ({ children }) => {
         setGaragesBk,
         garages,
         setGarages,
+        photos,
+        setPhotos,
       }}
     >
       {children}

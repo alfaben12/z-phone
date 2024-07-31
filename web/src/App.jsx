@@ -5,6 +5,7 @@ import {
   MENU_ADS,
   MENU_CONTACT,
   MENU_EMAIL,
+  MENU_GALLERY,
   MENU_GARAGE,
   MENU_LOCKSCREEN,
   MENU_MESSAGE,
@@ -35,6 +36,7 @@ function App() {
     setAds,
     setGarages,
     setGaragesBk,
+    setPhotos,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -57,6 +59,9 @@ function App() {
         break;
       case MENU_GARAGE:
         getGarages();
+        break;
+      case MENU_GALLERY:
+        getGallery();
         break;
       default:
         return;
@@ -142,14 +147,26 @@ function App() {
       plate: faker.person.fullName(),
       image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
       model: faker.vehicle.manufacturer(),
+      brand: faker.vehicle.type(),
+      type: faker.vehicle.type(),
+      category: faker.vehicle.type(),
       plate: faker.string.alphanumeric(8).toUpperCase(),
       garage: faker.location.city(),
       status: faker.number.int(3),
       fuel: faker.number.int(100),
       engine: faker.number.int(100),
       body: faker.number.int(100),
+      created_at: faker.date.past({ years: 2 }).toDateString(),
     }));
     sendEventData({ garages: data });
+  };
+
+  const getGallery = () => {
+    const data = Array.from({ length: 25 }, (v, i) => ({
+      photo: faker.image.avatar(),
+      created_at: faker.date.past({ years: 2 }).toDateString(),
+    }));
+    sendEventData({ photos: data });
   };
 
   const sendEventData = (data) => {
@@ -234,6 +251,7 @@ function App() {
     setAds(data.ads ? data.ads : []);
     setGarages(data.garages ? data.garages : []);
     setGaragesBk(data.garages ? data.garages : []);
+    setPhotos(data.photos ? data.photos : []);
   };
 
   useEffect(() => {

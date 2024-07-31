@@ -4,14 +4,21 @@ module.exports = {
   theme: {
     extend: {
       fontSize: {
-        // xs: "0.8rem",
-        // sm: "0.9rem",
+        xss: "0.6rem",
+        xs: "0.75rem",
+        sm: "0.8rem",
+        base: "1rem",
+        xl: "1.25rem",
+        "2xl": "1.563rem",
+        "3xl": "1.953rem",
+        "4xl": "2.441rem",
+        "5xl": "3.052rem",
       },
       fontWeight: {
         hairline: "100",
         extralight: "200",
         light: "300",
-        normal: "300",
+        normal: "400",
         medium: "400",
         semibold: "500",
         bold: "600",
