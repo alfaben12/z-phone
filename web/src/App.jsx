@@ -9,6 +9,8 @@ import {
   MENU_GALLERY,
   MENU_GARAGE,
   MENU_HOUSE,
+  MENU_INCALL,
+  MENU_INCOMING_CALL_NOTIFICATION,
   MENU_LOCKSCREEN,
   MENU_MESSAGE,
   MENU_MESSAGE_CHATTING,
@@ -27,6 +29,7 @@ import { faker } from "@faker-js/faker";
 function App() {
   const {
     menu,
+    notification,
     time,
     setMenu,
     setProfile,
@@ -260,7 +263,6 @@ function App() {
   };
 
   const sendMessageNotification = () => {
-    console.log("SSSSSS");
     sendEventData({
       notification: {
         type: MENU_NEW_MESSAGE_NOTIFICATION,
@@ -269,6 +271,17 @@ function App() {
       },
     });
   };
+
+  const sendIncomingCallNotification = () => {
+    sendEventData({
+      notification: {
+        type: MENU_INCOMING_CALL_NOTIFICATION,
+        from: faker.phone.number(),
+        photo: faker.image.avatar(),
+      },
+    });
+  };
+
   const sendEventData = (data) => {
     const targetWindow = window;
     const targetOrigin = "*";
@@ -400,6 +413,16 @@ function App() {
             onClick={() => sendMessageNotification()}
           >
             New Message
+          </button>
+        </div>
+        <div>
+          <button
+            className={`${
+              isOpen ? "bg-blue-500" : "bg-red-500"
+            } px-5 py-2 rounded text-white`}
+            onClick={() => sendIncomingCallNotification()}
+          >
+            New Incoming Call
           </button>
         </div>
       </div>

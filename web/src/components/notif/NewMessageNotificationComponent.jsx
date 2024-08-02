@@ -8,23 +8,28 @@ const NewMessageNotificationComponent = ({ isShow }) => {
   useEffect(() => {
     setIsClose(false);
   }, [isShow]);
+
   return (
     <div
-      className={`flex rounded-xl w-full bg-black cursor-pointer ${
+      className={`flex w-full cursor-pointer px-2 pt-8 ${
         isClose ? "animate-slideUp" : "animate-slideDown"
       }`}
       style={{
         display: isShow ? "block" : "none",
-        background: "rgba(0, 0, 0, 0.9)",
-      }}
-      onClick={() => {
-        setIsClose(true);
-        setTimeout(() => {
-          setNotification({ type: "" });
-        }, 1000);
       }}
     >
-      <div className="flex px-3 py-2 space-x-2 w-full items-center">
+      <div
+        className="flex px-3 py-2 space-x-2 w-full items-center rounded-xl"
+        style={{
+          background: "rgba(0, 0, 0, 0.9)",
+        }}
+        onClick={() => {
+          setIsClose(true);
+          setTimeout(() => {
+            setNotification({ type: "" });
+          }, 1000);
+        }}
+      >
         <div className="flex w-full items-center space-x-2">
           <img src="./images/message.svg" className="w-8 h-8" alt="" />
           <div className="flex flex-col">

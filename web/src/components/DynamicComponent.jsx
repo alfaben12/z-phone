@@ -12,7 +12,6 @@ import {
   MENU_GALLERY,
   MENU_GARAGE,
   MENU_HOUSE,
-  MENU_INCALL,
   MENU_INCOMING_CALL_NOTIFICATION,
   MENU_LOCKSCREEN,
   MENU_MESSAGE,
@@ -22,6 +21,7 @@ import {
   MENU_SERVICE,
   MENU_SETTING,
   MENU_X,
+  MENU_INCALL,
 } from "../constant/menu";
 import MessageComponent from "./MessageComponent";
 import MessageChattingComponent from "./MessageChattingComponent";
@@ -38,9 +38,9 @@ import GalleryComponent from "./GalleryComponent";
 import LockScreenComponent from "./LockScreenComponent";
 import SettingComponent from "./SettingComponent";
 import HouseComponent from "./HouseComponent";
-import CallingNotificationComponent from "./notif/CallingNotificationComponent";
-import InCallComponent from "./InCallComponent";
+import IncomingCallNotificationComponent from "./notif/IncomingCallNotificationComponent";
 import NewMessageNotificationComponent from "./notif/NewMessageNotificationComponent";
+import InCallComponent from "./notif/InCallComponent";
 
 const DynamicComponent = () => {
   const { menu, notification } = useContext(MenuContext);
@@ -48,6 +48,7 @@ const DynamicComponent = () => {
   useEffect(() => {
     console.log("change state " + menu);
   }, [menu]);
+
   return (
     <LayoutComponent>
       <div className="relative w-full h-full">
@@ -67,10 +68,21 @@ const DynamicComponent = () => {
         <GalleryComponent isShow={menu === MENU_GALLERY} />
         <SettingComponent isShow={menu === MENU_SETTING} />
         <HouseComponent isShow={menu === MENU_HOUSE} />
-        <InCallComponent isShow={menu === MENU_INCALL} />
         <SettingComponent isShow={menu === MENU_SETTING} />
-        <div className="absolute top-0 left-0 pt-8 px-2 w-full">
-          <CallingNotificationComponent
+        <div
+          className="absolute top-0 left-0"
+          style={{
+            display: [
+              MENU_INCALL,
+              MENU_INCOMING_CALL_NOTIFICATION,
+              MENU_NEW_MESSAGE_NOTIFICATION,
+            ].includes(notification.type)
+              ? "block"
+              : "none",
+          }}
+        >
+          <InCallComponent isShow={notification.type === MENU_INCALL} />
+          <IncomingCallNotificationComponent
             isShow={notification.type === MENU_INCOMING_CALL_NOTIFICATION}
           />
           <NewMessageNotificationComponent

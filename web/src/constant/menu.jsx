@@ -13,16 +13,14 @@ export const MENU_MESSAGE = "Message";
 export const MENU_X = "X";
 export const MENU_SETTING = "Setting";
 export const MENU_CONTACT = "Contact";
-export const MENU_INCALL = "In Call";
-export const MENU_INCOMING_CALL_NOTIFICATION = "Incoming Call";
-export const MENU_NEW_MESSAGE_NOTIFICATION = "New Message";
 export const MENU_DEFAULT = "Home";
 
 export const MENU_MESSAGE_CHATTING = "Chatting";
 export const MENU_EMAIL_DETAIL = "Email Detail";
 
-export const MENU_NOTIFICATION_MESSAGE = "Notification Message";
-export const MENU_NOTIFICATION_INCOMING_CALL = "Incoming Call";
+export const MENU_INCOMING_CALL_NOTIFICATION = "Incoming Call";
+export const MENU_NEW_MESSAGE_NOTIFICATION = "New Message";
+export const MENU_INCALL = "In Call";
 
 export const MENU_CONSTANT = [
   {
