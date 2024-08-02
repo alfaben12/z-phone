@@ -3,12 +3,7 @@ import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import {
   MdArrowBackIosNew,
-  MdEdit,
-  MdWhatsapp,
-  MdOutlinePhone,
-  MdOutlineSearch,
 } from "react-icons/md";
-import TextTruncate from "./TextTruncate";
 
 const SettingComponent = ({ isShow }) => {
   const { setMenu } = useContext(MenuContext);

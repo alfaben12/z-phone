@@ -15,6 +15,7 @@ import {
   MENU_MESSAGE,
   MENU_MESSAGE_CHATTING,
   MENU_NEW_MESSAGE_NOTIFICATION,
+  MENU_PHONE,
   MENU_SERVICE,
   MENU_X,
   PHONE_FRAME_HEIGHT,
@@ -50,6 +51,7 @@ function App() {
     setHouses,
     setServices,
     setNotification,
+    setCallHistories,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -87,6 +89,9 @@ function App() {
         break;
       case MENU_SERVICE:
         getServices();
+        break;
+      case MENU_PHONE:
+        getCallHistories();
         break;
       default:
         return;
@@ -206,6 +211,15 @@ function App() {
       created_at: faker.date.past({ years: 2 }).toDateString(),
     }));
     sendEventData({ tweets: data });
+  };
+
+  const getCallHistories = () => {
+    const data = Array.from({ length: 25 }, (v, i) => ({
+      from: faker.phone.number(),
+      photo: faker.image.avatar(),
+      created_at: faker.date.past({ years: 2 }).toDateString(),
+    }));
+    sendEventData({ callHistories: data });
   };
 
   const getBank = () => {
@@ -380,6 +394,7 @@ function App() {
       );
       setHouses(data.houses ? data.houses : []);
       setServices(data.services ? data.services : []);
+      setCallHistories(data.callHistories ? data.callHistories : []);
     }
   };
 

@@ -10,7 +10,6 @@ import {
   MdBackspace,
   MdOutlineSearch,
 } from "react-icons/md";
-import TextTruncate from "./TextTruncate";
 
 const subMenuList = {
   call: "call",
@@ -19,7 +18,7 @@ const subMenuList = {
 };
 
 const PhoneComponent = ({ isShow }) => {
-  const { setMenu } = useContext(MenuContext);
+  const { callHistories, setMenu } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList["keypad"]);
   const [pin, setPin] = useState("");
 
@@ -66,7 +65,7 @@ const PhoneComponent = ({ isShow }) => {
             ...(subMenu !== subMenuList["call"] ? { display: "none" } : {}),
           }}
         >
-          <div className="bg-black flex items-center w-full pb-3">
+          {/* <div className="bg-black flex items-center w-full pb-3">
             <div className="w-2"></div>
             <div className="relative w-full">
               <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -79,36 +78,46 @@ const PhoneComponent = ({ isShow }) => {
               />
             </div>
             <div className="w-2"></div>
-          </div>
-          {[...Array(50)].map((_, i) => {
-            return (
-              <div
-                className="flex w-full justify-between border-b border-gray-900 pb-2 mb-2"
-                key={i}
-                // onClick={() => setMenu(MENU_MESSAGE_CHATTING)}
-              >
-                <div className="flex space-x-3 items-center w-full pl-1">
-                  <img
-                    src="https://resized-image.uwufufu.com/selection/16733109502208426/720/Tommy%20T.jpg"
-                    className="w-9 h-9 object-cover rounded-full"
-                    alt=""
-                    onError={(error) => {
-                      error.target.src = "./images/noimage.jpg";
-                    }}
-                  />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium">
-                      <TextTruncate text={`Alfaben ${i}`} size={15} />
-                    </span>
-                    <span className="text-xs text-gray-400">2024-10-31</span>
+          </div> */}
+          {callHistories == undefined ? (
+            <LoadingComponent />
+          ) : (
+            <>
+              {callHistories.map((v, i) => {
+                return (
+                  <div
+                    className="flex w-full justify-between border-b border-gray-900 pb-2 mb-2"
+                    key={i}
+                    // onClick={() => setMenu(MENU_MESSAGE_CHATTING)}
+                  >
+                    <div className="flex space-x-3 items-center w-full pl-1">
+                      <img
+                        src={v.photo}
+                        className="w-9 h-9 object-cover rounded-full"
+                        alt=""
+                        onError={(error) => {
+                          error.target.src = "./images/noimage.jpg";
+                        }}
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium line-clamp-1">
+                          Alfaben Alfaben Alfaben Alfaben Alfaben Alfaben
+                          Alfaben Alfaben Alfaben Alfaben Alfaben Alfaben
+                          Alfaben
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          {v.created_at}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex space-x-2 pr-3 items-center cursor-pointer hover:text-green-500">
+                      <MdOutlinePhone className="text-2xl" />
+                    </div>
                   </div>
-                </div>
-                <div className="flex space-x-2 pr-3 items-center">
-                  <MdOutlinePhone className="cursor-pointer text-2xl" />
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </>
+          )}
         </div>
         {/* HISTORY */}
         <div
