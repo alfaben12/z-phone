@@ -76,11 +76,7 @@ const DynamicComponent = () => {
         <div
           className="absolute top-0 left-0 z-50"
           style={{
-            display:
-              !isNullOrUndefined(notificationCall) ||
-              !isNullOrUndefined(notificationMessage)
-                ? "block"
-                : "none",
+            display: !isNullOrUndefined(notificationCall) ? "block" : "none",
           }}
         >
           <InCallComponent isShow={notificationCall.type === MENU_INCALL} />
@@ -89,11 +85,7 @@ const DynamicComponent = () => {
         <div
           className="absolute top-0 left-0 z-50"
           style={{
-            display:
-              !isNullOrUndefined(notificationCall) ||
-              !isNullOrUndefined(notificationMessage)
-                ? "block"
-                : "none",
+            display: !isNullOrUndefined(notificationCall) ? "block" : "none",
           }}
         >
           <IncomingCallNotificationComponent
@@ -103,11 +95,7 @@ const DynamicComponent = () => {
         <div
           className="absolute top-0 left-0 z-50"
           style={{
-            display:
-              !isNullOrUndefined(notificationCall) ||
-              !isNullOrUndefined(notificationMessage)
-                ? "block"
-                : "none",
+            display: !isNullOrUndefined(notificationMessage) ? "block" : "none",
           }}
         >
           <NewMessageNotificationComponent
