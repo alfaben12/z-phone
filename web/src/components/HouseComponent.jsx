@@ -36,7 +36,7 @@ const HouseComponent = ({ isShow }) => {
           <div className="bg-white rounded-lg py-2 flex flex-col w-full p-3">
             <div className="flex justify-between items-center pb-3">
               <span className="truncate font-semibold">
-                {dataModal != null ? "Rumah 123" : "Loading..."}
+                {dataModal != null ? dataModal.name : ""}
               </span>
               <div>
                 <MdCancel

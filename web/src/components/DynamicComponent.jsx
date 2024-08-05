@@ -70,7 +70,7 @@ const DynamicComponent = () => {
         <HouseComponent isShow={menu === MENU_HOUSE} />
         <SettingComponent isShow={menu === MENU_SETTING} />
         <div
-          className="absolute top-0 left-0"
+          className="absolute top-0 left-0 z-50"
           style={{
             display: [
               MENU_INCALL,

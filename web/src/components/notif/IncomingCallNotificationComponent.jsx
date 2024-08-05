@@ -1,12 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import MenuContext from "../../context/MenuContext";
 import { MdCall, MdCallEnd } from "react-icons/md";
-import {
-  MENU_DEFAULT,
-  MENU_INCALL,
-  PHONE_HEIGHT,
-  PHONE_WIDTH,
-} from "../../constant/menu";
+import { MENU_INCALL, PHONE_HEIGHT, PHONE_WIDTH } from "../../constant/menu";
 import { FaBell, FaFonticonsFi } from "react-icons/fa6";
 
 const IncomingCallNotificationComponent = ({ isShow }) => {

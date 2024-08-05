@@ -195,7 +195,10 @@ const BankComponent = ({ isShow }) => {
                     <span className="text-xs font-normal border-b pb-1 border-slate-700">
                       Last 5 Transactions
                     </span>
-                    <span className="text-xs font-normal border-slate-700 cursor-pointer">
+                    <span
+                      className="text-xs font-normal border-slate-700 cursor-pointer"
+                      onClick={() => setSubMenu(subMenuList["history"])}
+                    >
                       Show All
                     </span>
                   </div>

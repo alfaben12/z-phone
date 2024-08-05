@@ -9,6 +9,17 @@ const NewMessageNotificationComponent = ({ isShow }) => {
     setIsClose(false);
   }, [isShow]);
 
+  useEffect(() => {
+    if (!isClose) {
+      setTimeout(() => {
+        setIsClose(true);
+        setTimeout(() => {
+          setNotification({ type: "" });
+        }, 1000);
+      }, 5000);
+    }
+  }, [isClose]);
+
   return (
     <div
       className={`flex w-full cursor-pointer px-2 pt-8 ${
@@ -19,7 +30,7 @@ const NewMessageNotificationComponent = ({ isShow }) => {
       }}
     >
       <div
-        className="flex px-3 py-2 space-x-2 w-full items-center rounded-xl"
+        className="flex px-3 py-2 space-x-2 w-full items-center rounded-xl border border-gray-900"
         style={{
           background: "rgba(0, 0, 0, 0.9)",
         }}

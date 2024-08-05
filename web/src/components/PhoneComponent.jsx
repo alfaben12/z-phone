@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { MENU_DEFAULT } from "../constant/menu";
+import { MENU_DEFAULT, PHONE_HEIGHT, PHONE_WIDTH } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import {
   MdArrowBackIosNew,
@@ -8,8 +8,9 @@ import {
   MdFormatListBulleted,
   MdOutlinePhone,
   MdBackspace,
-  MdOutlineSearch,
+  MdCancel,
 } from "react-icons/md";
+import LoadingComponent from "./LoadingComponent";
 
 const subMenuList = {
   call: "call",
@@ -20,16 +21,46 @@ const subMenuList = {
 const PhoneComponent = ({ isShow }) => {
   const { callHistories, setMenu } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList["keypad"]);
-  const [pin, setPin] = useState("");
+  const [newPhone, setNewPhone] = useState("");
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [formDataNew, setFormDataNew] = useState({
+    name: "",
+  });
+
+  const handlePhoneFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormDataNew({
+      ...formDataNew,
+      [name]: value,
+    });
+  };
+
+  const handlePhoneFormSubmit = (e) => {
+    e.preventDefault();
+    if (!formDataNew.name) {
+      return;
+    }
+
+    if (!newPhone) {
+      return;
+    }
+
+    const data = {
+      name: formDataNew.name,
+      phone: newPhone,
+    };
+    console.log("Form Data:", data);
+    // Here you can add your code to send formData to an API
+  };
 
   const handleKeyPress = (value) => {
-    if (pin.length < 15) {
-      setPin(pin + value);
+    if (newPhone.length < 12) {
+      setNewPhone(newPhone + value);
     }
   };
 
   const handleDelete = () => {
-    setPin(pin.slice(0, -1));
+    setNewPhone(newPhone.slice(0, -1));
   };
 
   return (
@@ -39,6 +70,69 @@ const PhoneComponent = ({ isShow }) => {
         display: isShow ? "block" : "none",
       }}
     >
+      <div
+        className={`no-scrollbar absolute w-full z-30 overflow-auto py-10 text-white ${
+          isShowModal ? "visible" : "invisible"
+        }`}
+        style={{
+          height: PHONE_HEIGHT,
+          width: PHONE_WIDTH,
+          backgroundColor: "rgba(31, 41, 55, 0.8)",
+        }}
+      >
+        <div className="flex flex-col justify-center rounded-xl h-full w-full px-3 px-3">
+          <div className="bg-slate-700 rounded-lg py-2 flex flex-col w-full p-3">
+            <div className="flex justify-between items-center pb-2">
+              <span className="truncate font-semibold">New Contact</span>
+              <div>
+                <MdCancel
+                  className="text-2xl text-red-500 cursor-pointer hover:text-red-700"
+                  onClick={() => setIsShowModal(false)}
+                />
+              </div>
+            </div>
+            <form onSubmit={handlePhoneFormSubmit} className="w-full">
+              <div className="flex flex-col gap-1 py-2 text-xs">
+                <span className="flex justify-between items-center">
+                  <span>Name:</span>
+                  <span>
+                    <input
+                      name="name"
+                      className="border-b w-36 text-base font-medium focus:outline-none bg-slate-700"
+                      placeholder="John"
+                      onChange={handlePhoneFormChange}
+                      required
+                    />
+                  </span>
+                </span>
+                <span className="flex justify-between items-center">
+                  <span>Number:</span>
+                  <span>
+                    <input
+                      name="phone"
+                      className="border-b w-36 text-base font-medium focus:outline-none bg-slate-700"
+                      placeholder="086263887"
+                      readOnly={true}
+                      value={newPhone}
+                      defaultValue={newPhone}
+                      required
+                    />
+                  </span>
+                </span>
+                <div className="flex justify-end pt-2">
+                  <button
+                    className="flex font-medium rounded-full text-white bg-blue-500 px-3 py-1 text-sm items-center justify-center"
+                    type="submit"
+                  >
+                    <span>SAVE</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
       <div className="absolute top-0 flex w-full justify-between py-3 bg-black pt-8 z-10">
         <div
           className="flex items-center px-2 text-blue-500 cursor-pointer"
@@ -101,9 +195,7 @@ const PhoneComponent = ({ isShow }) => {
                       />
                       <div className="flex flex-col">
                         <span className="text-sm font-medium line-clamp-1">
-                          Alfaben Alfaben Alfaben Alfaben Alfaben Alfaben
-                          Alfaben Alfaben Alfaben Alfaben Alfaben Alfaben
-                          Alfaben
+                          {v.from}
                         </span>
                         <span className="text-xs text-gray-400">
                           {v.created_at}
@@ -137,12 +229,15 @@ const PhoneComponent = ({ isShow }) => {
         >
           <div className="flex flex-col items-center pt-5 h-[50px]">
             <span className="text-2xl text-white" style={{}}>
-              {pin}
+              {newPhone}
             </span>
             <span
               className="text-xs text-blue-500 cursor-pointer"
               style={{
-                display: pin.length > 0 ? "block" : "none",
+                display: newPhone.length > 0 ? "block" : "none",
+              }}
+              onClick={() => {
+                setIsShowModal(true);
               }}
             >
               Add Number

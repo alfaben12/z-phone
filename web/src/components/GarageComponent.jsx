@@ -64,7 +64,9 @@ const GarageComponent = ({ isShow }) => {
         <div className="flex flex-col justify-center rounded-xl h-full w-full px-3 px-3">
           <div className="bg-white rounded-lg py-2 flex flex-col w-full p-3">
             <div className="flex justify-between items-center pb-2">
-              <span className="truncate font-semibold">Supra GR 2020</span>
+              <span className="truncate font-semibold">
+                {dataModal != null ? dataModal.name : ""}
+              </span>
               <div>
                 <MdCancel
                   className="text-2xl text-red-500 cursor-pointer hover:text-red-700"
