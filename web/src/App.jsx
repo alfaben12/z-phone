@@ -50,7 +50,8 @@ function App() {
     setBank,
     setHouses,
     setServices,
-    setNotification,
+    setNotificationMessage,
+    setNotificationCall,
     setCallHistories,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -368,7 +369,13 @@ function App() {
     }
 
     if (data.notification) {
-      setNotification(data.notification);
+      if (data.notification.type == MENU_NEW_MESSAGE_NOTIFICATION) {
+        setNotificationMessage(data.notification);
+      }
+
+      if (data.notification.type == MENU_INCOMING_CALL_NOTIFICATION) {
+        setNotificationCall(data.notification);
+      }
     } else {
       setContacts(data.contacts ? data.contacts : []);
       setContactsBk(data.contacts ? data.contacts : []);

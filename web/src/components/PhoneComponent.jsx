@@ -114,7 +114,6 @@ const PhoneComponent = ({ isShow }) => {
                       placeholder="086263887"
                       readOnly={true}
                       value={newPhone}
-                      defaultValue={newPhone}
                       required
                     />
                   </span>

@@ -5,7 +5,7 @@ import { MENU_INCALL, PHONE_HEIGHT, PHONE_WIDTH } from "../../constant/menu";
 import { FaBell, FaFonticonsFi } from "react-icons/fa6";
 
 const IncomingCallNotificationComponent = ({ isShow }) => {
-  const { notification, setMenu, setNotification } = useContext(MenuContext);
+  const { notificationCall, setNotificationCall } = useContext(MenuContext);
   const [isClose, setIsClose] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
             <span className="flex space-x-2 text-lg text-gray-300 font-semibold line-clamp-1 items-center">
               <span>INCOMING CALL...</span>
               <div>
-                <span class="relative flex h-3 w-3 items-center">
+                <span className="relative flex h-3 w-3 items-center">
                   <FaBell className="animate-ping absolute" />
                   <FaBell />
                 </span>
@@ -38,7 +38,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
             </span>
             <div className="flex w-full items-center space-x-2">
               <img
-                src={notification.photo}
+                src={notificationCall.photo}
                 className="w-12 h-12 rounded-full"
                 alt=""
                 onError={(error) => {
@@ -52,7 +52,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
                     fontSize: "1rem",
                   }}
                 >
-                  {notification.from}
+                  {notificationCall.from}
                 </span>
                 <span className="text-xs text-gray-300 line-clamp-1">
                   mobile
@@ -67,7 +67,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
                 onClick={() => {
                   setIsClose(true);
                   setTimeout(() => {
-                    setNotification({ type: "" });
+                    setNotificationCall({ type: "" });
                   }, 1000);
                 }}
               >
@@ -80,10 +80,10 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
                 className="flex justify-center items-center bg-green-500 w-12 h-12 rounded-full text-white"
                 onClick={() => {
                   setIsClose(true);
-                  setNotification({
+                  setNotificationCall({
                     type: MENU_INCALL,
-                    from: notification.from,
-                    photo: notification.photo,
+                    from: notificationCall.from,
+                    photo: notificationCall.photo,
                   });
                 }}
               >

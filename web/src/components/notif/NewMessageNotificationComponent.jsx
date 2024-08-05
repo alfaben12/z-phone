@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import MenuContext from "../../context/MenuContext";
 
 const NewMessageNotificationComponent = ({ isShow }) => {
-  const { notification, setNotification } = useContext(MenuContext);
+  const { notificationMessage, setNotificationMessage } =
+    useContext(MenuContext);
   const [isClose, setIsClose] = useState(false);
 
   useEffect(() => {
@@ -14,7 +15,7 @@ const NewMessageNotificationComponent = ({ isShow }) => {
       setTimeout(() => {
         setIsClose(true);
         setTimeout(() => {
-          setNotification({ type: "" });
+          setNotificationMessage({ type: "" });
         }, 1000);
       }, 5000);
     }
@@ -37,7 +38,7 @@ const NewMessageNotificationComponent = ({ isShow }) => {
         onClick={() => {
           setIsClose(true);
           setTimeout(() => {
-            setNotification({ type: "" });
+            setNotificationMessage({ type: "" });
           }, 1000);
         }}
       >
@@ -45,10 +46,10 @@ const NewMessageNotificationComponent = ({ isShow }) => {
           <img src="./images/message.svg" className="w-8 h-8" alt="" />
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white line-clamp-1">
-              {notification.from}
+              {notificationMessage.from}
             </span>
             <span className="text-xs text-gray-300 line-clamp-1">
-              {notification.message}
+              {notificationMessage.message}
             </span>
           </div>
         </div>

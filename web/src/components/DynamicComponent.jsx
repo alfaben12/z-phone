@@ -43,12 +43,16 @@ import NewMessageNotificationComponent from "./notif/NewMessageNotificationCompo
 import InCallComponent from "./notif/InCallComponent";
 
 const DynamicComponent = () => {
-  const { menu, notification } = useContext(MenuContext);
+  const { menu, notificationMessage, notificationCall } =
+    useContext(MenuContext);
 
   useEffect(() => {
     console.log("change state " + menu);
   }, [menu]);
 
+  function isNullOrUndefined(value) {
+    return value === null || value === undefined;
+  }
   return (
     <LayoutComponent>
       <div className="relative w-full h-full">
@@ -72,21 +76,42 @@ const DynamicComponent = () => {
         <div
           className="absolute top-0 left-0 z-50"
           style={{
-            display: [
-              MENU_INCALL,
-              MENU_INCOMING_CALL_NOTIFICATION,
-              MENU_NEW_MESSAGE_NOTIFICATION,
-            ].includes(notification.type)
-              ? "block"
-              : "none",
+            display:
+              !isNullOrUndefined(notificationCall) ||
+              !isNullOrUndefined(notificationMessage)
+                ? "block"
+                : "none",
           }}
         >
-          <InCallComponent isShow={notification.type === MENU_INCALL} />
+          <InCallComponent isShow={notificationCall.type === MENU_INCALL} />
+        </div>
+
+        <div
+          className="absolute top-0 left-0 z-50"
+          style={{
+            display:
+              !isNullOrUndefined(notificationCall) ||
+              !isNullOrUndefined(notificationMessage)
+                ? "block"
+                : "none",
+          }}
+        >
           <IncomingCallNotificationComponent
-            isShow={notification.type === MENU_INCOMING_CALL_NOTIFICATION}
+            isShow={notificationCall.type == MENU_INCOMING_CALL_NOTIFICATION}
           />
+        </div>
+        <div
+          className="absolute top-0 left-0 z-50"
+          style={{
+            display:
+              !isNullOrUndefined(notificationCall) ||
+              !isNullOrUndefined(notificationMessage)
+                ? "block"
+                : "none",
+          }}
+        >
           <NewMessageNotificationComponent
-            isShow={notification.type === MENU_NEW_MESSAGE_NOTIFICATION}
+            isShow={notificationMessage.type == MENU_NEW_MESSAGE_NOTIFICATION}
           />
         </div>
       </div>

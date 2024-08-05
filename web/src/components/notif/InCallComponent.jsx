@@ -5,7 +5,8 @@ import { MdCallEnd } from "react-icons/md";
 import Marquee from "react-fast-marquee";
 
 const InCallComponent = ({ isShow }) => {
-  const { notification, setNotification, setMenu } = useContext(MenuContext);
+  const { notificationCall, setNotificationCall, setMenu } =
+    useContext(MenuContext);
   const [isClose, setIsClose] = useState(false);
   const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
@@ -54,7 +55,7 @@ const InCallComponent = ({ isShow }) => {
         </span>
         <div className="flex flex-col items-center w-full">
           <img
-            src={notification.photo}
+            src={notificationCall.photo}
             className="w-24 h-24 object-cover rounded-full"
             alt=""
             onError={(error) => {
@@ -64,7 +65,7 @@ const InCallComponent = ({ isShow }) => {
         </div>
         <span className="text-white text-2xl text-bold truncate px-5">
           <Marquee speed={50} pauseOnHover={true}>
-            {notification.from}
+            {notificationCall.from}
           </Marquee>
         </span>
         <span className="text-gray-400 text-sm text-bold truncate text-center">
@@ -79,7 +80,7 @@ const InCallComponent = ({ isShow }) => {
           onClick={() => {
             setIsClose(true);
             setTimeout(() => {
-              setNotification({ type: "" });
+              setNotificationCall({ type: "" });
             }, 1000);
             setMenu(MENU_DEFAULT);
           }}

@@ -17,7 +17,10 @@ export const MenuProvider = ({ children }) => {
 
   const [time, setTime] = useState(jakartaTime);
   const [menu, setMenu] = useState(MENU_LOCKSCREEN);
-  const [notification, setNotification] = useState({
+  const [notificationMessage, setNotificationMessage] = useState({
+    type: null,
+  });
+  const [notificationCall, setNotificationCall] = useState({
     type: null,
   });
   const [profile, setProfile] = useState({
@@ -48,8 +51,10 @@ export const MenuProvider = ({ children }) => {
         time,
         menu,
         setMenu,
-        notification,
-        setNotification,
+        notificationMessage,
+        setNotificationMessage,
+        notificationCall,
+        setNotificationCall,
         profile,
         setProfile,
         contacts,

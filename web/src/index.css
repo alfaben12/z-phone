@@ -68,4 +68,9 @@
   .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
     border-radius: 0.25rem;
   }
+
+  .hidein5sec {
+    -webkit-animation: cssAnimation 5s forwards;
+    animation: cssAnimation 5s forwards;
+  }
 }
