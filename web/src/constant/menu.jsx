@@ -1,26 +1,31 @@
-export const MENU_LOCKSCREEN = "Lockscreen";
-export const MENU_GARAGE = "Garage";
-export const MENU_EMAIL = "Email";
-export const MENU_ADS = "Ads";
-export const MENU_BANK = "Bank";
-export const MENU_HOUSE = "House";
-export const MENU_SERVICE = "Services";
-export const MENU_CAMERA = "Camera";
-export const MENU_GALLERY = "Photos";
-export const MENU_RACE = "Race";
-export const MENU_PHONE = "Phone";
-export const MENU_MESSAGE = "Message";
-export const MENU_X = "X";
-export const MENU_SETTING = "Setting";
-export const MENU_CONTACT = "Contact";
-export const MENU_DEFAULT = "Home";
+import config from "../../files/static/config.json";
 
-export const MENU_MESSAGE_CHATTING = "Chatting";
-export const MENU_EMAIL_DETAIL = "Email Detail";
+export const MENU_LOCKSCREEN = config.apps.MENU_LOCKSCREEN;
+export const MENU_GARAGE = config.apps.MENU_GARAGE;
+export const MENU_EMAIL = config.apps.MENU_EMAIL;
+export const MENU_ADS = config.apps.MENU_ADS;
+export const MENU_BANK = config.apps.MENU_BANK;
+export const MENU_HOUSE = config.apps.MENU_HOUSE;
+export const MENU_SERVICE = config.apps.MENU_SERVICE;
+export const MENU_CAMERA = config.apps.MENU_CAMERA;
+export const MENU_GALLERY = config.apps.MENU_GALLERY;
+export const MENU_RACE = config.apps.MENU_RACE;
+export const MENU_PHONE = config.apps.MENU_PHONE;
+export const MENU_MESSAGE = config.apps.MENU_MESSAGE;
+export const MENU_X = config.apps.MENU_X;
+export const MENU_SETTING = config.apps.MENU_SETTING;
+export const MENU_CONTACT = config.apps.MENU_CONTACT;
+export const MENU_DEFAULT = config.apps.MENU_DEFAULT;
+export const MENU_MESSAGE_CHATTING = config.apps.MENU_MESSAGE_CHATTING;
+export const MENU_EMAIL_DETAIL = config.apps.MENU_EMAIL_DETAIL;
+export const MENU_INCOMING_CALL_NOTIFICATION =
+  config.apps.MENU_INCOMING_CALL_NOTIFICATION;
+export const MENU_NEW_MESSAGE_NOTIFICATION =
+  config.apps.MENU_NEW_MESSAGE_NOTIFICATION;
+export const MENU_INCALL = config.apps.MENU_INCALL;
 
-export const MENU_INCOMING_CALL_NOTIFICATION = "Incoming Call";
-export const MENU_NEW_MESSAGE_NOTIFICATION = "New Message";
-export const MENU_INCALL = "In Call";
+export const NAME = config.name;
+export const LOGO = config.logo;
 
 export const MENU_CONSTANT = [
   {
