@@ -42,7 +42,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
                 className="w-12 h-12 rounded-full"
                 alt=""
                 onError={(error) => {
-                  error.target.src = "./images/noimage.jpg";
+                  error.target.src = "./assets/images/noimage.jpg";
                 }}
               />
               <div className="flex flex-col">

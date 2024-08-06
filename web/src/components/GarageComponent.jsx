@@ -83,7 +83,7 @@ const GarageComponent = ({ isShow }) => {
                   alt=""
                   className="mx-auto w-28 pb-2"
                   onError={(error) => {
-                    error.target.src = "./images/noimage.jpg";
+                    error.target.src = "./assets/images/noimage.jpg";
                   }}
                 />
                 <div className="flex flex-col justify-center items-center gap-2">
@@ -220,7 +220,7 @@ const GarageComponent = ({ isShow }) => {
                     src={v.image}
                     alt=""
                     onError={(error) => {
-                      error.target.src = "./images/noimage.jpg";
+                      error.target.src = "./assets/images/noimage.jpg";
                     }}
                   />
                 </div>

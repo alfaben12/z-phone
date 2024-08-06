@@ -59,7 +59,7 @@ const InCallComponent = ({ isShow }) => {
             className="w-24 h-24 object-cover rounded-full"
             alt=""
             onError={(error) => {
-              error.target.src = "./images/noimage.jpg";
+              error.target.src = "./assets/images/noimage.jpg";
             }}
           />
         </div>

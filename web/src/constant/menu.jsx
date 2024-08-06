@@ -24,47 +24,47 @@ export const MENU_INCALL = "In Call";
 
 export const MENU_CONSTANT = [
   {
-    icon: "./images/contact.svg",
+    icon: "./assets/images/contact.svg",
     path: "/contact",
     label: MENU_CONTACT,
   },
   {
-    icon: "./images/mail.svg",
+    icon: "./assets/images/mail.svg",
     path: "/mail",
     label: MENU_EMAIL,
   },
   {
-    icon: "./images/ads.svg",
+    icon: "./assets/images/ads.svg",
     path: "/ads",
     label: MENU_ADS,
   },
   {
-    icon: "./images/service.svg",
+    icon: "./assets/images/service.svg",
     path: "/service",
     label: MENU_SERVICE,
   },
   {
-    icon: "./images/garage.svg",
+    icon: "./assets/images/garage.svg",
     path: "/garage",
     label: MENU_GARAGE,
   },
   {
-    icon: "./images/house.svg",
+    icon: "./assets/images/house.svg",
     path: "/house",
     label: MENU_HOUSE,
   },
   {
-    icon: "./images/wallet.svg",
+    icon: "./assets/images/wallet.svg",
     path: "/wallet",
     label: MENU_BANK,
   },
   {
-    icon: "./images/x.svg",
+    icon: "./assets/images/x.svg",
     path: "/x",
     label: MENU_X,
   },
   {
-    icon: "./images/gallery.svg",
+    icon: "./assets/images/gallery.svg",
     path: "/gallery",
     label: MENU_GALLERY,
   },
@@ -72,22 +72,22 @@ export const MENU_CONSTANT = [
 
 export const BOTTOM_MENU_CONSTANT = [
   {
-    icon: "./images/phone.svg",
+    icon: "./assets/images/phone.svg",
     path: "/phone",
     label: MENU_PHONE,
   },
   {
-    icon: "./images/message.svg",
+    icon: "./assets/images/message.svg",
     path: "/message",
     label: MENU_MESSAGE,
   },
   {
-    icon: "./images/camera.svg",
+    icon: "./assets/images/camera.svg",
     path: "/camera",
     label: MENU_CAMERA,
   },
   {
-    icon: "./images/setting.svg",
+    icon: "./assets/images/setting.svg",
     path: "/setting",
     label: MENU_SETTING,
   },

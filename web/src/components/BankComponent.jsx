@@ -134,7 +134,7 @@ const BankComponent = ({ isShow }) => {
                   </div>
                 </div>
                 <img
-                  src="./images/km-logo.png"
+                  src="./assets/images/km-logo.png"
                   className="w-16 h-16 object-cover"
                   alt=""
                 />

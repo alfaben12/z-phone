@@ -43,7 +43,7 @@ const NewMessageNotificationComponent = ({ isShow }) => {
         }}
       >
         <div className="flex w-full items-center space-x-2">
-          <img src="./images/message.svg" className="w-8 h-8" alt="" />
+          <img src="./assets/images/message.svg" className="w-8 h-8" alt="" />
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white line-clamp-1">
               {notificationMessage.from}
