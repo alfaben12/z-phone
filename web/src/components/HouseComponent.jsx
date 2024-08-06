@@ -122,7 +122,7 @@ const HouseComponent = ({ isShow }) => {
         <div
           className="no-scrollbar flex flex-col w-full h-full text-white overflow-y-auto px-4 space-y-4 pb-5"
           style={{
-            paddingTop: 65,
+            paddingTop: 60,
           }}
         >
           {houses.map((v, i) => {

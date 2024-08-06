@@ -239,7 +239,7 @@ const XComponent = ({ isShow }) => {
       <div
         className="no-scrollbar flex flex-col w-full h-full overflow-y-auto"
         style={{
-          paddingTop: 65,
+          paddingTop: 60,
         }}
       >
         <div

@@ -31,7 +31,7 @@ const ServicesComponent = ({ isShow }) => {
       <div
         className="no-scrollbar flex flex-col w-full h-full overflow-y-auto"
         style={{
-          paddingTop: 65,
+          paddingTop: 60,
         }}
       >
         <div className="flex flex-col -mt-1 pb-2 px-2 absolute bg-black z-10">

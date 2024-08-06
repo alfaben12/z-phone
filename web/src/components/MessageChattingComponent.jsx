@@ -25,10 +25,6 @@ const MessageChattingComponent = ({ isShow }) => {
 
   const handleMessage = (e) => {
     const { value } = e.target;
-    if (value == "") {
-      return;
-    }
-
     setMessage(value);
   };
 
@@ -84,7 +80,7 @@ const MessageChattingComponent = ({ isShow }) => {
           <div
             className="flex flex-col w-full h-full text-white overflow-y-auto"
             style={{
-              paddingTop: 65,
+              paddingTop: 60,
             }}
           >
             <div className="flex-1 justify-between flex flex-col h-full">
@@ -139,7 +135,7 @@ const MessageChattingComponent = ({ isShow }) => {
             <div className="flex flex-wrap items-center text-white ml-2 mr-2 cursor-pointer">
               <MdOutlineCameraAlt className="text-xl" />
             </div>
-            <div>
+            <div className="w-full">
               <input
                 type="text"
                 placeholder="Type your message..."

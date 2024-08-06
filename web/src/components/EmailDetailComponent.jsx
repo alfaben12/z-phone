@@ -34,7 +34,7 @@ const EmailDetailComponent = ({ isShow }) => {
         <div
           className="no-scrollbar flex flex-col w-full h-full text-white overflow-y-auto"
           style={{
-            paddingTop: 65,
+            paddingTop: 60,
           }}
         >
           <div className="flex flex-col px-4 py-2">

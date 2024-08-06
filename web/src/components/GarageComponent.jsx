@@ -155,7 +155,7 @@ const GarageComponent = ({ isShow }) => {
         <div
           className="no-scrollbar flex flex-col w-full h-full text-white overflow-y-auto"
           style={{
-            paddingTop: 65,
+            paddingTop: 60,
           }}
         >
           <div className="bg-black flex items-center w-full pb-3">
