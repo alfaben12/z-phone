@@ -163,7 +163,7 @@ function App() {
       time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
         faker.date.past().getMinutes()
       ).padStart(2, "0")}`,
-      bodyImg:
+      image:
         Math.random() < 0.4
           ? faker.image.urlLoremFlickr({ height: 250, width: 444 })
           : "",

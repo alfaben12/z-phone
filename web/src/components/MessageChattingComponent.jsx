@@ -147,7 +147,7 @@ const MessageChattingComponent = ({ isShow }) => {
             </div>
             <div
               onClick={sendMessage}
-              className="flex items-center bg-[#33C056] text-black rounded-full p-1.5 ml-2 mr-2 hover:bg-[#134d37] cursor-pointer"
+              className="flex items-center bg-[#33C056] text-black rounded-full p-1.5 ml-2 mr-2 hover:bg-[#134d37] cursor-pointer text-white"
             >
               <MdSend className="text-sm" />
             </div>

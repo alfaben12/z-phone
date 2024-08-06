@@ -116,10 +116,10 @@ const AdsComponent = ({ isShow }) => {
                   <p className="text-white block text-xs leading-snug mt-2">
                     {v.body}
                   </p>
-                  {v.bodyImg != "" ? (
+                  {v.image != "" ? (
                     <img
                       className="mt-2 rounded-xl border border-gray-800"
-                      src="https://img.gta5-mods.com/q95/images/2019-toyota-supra-gr-add-on-jp-spec/e272f6-70586135_2352786718319603_8588253215382831104_o.jpg"
+                      src={v.image}
                       alt=""
                       onError={(error) => {
                         error.target.src = "./files/images/noimage.jpg";
