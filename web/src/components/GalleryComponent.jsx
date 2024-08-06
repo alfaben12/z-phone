@@ -61,7 +61,7 @@ const GalleryComponent = ({ isShow }) => {
           </div>
         </div>
       </div>
-      <div className="absolute top-0 flex w-full justify-between py-3 bg-black pt-8 z-10">
+      <div className="absolute top-0 flex w-full justify-between py-2 bg-black pt-8 z-10">
         <div
           className="flex items-center px-2 text-blue-500 cursor-pointer"
           onClick={() => setMenu(MENU_DEFAULT)}
