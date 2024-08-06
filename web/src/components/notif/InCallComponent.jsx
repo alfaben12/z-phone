@@ -1,5 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import { MENU_DEFAULT, PHONE_HEIGHT, PHONE_WIDTH } from "../../constant/menu";
+import {
+  MENU_DEFAULT,
+  MENU_INCALL,
+  PHONE_HEIGHT,
+  PHONE_WIDTH,
+} from "../../constant/menu";
 import MenuContext from "../../context/MenuContext";
 import { MdCallEnd } from "react-icons/md";
 import Marquee from "react-fast-marquee";
@@ -51,7 +56,7 @@ const InCallComponent = ({ isShow }) => {
     >
       <div className="flex flex-col">
         <span className="pt-8 pb-16 text-gray-400 pr-5 text-right text-sm font-semibold">
-          In Call
+          {MENU_INCALL}
         </span>
         <div className="flex flex-col items-center w-full">
           <img
