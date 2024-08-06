@@ -1,7 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import MenuContext from "../../context/MenuContext";
 import { MdCall, MdCallEnd } from "react-icons/md";
-import { MENU_INCALL, PHONE_HEIGHT, PHONE_WIDTH } from "../../constant/menu";
+import {
+  MENU_INCALL,
+  MENU_INCOMING_CALL_NOTIFICATION,
+  PHONE_HEIGHT,
+  PHONE_WIDTH,
+} from "../../constant/menu";
 import { FaBell } from "react-icons/fa6";
 import useSound from "use-sound";
 import notificationMessageSound from "../../../files/sounds/call-sound.mp3";
@@ -32,10 +37,10 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
       }}
     >
       <div className="flex px-3 py-4 space-x-2 w-full h-full items-center">
-        <div className="flex flex-col justify-between w-full h-full items-center py-10">
+        <div className="flex flex-col justify-between w-full h-full items-center pt-5 pb-10">
           <div className="flex flex-col space-y-3 w-full">
             <span className="flex space-x-2 text-lg text-gray-300 font-semibold line-clamp-1 items-center">
-              <span>INCOMING CALL...</span>
+              <span>{MENU_INCOMING_CALL_NOTIFICATION}...</span>
               <div>
                 <span className="relative flex h-3 w-3 items-center">
                   <FaBell className="animate-ping absolute" />

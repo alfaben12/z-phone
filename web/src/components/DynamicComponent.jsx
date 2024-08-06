@@ -74,7 +74,7 @@ const DynamicComponent = () => {
         <HouseComponent isShow={menu === MENU_HOUSE} />
         <SettingComponent isShow={menu === MENU_SETTING} />
         <div
-          className="absolute top-0 left-0 z-50"
+          className="absolute top-0 left-0 z-50 w-full"
           style={{
             display: !isNullOrUndefined(notificationCall) ? "block" : "none",
           }}
@@ -83,7 +83,7 @@ const DynamicComponent = () => {
         </div>
 
         <div
-          className="absolute top-0 left-0 z-50"
+          className="absolute top-0 left-0 z-50 w-full"
           style={{
             display: !isNullOrUndefined(notificationCall) ? "block" : "none",
           }}
@@ -93,7 +93,7 @@ const DynamicComponent = () => {
           />
         </div>
         <div
-          className="absolute top-0 left-0 z-50"
+          className="absolute top-0 left-0 z-50 w-full"
           style={{
             display: !isNullOrUndefined(notificationMessage) ? "block" : "none",
           }}
