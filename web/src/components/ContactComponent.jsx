@@ -27,7 +27,10 @@ const ContactComponent = ({ isShow }) => {
       <div className="absolute top-0 flex w-full justify-between py-2 bg-black pt-8 z-10">
         <div
           className="flex items-center px-2 text-blue-500 cursor-pointer"
-          onClick={() => setMenu(MENU_DEFAULT)}
+          onClick={() => {
+            setMenu(MENU_DEFAULT);
+            setSelected(null);
+          }}
         >
           <MdArrowBackIosNew className="text-lg" />
           <span className="text-xs">Back</span>
@@ -48,7 +51,7 @@ const ContactComponent = ({ isShow }) => {
             paddingTop: 60,
           }}
         >
-          <div className="bg-black flex items-center w-full pb-3">
+          <div className="bg-black flex items-center w-full pb-3 pt-1">
             <div className="w-2"></div>
             <div className="relative w-full">
               <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">

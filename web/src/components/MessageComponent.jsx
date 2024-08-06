@@ -39,7 +39,7 @@ const MessageComponent = ({ isShow }) => {
             paddingTop: 60,
           }}
         >
-          <div className="bg-black flex items-center w-full pb-3">
+          <div className="bg-black flex items-center w-full pb-3 pt-1">
             <div className="w-2"></div>
             <div className="relative w-full">
               <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
