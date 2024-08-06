@@ -90,7 +90,7 @@ const AdsComponent = ({ isShow }) => {
                         className="w-9 h-9 object-cover rounded-full"
                         alt=""
                         onError={(error) => {
-                          error.target.src = "./assets/images/noimage.jpg";
+                          error.target.src = "./files/images/noimage.jpg";
                         }}
                       />
                       <div className="leading-none col-span-4 space-y-1">
@@ -122,7 +122,7 @@ const AdsComponent = ({ isShow }) => {
                       src="https://img.gta5-mods.com/q95/images/2019-toyota-supra-gr-add-on-jp-spec/e272f6-70586135_2352786718319603_8588253215382831104_o.jpg"
                       alt=""
                       onError={(error) => {
-                        error.target.src = "./assets/images/noimage.jpg";
+                        error.target.src = "./files/images/noimage.jpg";
                       }}
                     />
                   ) : null}

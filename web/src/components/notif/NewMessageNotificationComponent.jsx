@@ -1,19 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import MenuContext from "../../context/MenuContext";
+import useSound from "use-sound";
+import notificationMessageSound from "../../../files/sounds/message-sound.mp3";
 
 const NewMessageNotificationComponent = ({ isShow }) => {
   const { notificationMessage, setNotificationMessage } =
     useContext(MenuContext);
   const [isClose, setIsClose] = useState(false);
+  const [play] = useSound(notificationMessageSound);
 
   useEffect(() => {
     setIsClose(false);
+    if (isShow) {
+      play();
+    }
   }, [isShow]);
 
   useEffect(() => {
     if (!isClose) {
       setTimeout(() => {
         setIsClose(true);
+        stop();
         setTimeout(() => {
           setNotificationMessage({ type: "" });
         }, 1000);
@@ -39,11 +46,12 @@ const NewMessageNotificationComponent = ({ isShow }) => {
           setIsClose(true);
           setTimeout(() => {
             setNotificationMessage({ type: "" });
+            stop();
           }, 1000);
         }}
       >
         <div className="flex w-full items-center space-x-2">
-          <img src="./assets/images/message.svg" className="w-8 h-8" alt="" />
+          <img src="./files/images/message.svg" className="w-8 h-8" alt="" />
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white line-clamp-1">
               {notificationMessage.from}

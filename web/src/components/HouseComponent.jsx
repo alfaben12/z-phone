@@ -54,7 +54,7 @@ const HouseComponent = ({ isShow }) => {
                   alt=""
                   className="mx-auto w-28"
                   onError={(error) => {
-                    error.target.src = "./assets/images/noimage.jpg";
+                    error.target.src = "./files/images/noimage.jpg";
                   }}
                 />
                 <div className="flex flex-col justify-center items-center gap-2">
@@ -146,7 +146,7 @@ const HouseComponent = ({ isShow }) => {
                     className="h-auto w-full object-cover"
                     alt=""
                     onError={(error) => {
-                      error.target.src = "./assets/images/noimage.jpg";
+                      error.target.src = "./files/images/noimage.jpg";
                     }}
                     style={{
                       borderTopLeftRadius: "13px",

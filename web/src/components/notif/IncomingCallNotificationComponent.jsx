@@ -2,14 +2,21 @@ import React, { useContext, useState, useEffect } from "react";
 import MenuContext from "../../context/MenuContext";
 import { MdCall, MdCallEnd } from "react-icons/md";
 import { MENU_INCALL, PHONE_HEIGHT, PHONE_WIDTH } from "../../constant/menu";
-import { FaBell, FaFonticonsFi } from "react-icons/fa6";
+import { FaBell } from "react-icons/fa6";
+import useSound from "use-sound";
+import notificationMessageSound from "../../../files/sounds/call-sound.mp3";
 
 const IncomingCallNotificationComponent = ({ isShow }) => {
   const { notificationCall, setNotificationCall } = useContext(MenuContext);
   const [isClose, setIsClose] = useState(false);
+  const [play, { stop }] = useSound(notificationMessageSound);
 
   useEffect(() => {
     setIsClose(false);
+
+    if (isShow) {
+      play();
+    }
   }, [isShow]);
 
   return (
@@ -42,7 +49,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
                 className="w-12 h-12 rounded-full"
                 alt=""
                 onError={(error) => {
-                  error.target.src = "./assets/images/noimage.jpg";
+                  error.target.src = "./files/images/noimage.jpg";
                 }}
               />
               <div className="flex flex-col">
@@ -66,6 +73,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
                 className="flex justify-center items-center bg-red-500 w-12 h-12 rounded-full text-white"
                 onClick={() => {
                   setIsClose(true);
+                  stop();
                   setTimeout(() => {
                     setNotificationCall({ type: "" });
                   }, 1000);
@@ -80,6 +88,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
                 className="flex justify-center items-center bg-green-500 w-12 h-12 rounded-full text-white"
                 onClick={() => {
                   setIsClose(true);
+                  stop();
                   setNotificationCall({
                     type: MENU_INCALL,
                     from: notificationCall.from,

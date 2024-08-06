@@ -97,7 +97,7 @@ const XComponent = ({ isShow }) => {
                             src={v.photo}
                             alt=""
                             onError={(error) => {
-                              error.target.src = "./assets/images/noimage.jpg";
+                              error.target.src = "./files/images/noimage.jpg";
                             }}
                           />
                           <div className="flex justify-between w-full">
@@ -121,7 +121,7 @@ const XComponent = ({ isShow }) => {
                           src={v.photo}
                           alt=""
                           onError={(error) => {
-                            error.target.src = "./assets/images/noimage.jpg";
+                            error.target.src = "./files/images/noimage.jpg";
                           }}
                         />
                       ) : null}
@@ -147,7 +147,7 @@ const XComponent = ({ isShow }) => {
           onClick={() => setSubMenu(subMenuList.create)}
         >
           <img
-            src="./assets/images/twitter-post.svg"
+            src="./files/images/twitter-post.svg"
             className="p-2 object-cover text-[#000000]"
             alt=""
           />
@@ -167,7 +167,7 @@ const XComponent = ({ isShow }) => {
               src="https://live.staticflickr.com/4323/35987264406_c0b2af1dcc_b.jpg"
               alt=""
               onError={(error) => {
-                error.target.src = "./assets/images/noimage.jpg";
+                error.target.src = "./files/images/noimage.jpg";
               }}
             />
 

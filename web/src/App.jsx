@@ -459,7 +459,7 @@ function App() {
           }}
         >
           <img
-            src={`./assets/images/iphone-15pro.png`}
+            src={`./files/images/iphone-15pro.png`}
             alt=""
             className="w-full h-full object-cover"
           />

@@ -9,7 +9,7 @@ const HomeComponent = ({ isShow }) => {
     <div
       className="relative flex flex-col justify-between w-full h-full"
       style={{
-        backgroundImage: `url(./assets/images/bg.png)`,
+        backgroundImage: `url(./files/images/bg.png)`,
         backgroundSize: "cover",
         display: isShow ? "block" : "none",
       }}
