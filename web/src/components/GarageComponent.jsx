@@ -61,7 +61,7 @@ const GarageComponent = ({ isShow }) => {
           backgroundColor: "rgba(31, 41, 55, 0.8)",
         }}
       >
-        <div className="flex flex-col justify-center rounded-xl h-full w-full px-3 px-3">
+        <div className="flex flex-col justify-center rounded-xl h-full w-full px-3">
           <div className="bg-white rounded-lg py-2 flex flex-col w-full p-3">
             <div className="flex justify-between items-center pb-2">
               <span className="truncate font-semibold">
@@ -168,6 +168,7 @@ const GarageComponent = ({ isShow }) => {
                 type="text"
                 placeholder="Search..."
                 className="text-sm w-full text-white flex-1 border border-[#3D3D3F] focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
+                autoComplete="off"
                 onKeyUp={(e) => {
                   const data = searchByKeyValueContains(
                     garagesBk,

@@ -50,6 +50,7 @@ const EmailComponent = ({ isShow }) => {
                 type="text"
                 placeholder="Search..."
                 className="text-sm w-full text-white flex-1 border border-[#3D3D3F] focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
+                autoComplete="off"
                 onKeyUp={(e) => {
                   const data = searchByKeyValueContains(
                     emailsBk,

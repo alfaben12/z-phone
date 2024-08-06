@@ -384,6 +384,7 @@ const BankComponent = ({ isShow }) => {
                           value={formDataTransfer.receiver}
                           onChange={handleTransferFormChange}
                           required
+                          autoComplete="off"
                         />
                       </div>
                     </div>
@@ -416,6 +417,7 @@ const BankComponent = ({ isShow }) => {
                           onKeyDown={handleTransferKeyDown}
                           className="bg-black text-lg font-medium w-full focus:outline-none"
                           required
+                          autoComplete="off"
                         />
                       </div>
                     </div>
@@ -435,6 +437,7 @@ const BankComponent = ({ isShow }) => {
                           onChange={handleTransferFormChange}
                           className="bg-black text-sm font-medium focus:outline-none"
                           required
+                          autoComplete="off"
                         />
                       </div>
                     </div>

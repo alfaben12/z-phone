@@ -32,7 +32,7 @@ const HouseComponent = ({ isShow }) => {
           backgroundColor: "rgba(31, 41, 55, 0.8)",
         }}
       >
-        <div className="flex flex-col justify-center rounded-xl h-full w-full px-3 px-3">
+        <div className="flex flex-col justify-center rounded-xl h-full w-full px-3">
           <div className="bg-white rounded-lg py-2 flex flex-col w-full p-3">
             <div className="flex justify-between items-center pb-3">
               <span className="truncate font-semibold">
@@ -77,6 +77,7 @@ const HouseComponent = ({ isShow }) => {
                       <input
                         className="border-b w-24 text-base font-medium focus:outline-none"
                         placeholder="CITIZENID"
+                        autoComplete="off"
                       />
                     </span>
                     <div>

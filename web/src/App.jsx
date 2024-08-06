@@ -200,17 +200,32 @@ function App() {
   };
 
   const getTweets = () => {
+    const comments = Array.from({ length: 25 }, (v, i) => ({
+      comment:
+        Math.random() < 0.5 ? faker.lorem.paragraphs() : faker.lorem.word(),
+      name: faker.person.fullName(),
+      photo: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
+      username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
+      created_at: faker.date.past({ years: 2 }).toDateString(),
+    }));
+
     const data = Array.from({ length: 25 }, (v, i) => ({
       tweet:
         Math.random() < 0.5 ? faker.lorem.paragraphs() : faker.lorem.word(),
       photo:
+        Math.random() < 0.5
+          ? faker.image.urlLoremFlickr({ height: 250, width: 250 })
+          : "",
+      image:
         Math.random() < 0.5
           ? faker.image.urlLoremFlickr({ height: 250, width: 444 })
           : "",
       name: faker.person.fullName(),
       username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
       created_at: faker.date.past({ years: 2 }).toDateString(),
+      comments: comments,
     }));
+
     sendEventData({ tweets: data });
   };
 

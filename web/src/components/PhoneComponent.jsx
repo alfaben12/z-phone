@@ -80,7 +80,7 @@ const PhoneComponent = ({ isShow }) => {
           backgroundColor: "rgba(31, 41, 55, 0.8)",
         }}
       >
-        <div className="flex flex-col justify-center rounded-xl h-full w-full px-3 px-3">
+        <div className="flex flex-col justify-center rounded-xl h-full w-full px-3">
           <div className="bg-slate-700 rounded-lg py-2 flex flex-col w-full p-3">
             <div className="flex justify-between items-center pb-2">
               <span className="truncate font-semibold">New Contact</span>
@@ -101,6 +101,7 @@ const PhoneComponent = ({ isShow }) => {
                       className="border-b w-36 text-base font-medium focus:outline-none bg-slate-700"
                       placeholder="John"
                       onChange={handlePhoneFormChange}
+                      autoComplete="off"
                       required
                     />
                   </span>
@@ -114,6 +115,7 @@ const PhoneComponent = ({ isShow }) => {
                       placeholder="086263887"
                       readOnly={true}
                       value={newPhone}
+                      autoComplete="off"
                       required
                     />
                   </span>
@@ -167,6 +169,7 @@ const PhoneComponent = ({ isShow }) => {
               <input
                 type="text"
                 placeholder="Search..."
+                autoComplete="off"
                 className="text-sm w-full text-white flex-1 border border-[#3D3D3F] focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
               />
             </div>

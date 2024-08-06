@@ -145,6 +145,7 @@ const MessageChattingComponent = ({ isShow }) => {
                 placeholder="Type your message..."
                 className="w-full text-xs text-white flex-1 border border-[#3D3D3F] focus:outline-none rounded-full px-2 py-1 bg-[#3B3B3B]"
                 value={message}
+                autoComplete="off"
                 onChange={handleMessage}
               />
             </div>

@@ -26,7 +26,7 @@ const GalleryComponent = ({ isShow }) => {
           backgroundColor: "rgba(31, 41, 55, 0.8)",
         }}
       >
-        <div className="flex flex-col justify-center rounded-xl h-full w-full px-3 px-3">
+        <div className="flex flex-col justify-center rounded-xl h-full w-full px-3">
           <div className="rounded-lg py-2 flex flex-col w-full p-3">
             {dataModal == null ? (
               <LoadingComponent />
