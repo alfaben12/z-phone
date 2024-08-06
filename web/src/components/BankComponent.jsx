@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { MENU_DEFAULT, PHONE_HEIGHT } from "../constant/menu";
+import { LOGO, MENU_DEFAULT, NAME, PHONE_HEIGHT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { LuSun } from "react-icons/lu";
@@ -134,7 +134,7 @@ const BankComponent = ({ isShow }) => {
                   </div>
                 </div>
                 <img
-                  src="./files/images/km-logo.png"
+                  src={LOGO}
                   className="w-16 h-16 object-cover"
                   alt=""
                 />
@@ -234,7 +234,7 @@ const BankComponent = ({ isShow }) => {
                     })}
                   </div>
                   <span className="text-xs font-normal border-slate-700 pt-5 text-center">
-                    Digital Bank by KOTA MANIS ROLEPLAY
+                    Digital Bank by {NAME.toLocaleUpperCase()} ROLEPLAY
                   </span>
                 </div>
               </div>

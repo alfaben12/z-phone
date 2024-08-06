@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { MENU_DEFAULT } from "../constant/menu";
+import { MENU_DEFAULT, NAME } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
 
@@ -36,10 +36,10 @@ const ServicesComponent = ({ isShow }) => {
       >
         <div className="flex flex-col -mt-1 pb-2 px-2 absolute bg-black z-10">
           <div className="text-lg font-semibold text-white">
-            Kota Manis Services
+            {NAME} Services
           </div>
           <div className="text-xs text-gray-300">
-            You can access Kota Manis City's Services anytime and anywhere.
+            You can access {NAME} City's Services anytime and anywhere.
           </div>
         </div>
         {services == undefined ? (

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import {
   MENU_DEFAULT,
-  MENU_MESSAGE_CHATTING,
+  NAME,
   PHONE_HEIGHT,
   PHONE_WIDTH,
 } from "../constant/menu";
@@ -93,7 +93,7 @@ const HouseComponent = ({ isShow }) => {
                     <div>
                       <FaHouse className="text-sm" />
                     </div>
-                    <span>E-Property by Kota Manis</span>
+                    <span>E-Property by {NAME}</span>
                   </span>
                 </div>
               </div>
