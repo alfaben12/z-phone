@@ -510,9 +510,7 @@ function App() {
                 }}
               >
                 <div className="flex items-center">
-                  <div className="text-xs font-medium text-white">
-                    {time} {NAME}
-                  </div>
+                  <div className="text-xs font-medium text-white">{time}</div>
                 </div>
                 <div className="flex items-center">
                   <div>

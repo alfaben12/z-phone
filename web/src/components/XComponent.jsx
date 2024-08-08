@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
-import { MENU_DEFAULT, PHONE_HEIGHT, PHONE_WIDTH } from "../constant/menu";
+import { MENU_DEFAULT, PHONE_HEIGHT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
-import { MdArrowBackIosNew, MdCancel, MdReply } from "react-icons/md";
+import { MdArrowBackIosNew } from "react-icons/md";
 import { FaXTwitter, FaHashtag } from "react-icons/fa6";
 import { GoMention } from "react-icons/go";
 import { IoCamera } from "react-icons/io5";
 import LoadingComponent from "./LoadingComponent";
+import Markdown from "react-markdown";
 
 const subMenuList = {
   create: "create",
@@ -107,7 +108,7 @@ const XComponent = ({ isShow }) => {
                 height: PHONE_HEIGHT,
               }}
             >
-              <div className="flex w-full justify-between bg-black z-10 pb-2">
+              <div className="flex w-full justify-between bg-black z-10 pb-2.5">
                 <div
                   className="flex items-center text-blue-500 cursor-pointer"
                   onClick={() => {
@@ -121,7 +122,7 @@ const XComponent = ({ isShow }) => {
                 <div className="flex items-center px-2 space-x-2 text-white"></div>
               </div>
               <div className="flex-1 overflow-y-auto bg-black pb-2 flex no-scrollbar">
-                <div className="px-2 rounded-xl border border-black w-full">
+                <div className="rounded-xl border border-black w-full">
                   <div className="flex justify-between items-center pt-1">
                     <div className="flex items-center">
                       <img
@@ -259,6 +260,7 @@ const XComponent = ({ isShow }) => {
                     onClick={() => {
                       setTweetDetail(v);
                     }}
+                    className="cursor-pointer"
                   >
                     <div className="flex space-x-2">
                       <img

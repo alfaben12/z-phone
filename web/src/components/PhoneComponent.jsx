@@ -273,43 +273,41 @@ const PhoneComponent = ({ isShow }) => {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-0 w-full pb-2 pt-2.5 bg-black">
-          <div className="grid h-full w-full grid-cols-3 mx-auto font-medium">
-            <button
-              type="button"
-              className={`inline-flex flex-col items-center justify-center px-5 group ${
-                subMenu === subMenuList["call"] ? "text-white" : "text-gray-600"
-              }`}
-              onClick={() => setSubMenu(subMenuList["call"])}
-            >
-              <MdOutlinePhoneCallback className="text-xl" />
-              <span className="text-xs">Calls</span>
-            </button>
-            <button
-              type="button"
-              className={`inline-flex flex-col items-center justify-center px-5 group ${
-                subMenu === subMenuList["history"]
-                  ? "text-white"
-                  : "text-gray-600"
-              }`}
-              onClick={() => setSubMenu(subMenuList["history"])}
-            >
-              <MdFormatListBulleted className="text-xl" />
-              <span className="text-xs">History</span>
-            </button>
-            <button
-              type="button"
-              className={`inline-flex flex-col items-center justify-center px-5 group ${
-                subMenu === subMenuList["keypad"]
-                  ? "text-white"
-                  : "text-gray-600"
-              }`}
-              onClick={() => setSubMenu(subMenuList["keypad"])}
-            >
-              <MdDialpad className="text-xl" />
-              <span className="text-xs">Keypad</span>
-            </button>
-          </div>
+      </div>
+      <div className="absolute bottom-0 w-full pb-2 pt-2.5 bg-black">
+        <div className="grid h-full w-full grid-cols-3 mx-auto font-medium">
+          <button
+            type="button"
+            className={`inline-flex flex-col items-center justify-center px-5 group ${
+              subMenu === subMenuList["call"] ? "text-white" : "text-gray-600"
+            }`}
+            onClick={() => setSubMenu(subMenuList["call"])}
+          >
+            <MdOutlinePhoneCallback className="text-xl" />
+            <span className="text-xs">Calls</span>
+          </button>
+          <button
+            type="button"
+            className={`inline-flex flex-col items-center justify-center px-5 group ${
+              subMenu === subMenuList["history"]
+                ? "text-white"
+                : "text-gray-600"
+            }`}
+            onClick={() => setSubMenu(subMenuList["history"])}
+          >
+            <MdFormatListBulleted className="text-xl" />
+            <span className="text-xs">History</span>
+          </button>
+          <button
+            type="button"
+            className={`inline-flex flex-col items-center justify-center px-5 group ${
+              subMenu === subMenuList["keypad"] ? "text-white" : "text-gray-600"
+            }`}
+            onClick={() => setSubMenu(subMenuList["keypad"])}
+          >
+            <MdDialpad className="text-xl" />
+            <span className="text-xs">Keypad</span>
+          </button>
         </div>
       </div>
     </div>
