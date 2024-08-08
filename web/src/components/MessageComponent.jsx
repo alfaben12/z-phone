@@ -48,7 +48,7 @@ const MessageComponent = ({ isShow }) => {
               <input
                 type="text"
                 placeholder="Search..."
-                className="text-sm w-full text-white flex-1 border border-[#3D3D3F] focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
+                className="text-sm w-full text-white flex-1 border border-gray-700 focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
                 autoComplete="off"
                 onKeyUp={(e) => {
                   const data = searchByKeyValueContains(
@@ -71,7 +71,7 @@ const MessageComponent = ({ isShow }) => {
                 onClick={() => setMenu(MENU_MESSAGE_CHATTING)}
               >
                 <div
-                  className={`w-full cursor-pointer grid grid-cols-6
+                  className={`w-full cursor-pointer flex space-x-2
                 ${v.isRead ? "text-gray-400" : "text-white"}`}
                 >
                   <img
@@ -82,12 +82,14 @@ const MessageComponent = ({ isShow }) => {
                       error.target.src = "./files/images/noimage.jpg";
                     }}
                   />
-                  <div className="leading-1 col-span-4 text-sm border-b border-gray-900 pb-2 mb-2">
-                    <div className="line-clamp-1">{v.name}</div>
-                    <div className="text-xs line-clamp-1">{v.message}</div>
-                  </div>
-                  <div className="flex flex-col items-end justify-between">
-                    <div className="text-xs">{v.time}</div>
+                  <div className="flex justify-between border-b border-gray-900 pb-2 mb-2">
+                    <div className="leading-1 col-span-4 text-sm">
+                      <div className="line-clamp-1">{v.name}</div>
+                      <div className="text-xs line-clamp-1">{v.message}</div>
+                    </div>
+                    <div className="flex">
+                      <div className="text-xs">{v.time}</div>
+                    </div>
                   </div>
                 </div>
               </div>

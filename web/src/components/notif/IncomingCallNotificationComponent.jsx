@@ -7,7 +7,7 @@ import {
   PHONE_HEIGHT,
   PHONE_WIDTH,
 } from "../../constant/menu";
-import { FaBell } from "react-icons/fa6";
+import { MdOutlinePhone } from "react-icons/md";
 import useSound from "use-sound";
 import notificationMessageSound from "../../../files/sounds/call-sound.mp3";
 
@@ -43,15 +43,15 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
               <span>{MENU_INCOMING_CALL_NOTIFICATION}...</span>
               <div>
                 <span className="relative flex h-3 w-3 items-center">
-                  <FaBell className="animate-ping absolute" />
-                  <FaBell />
+                  <MdOutlinePhone className="text-xl animate-ping absolute" />
+                  <MdOutlinePhone className="text-xl absolute" />
                 </span>
               </div>
             </span>
             <div className="flex w-full items-center space-x-2">
               <img
                 src={notificationCall.photo}
-                className="w-12 h-12 rounded-full"
+                className="w-12 h-12 rounded-full object-cover"
                 alt=""
                 onError={(error) => {
                   error.target.src = "./files/images/noimage.jpg";

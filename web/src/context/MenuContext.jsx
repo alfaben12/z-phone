@@ -24,8 +24,10 @@ export const MenuProvider = ({ children }) => {
     type: null,
   });
   const [profile, setProfile] = useState({
-    name: "Alfaben",
+    name: "Thariq Alfa Benriska",
     phone: "085123876",
+    photo:
+      "https://assetsio.gnwcdn.com/gta-online-rockstar-newswire-image-character-in-warehouse.jpg",
     wallpaper:
       "https://i.ibb.co.com/DV7d6xF/i-Phone-15-Pro-Black-Titanium-wallpaper.jpg",
     unread_message_service: 9,

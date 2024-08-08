@@ -170,7 +170,7 @@ const PhoneComponent = ({ isShow }) => {
                 type="text"
                 placeholder="Search..."
                 autoComplete="off"
-                className="text-sm w-full text-white flex-1 border border-[#3D3D3F] focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
+                className="text-sm w-full text-white flex-1 border border-gray-700 focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
               />
             </div>
             <div className="w-2"></div>

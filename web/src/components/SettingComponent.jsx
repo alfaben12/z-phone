@@ -4,7 +4,7 @@ import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
 
 const SettingComponent = ({ isShow }) => {
-  const { setMenu } = useContext(MenuContext);
+  const { profile, setMenu } = useContext(MenuContext);
 
   return (
     <div
@@ -29,14 +29,27 @@ const SettingComponent = ({ isShow }) => {
         </div>
       </div>
       <div
-        className="no-scrollbar flex flex-col w-full h-full text-white overflow-y-auto"
+        className="no-scrollbar flex flex-col w-full h-full text-white overflow-y-auto px-2"
         style={{
           paddingTop: 60,
         }}
       >
-        <span className="text-white text-sm text-center">
-          Sorry not ready for now.
-        </span>
+        <div className="flex bg-gray-700 space-x-3 py-1 px-1 rounded-lg items-center">
+          <div>
+            <img
+              src={profile.photo}
+              className="w-12 h-12 rounded-full object-cover"
+              alt=""
+              onError={(error) => {
+                error.target.src = "./files/images/noimage.jpg";
+              }}
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm">{profile.name}</span>
+            <span className="text-xs">{profile.phone}</span>
+          </div>
+        </div>
       </div>
     </div>
   );

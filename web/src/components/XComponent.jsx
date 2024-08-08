@@ -15,7 +15,7 @@ const subMenuList = {
 };
 
 const XComponent = ({ isShow }) => {
-  const { setMenu, tweets } = useContext(MenuContext);
+  const { profile, tweets, setMenu } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList.tweet);
   const [tweetDetail, setTweetDetail] = useState(null);
 
@@ -326,8 +326,8 @@ const XComponent = ({ isShow }) => {
             className="flex w-full p-2 space-x-2"
           >
             <img
-              className="w-9 h-9 rounded-full"
-              src="https://live.staticflickr.com/4323/35987264406_c0b2af1dcc_b.jpg"
+              className="w-9 h-9 rounded-full object-cover"
+              src={profile.photo}
               alt=""
               onError={(error) => {
                 error.target.src = "./files/images/noimage.jpg";

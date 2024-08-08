@@ -52,7 +52,7 @@ const HouseComponent = ({ isShow }) => {
                 <img
                   src={dataModal.image}
                   alt=""
-                  className="mx-auto w-28"
+                  className="mx-auto w-28 object-cover"
                   onError={(error) => {
                     error.target.src = "./files/images/noimage.jpg";
                   }}
@@ -162,17 +162,17 @@ const HouseComponent = ({ isShow }) => {
                   </div>
                   <div className="flex flex-col gap-2 py-2 text-xs">
                     <span className="flex justify-between">
-                      <span className="text-gray-400">Name:</span>
+                      <span className="text-gray-200">Name:</span>
                       <span>{v.name}</span>
                     </span>
                     <span className="flex justify-between">
-                      <span className="text-gray-400">Keyholders:</span>
+                      <span className="text-gray-200">Keyholders:</span>
                       <span className="truncate">
                         {v.keyholders.length} Keys
                       </span>
                     </span>
                     <span className="flex justify-between">
-                      <span className="text-gray-400">Garage:</span>
+                      <span className="text-gray-100">Garage:</span>
                       <span>{v.is_has_garage ? "Yes" : "No"}</span>
                     </span>
                   </div>
@@ -181,15 +181,15 @@ const HouseComponent = ({ isShow }) => {
                 <div className="px-6 pt-4 pb-2">
                   <div className="flex flex-col gap-2 py-2 text-xs">
                     <span className="flex justify-between">
-                      <span className="text-gray-400">House Locked:</span>
+                      <span className="text-gray-100">House Locked:</span>
                       <span>{v.is_house_locked ? "Yes" : "No"}</span>
                     </span>
                     <span className="flex justify-between">
-                      <span className="text-gray-400">Garage Locked:</span>
+                      <span className="text-gray-100">Garage Locked:</span>
                       <span>{v.is_garage_locked ? "Yes" : "No"}</span>
                     </span>
                     <span className="flex justify-between">
-                      <span className="text-gray-400">Stash Locked:</span>
+                      <span className="text-gray-200">Stash Locked:</span>
                       <span>{v.is_stash_locked ? "Yes" : "No"}</span>
                     </span>
                   </div>

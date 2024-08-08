@@ -81,7 +81,7 @@ const GarageComponent = ({ isShow }) => {
                 <img
                   src={dataModal.image}
                   alt=""
-                  className="mx-auto w-28 pb-2"
+                  className="mx-auto w-28 pb-2 object-cover"
                   onError={(error) => {
                     error.target.src = "./files/images/noimage.jpg";
                   }}
@@ -167,7 +167,7 @@ const GarageComponent = ({ isShow }) => {
               <input
                 type="text"
                 placeholder="Search..."
-                className="text-sm w-full text-white flex-1 border border-[#3D3D3F] focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
+                className="text-sm w-full text-white flex-1 border border-gray-700 focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
                 autoComplete="off"
                 onKeyUp={(e) => {
                   const data = searchByKeyValueContains(
