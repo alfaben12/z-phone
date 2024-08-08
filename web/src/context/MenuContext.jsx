@@ -26,6 +26,10 @@ export const MenuProvider = ({ children }) => {
   const [profile, setProfile] = useState({
     name: "Alfaben",
     phone: "085123876",
+    wallpaper:
+      "https://i.ibb.co.com/DV7d6xF/i-Phone-15-Pro-Black-Titanium-wallpaper.jpg",
+    unread_message_service: 9,
+    unread_message: 10,
   });
   const [contacts, setContacts] = useState([]);
   const [contactsBk, setContactsBk] = useState([]);

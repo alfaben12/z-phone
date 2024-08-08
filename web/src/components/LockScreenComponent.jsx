@@ -33,7 +33,7 @@ const month = [
 ][new Date().getMonth()];
 
 const LockScreenComponent = ({ isShow }) => {
-  const { setMenu } = useContext(MenuContext);
+  const { profile, setMenu } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const LockScreenComponent = ({ isShow }) => {
     <div
       className="relative flex flex-col justify-between w-full h-full"
       style={{
-        backgroundImage: `url(./files/images/bg.png)`,
+        backgroundImage: `url(${profile.wallpaper})`,
         backgroundSize: "cover",
         display: isShow ? "block" : "none",
       }}

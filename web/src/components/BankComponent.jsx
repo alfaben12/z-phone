@@ -133,14 +133,10 @@ const BankComponent = ({ isShow }) => {
                     </span>
                   </div>
                 </div>
-                <img
-                  src={LOGO}
-                  className="w-16 h-16 object-cover"
-                  alt=""
-                />
+                <img src={LOGO} className="w-16 h-16 object-cover" alt="" />
               </div>
               <div
-                className="relative z-20 flex flex-col w-full mt-24 bg-slate-900 rounded-t-2xl text-white px-4 py-4"
+                className="relative z-20 flex flex-col w-full mt-24 bg-gray-900 rounded-t-2xl text-white px-4 py-4"
                 style={{
                   height: `${PHONE_HEIGHT - 120}px`,
                   marginBottom: 50,
@@ -168,7 +164,7 @@ const BankComponent = ({ isShow }) => {
                     </div>
                     <div className="flex w-full pt-2">
                       <div
-                        className="bg-slate-700 hover:bg-slate-800 px-2 py-1 text-xs"
+                        className="bg-gray-700 hover:bg-gray-800 px-2 py-1 text-xs"
                         style={{
                           borderRadius: 5,
                         }}
@@ -184,8 +180,8 @@ const BankComponent = ({ isShow }) => {
                     </div>
                     <div className="absolute bottom-0 right-0">
                       <img
-                        src="/images/monas.png"
-                        className="w-10 object-cover"
+                        src="./files/images/monas.png"
+                        className="w-10 object-cover opacity-70"
                         alt=""
                       />
                     </div>
@@ -318,7 +314,7 @@ const BankComponent = ({ isShow }) => {
                             </span>
                           </div>
 
-                          <button className="flex space-x-1 bg-slate-700 items-center px-2 cursor-pointer hover:bg-green-700 rounded-lg">
+                          <button className="flex space-x-1 bg-gray-700 items-center px-2 cursor-pointer hover:bg-green-700 rounded-lg">
                             <FaCheck className="text-sm" />
                             <span className="text-sm font-semibold py-0.5">
                               Pay
@@ -354,7 +350,7 @@ const BankComponent = ({ isShow }) => {
                     <div className="flex items-center space-x-2 line-clamp-1">
                       <FaDollarSign className="text-xl" />
                       <div className="flex flex-col">
-                        <span className="text-sm">Dollar MRI</span>
+                        <span className="text-sm">Dollar {NAME}</span>
                         <span className="text-xs text-gray-400 line-clamp-1">
                           Active Balance ${currencyFormat(bank.balance)}
                         </span>
@@ -389,7 +385,7 @@ const BankComponent = ({ isShow }) => {
                       </div>
                     </div>
                     <div
-                      className="bg-slate-700 hover:bg-slate-800 px-2 py-1 text-xs"
+                      className="bg-gray-700 hover:bg-gray-800 px-2 py-1 text-xs"
                       style={{
                         borderRadius: 5,
                       }}

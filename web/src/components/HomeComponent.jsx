@@ -1,15 +1,20 @@
 import React, { useContext } from "react";
-import { BOTTOM_MENU_CONSTANT, MENU_CONSTANT } from "../constant/menu";
+import {
+  BOTTOM_MENU_CONSTANT,
+  MENU_CONSTANT,
+  MENU_MESSAGE,
+  MENU_SERVICE,
+} from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 
 const HomeComponent = ({ isShow }) => {
-  const { setMenu } = useContext(MenuContext);
+  const { profile, setMenu } = useContext(MenuContext);
 
   return (
     <div
       className="relative flex flex-col justify-between w-full h-full"
       style={{
-        backgroundImage: `url(./files/images/bg.png)`,
+        backgroundImage: `url(${profile.wallpaper})`,
         backgroundSize: "cover",
         display: isShow ? "block" : "none",
       }}
@@ -25,11 +30,14 @@ const HomeComponent = ({ isShow }) => {
             <div
               onClick={() => setMenu(v.label)}
               key={i}
-              className="w-11 h-11 flex flex-col items-center mb-6 cursor-pointer"
+              className="relative w-11 h-11 flex flex-col items-center mb-6 cursor-pointer"
             >
-              <div>
-                <img className="rounded-xl" src={v.icon} alt="" />
-              </div>
+              {v.label === MENU_SERVICE ? (
+                <span className="absolute rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center -top-2 -right-1.5 bg-red-500 text-white min-w-[20px] min-h-[20px]">
+                  {profile.unread_message_service}
+                </span>
+              ) : null}
+              <img className="rounded-xl" src={v.icon} alt="" />
               <div>
                 <p className="text-xs text-white font-normal">{v.label}</p>
               </div>
@@ -40,7 +48,7 @@ const HomeComponent = ({ isShow }) => {
       <div className="flex w-full absolute bottom-5">
         <div className="w-3"></div>
         <div
-          className="w-full bg-slate-700/50"
+          className="w-full bg-white/10 backdrop-blur-md"
           style={{
             borderRadius: 25,
           }}
@@ -58,9 +66,9 @@ const HomeComponent = ({ isShow }) => {
                   key={i}
                   className="relative w-11 h-11 flex flex-col items-center cursor-pointer"
                 >
-                  {v.label === "Message" ? (
-                    <span className="absolute rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center top-[4%] right-[2%] translate-x-2/4 -translate-y-2/4 bg-red-500 text-white min-w-[24px] min-h-[24px]">
-                      5
+                  {v.label === MENU_MESSAGE ? (
+                    <span className="absolute rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center -top-2 -right-1.5 bg-red-500 text-white min-w-[20px] min-h-[20px]">
+                      {profile.unread_message}
                     </span>
                   ) : null}
                   <img className="rounded-2xl" src={v.icon} alt="" />

@@ -100,7 +100,7 @@ const XComponent = ({ isShow }) => {
         {tweetDetail == null ? (
           <LoadingComponent />
         ) : (
-          <div className="relative flex flex-col rounded-xl h-full w-full px-3">
+          <div className="relative flex flex-col rounded-xl h-full w-full px-2">
             <div
               className="rounded-lg flex flex-col w-full pt-8"
               style={{

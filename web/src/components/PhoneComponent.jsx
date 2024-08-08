@@ -81,7 +81,7 @@ const PhoneComponent = ({ isShow }) => {
         }}
       >
         <div className="flex flex-col justify-center rounded-xl h-full w-full px-3">
-          <div className="bg-slate-700 rounded-lg py-2 flex flex-col w-full p-3">
+          <div className="bg-gray-700 rounded-lg py-2 flex flex-col w-full p-3">
             <div className="flex justify-between items-center pb-2">
               <span className="truncate font-semibold">New Contact</span>
               <div>
@@ -98,7 +98,7 @@ const PhoneComponent = ({ isShow }) => {
                   <span>
                     <input
                       name="name"
-                      className="border-b w-36 text-base font-medium focus:outline-none bg-slate-700"
+                      className="border-b w-36 text-base font-medium focus:outline-none bg-gray-700"
                       placeholder="John"
                       onChange={handlePhoneFormChange}
                       autoComplete="off"
@@ -111,7 +111,7 @@ const PhoneComponent = ({ isShow }) => {
                   <span>
                     <input
                       name="phone"
-                      className="border-b w-36 text-base font-medium focus:outline-none bg-slate-700"
+                      className="border-b w-36 text-base font-medium focus:outline-none bg-gray-700"
                       placeholder="086263887"
                       readOnly={true}
                       value={newPhone}

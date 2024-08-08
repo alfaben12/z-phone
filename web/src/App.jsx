@@ -9,7 +9,6 @@ import {
   MENU_GALLERY,
   MENU_GARAGE,
   MENU_HOUSE,
-  MENU_INCALL,
   MENU_INCOMING_CALL_NOTIFICATION,
   MENU_LOCKSCREEN,
   MENU_MESSAGE,
@@ -18,6 +17,7 @@ import {
   MENU_PHONE,
   MENU_SERVICE,
   MENU_X,
+  NAME,
   PHONE_FRAME_HEIGHT,
   PHONE_FRAME_WIDTH,
   PHONE_HEIGHT,
@@ -30,10 +30,8 @@ import { faker } from "@faker-js/faker";
 function App() {
   const {
     menu,
-    notification,
     time,
     setMenu,
-    setProfile,
     setContacts,
     setContactsBk,
     setChats,
@@ -494,7 +492,9 @@ function App() {
                 }}
               >
                 <div className="flex items-center">
-                  <div className="text-xs font-medium text-white">{time}</div>
+                  <div className="text-xs font-medium text-white">
+                    {time} {NAME}
+                  </div>
                 </div>
                 <div className="flex items-center">
                   <div>

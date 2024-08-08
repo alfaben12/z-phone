@@ -1,6 +1,6 @@
 {
-  "name": "Kota Manis",
-  "logo": "./files/images/km-logo.png",
+  "name": "Kota V",
+  "logo": "./files/images/kota-v.png",
   "apps": {
     "MENU_LOCKSCREEN": "Lockscreen",
     "MENU_GARAGE": "Garage",
