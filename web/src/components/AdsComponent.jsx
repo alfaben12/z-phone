@@ -4,6 +4,7 @@ import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdWhatsapp } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
 import { IoCamera } from "react-icons/io5";
+import Markdown from "react-markdown";
 
 const AdsComponent = ({ isShow }) => {
   const { setMenu, ads } = useContext(MenuContext);
@@ -113,9 +114,9 @@ const AdsComponent = ({ isShow }) => {
                       </div>
                     </div>
                   </div>
-                  <p className="text-white block text-xs leading-snug mt-2">
-                    {v.body}
-                  </p>
+                  <div className="text-white block text-xs leading-snug mt-2">
+                    <Markdown>{v.body}</Markdown>
+                  </div>
                   {v.image != "" ? (
                     <img
                       className="mt-2 rounded-xl border border-gray-800"
@@ -142,7 +143,7 @@ const AdsComponent = ({ isShow }) => {
               onSubmit={handleAdsFormSubmit}
               className="flex w-full p-2 space-x-2"
             >
-              <div className="flex-col space-y-2 w-full">
+              <div className="flex-col space-y-1 w-full">
                 <textarea
                   defaultValue={formDataAds.body}
                   name="body"
@@ -154,7 +155,7 @@ const AdsComponent = ({ isShow }) => {
                 <div className="flex justify-between items-center">
                   <IoCamera className="text-white text-xl cursor-pointer hover:text-green-500" />
                   <button className="rounded-full bg-green-500 px-4 py-1 font-semibold text-white text-sm hover:bg-green-600">
-                    Create
+                    Post
                   </button>
                 </div>
               </div>

@@ -226,6 +226,7 @@ function App() {
       name: faker.person.fullName(),
       username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
       created_at: faker.date.past({ years: 2 }).toDateString(),
+      repost: 10,
       comments: comments,
     }));
 

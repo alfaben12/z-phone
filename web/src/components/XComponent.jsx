@@ -2,11 +2,12 @@ import React, { useContext, useState } from "react";
 import { MENU_DEFAULT, PHONE_HEIGHT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
-import { FaXTwitter, FaHashtag } from "react-icons/fa6";
+import { FaXTwitter, FaHashtag, FaRegComment } from "react-icons/fa6";
 import { GoMention } from "react-icons/go";
 import { IoCamera } from "react-icons/io5";
 import LoadingComponent from "./LoadingComponent";
 import Markdown from "react-markdown";
+import { LuRepeat2 } from "react-icons/lu";
 
 const subMenuList = {
   create: "create",
@@ -146,9 +147,9 @@ const XComponent = ({ isShow }) => {
                     </div>
                   </div>
 
-                  <p className="text-white block text-xs mt-2">
-                    {tweetDetail.tweet}
-                  </p>
+                  <div className="text-white block text-xs mt-2">
+                    <Markdown>{tweetDetail.tweet}</Markdown>
+                  </div>
                   {tweetDetail.image != "" ? (
                     <img
                       className="mt-2 rounded-lg border border-gray-800"
@@ -161,6 +162,30 @@ const XComponent = ({ isShow }) => {
                   ) : null}
 
                   <div className="flex justify-between items-center pt-1">
+                    <div className="flex space-x-3 items-center ml-1">
+                      <div className="flex space-x-1 items-center">
+                        <span className="text-sm text-gray-200">
+                          <FaRegComment />
+                        </span>
+                        <span className="text-sm text-gray-200">
+                          {tweetDetail.comments.length}
+                        </span>
+                      </div>
+                      <div
+                        className="flex space-x-1 items-center cursor-pointer"
+                        onClick={() => {
+                          setTweetDetail(null);
+                          setSubMenu(subMenuList.create);
+                        }}
+                      >
+                        <span className="text-lg text-gray-200">
+                          <LuRepeat2 />
+                        </span>
+                        <span className="text-sm text-gray-200">
+                          {tweetDetail.repost}
+                        </span>
+                      </div>
+                    </div>
                     <p className="text-gray-400 text-xs">
                       {tweetDetail.created_at}
                     </p>
@@ -168,7 +193,7 @@ const XComponent = ({ isShow }) => {
 
                   <form
                     onSubmit={handleCommentFormSubmit}
-                    className="flex border border-gray-700 rounded-full px-2 py-0.5 mt-3"
+                    className="flex border border-gray-700 rounded-full px-2 py-0.5 mt-2"
                   >
                     <input
                       type="text"
@@ -222,9 +247,9 @@ const XComponent = ({ isShow }) => {
                                   </span>
                                 </div>
                               </div>
-                              <p className="text-white block text-xs">
-                                {v.comment}
-                              </p>
+                              <div className="text-white block text-xs">
+                                <Markdown>{v.comment}</Markdown>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -244,7 +269,7 @@ const XComponent = ({ isShow }) => {
         }}
       >
         <div
-          className="flex flex-col space-y-5 px-2"
+          className="flex flex-col space-y-3 px-2"
           style={{
             ...(subMenu !== subMenuList.tweet ? { display: "none" } : {}),
           }}
@@ -260,7 +285,7 @@ const XComponent = ({ isShow }) => {
                     onClick={() => {
                       setTweetDetail(v);
                     }}
-                    className="cursor-pointer"
+                    className="cursor-pointer border-b border-gray-900"
                   >
                     <div className="flex space-x-2">
                       <img
@@ -296,6 +321,24 @@ const XComponent = ({ isShow }) => {
                             }}
                           />
                         ) : null}
+                        <div className="flex space-x-3 items-center ml-1 py-1">
+                          <div className="flex space-x-1 items-center">
+                            <span className="text-sm text-gray-200">
+                              <FaRegComment />
+                            </span>
+                            <span className="text-sm text-gray-200">
+                              {v.comments.length}
+                            </span>
+                          </div>
+                          <div className="flex space-x-1 items-center">
+                            <span className="text-lg text-gray-200">
+                              <LuRepeat2 />
+                            </span>
+                            <span className="text-sm text-gray-200">
+                              {v.repost}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

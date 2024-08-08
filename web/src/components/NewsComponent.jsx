@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { MENU_DEFAULT, NAME, PHONE_HEIGHT } from "../constant/menu";
+import { MENU_DEFAULT, MENU_NEWS, NAME, PHONE_HEIGHT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdLiveTv } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
@@ -62,11 +62,14 @@ const NewsComponent = ({ isShow }) => {
                     }}
                   />
                   <div className="py-1">
-                    <span className="text-gray-100 text-xss">
-                      {detail.created_at}
-                    </span>
+                    <div className="text-gray-100 text-xss flex justify-between">
+                      <span>{detail.created_at}</span>
+                      <span>
+                        {NAME} {MENU_NEWS}
+                      </span>
+                    </div>
                     <span className="text-gray-100 text-xs line-clamp-1">
-                      {NAME} Reporter - {detail.reporter.split(" ")[0]}
+                      Reporter - {detail.reporter}
                     </span>
                     <span className="text-white text-sm line-clamp-2">
                       {detail.title}
