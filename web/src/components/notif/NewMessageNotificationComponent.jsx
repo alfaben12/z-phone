@@ -25,7 +25,7 @@ const NewMessageNotificationComponent = ({ isShow }) => {
         setTimeout(() => {
           setNotificationMessage({ type: "" });
         }, 1000);
-      }, 5000);
+      }, 3000);
     }
   }, [isClose]);
 
