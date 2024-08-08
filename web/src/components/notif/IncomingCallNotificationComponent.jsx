@@ -39,7 +39,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
       <div className="flex px-3 py-4 space-x-2 w-full h-full items-center">
         <div className="flex flex-col justify-between w-full h-full items-center pt-5 pb-10">
           <div className="flex flex-col space-y-3 w-full">
-            <span className="flex space-x-2 text-lg text-gray-300 font-semibold line-clamp-1 items-center">
+            <span className="flex space-x-2 text-lg text-gray-100 font-semibold line-clamp-1 items-center">
               <span>{MENU_INCOMING_CALL_NOTIFICATION}...</span>
               <div>
                 <span className="relative flex h-3 w-3 items-center">
