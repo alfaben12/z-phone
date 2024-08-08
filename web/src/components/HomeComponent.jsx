@@ -71,7 +71,7 @@ const HomeComponent = ({ isShow }) => {
                       {profile.unread_message}
                     </span>
                   ) : null}
-                  <img className="rounded-2xl" src={v.icon} alt="" />
+                  <img className="rounded-xl" src={v.icon} alt="" />
                 </div>
               );
             })}

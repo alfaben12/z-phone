@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Domine:wght@400..700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -72,5 +73,30 @@
   .hidein5sec {
     -webkit-animation: cssAnimation 5s forwards;
     animation: cssAnimation 5s forwards;
+  }
+
+  .domine-font-bold {
+    font-family: "Domine", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+  }
+  .domine-font-semibold {
+    font-family: "Domine", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+  }
+  .domine-font-medium {
+    font-family: "Domine", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+  .domine-font-normal {
+    font-family: "Domine", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
   }
 }

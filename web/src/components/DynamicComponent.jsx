@@ -22,6 +22,7 @@ import {
   MENU_SETTING,
   MENU_X,
   MENU_INCALL,
+  MENU_NEWS,
 } from "../constant/menu";
 import MessageComponent from "./MessageComponent";
 import MessageChattingComponent from "./MessageChattingComponent";
@@ -41,6 +42,7 @@ import HouseComponent from "./HouseComponent";
 import IncomingCallNotificationComponent from "./notif/IncomingCallNotificationComponent";
 import NewMessageNotificationComponent from "./notif/NewMessageNotificationComponent";
 import InCallComponent from "./notif/InCallComponent";
+import NewsComponent from "./NewsComponent";
 
 const DynamicComponent = () => {
   const { menu, notificationMessage, notificationCall } =
@@ -73,6 +75,7 @@ const DynamicComponent = () => {
         <SettingComponent isShow={menu === MENU_SETTING} />
         <HouseComponent isShow={menu === MENU_HOUSE} />
         <SettingComponent isShow={menu === MENU_SETTING} />
+        <NewsComponent isShow={menu === MENU_NEWS} />
         <div
           className="absolute top-0 left-0 z-50 w-full"
           style={{

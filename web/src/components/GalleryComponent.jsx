@@ -96,7 +96,7 @@ const GalleryComponent = ({ isShow }) => {
                     setDataModal(v);
                   }}
                 >
-                  <div className="absolute left-0 bottom-0 bg-gray-800 opacity-60 text-xs font-normal px-1 py-0.5 rounded-tr-lg">
+                  <div className="absolute left-0 bottom-0 bg-gray-800 opacity-60 text-xss font-normal px-1 py-0.5 rounded-tr-lg">
                     {v.created_at}
                   </div>
                   <img

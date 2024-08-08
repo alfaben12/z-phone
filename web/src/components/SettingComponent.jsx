@@ -1,10 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
+import { FaMoon } from "react-icons/fa6";
 
 const SettingComponent = ({ isShow }) => {
   const { profile, setMenu } = useContext(MenuContext);
+  const [isOnDisturb, setIsOnDisturb] = useState(false);
+
+  const handleToggleIsOnDisturb = () => setIsOnDisturb(!isOnDisturb);
 
   return (
     <div
@@ -29,25 +33,96 @@ const SettingComponent = ({ isShow }) => {
         </div>
       </div>
       <div
-        className="no-scrollbar flex flex-col w-full h-full text-white overflow-y-auto px-2"
+        className="no-scrollbar flex flex-col w-full h-full text-white overflow-y-auto px-2 space-y-3"
         style={{
           paddingTop: 60,
         }}
       >
-        <div className="flex bg-gray-700 space-x-3 py-1 px-1 rounded-lg items-center">
-          <div>
-            <img
-              src={profile.photo}
-              className="w-12 h-12 rounded-full object-cover"
-              alt=""
-              onError={(error) => {
-                error.target.src = "./files/images/noimage.jpg";
-              }}
-            />
-          </div>
+        <div className="flex bg-gray-900 space-x-3 py-1 px-2 rounded-lg items-center">
+          <img
+            src={profile.photo}
+            className="w-12 h-12 rounded-full object-cover"
+            alt=""
+            onError={(error) => {
+              error.target.src = "./files/images/noimage.jpg";
+            }}
+          />
           <div className="flex flex-col">
-            <span className="text-sm">{profile.name}</span>
-            <span className="text-xs">{profile.phone}</span>
+            <span className="text-sm line-clamp-1">{profile.name}</span>
+            <span className="text-xs line-clamp-1">{profile.phone}</span>
+          </div>
+        </div>
+
+        <div className="flex flex-col py-2 bg-gray-900 rounded-lg">
+          <div className="flex space-x-3 px-2">
+            <div>
+              <div className="p-1 bg-blue-800 rounded-lg">
+                <FaMoon />
+              </div>
+            </div>
+            <div className="flex w-full justify-between items-center space-x-3 border-b border-gray-800 pb-1.5 mb-1.5">
+              <span className="text-sm font-light line-clamp-1">
+                Do Not Disturb
+              </span>
+              <div className="flex items-center justify-center">
+                <div className="relative inline-block align-middle select-none">
+                  <input
+                    type="checkbox"
+                    id="toggle"
+                    checked={isOnDisturb}
+                    onChange={handleToggleIsOnDisturb}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="toggle"
+                    className={`flex items-center cursor-pointer ${
+                      isOnDisturb ? "bg-green-400" : "bg-gray-300"
+                    } relative block w-[40px] h-[25px] rounded-full transition-colors duration-300`}
+                  >
+                    <span
+                      className={`block w-[20px] h-[20px] bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                        isOnDisturb ? "translate-x-[18px]" : "translate-x-[2px]"
+                      }`}
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex space-x-3 px-2">
+            <div>
+              <div className="p-1 bg-blue-800 rounded-lg">
+                <FaMoon />
+              </div>
+            </div>
+            <div className="flex w-full justify-between items-center space-x-3 border-b border-gray-800 pb-1.5 mb-1.5">
+              <span className="text-sm font-light line-clamp-1">
+                Do Not Disturb
+              </span>
+              <div className="flex items-center justify-center">
+                <div className="relative inline-block align-middle select-none">
+                  <input
+                    type="checkbox"
+                    id="toggle"
+                    checked={isOnDisturb}
+                    onChange={handleToggleIsOnDisturb}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="toggle"
+                    className={`flex items-center cursor-pointer ${
+                      isOnDisturb ? "bg-green-400" : "bg-gray-300"
+                    } relative block w-[40px] h-[25px] rounded-full transition-colors duration-300`}
+                  >
+                    <span
+                      className={`block w-[20px] h-[20px] bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                        isOnDisturb ? "translate-x-[18px]" : "translate-x-[2px]"
+                      }`}
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

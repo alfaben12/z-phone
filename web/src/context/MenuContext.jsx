@@ -50,6 +50,7 @@ export const MenuProvider = ({ children }) => {
   const [houses, setHouses] = useState([]);
   const [services, setServices] = useState([]);
   const [callHistories, setCallHistories] = useState([]);
+  const [news, setNews] = useState([]);
 
   return (
     <MenuContext.Provider
@@ -97,6 +98,8 @@ export const MenuProvider = ({ children }) => {
         setServices,
         callHistories,
         setCallHistories,
+        news,
+        setNews,
       }}
     >
       {children}

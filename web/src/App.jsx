@@ -13,6 +13,7 @@ import {
   MENU_LOCKSCREEN,
   MENU_MESSAGE,
   MENU_MESSAGE_CHATTING,
+  MENU_NEWS,
   MENU_NEW_MESSAGE_NOTIFICATION,
   MENU_PHONE,
   MENU_SERVICE,
@@ -51,6 +52,7 @@ function App() {
     setNotificationMessage,
     setNotificationCall,
     setCallHistories,
+    setNews,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -91,6 +93,9 @@ function App() {
         break;
       case MENU_PHONE:
         getCallHistories();
+        break;
+      case MENU_NEWS:
+        getNews();
         break;
       default:
         return;
@@ -234,6 +239,18 @@ function App() {
       created_at: faker.date.past({ years: 2 }).toDateString(),
     }));
     sendEventData({ callHistories: data });
+  };
+
+  const getNews = () => {
+    const data = Array.from({ length: 25 }, (v, i) => ({
+      reporter: faker.person.fullName(),
+      company: faker.company.name(),
+      image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
+      title: faker.lorem.paragraph(),
+      body: faker.lorem.paragraphs(),
+      created_at: faker.date.past({ years: 2 }).toDateString(),
+    }));
+    sendEventData({ news: data });
   };
 
   const getBank = () => {
@@ -415,6 +432,7 @@ function App() {
       setHouses(data.houses ? data.houses : []);
       setServices(data.services ? data.services : []);
       setCallHistories(data.callHistories ? data.callHistories : []);
+      setNews(data.news ? data.news : []);
     }
   };
 

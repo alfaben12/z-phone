@@ -18,6 +18,7 @@ export const MENU_CONTACT = config.apps.MENU_CONTACT;
 export const MENU_DEFAULT = config.apps.MENU_DEFAULT;
 export const MENU_MESSAGE_CHATTING = config.apps.MENU_MESSAGE_CHATTING;
 export const MENU_EMAIL_DETAIL = config.apps.MENU_EMAIL_DETAIL;
+export const MENU_NEWS = config.apps.MENU_NEWS;
 export const MENU_INCOMING_CALL_NOTIFICATION =
   config.apps.MENU_INCOMING_CALL_NOTIFICATION;
 export const MENU_NEW_MESSAGE_NOTIFICATION =
@@ -72,6 +73,11 @@ export const MENU_CONSTANT = [
     icon: "./files/images/gallery.svg",
     path: "/gallery",
     label: MENU_GALLERY,
+  },
+  {
+    icon: "./files/images/news.svg",
+    path: "/news",
+    label: MENU_NEWS,
   },
 ];
 
