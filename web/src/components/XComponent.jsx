@@ -313,7 +313,7 @@ const XComponent = ({ isShow }) => {
                         <p className="text-white block text-xs">{v.tweet}</p>
                         {v.image != "" ? (
                           <img
-                            className="mt-1 rounded-lg border border-gray-800"
+                            className="mt-1 rounded-lg"
                             src={v.image}
                             alt=""
                             onError={(error) => {

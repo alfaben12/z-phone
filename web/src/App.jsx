@@ -53,6 +53,7 @@ function App() {
     setNotificationCall,
     setCallHistories,
     setNews,
+    setNewsStreams,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -251,7 +252,17 @@ function App() {
       body: faker.lorem.paragraphs(),
       created_at: faker.date.past({ years: 2 }).toDateString(),
     }));
-    sendEventData({ news: data });
+
+    const streams = Array.from({ length: 25 }, (v, i) => ({
+      reporter: faker.person.fullName(),
+      company: faker.company.name(),
+      image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
+      url: "https://www.youtube.com/watch?v=tMy6_XFpjeQ",
+      title: faker.lorem.paragraph(),
+      created_at: faker.date.past({ years: 2 }).toDateString(),
+    }));
+
+    sendEventData({ news: data, newsStreams: streams });
   };
 
   const getBank = () => {
@@ -434,6 +445,7 @@ function App() {
       setServices(data.services ? data.services : []);
       setCallHistories(data.callHistories ? data.callHistories : []);
       setNews(data.news ? data.news : []);
+      setNewsStreams(data.newsStreams ? data.newsStreams : []);
     }
   };
 

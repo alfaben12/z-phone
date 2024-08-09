@@ -157,13 +157,12 @@ const HouseComponent = ({ isShow }) => {
                 </div>
                 <div className="px-6 pt-4 pb-2">
                   <div className="mb-2 flex items-center justify-between">
-                    <p className="text-base font-medium truncate">House</p>
-                    <p className="text-base font-medium truncate">{v.tier}</p>
+                    <p className="text-base font-medium truncate">{v.name}</p>
                   </div>
-                  <div className="flex flex-col gap-2 py-2 text-xs">
+                  <div className="flex flex-col gap-1 text-xs">
                     <span className="flex justify-between">
-                      <span className="text-gray-200">Name:</span>
-                      <span>{v.name}</span>
+                      <span className="text-gray-200">Tier:</span>
+                      <span>{v.tier}</span>
                     </span>
                     <span className="flex justify-between">
                       <span className="text-gray-200">Keyholders:</span>
@@ -179,7 +178,7 @@ const HouseComponent = ({ isShow }) => {
                 </div>
                 <div className="border-b border border-dashed border-gray-500"></div>
                 <div className="px-6 pt-4 pb-2">
-                  <div className="flex flex-col gap-2 py-2 text-xs">
+                  <div className="flex flex-col gap-1 text-xs">
                     <span className="flex justify-between">
                       <span className="text-gray-100">House Locked:</span>
                       <span>{v.is_house_locked ? "Yes" : "No"}</span>
