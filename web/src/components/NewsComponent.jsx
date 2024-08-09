@@ -255,7 +255,7 @@ const NewsComponent = ({ isShow }) => {
           {news == undefined ? (
             <LoadingComponent />
           ) : (
-            <div className="flex flex-col space-y-3">
+            <div className="flex flex-col space-y-2 mb-14">
               {news.map((v, i) => {
                 return (
                   <div
@@ -301,7 +301,7 @@ const NewsComponent = ({ isShow }) => {
           {newsStreams == undefined ? (
             <LoadingComponent />
           ) : (
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-2 mb-14">
               {newsStreams.map((v, i) => {
                 return (
                   <div
