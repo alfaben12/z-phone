@@ -23,6 +23,7 @@ import {
   MENU_X,
   MENU_INCALL,
   MENU_NEWS,
+  MENU_NEW_NEWS_NOTIFICATION,
 } from "../constant/menu";
 import MessageComponent from "./MessageComponent";
 import MessageChattingComponent from "./MessageChattingComponent";
@@ -43,9 +44,10 @@ import IncomingCallNotificationComponent from "./notif/IncomingCallNotificationC
 import NewMessageNotificationComponent from "./notif/NewMessageNotificationComponent";
 import InCallComponent from "./notif/InCallComponent";
 import NewsComponent from "./NewsComponent";
+import NewNewsNotificationComponent from "./notif/NewNewsNotificationComponent";
 
 const DynamicComponent = () => {
-  const { menu, notificationMessage, notificationCall } =
+  const { menu, notificationMessage, notificationCall, notificationNews } =
     useContext(MenuContext);
 
   useEffect(() => {
@@ -103,6 +105,16 @@ const DynamicComponent = () => {
         >
           <NewMessageNotificationComponent
             isShow={notificationMessage.type == MENU_NEW_MESSAGE_NOTIFICATION}
+          />
+        </div>
+        <div
+          className="absolute top-0 left-0 z-50 w-full"
+          style={{
+            display: !isNullOrUndefined(notificationNews) ? "block" : "none",
+          }}
+        >
+          <NewNewsNotificationComponent
+            isShow={notificationNews.type == MENU_NEW_NEWS_NOTIFICATION}
           />
         </div>
       </div>

@@ -23,6 +23,9 @@ export const MenuProvider = ({ children }) => {
   const [notificationCall, setNotificationCall] = useState({
     type: null,
   });
+  const [notificationNews, setNotificationNews] = useState({
+    type: null,
+  });
   const [profile, setProfile] = useState({
     name: "Thariq Alfa Benriska",
     phone: "085123876",
@@ -63,6 +66,8 @@ export const MenuProvider = ({ children }) => {
         setNotificationMessage,
         notificationCall,
         setNotificationCall,
+        notificationNews,
+        setNotificationNews,
         profile,
         setProfile,
         contacts,

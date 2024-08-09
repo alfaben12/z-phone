@@ -15,6 +15,7 @@ import {
   MENU_MESSAGE_CHATTING,
   MENU_NEWS,
   MENU_NEW_MESSAGE_NOTIFICATION,
+  MENU_NEW_NEWS_NOTIFICATION,
   MENU_PHONE,
   MENU_SERVICE,
   MENU_X,
@@ -51,6 +52,7 @@ function App() {
     setServices,
     setNotificationMessage,
     setNotificationCall,
+    setNotificationNews,
     setCallHistories,
     setNews,
     setNewsStreams,
@@ -141,6 +143,7 @@ function App() {
         phone: faker.phone.number(),
         photo: faker.image.avatar(),
         name: faker.person.fullName(),
+        last_seen: "18:00",
         chats: chats,
       },
     });
@@ -340,6 +343,14 @@ function App() {
     });
   };
 
+  const sendNewsNotification = () => {
+    sendEventData({
+      notification: {
+        type: MENU_NEW_NEWS_NOTIFICATION,
+        from: faker.company.name(),
+      },
+    });
+  };
   const sendEventData = (data) => {
     const targetWindow = window;
     const targetOrigin = "*";
@@ -419,6 +430,10 @@ function App() {
       if (data.notification.type == MENU_INCOMING_CALL_NOTIFICATION) {
         setNotificationCall(data.notification);
       }
+
+      if (data.notification.type == MENU_NEW_NEWS_NOTIFICATION) {
+        setNotificationNews(data.notification);
+      }
     } else {
       setContacts(data.contacts ? data.contacts : []);
       setContactsBk(data.contacts ? data.contacts : []);
@@ -490,6 +505,16 @@ function App() {
             onClick={() => sendIncomingCallNotification()}
           >
             New Incoming Call
+          </button>
+        </div>
+        <div>
+          <button
+            className={`${
+              isOpen ? "bg-blue-500" : "bg-red-500"
+            } px-5 py-2 rounded text-white`}
+            onClick={() => sendNewsNotification()}
+          >
+            New Reporter News
           </button>
         </div>
       </div>

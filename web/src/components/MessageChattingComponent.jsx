@@ -63,11 +63,10 @@ const MessageChattingComponent = ({ isShow }) => {
               />
               <div className="flex flex-col">
                 <div className="text-sm text-white line-clamp-1 font-medium">
-                  {chatting.name} asdaksl jdklas jdklas jdklaalskdklas jkldajs
-                  kls j
+                  {chatting.name}
                 </div>
                 <span className="text-xss font-light text-gray-400 -mt-1">
-                  last seen 09:23
+                  last seen {chatting.last_seen}
                 </span>
               </div>
             </div>
@@ -97,7 +96,7 @@ const MessageChattingComponent = ({ isShow }) => {
                             {v.message}
                           </span>
                           <span
-                            className="absolute bottom-0 right-1 text-gray-300"
+                            className="absolute bottom-0 right-1 text-gray-100"
                             style={{
                               fontSize: 10,
                             }}
@@ -116,7 +115,7 @@ const MessageChattingComponent = ({ isShow }) => {
                             {v.message}
                           </span>
                           <span
-                            className="absolute bottom-0 right-1 text-gray-300"
+                            className="absolute bottom-0 right-1 text-gray-100"
                             style={{
                               fontSize: 10,
                             }}
