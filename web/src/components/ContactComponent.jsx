@@ -85,7 +85,7 @@ const ContactComponent = ({ isShow }) => {
                   onClick={() => setSelected(selected == i ? null : i)}
                 >
                   <img
-                    src="https://resized-image.uwufufu.com/selection/16733109502208426/720/Tommy%20T.jpg"
+                    src={v.photo}
                     className="w-9 h-9 object-cover rounded-full"
                     alt=""
                     onError={(error) => {

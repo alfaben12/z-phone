@@ -108,6 +108,7 @@ function App() {
       name: faker.person.fullName(),
       phone: faker.phone.number(),
       add_at: faker.date.past().toDateString(),
+      photo: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
     }));
     sendEventData({ contacts: data });
   };
