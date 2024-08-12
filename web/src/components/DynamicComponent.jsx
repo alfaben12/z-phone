@@ -20,10 +20,11 @@ import {
   MENU_PHONE,
   MENU_SERVICE,
   MENU_SETTING,
-  MENU_X,
+  MENU_TWITTER,
   MENU_INCALL,
   MENU_NEWS,
   MENU_NEW_NEWS_NOTIFICATION,
+  MENU_INTERNAL_NOTIFICATION,
 } from "../constant/menu";
 import MessageComponent from "./MessageComponent";
 import MessageChattingComponent from "./MessageChattingComponent";
@@ -45,10 +46,16 @@ import NewMessageNotificationComponent from "./notif/NewMessageNotificationCompo
 import InCallComponent from "./notif/InCallComponent";
 import NewsComponent from "./NewsComponent";
 import NewNewsNotificationComponent from "./notif/NewNewsNotificationComponent";
+import InternalNotificationComponent from "./notif/InternalNotificationComponent";
 
 const DynamicComponent = () => {
-  const { menu, notificationMessage, notificationCall, notificationNews } =
-    useContext(MenuContext);
+  const {
+    menu,
+    notificationInternal,
+    notificationMessage,
+    notificationCall,
+    notificationNews,
+  } = useContext(MenuContext);
 
   useEffect(() => {
     console.log("change state " + menu);
@@ -70,7 +77,7 @@ const DynamicComponent = () => {
         <EmailDetailComponent isShow={menu === MENU_EMAIL_DETAIL} />
         <AdsComponent isShow={menu === MENU_ADS} />
         <ServicesComponent isShow={menu === MENU_SERVICE} />
-        <XComponent isShow={menu === MENU_X} />
+        <XComponent isShow={menu === MENU_TWITTER} />
         <BankComponent isShow={menu === MENU_BANK} />
         <GarageComponent isShow={menu === MENU_GARAGE} />
         <GalleryComponent isShow={menu === MENU_GALLERY} />
@@ -100,11 +107,13 @@ const DynamicComponent = () => {
         <div
           className="absolute top-0 left-0 z-50 w-full"
           style={{
-            display: !isNullOrUndefined(notificationMessage) ? "block" : "none",
+            display: !isNullOrUndefined(notificationInternal)
+              ? "block"
+              : "none",
           }}
         >
-          <NewMessageNotificationComponent
-            isShow={notificationMessage.type == MENU_NEW_MESSAGE_NOTIFICATION}
+          <InternalNotificationComponent
+            isShow={notificationInternal.type == MENU_INTERNAL_NOTIFICATION}
           />
         </div>
         <div
@@ -115,6 +124,16 @@ const DynamicComponent = () => {
         >
           <NewNewsNotificationComponent
             isShow={notificationNews.type == MENU_NEW_NEWS_NOTIFICATION}
+          />
+        </div>
+        <div
+          className="absolute top-0 left-0 z-50 w-full"
+          style={{
+            display: !isNullOrUndefined(notificationMessage) ? "block" : "none",
+          }}
+        >
+          <NewMessageNotificationComponent
+            isShow={notificationMessage.type == MENU_NEW_MESSAGE_NOTIFICATION}
           />
         </div>
       </div>

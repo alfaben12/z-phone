@@ -14,7 +14,7 @@
     "MENU_RACE": "Race",
     "MENU_PHONE": "Phone",
     "MENU_MESSAGE": "Message",
-    "MENU_X": "X",
+    "MENU_TWITTER": "Twitter",
     "MENU_SETTING": "Setting",
     "MENU_CONTACT": "Contact",
     "MENU_DEFAULT": "Home",
@@ -24,6 +24,7 @@
     "MENU_NEW_MESSAGE_NOTIFICATION": "New Message",
     "MENU_INCALL": "In Call",
     "MENU_NEWS": "News",
-    "MENU_NEW_NEWS_NOTIFICATION": "Reporter News"
+    "MENU_NEW_NEWS_NOTIFICATION": "Reporter News",
+    "MENU_INTERNAL_NOTIFICATION": "Notification"
   }
 }

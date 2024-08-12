@@ -9,10 +9,9 @@ export const MENU_HOUSE = config.apps.MENU_HOUSE;
 export const MENU_SERVICE = config.apps.MENU_SERVICE;
 export const MENU_CAMERA = config.apps.MENU_CAMERA;
 export const MENU_GALLERY = config.apps.MENU_GALLERY;
-export const MENU_RACE = config.apps.MENU_RACE;
 export const MENU_PHONE = config.apps.MENU_PHONE;
 export const MENU_MESSAGE = config.apps.MENU_MESSAGE;
-export const MENU_X = config.apps.MENU_X;
+export const MENU_TWITTER = config.apps.MENU_TWITTER;
 export const MENU_SETTING = config.apps.MENU_SETTING;
 export const MENU_CONTACT = config.apps.MENU_CONTACT;
 export const MENU_DEFAULT = config.apps.MENU_DEFAULT;
@@ -68,9 +67,9 @@ export const MENU_CONSTANT = [
     label: MENU_BANK,
   },
   {
-    icon: "./files/images/x.svg",
-    path: "/x",
-    label: MENU_X,
+    icon: "./files/images/twitter.svg",
+    path: "/twitter",
+    label: MENU_TWITTER,
   },
   {
     icon: "./files/images/gallery.svg",
