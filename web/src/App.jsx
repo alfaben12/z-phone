@@ -263,7 +263,8 @@ function App() {
       reporter: faker.person.fullName(),
       company: faker.company.name(),
       image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
-      url: "https://www.youtube.com/watch?v=tMy6_XFpjeQ",
+      // url: "https://www.youtube.com/watch?v=tMy6_XFpjeQ",
+      url: "https://www.youtube.com/watch?v=XNfvHbUs66c",
       title: faker.lorem.paragraph(),
       created_at: faker.date.past({ years: 2 }).toDateString(),
     }));

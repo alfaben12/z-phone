@@ -99,4 +99,8 @@
     font-weight: 400;
     font-style: normal;
   }
+
+  body {
+    background-image: url("https://i.imgur.com/3pzRj9n.png");
+  }
 }
