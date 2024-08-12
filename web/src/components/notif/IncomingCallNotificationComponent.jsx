@@ -17,9 +17,8 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
   const [play, { stop }] = useSound(notificationMessageSound);
 
   useEffect(() => {
-    setIsClose(false);
-
     if (isShow) {
+      setIsClose(false);
       play();
     }
   }, [isShow]);

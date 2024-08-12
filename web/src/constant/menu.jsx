@@ -24,7 +24,10 @@ export const MENU_INCOMING_CALL_NOTIFICATION =
 export const MENU_NEW_MESSAGE_NOTIFICATION =
   config.apps.MENU_NEW_MESSAGE_NOTIFICATION;
 export const MENU_INCALL = config.apps.MENU_INCALL;
-export const MENU_NEW_NEWS_NOTIFICATION = config.apps.MENU_NEW_NEWS_NOTIFICATION;
+export const MENU_NEW_NEWS_NOTIFICATION =
+  config.apps.MENU_NEW_NEWS_NOTIFICATION;
+export const MENU_INTERNAL_NOTIFICATION =
+  config.apps.MENU_INTERNAL_NOTIFICATION;
 export const NAME = config.name;
 export const LOGO = config.logo;
 

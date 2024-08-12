@@ -27,7 +27,7 @@ export const MenuProvider = ({ children }) => {
     type: null,
   });
   const [profile, setProfile] = useState({
-    name: "Thariq Alfa Benriska",
+    name: "Alfaben Doe",
     phone: "085123876",
     photo:
       "https://assetsio.gnwcdn.com/gta-online-rockstar-newswire-image-character-in-warehouse.jpg",
@@ -55,6 +55,9 @@ export const MenuProvider = ({ children }) => {
   const [callHistories, setCallHistories] = useState([]);
   const [news, setNews] = useState([]);
   const [newsStreams, setNewsStreams] = useState([]);
+  const [notificationInternal, setNotificationInternal] = useState({
+    type: null,
+  });
 
   return (
     <MenuContext.Provider
@@ -108,6 +111,8 @@ export const MenuProvider = ({ children }) => {
         setNews,
         newsStreams,
         setNewsStreams,
+        notificationInternal,
+        setNotificationInternal,
       }}
     >
       {children}

@@ -10,6 +10,7 @@ import {
   MENU_GARAGE,
   MENU_HOUSE,
   MENU_INCOMING_CALL_NOTIFICATION,
+  MENU_INTERNAL_NOTIFICATION,
   MENU_LOCKSCREEN,
   MENU_MESSAGE,
   MENU_MESSAGE_CHATTING,
@@ -56,6 +57,7 @@ function App() {
     setCallHistories,
     setNews,
     setNewsStreams,
+    setNotificationInternal,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -351,6 +353,16 @@ function App() {
       },
     });
   };
+
+  const sendInternalNotification = () => {
+    sendEventData({
+      notification: {
+        type: MENU_INTERNAL_NOTIFICATION,
+        from: "Twitter",
+      },
+    });
+  };
+
   const sendEventData = (data) => {
     const targetWindow = window;
     const targetOrigin = "*";
@@ -434,6 +446,10 @@ function App() {
       if (data.notification.type == MENU_NEW_NEWS_NOTIFICATION) {
         setNotificationNews(data.notification);
       }
+
+      if (data.notification.type == MENU_INTERNAL_NOTIFICATION) {
+        setNotificationInternal(data.notification);
+      }
     } else {
       setContacts(data.contacts ? data.contacts : []);
       setContactsBk(data.contacts ? data.contacts : []);
@@ -515,6 +531,16 @@ function App() {
             onClick={() => sendNewsNotification()}
           >
             New Reporter News
+          </button>
+        </div>
+        <div>
+          <button
+            className={`${
+              isOpen ? "bg-blue-500" : "bg-red-500"
+            } px-5 py-2 rounded text-white`}
+            onClick={() => sendInternalNotification()}
+          >
+            New Internal
           </button>
         </div>
       </div>

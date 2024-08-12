@@ -2,13 +2,15 @@ import React, { useContext, useState } from "react";
 import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
-import { FaMoon } from "react-icons/fa6";
+import { FaMoon, FaMask } from "react-icons/fa6";
 
 const SettingComponent = ({ isShow }) => {
   const { profile, setMenu } = useContext(MenuContext);
   const [isOnDisturb, setIsOnDisturb] = useState(false);
+  const [isAnnonim, setIsAnnonim] = useState(false);
 
   const handleToggleIsOnDisturb = () => setIsOnDisturb(!isOnDisturb);
+  const handleToggleIsAnnonim = () => setIsAnnonim(!isAnnonim);
 
   return (
     <div
@@ -56,32 +58,32 @@ const SettingComponent = ({ isShow }) => {
         <div className="flex flex-col py-2 bg-gray-900 rounded-lg">
           <div className="flex space-x-3 px-2">
             <div>
-              <div className="p-1 bg-blue-800 rounded-lg">
-                <FaMoon />
+              <div className="p-1 bg-fuchsia-800 rounded-lg">
+                <FaMask />
               </div>
             </div>
             <div className="flex w-full justify-between items-center space-x-3 border-b border-gray-800 pb-1.5 mb-1.5">
               <span className="text-sm font-light line-clamp-1">
-                Do Not Disturb
+                Anonym Number
               </span>
               <div className="flex items-center justify-center">
                 <div className="relative inline-block align-middle select-none">
                   <input
                     type="checkbox"
                     id="toggle"
-                    checked={isOnDisturb}
-                    onChange={handleToggleIsOnDisturb}
+                    checked={isAnnonim}
+                    onChange={handleToggleIsAnnonim}
                     className="hidden"
                   />
                   <label
                     htmlFor="toggle"
                     className={`flex items-center cursor-pointer ${
-                      isOnDisturb ? "bg-green-400" : "bg-gray-300"
+                      isAnnonim ? "bg-green-400" : "bg-gray-300"
                     } relative block w-[40px] h-[25px] rounded-full transition-colors duration-300`}
                   >
                     <span
                       className={`block w-[20px] h-[20px] bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                        isOnDisturb ? "translate-x-[18px]" : "translate-x-[2px]"
+                        isAnnonim ? "translate-x-[18px]" : "translate-x-[2px]"
                       }`}
                     />
                   </label>

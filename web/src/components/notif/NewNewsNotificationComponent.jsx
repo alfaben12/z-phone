@@ -10,8 +10,8 @@ const NewNewsNotificationComponent = ({ isShow }) => {
   const [play] = useSound(notificationNewsSound);
 
   useEffect(() => {
-    setIsClose(false);
     if (isShow) {
+      setIsClose(false);
       play();
     }
   }, [isShow]);
