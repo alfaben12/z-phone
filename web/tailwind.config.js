@@ -52,6 +52,8 @@ module.exports = {
       animation: {
         slideUp: "slideUp 1s ease-out forwards",
         slideDown: "slideDown 0.5s ease-out",
+        slideDownThenUp:
+          "slideDown 0.5s ease-out, slideUp 1s ease-out 3s forwards",
       },
     },
   },

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import MenuContext from "../../context/MenuContext";
 import useSound from "use-sound";
 import notificationMessageSound from "../../../files/sounds/message-sound.mp3";
@@ -7,32 +7,20 @@ import { MENU_NEW_MESSAGE_NOTIFICATION } from "../../constant/menu";
 const NewMessageNotificationComponent = ({ isShow }) => {
   const { notificationMessage, setNotificationMessage } =
     useContext(MenuContext);
-  const [isClose, setIsClose] = useState(false);
   const [play] = useSound(notificationMessageSound);
 
   useEffect(() => {
     if (isShow) {
-      setIsClose(false);
       play();
+      setTimeout(() => {
+        setNotificationMessage({ type: "" });
+      }, 4000);
     }
   }, [isShow]);
 
-  useEffect(() => {
-    if (!isClose) {
-      setTimeout(() => {
-        setIsClose(true);
-        setTimeout(() => {
-          setNotificationMessage({ type: "" });
-        }, 1000);
-      }, 3000);
-    }
-  }, [isClose]);
-
   return (
     <div
-      className={`flex w-full cursor-pointer px-2 pt-8 ${
-        isClose ? "animate-slideUp" : "animate-slideDown"
-      }`}
+      className={`flex w-full cursor-pointer px-2 pt-8 animate-slideDownThenUp`}
       style={{
         display: isShow ? "block" : "none",
       }}
@@ -41,12 +29,6 @@ const NewMessageNotificationComponent = ({ isShow }) => {
         className="flex px-3 py-2 space-x-2 w-full items-center rounded-xl border border-gray-900"
         style={{
           background: "rgba(0, 0, 0, 0.9)",
-        }}
-        onClick={() => {
-          // setIsClose(true);
-          // setTimeout(() => {
-          //   setNotificationMessage({ type: "" });
-          // }, 1000);
         }}
       >
         <div className="flex w-full items-center space-x-2 w-full">

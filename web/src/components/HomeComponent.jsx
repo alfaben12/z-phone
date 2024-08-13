@@ -10,11 +10,6 @@ import MenuContext from "../context/MenuContext";
 const HomeComponent = ({ isShow }) => {
   const { menus, profile, setMenu } = useContext(MenuContext);
 
-  useEffect(() => {
-    menus.MENUS.map((v, i) => {
-      console.log(i);
-    });
-  }, []);
   return (
     <div
       className="relative flex flex-col justify-between w-full h-full"
