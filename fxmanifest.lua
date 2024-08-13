@@ -11,7 +11,6 @@ shared_scripts {
 
 client_scripts {
     'client/main.lua',
-    'client/animation.lua'
 }
 
 ui_page 'web/build/index.html'

@@ -58,11 +58,11 @@
     },
     {
       "icon": "./files/images/twitter.svg",
-      "label": "Twitter"
+      "label": "Tweet"
     },
     {
       "icon": "./files/images/news.svg",
-      "label": "Wens"
+      "label": "News"
     },
     {
       "icon": "./files/images/gallery.svg",
