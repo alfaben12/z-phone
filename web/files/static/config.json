@@ -1,7 +1,7 @@
 {
   "name": "Kota V",
   "logo": "./files/images/kota-v.png",
-  "apps": {
+  "APPS": {
     "MENU_LOCKSCREEN": "Lockscreen",
     "MENU_GARAGE": "Garage",
     "MENU_EMAIL": "Email",
@@ -26,5 +26,65 @@
     "MENU_NEWS": "News",
     "MENU_NEW_NEWS_NOTIFICATION": "Reporter News",
     "MENU_INTERNAL_NOTIFICATION": "Notification"
-  }
+  },
+  "MENUS": [
+    {
+      "icon": "./files/images/contact.svg",
+      "label": "Contact"
+    },
+    {
+      "icon": "./files/images/mail.svg",
+      "label": "Email"
+    },
+    {
+      "icon": "./files/images/ads.svg",
+      "label": "Ads"
+    },
+    {
+      "icon": "./files/images/service.svg",
+      "label": "Services"
+    },
+    {
+      "icon": "./files/images/garage.svg",
+      "label": "Garage"
+    },
+    {
+      "icon": "./files/images/house.svg",
+      "label": "House"
+    },
+    {
+      "icon": "./files/images/wallet.svg",
+      "label": "Wallet"
+    },
+    {
+      "icon": "./files/images/twitter.svg",
+      "label": "Twitter"
+    },
+    {
+      "icon": "./files/images/news.svg",
+      "label": "Wens"
+    },
+    {
+      "icon": "./files/images/gallery.svg",
+      "label": "Photos"
+    }
+  ],
+  "BOTTOM_MENUS": [
+    {
+      "icon": "./files/images/phone.svg",
+      "label": "Phone"
+    },
+    {
+      "icon": "./files/images/message.svg",
+      "label": "Message"
+    },
+    {
+      "icon": "./files/images/camera.svg",
+      "label": "Camera"
+    },
+    {
+      "icon": "./files/images/setting.svg",
+      "label": "Setting"
+    }
+  ]
 }

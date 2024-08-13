@@ -70,13 +70,13 @@ const SettingComponent = ({ isShow }) => {
                 <div className="relative inline-block align-middle select-none">
                   <input
                     type="checkbox"
-                    id="toggle"
+                    id="isAnnonim"
                     checked={isAnnonim}
                     onChange={handleToggleIsAnnonim}
                     className="hidden"
                   />
                   <label
-                    htmlFor="toggle"
+                    htmlFor="isAnnonim"
                     className={`flex items-center cursor-pointer ${
                       isAnnonim ? "bg-green-400" : "bg-gray-300"
                     } relative block w-[40px] h-[25px] rounded-full transition-colors duration-300`}
@@ -105,13 +105,13 @@ const SettingComponent = ({ isShow }) => {
                 <div className="relative inline-block align-middle select-none">
                   <input
                     type="checkbox"
-                    id="toggle"
+                    id="isOnDisturb"
                     checked={isOnDisturb}
                     onChange={handleToggleIsOnDisturb}
                     className="hidden"
                   />
                   <label
-                    htmlFor="toggle"
+                    htmlFor="isOnDisturb"
                     className={`flex items-center cursor-pointer ${
                       isOnDisturb ? "bg-green-400" : "bg-gray-300"
                     } relative block w-[40px] h-[25px] rounded-full transition-colors duration-300`}

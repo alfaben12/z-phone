@@ -32,6 +32,7 @@ import { faker } from "@faker-js/faker";
 
 function App() {
   const {
+    menus,
     menu,
     time,
     setMenu,
@@ -58,6 +59,7 @@ function App() {
     setNews,
     setNewsStreams,
     setNotificationInternal,
+    setMenus,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -489,6 +491,37 @@ function App() {
       window.removeEventListener("message", handleEventPhone);
       window.removeEventListener("message", handleOpenPhone);
     };
+  }, []);
+
+  const localStorageKey = "zphone";
+  const getConfigFromDefaultConfig = () => {
+    fetch("../files/static/config.json") // Adjust the path accordingly
+      .then((response) => response.json())
+      .then((data) => {
+        setMenus(data);
+        localStorage.setItem(localStorageKey, JSON.stringify(data));
+      })
+      .catch((error) => console.error("Error loading constants:", error));
+  };
+
+  useEffect(() => {
+    // const storedConfig = localStorage.getItem(localStorageKey);
+    // if (storedConfig) {
+    //   try {
+    //     const parsedConfig = JSON.parse(storedConfig);
+    //     setMenus(parsedConfig);
+    //     console.log("==" + JSON.stringify(parsedConfig));
+    //   } catch (error) {
+    //     getConfigFromDefaultConfig();
+    //   }
+    // } else {
+    //   getConfigFromDefaultConfig();
+    // }
+    getConfigFromDefaultConfig();
+    setNotificationInternal({ type: "" });
+    setNotificationMessage({ type: "" });
+    setNotificationCall({ type: "" });
+    setNotificationNews({ type: "" });
   }, []);
 
   return (

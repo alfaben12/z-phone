@@ -1,21 +1,62 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { MENU_LOCKSCREEN } from "../constant/menu";
 
-const MenuContext = createContext();
+const MenuContext = createContext({
+  time: "",
+  menus: null,
+  menu: MENU_LOCKSCREEN,
+  notificationCall: {
+    type: "",
+  },
+  notificationNews: {
+    type: "",
+  },
+  notificationInternal: {
+    type: "",
+  },
+  profile: {
+    name: "",
+    phone: "",
+    photo: "",
+    // wallpaper:
+    //   "https://i.ibb.co.com/DV7d6xF/i-Phone-15-Pro-Black-Titanium-wallpaper.jpg",
+    wallpaper: "",
+    unread_message_service: 0,
+    unread_message: 0,
+  },
+  contacts: [],
+  contactsBk: [],
+  chats: [],
+  chatsBk: [],
+  chatting: [],
+  emails: [],
+  emailsBk: [],
+  email: [],
+  ads: [],
+  garages: [],
+  garagesBk: [],
+  photos: [],
+  tweets: [],
+  bank: null,
+  houses: [],
+  services: [],
+  callHistories: [],
+  news: [],
+  newsStreams: [],
+});
 
 export const MenuProvider = ({ children }) => {
   const date = new Date();
-
   const options = {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
     timeZone: "Asia/Jakarta",
   };
-
   const jakartaTime = date.toLocaleString("en-US", options);
 
   const [time, setTime] = useState(jakartaTime);
+  const [menus, setMenus] = useState(null);
   const [menu, setMenu] = useState(MENU_LOCKSCREEN);
   const [notificationMessage, setNotificationMessage] = useState({
     type: null,
@@ -24,6 +65,9 @@ export const MenuProvider = ({ children }) => {
     type: null,
   });
   const [notificationNews, setNotificationNews] = useState({
+    type: null,
+  });
+  const [notificationInternal, setNotificationInternal] = useState({
     type: null,
   });
   const [profile, setProfile] = useState({
@@ -56,14 +100,13 @@ export const MenuProvider = ({ children }) => {
   const [callHistories, setCallHistories] = useState([]);
   const [news, setNews] = useState([]);
   const [newsStreams, setNewsStreams] = useState([]);
-  const [notificationInternal, setNotificationInternal] = useState({
-    type: null,
-  });
 
   return (
     <MenuContext.Provider
       value={{
         time,
+        menus,
+        setMenus,
         menu,
         setMenu,
         notificationMessage,

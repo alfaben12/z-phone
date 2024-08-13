@@ -47,9 +47,11 @@ import InCallComponent from "./notif/InCallComponent";
 import NewsComponent from "./NewsComponent";
 import NewNewsNotificationComponent from "./notif/NewNewsNotificationComponent";
 import InternalNotificationComponent from "./notif/InternalNotificationComponent";
+import LoadingComponent from "./LoadingComponent";
 
 const DynamicComponent = () => {
   const {
+    menus,
     menu,
     notificationInternal,
     notificationMessage,
@@ -66,77 +68,83 @@ const DynamicComponent = () => {
   }
   return (
     <LayoutComponent>
-      <div className="relative w-full h-full">
-        <LockScreenComponent isShow={menu === MENU_LOCKSCREEN} />
-        <HomeComponent isShow={menu === MENU_DEFAULT} />
-        <MessageComponent isShow={menu === MENU_MESSAGE} />
-        <MessageChattingComponent isShow={menu === MENU_MESSAGE_CHATTING} />
-        <ContactComponent isShow={menu === MENU_CONTACT} />
-        <PhoneComponent isShow={menu === MENU_PHONE} />
-        <EmailComponent isShow={menu === MENU_EMAIL} />
-        <EmailDetailComponent isShow={menu === MENU_EMAIL_DETAIL} />
-        <AdsComponent isShow={menu === MENU_ADS} />
-        <ServicesComponent isShow={menu === MENU_SERVICE} />
-        <XComponent isShow={menu === MENU_TWITTER} />
-        <BankComponent isShow={menu === MENU_BANK} />
-        <GarageComponent isShow={menu === MENU_GARAGE} />
-        <GalleryComponent isShow={menu === MENU_GALLERY} />
-        <SettingComponent isShow={menu === MENU_SETTING} />
-        <HouseComponent isShow={menu === MENU_HOUSE} />
-        <SettingComponent isShow={menu === MENU_SETTING} />
-        <NewsComponent isShow={menu === MENU_NEWS} />
-        <div
-          className="absolute top-0 left-0 z-50 w-full"
-          style={{
-            display: !isNullOrUndefined(notificationCall) ? "block" : "none",
-          }}
-        >
-          <InCallComponent isShow={notificationCall.type === MENU_INCALL} />
-        </div>
+      {menus == null ? (
+        <LoadingComponent />
+      ) : (
+        <div className="relative w-full h-full">
+          <LockScreenComponent isShow={menu === MENU_LOCKSCREEN} />
+          <HomeComponent isShow={menu === MENU_DEFAULT} />
+          <MessageComponent isShow={menu === MENU_MESSAGE} />
+          <MessageChattingComponent isShow={menu === MENU_MESSAGE_CHATTING} />
+          <ContactComponent isShow={menu === MENU_CONTACT} />
+          <PhoneComponent isShow={menu === MENU_PHONE} />
+          <EmailComponent isShow={menu === MENU_EMAIL} />
+          <EmailDetailComponent isShow={menu === MENU_EMAIL_DETAIL} />
+          <AdsComponent isShow={menu === MENU_ADS} />
+          <ServicesComponent isShow={menu === MENU_SERVICE} />
+          <XComponent isShow={menu === MENU_TWITTER} />
+          <BankComponent isShow={menu === MENU_BANK} />
+          <GarageComponent isShow={menu === MENU_GARAGE} />
+          <GalleryComponent isShow={menu === MENU_GALLERY} />
+          <SettingComponent isShow={menu === MENU_SETTING} />
+          <HouseComponent isShow={menu === MENU_HOUSE} />
+          <SettingComponent isShow={menu === MENU_SETTING} />
+          <NewsComponent isShow={menu === MENU_NEWS} />
+          <div
+            className="absolute top-0 left-0 z-50 w-full"
+            style={{
+              display: !isNullOrUndefined(notificationCall) ? "block" : "none",
+            }}
+          >
+            <InCallComponent isShow={notificationCall.type === MENU_INCALL} />
+          </div>
 
-        <div
-          className="absolute top-0 left-0 z-50 w-full"
-          style={{
-            display: !isNullOrUndefined(notificationCall) ? "block" : "none",
-          }}
-        >
-          <IncomingCallNotificationComponent
-            isShow={notificationCall.type == MENU_INCOMING_CALL_NOTIFICATION}
-          />
+          <div
+            className="absolute top-0 left-0 z-50 w-full"
+            style={{
+              display: !isNullOrUndefined(notificationCall) ? "block" : "none",
+            }}
+          >
+            <IncomingCallNotificationComponent
+              isShow={notificationCall.type == MENU_INCOMING_CALL_NOTIFICATION}
+            />
+          </div>
+          <div
+            className="absolute top-0 left-0 z-50 w-full"
+            style={{
+              display: !isNullOrUndefined(notificationInternal)
+                ? "block"
+                : "none",
+            }}
+          >
+            <InternalNotificationComponent
+              isShow={notificationInternal.type == MENU_INTERNAL_NOTIFICATION}
+            />
+          </div>
+          <div
+            className="absolute top-0 left-0 z-50 w-full"
+            style={{
+              display: !isNullOrUndefined(notificationNews) ? "block" : "none",
+            }}
+          >
+            <NewNewsNotificationComponent
+              isShow={notificationNews.type == MENU_NEW_NEWS_NOTIFICATION}
+            />
+          </div>
+          <div
+            className="absolute top-0 left-0 z-50 w-full"
+            style={{
+              display: !isNullOrUndefined(notificationMessage)
+                ? "block"
+                : "none",
+            }}
+          >
+            <NewMessageNotificationComponent
+              isShow={notificationMessage.type == MENU_NEW_MESSAGE_NOTIFICATION}
+            />
+          </div>
         </div>
-        <div
-          className="absolute top-0 left-0 z-50 w-full"
-          style={{
-            display: !isNullOrUndefined(notificationInternal)
-              ? "block"
-              : "none",
-          }}
-        >
-          <InternalNotificationComponent
-            isShow={notificationInternal.type == MENU_INTERNAL_NOTIFICATION}
-          />
-        </div>
-        <div
-          className="absolute top-0 left-0 z-50 w-full"
-          style={{
-            display: !isNullOrUndefined(notificationNews) ? "block" : "none",
-          }}
-        >
-          <NewNewsNotificationComponent
-            isShow={notificationNews.type == MENU_NEW_NEWS_NOTIFICATION}
-          />
-        </div>
-        <div
-          className="absolute top-0 left-0 z-50 w-full"
-          style={{
-            display: !isNullOrUndefined(notificationMessage) ? "block" : "none",
-          }}
-        >
-          <NewMessageNotificationComponent
-            isShow={notificationMessage.type == MENU_NEW_MESSAGE_NOTIFICATION}
-          />
-        </div>
-      </div>
+      )}
     </LayoutComponent>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   BOTTOM_MENU_CONSTANT,
   MENU_CONSTANT,
@@ -8,8 +8,13 @@ import {
 import MenuContext from "../context/MenuContext";
 
 const HomeComponent = ({ isShow }) => {
-  const { profile, setMenu } = useContext(MenuContext);
+  const { menus, profile, setMenu } = useContext(MenuContext);
 
+  useEffect(() => {
+    menus.MENUS.map((v, i) => {
+      console.log(i);
+    });
+  }, []);
   return (
     <div
       className="relative flex flex-col justify-between w-full h-full"
@@ -25,7 +30,7 @@ const HomeComponent = ({ isShow }) => {
           paddingTop: 50,
         }}
       >
-        {MENU_CONSTANT.map((v, i) => {
+        {menus.MENUS.map((v, i) => {
           return (
             <div
               onClick={() => setMenu(v.label)}
