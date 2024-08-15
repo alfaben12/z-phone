@@ -14,10 +14,12 @@
     "MENU_RACE": "Race",
     "MENU_PHONE": "Phone",
     "MENU_MESSAGE": "Message",
-    "MENU_TWITTER": "Twitter",
+    "MENU_LOOPS": "Loops",
     "MENU_SETTING": "Setting",
     "MENU_CONTACT": "Contact",
     "MENU_DEFAULT": "Home",
+    "MENU_LOVY": "Lovy",
+    "MENU_PLAYTV": "Lovy",
     "MENU_MESSAGE_CHATTING": "Chatting",
     "MENU_EMAIL_DETAIL": "Email Detail",
     "MENU_INCOMING_CALL_NOTIFICATION": "Incoming Call",
@@ -57,8 +59,8 @@
       "label": "Wallet"
     },
     {
-      "icon": "./files/images/twitter.svg",
-      "label": "Tweet"
+      "icon": "./files/images/loops.svg",
+      "label": "Loops"
     },
     {
       "icon": "./files/images/news.svg",
@@ -67,6 +69,14 @@
     {
       "icon": "./files/images/gallery.svg",
       "label": "Photos"
+    },
+    {
+      "icon": "./files/images/lovy.svg",
+      "label": "Lovy"
+    },
+    {
+      "icon": "./files/images/playtv.svg",
+      "label": "Play TV"
     }
   ],
   "BOTTOM_MENUS": [

@@ -16,7 +16,7 @@ const subMenuList = {
   hashtag: "hashtags",
 };
 
-const XComponent = ({ isShow }) => {
+const LoopsComponent = ({ isShow }) => {
   const { profile, tweets, setMenu } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList.tweet);
   const [tweetDetail, setTweetDetail] = useState(null);
@@ -87,7 +87,11 @@ const XComponent = ({ isShow }) => {
           <span className="text-xs">Back</span>
         </div>
         <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit">
-          <FaXTwitter className="text-white text-xl" />
+          <img
+            src="./files/images/loops-white.svg"
+            className="p-0.5 object-cover w-7"
+            alt=""
+          />
         </span>
         <div className="flex items-center px-2 space-x-2 text-white">
           <FaHashtag className="text-lg hover:text-[#1d9cf0] cursor-pointer" />
@@ -206,7 +210,7 @@ const XComponent = ({ isShow }) => {
                     />
                     <button className="rounded-full" type="submit">
                       <img
-                        src="./files/images/twitter-post.svg"
+                        src="./files/images/loops-tweet.svg"
                         className="p-0.5 object-cover h-7 w-7"
                         alt=""
                       />
@@ -401,4 +405,4 @@ const XComponent = ({ isShow }) => {
     </div>
   );
 };
-export default XComponent;
+export default LoopsComponent;

@@ -19,7 +19,7 @@ import {
   MENU_NEW_NEWS_NOTIFICATION,
   MENU_PHONE,
   MENU_SERVICE,
-  MENU_TWITTER,
+  MENU_LOOPS,
   NAME,
   PHONE_FRAME_HEIGHT,
   PHONE_FRAME_WIDTH,
@@ -86,7 +86,7 @@ function App() {
       case MENU_GALLERY:
         getGallery();
         break;
-      case MENU_TWITTER:
+      case MENU_LOOPS:
         getTweets();
         break;
       case MENU_BANK:

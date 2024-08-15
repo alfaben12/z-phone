@@ -11,7 +11,7 @@ export const MENU_CAMERA = config.APPS.MENU_CAMERA;
 export const MENU_GALLERY = config.APPS.MENU_GALLERY;
 export const MENU_PHONE = config.APPS.MENU_PHONE;
 export const MENU_MESSAGE = config.APPS.MENU_MESSAGE;
-export const MENU_TWITTER = config.APPS.MENU_TWITTER;
+export const MENU_LOOPS = config.APPS.MENU_LOOPS;
 export const MENU_SETTING = config.APPS.MENU_SETTING;
 export const MENU_CONTACT = config.APPS.MENU_CONTACT;
 export const MENU_DEFAULT = config.APPS.MENU_DEFAULT;
@@ -69,7 +69,7 @@ export const MENU_CONSTANT = [
   {
     icon: "./files/images/twitter.svg",
     path: "/twitter",
-    label: MENU_TWITTER,
+    label: MENU_LOOPS,
   },
   {
     icon: "./files/images/news.svg",

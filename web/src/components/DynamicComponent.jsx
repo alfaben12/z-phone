@@ -20,7 +20,7 @@ import {
   MENU_PHONE,
   MENU_SERVICE,
   MENU_SETTING,
-  MENU_TWITTER,
+  MENU_LOOPS,
   MENU_INCALL,
   MENU_NEWS,
   MENU_NEW_NEWS_NOTIFICATION,
@@ -34,7 +34,7 @@ import EmailComponent from "./EmailComponent";
 import EmailDetailComponent from "./EmailDetailComponent";
 import AdsComponent from "./AdsComponent";
 import ServicesComponent from "./ServicesComponent";
-import XComponent from "./XComponent";
+import LoopsComponent from "./LoopsComponent";
 import BankComponent from "./BankComponent";
 import GarageComponent from "./GarageComponent";
 import GalleryComponent from "./GalleryComponent";
@@ -82,7 +82,7 @@ const DynamicComponent = () => {
           <EmailDetailComponent isShow={menu === MENU_EMAIL_DETAIL} />
           <AdsComponent isShow={menu === MENU_ADS} />
           <ServicesComponent isShow={menu === MENU_SERVICE} />
-          <XComponent isShow={menu === MENU_TWITTER} />
+          <LoopsComponent isShow={menu === MENU_LOOPS} />
           <BankComponent isShow={menu === MENU_BANK} />
           <GarageComponent isShow={menu === MENU_GARAGE} />
           <GalleryComponent isShow={menu === MENU_GALLERY} />
