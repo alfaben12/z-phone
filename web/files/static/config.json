@@ -19,7 +19,7 @@
     "MENU_CONTACT": "Contact",
     "MENU_DEFAULT": "Home",
     "MENU_LOVY": "Lovy",
-    "MENU_PLAYTV": "Lovy",
+    "MENU_PLAYTV": "Play TV",
     "MENU_MESSAGE_CHATTING": "Chatting",
     "MENU_EMAIL_DETAIL": "Email Detail",
     "MENU_INCOMING_CALL_NOTIFICATION": "Incoming Call",
@@ -69,14 +69,6 @@
     {
       "icon": "./files/images/gallery.svg",
       "label": "Photos"
-    },
-    {
-      "icon": "./files/images/lovy.svg",
-      "label": "Lovy"
-    },
-    {
-      "icon": "./files/images/playtv.svg",
-      "label": "Play TV"
     }
   ],
   "BOTTOM_MENUS": [

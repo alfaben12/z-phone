@@ -48,6 +48,8 @@ import NewsComponent from "./NewsComponent";
 import NewNewsNotificationComponent from "./notif/NewNewsNotificationComponent";
 import InternalNotificationComponent from "./notif/InternalNotificationComponent";
 import LoadingComponent from "./LoadingComponent";
+import LovyComponent from "./LovyComponent";
+import PlayTVComponent from "./PlayTVComponent";
 
 const DynamicComponent = () => {
   const {
@@ -64,7 +66,7 @@ const DynamicComponent = () => {
   }, [menu]);
 
   function isNullOrUndefined(value) {
-    return value === null || value === undefined;
+    return value === menus.APPS.null || value === menus.APPS.undefined;
   }
   return (
     <LayoutComponent>
@@ -72,31 +74,39 @@ const DynamicComponent = () => {
         <LoadingComponent />
       ) : (
         <div className="relative w-full h-full">
-          <LockScreenComponent isShow={menu === MENU_LOCKSCREEN} />
-          <HomeComponent isShow={menu === MENU_DEFAULT} />
-          <MessageComponent isShow={menu === MENU_MESSAGE} />
-          <MessageChattingComponent isShow={menu === MENU_MESSAGE_CHATTING} />
-          <ContactComponent isShow={menu === MENU_CONTACT} />
-          <PhoneComponent isShow={menu === MENU_PHONE} />
-          <EmailComponent isShow={menu === MENU_EMAIL} />
-          <EmailDetailComponent isShow={menu === MENU_EMAIL_DETAIL} />
-          <AdsComponent isShow={menu === MENU_ADS} />
-          <ServicesComponent isShow={menu === MENU_SERVICE} />
-          <LoopsComponent isShow={menu === MENU_LOOPS} />
-          <BankComponent isShow={menu === MENU_BANK} />
-          <GarageComponent isShow={menu === MENU_GARAGE} />
-          <GalleryComponent isShow={menu === MENU_GALLERY} />
-          <SettingComponent isShow={menu === MENU_SETTING} />
-          <HouseComponent isShow={menu === MENU_HOUSE} />
-          <SettingComponent isShow={menu === MENU_SETTING} />
-          <NewsComponent isShow={menu === MENU_NEWS} />
+          <LockScreenComponent isShow={menu === menus.APPS.MENU_LOCKSCREEN} />
+          <HomeComponent isShow={menu === menus.APPS.MENU_DEFAULT} />
+          <MessageComponent isShow={menu === menus.APPS.MENU_MESSAGE} />
+          <MessageChattingComponent
+            isShow={menu === menus.APPS.MENU_MESSAGE_CHATTING}
+          />
+          <ContactComponent isShow={menu === menus.APPS.MENU_CONTACT} />
+          <PhoneComponent isShow={menu === menus.APPS.MENU_PHONE} />
+          <EmailComponent isShow={menu === menus.APPS.MENU_EMAIL} />
+          <EmailDetailComponent
+            isShow={menu === menus.APPS.MENU_EMAIL_DETAIL}
+          />
+          <AdsComponent isShow={menu === menus.APPS.MENU_ADS} />
+          <ServicesComponent isShow={menu === menus.APPS.MENU_SERVICE} />
+          <LoopsComponent isShow={menu === menus.APPS.MENU_LOOPS} />
+          <BankComponent isShow={menu === menus.APPS.MENU_BANK} />
+          <GarageComponent isShow={menu === menus.APPS.MENU_GARAGE} />
+          <GalleryComponent isShow={menu === menus.APPS.MENU_GALLERY} />
+          <SettingComponent isShow={menu === menus.APPS.MENU_SETTING} />
+          <HouseComponent isShow={menu === menus.APPS.MENU_HOUSE} />
+          <SettingComponent isShow={menu === menus.APPS.MENU_SETTING} />
+          <NewsComponent isShow={menu === menus.APPS.MENU_NEWS} />
+          <LovyComponent isShow={menu === menus.APPS.MENU_LOVY} />
+          <PlayTVComponent isShow={menu === menus.APPS.MENU_PLAYTV} />
           <div
             className="absolute top-0 left-0 z-50 w-full"
             style={{
               display: !isNullOrUndefined(notificationCall) ? "block" : "none",
             }}
           >
-            <InCallComponent isShow={notificationCall.type === MENU_INCALL} />
+            <InCallComponent
+              isShow={notificationCall.type === menus.APPS.MENU_INCALL}
+            />
           </div>
 
           <div

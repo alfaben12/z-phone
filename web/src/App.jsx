@@ -20,7 +20,7 @@ import {
   MENU_PHONE,
   MENU_SERVICE,
   MENU_LOOPS,
-  NAME,
+  MENU_LOVY,
   PHONE_FRAME_HEIGHT,
   PHONE_FRAME_WIDTH,
   PHONE_HEIGHT,
@@ -60,6 +60,7 @@ function App() {
     setNewsStreams,
     setNotificationInternal,
     setMenus,
+    setLovys,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -103,6 +104,9 @@ function App() {
         break;
       case MENU_NEWS:
         getNews();
+        break;
+      case MENU_LOVY:
+        getLovys();
         break;
       default:
         return;
@@ -328,6 +332,17 @@ function App() {
     sendEventData({ services: data });
   };
 
+  const getLovys = () => {
+    const data = Array.from({ length: 25 }, (v, i) => ({
+      photo: faker.image.urlLoremFlickr({ height: 1080, width: 1920 }),
+      name: faker.company.name(),
+      age: faker.string.numeric(2),
+      bio: faker.lorem.paragraph(),
+      gender: Math.random() < 0.5 ? 1 : 0,
+    }));
+    sendEventData({ lovys: data });
+  };
+
   const sendMessageNotification = () => {
     sendEventData({
       notification: {
@@ -481,6 +496,7 @@ function App() {
       setCallHistories(data.callHistories ? data.callHistories : []);
       setNews(data.news ? data.news : []);
       setNewsStreams(data.newsStreams ? data.newsStreams : []);
+      setLovys(data.lovys ? data.lovys : []);
     }
   };
 

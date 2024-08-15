@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { MENU_DEFAULT, PHONE_HEIGHT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
-import { FaXTwitter, FaHashtag, FaRegComment } from "react-icons/fa6";
+import { FaHashtag, FaRegComment } from "react-icons/fa6";
 import { GoMention } from "react-icons/go";
 import { IoCamera } from "react-icons/io5";
 import LoadingComponent from "./LoadingComponent";
@@ -359,7 +359,7 @@ const LoopsComponent = ({ isShow }) => {
           onClick={() => setSubMenu(subMenuList.create)}
         >
           <img
-            src="./files/images/twitter-post.svg"
+            src="./files/images/loops-tweet.svg"
             className="p-2 object-cover text-[#000000]"
             alt=""
           />

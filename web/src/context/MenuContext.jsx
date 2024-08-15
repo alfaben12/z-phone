@@ -43,6 +43,7 @@ const MenuContext = createContext({
   callHistories: [],
   news: [],
   newsStreams: [],
+  lovys: [],
 });
 
 export const MenuProvider = ({ children }) => {
@@ -100,6 +101,7 @@ export const MenuProvider = ({ children }) => {
   const [callHistories, setCallHistories] = useState([]);
   const [news, setNews] = useState([]);
   const [newsStreams, setNewsStreams] = useState([]);
+  const [lovys, setLovys] = useState([]);
 
   return (
     <MenuContext.Provider
@@ -157,6 +159,8 @@ export const MenuProvider = ({ children }) => {
         setNewsStreams,
         notificationInternal,
         setNotificationInternal,
+        lovys,
+        setLovys,
       }}
     >
       {children}
