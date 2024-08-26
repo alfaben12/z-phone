@@ -46,7 +46,7 @@ const SettingComponent = ({ isShow }) => {
             className="w-12 h-12 rounded-full object-cover"
             alt=""
             onError={(error) => {
-              error.target.src = "./files/images/noimage.jpg";
+              error.target.src = ".//images/noimage.jpg";
             }}
           />
           <div className="flex flex-col">

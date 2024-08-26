@@ -150,7 +150,7 @@ const ServicesComponent = ({ isShow }) => {
                     className="w-14 h-14 object-cover rounded-full mb-1"
                     alt=""
                     onError={(error) => {
-                      error.target.src = "./files/images/noimage.jpg";
+                      error.target.src = ".//images/noimage.jpg";
                     }}
                   />
                   <div

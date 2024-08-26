@@ -29,6 +29,7 @@ import {
 } from "./constant/menu";
 import DynamicComponent from "./components/DynamicComponent";
 import { faker } from "@faker-js/faker";
+import axios from "axios";
 
 function App() {
   const {
@@ -406,6 +407,7 @@ function App() {
   };
 
   function hide() {
+    setIsOpen(false);
     const container = document.getElementById("z-phone-root-frame");
     container.setAttribute("class", "z-phone-fadeout");
     setTimeout(function () {
@@ -500,18 +502,29 @@ function App() {
     }
   };
 
+  const handleEsc = async (event) => {
+    if (event.key === "Escape") {
+      hide();
+      await axios.post("/close");
+    }
+  };
+
   useEffect(() => {
+    hide();
+
     window.addEventListener("message", handleEventPhone);
     window.addEventListener("message", handleOpenPhone);
+    window.addEventListener("keydown", handleEsc);
     return () => {
       window.removeEventListener("message", handleEventPhone);
       window.removeEventListener("message", handleOpenPhone);
+      window.removeEventListener("keydown", handleEsc);
     };
   }, []);
 
   const localStorageKey = "zphone";
   const getConfigFromDefaultConfig = () => {
-    fetch("../files/static/config.json") // Adjust the path accordingly
+    fetch("static/config.json") // Adjust the path accordingly
       .then((response) => response.json())
       .then((data) => {
         setMenus(data);
@@ -605,7 +618,7 @@ function App() {
           }}
         >
           <img
-            src={`./files/images/iphone-15pro.png`}
+            src={`.//images/iphone-15pro.png`}
             alt=""
             className="w-full h-full object-cover"
           />

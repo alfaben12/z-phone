@@ -88,7 +88,7 @@ const LoopsComponent = ({ isShow }) => {
         </div>
         <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit">
           <img
-            src="./files/images/loops-white.svg"
+            src=".//images/loops-white.svg"
             className="p-0.5 object-cover w-7"
             alt=""
           />
@@ -135,7 +135,7 @@ const LoopsComponent = ({ isShow }) => {
                         src={tweetDetail.photo}
                         alt=""
                         onError={(error) => {
-                          error.target.src = "./files/images/noimage.jpg";
+                          error.target.src = ".//images/noimage.jpg";
                         }}
                       />
                       <div className="flex justify-between w-full">
@@ -160,7 +160,7 @@ const LoopsComponent = ({ isShow }) => {
                       src={tweetDetail.image}
                       alt=""
                       onError={(error) => {
-                        error.target.src = "./files/images/noimage.jpg";
+                        error.target.src = ".//images/noimage.jpg";
                       }}
                     />
                   ) : null}
@@ -210,7 +210,7 @@ const LoopsComponent = ({ isShow }) => {
                     />
                     <button className="rounded-full" type="submit">
                       <img
-                        src="./files/images/loops-tweet.svg"
+                        src=".//images/loops-tweet.svg"
                         className="p-0.5 object-cover h-7 w-7"
                         alt=""
                       />
@@ -232,7 +232,7 @@ const LoopsComponent = ({ isShow }) => {
                               src={v.photo}
                               alt=""
                               onError={(error) => {
-                                error.target.src = "./files/images/noimage.jpg";
+                                error.target.src = ".//images/noimage.jpg";
                               }}
                             />
                             <div className="flex flex-col w-full">
@@ -297,7 +297,7 @@ const LoopsComponent = ({ isShow }) => {
                         src={v.photo}
                         alt=""
                         onError={(error) => {
-                          error.target.src = "./files/images/noimage.jpg";
+                          error.target.src = ".//images/noimage.jpg";
                         }}
                       />
                       <div className="flex flex-col w-full">
@@ -321,7 +321,7 @@ const LoopsComponent = ({ isShow }) => {
                             src={v.image}
                             alt=""
                             onError={(error) => {
-                              error.target.src = "./files/images/noimage.jpg";
+                              error.target.src = ".//images/noimage.jpg";
                             }}
                           />
                         ) : null}
@@ -359,7 +359,7 @@ const LoopsComponent = ({ isShow }) => {
           onClick={() => setSubMenu(subMenuList.create)}
         >
           <img
-            src="./files/images/loops-tweet.svg"
+            src=".//images/loops-tweet.svg"
             className="p-2 object-cover text-[#000000]"
             alt=""
           />
@@ -379,7 +379,7 @@ const LoopsComponent = ({ isShow }) => {
               src={profile.photo}
               alt=""
               onError={(error) => {
-                error.target.src = "./files/images/noimage.jpg";
+                error.target.src = ".//images/noimage.jpg";
               }}
             />
 

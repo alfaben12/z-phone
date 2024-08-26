@@ -89,7 +89,7 @@ const ContactComponent = ({ isShow }) => {
                     className="w-9 h-9 object-cover rounded-full"
                     alt=""
                     onError={(error) => {
-                      error.target.src = "./files/images/noimage.jpg";
+                      error.target.src = ".//images/noimage.jpg";
                     }}
                   />
                   <div className="flex flex-col">

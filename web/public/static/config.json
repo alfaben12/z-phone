@@ -1,12 +1,12 @@
 {
   "name": "Kota V",
-  "logo": "./files/images/kota-v.png",
+  "logo": ".//images/kota-v.png",
   "APPS": {
     "MENU_LOCKSCREEN": "Lockscreen",
     "MENU_GARAGE": "Garage",
     "MENU_EMAIL": "Email",
     "MENU_ADS": "Ads",
-    "MENU_BANK": "Bank",
+    "MENU_BANK": "Wallet",
     "MENU_HOUSE": "House",
     "MENU_SERVICE": "Services",
     "MENU_CAMERA": "Camera",
@@ -31,61 +31,61 @@
   },
   "MENUS": [
     {
-      "icon": "./files/images/contact.svg",
+      "icon": ".//images/contact.svg",
       "label": "Contact"
     },
     {
-      "icon": "./files/images/mail.svg",
+      "icon": ".//images/mail.svg",
       "label": "Email"
     },
     {
-      "icon": "./files/images/ads.svg",
+      "icon": ".//images/ads.svg",
       "label": "Ads"
     },
     {
-      "icon": "./files/images/service.svg",
+      "icon": ".//images/service.svg",
       "label": "Services"
     },
     {
-      "icon": "./files/images/garage.svg",
+      "icon": ".//images/garage.svg",
       "label": "Garage"
     },
     {
-      "icon": "./files/images/house.svg",
+      "icon": ".//images/house.svg",
       "label": "House"
     },
     {
-      "icon": "./files/images/wallet.svg",
+      "icon": ".//images/wallet.svg",
       "label": "Wallet"
     },
     {
-      "icon": "./files/images/loops.svg",
+      "icon": ".//images/loops.svg",
       "label": "Loops"
     },
     {
-      "icon": "./files/images/news.svg",
+      "icon": ".//images/news.svg",
       "label": "News"
     },
     {
-      "icon": "./files/images/gallery.svg",
+      "icon": ".//images/gallery.svg",
       "label": "Photos"
     }
   ],
   "BOTTOM_MENUS": [
     {
-      "icon": "./files/images/phone.svg",
+      "icon": ".//images/phone.svg",
       "label": "Phone"
     },
     {
-      "icon": "./files/images/message.svg",
+      "icon": ".//images/message.svg",
       "label": "Message"
     },
     {
-      "icon": "./files/images/camera.svg",
+      "icon": ".//images/camera.svg",
       "label": "Camera"
     },
     {
-      "icon": "./files/images/setting.svg",
+      "icon": ".//images/setting.svg",
       "label": "Setting"
     }
   ]

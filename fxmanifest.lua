@@ -1,26 +1,29 @@
-fx_version 'bodacious'
-game 'gta5'
-lua54 'yes'
-author 'Alfaben'
-description 'iPhone 15'
-version '1.0.0'
+fx_version "cerulean"
+game "gta5"
+lua54 "yes"
+author "Alfaben"
+description "iPhone 15"
+version "1.0.0"
 
-shared_scripts {
-    'config.lua',
-}
+ui_page "http://localhost:5173"
+-- ui_page "html/index.html"
 
 client_scripts {
-    'client/main.lua',
+	"client/**"
 }
 
-ui_page 'web/build/index.html'
-
 server_scripts {
-    '@oxmysql/lib/MySQL.lua',
-    'server/main.lua'
+  	"@oxmysql/lib/MySQL.lua",
+	"server/**"
+}
+
+shared_scripts {
+  	"@ox_lib/init.lua",
+	"config/**"
 }
 
 files {
-    'web/build/index.html',
-	'web/build/**/*',
+  "html/index.html",
+  "html/**/*.png",
+  "html/**/*.svg",
 }

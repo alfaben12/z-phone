@@ -37,7 +37,7 @@ const GalleryComponent = ({ isShow }) => {
                   alt=""
                   className="mx-auto w-full rounded"
                   onError={(error) => {
-                    error.target.src = "./files/images/noimage.jpg";
+                    error.target.src = ".//images/noimage.jpg";
                   }}
                 />
                 <div className="absolute left-0 bottom-2 bg-gray-800 opacity-60 text-xs font-normal px-1 py-0.5 rounded-tr-sm text-white">
@@ -107,7 +107,7 @@ const GalleryComponent = ({ isShow }) => {
                     src={v.photo}
                     alt=""
                     onError={(error) => {
-                      error.target.src = "./files/images/noimage.jpg";
+                      error.target.src = ".//images/noimage.jpg";
                     }}
                   />
                 </div>

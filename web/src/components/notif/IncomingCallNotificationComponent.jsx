@@ -9,7 +9,7 @@ import {
 } from "../../constant/menu";
 import { MdOutlinePhone } from "react-icons/md";
 import useSound from "use-sound";
-import notificationMessageSound from "../../../files/sounds/call-sound.mp3";
+import notificationMessageSound from "/sounds/call-sound.mp3";
 
 const IncomingCallNotificationComponent = ({ isShow }) => {
   const { notificationCall, setNotificationCall } = useContext(MenuContext);
@@ -53,7 +53,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
                 className="w-12 h-12 rounded-full object-cover"
                 alt=""
                 onError={(error) => {
-                  error.target.src = "./files/images/noimage.jpg";
+                  error.target.src = ".//images/noimage.jpg";
                 }}
               />
               <div className="flex flex-col">

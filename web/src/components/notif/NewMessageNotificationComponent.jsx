@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import MenuContext from "../../context/MenuContext";
 import useSound from "use-sound";
-import notificationMessageSound from "../../../files/sounds/message-sound.mp3";
+import notificationMessageSound from "/sounds/message-sound.mp3";
 import { MENU_NEW_MESSAGE_NOTIFICATION } from "../../constant/menu";
 
 const NewMessageNotificationComponent = ({ isShow }) => {
@@ -32,7 +32,7 @@ const NewMessageNotificationComponent = ({ isShow }) => {
         }}
       >
         <div className="flex w-full items-center space-x-2 w-full">
-          <img src="./files/images/message.svg" className="w-8 h-8" alt="" />
+          <img src=".//images/message.svg" className="w-8 h-8" alt="" />
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white line-clamp-1">
               {notificationMessage.from}

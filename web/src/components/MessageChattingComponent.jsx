@@ -58,7 +58,7 @@ const MessageChattingComponent = ({ isShow }) => {
                 className="w-8 h-8 object-cover rounded-full"
                 alt=""
                 onError={(error) => {
-                  error.target.src = "./files/images/noimage.jpg";
+                  error.target.src = ".//images/noimage.jpg";
                 }}
               />
               <div className="flex flex-col">

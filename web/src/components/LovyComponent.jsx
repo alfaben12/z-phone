@@ -142,7 +142,7 @@ const LovyComponent = ({ isShow }) => {
                     className="w-full h-[350px] object-cover rounded-lg"
                     alt=""
                     onError={(error) => {
-                      error.target.src = "./files/images/noimage.jpg";
+                      error.target.src = ".//images/noimage.jpg";
                     }}
                   />
                   <div className="absolute bottom-2 left-2">

@@ -37,6 +37,10 @@ const LockScreenComponent = ({ isShow }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    setIsOpen(false);
+  }, [isShow]);
+
+  useEffect(() => {
     if (isOpen) {
       setTimeout(() => {
         setMenu(MENU_DEFAULT);
@@ -87,7 +91,7 @@ const LockScreenComponent = ({ isShow }) => {
                     src="https://images.unsplash.com/photo-1588974269162-4c0d5ccc6094?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3302&q=80"
                     alt=""
                     onError={(error) => {
-                      error.target.src = "./files/images/noimage.jpg";
+                      error.target.src = ".//images/noimage.jpg";
                     }}
                   />
                 </div>
@@ -115,7 +119,7 @@ const LockScreenComponent = ({ isShow }) => {
                   src="https://seeklogo.com/images/K/keystonejs-logo-C77FDB0662-seeklogo.com.png"
                   alt=""
                   onError={(error) => {
-                    error.target.src = "./files/images/noimage.jpg";
+                    error.target.src = ".//images/noimage.jpg";
                   }}
                 />
               </div>

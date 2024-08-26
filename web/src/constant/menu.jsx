@@ -1,4 +1,4 @@
-import config from "../../files/static/config.json";
+import config from "/public/static/config.json";
 
 export const MENU_LOCKSCREEN = config.APPS.MENU_LOCKSCREEN;
 export const MENU_GARAGE = config.APPS.MENU_GARAGE;
@@ -33,52 +33,52 @@ export const LOGO = config.logo;
 
 export const MENU_CONSTANT = [
   {
-    icon: "./files/images/contact.svg",
+    icon: "/images/contact.svg",
     path: "/contact",
     label: MENU_CONTACT,
   },
   {
-    icon: "./files/images/mail.svg",
+    icon: "/images/mail.svg",
     path: "/mail",
     label: MENU_EMAIL,
   },
   {
-    icon: "./files/images/ads.svg",
+    icon: "/images/ads.svg",
     path: "/ads",
     label: MENU_ADS,
   },
   {
-    icon: "./files/images/service.svg",
+    icon: "/images/service.svg",
     path: "/service",
     label: MENU_SERVICE,
   },
   {
-    icon: "./files/images/garage.svg",
+    icon: "/images/garage.svg",
     path: "/garage",
     label: MENU_GARAGE,
   },
   {
-    icon: "./files/images/house.svg",
+    icon: "/images/house.svg",
     path: "/house",
     label: MENU_HOUSE,
   },
   {
-    icon: "./files/images/wallet.svg",
+    icon: "/images/wallet.svg",
     path: "/wallet",
     label: MENU_BANK,
   },
   {
-    icon: "./files/images/twitter.svg",
+    icon: "/images/twitter.svg",
     path: "/twitter",
     label: MENU_LOOPS,
   },
   {
-    icon: "./files/images/news.svg",
+    icon: "/images/news.svg",
     path: "/news",
     label: MENU_NEWS,
   },
   {
-    icon: "./files/images/gallery.svg",
+    icon: "/images/gallery.svg",
     path: "/gallery",
     label: MENU_GALLERY,
   },
@@ -86,22 +86,22 @@ export const MENU_CONSTANT = [
 
 export const BOTTOM_MENU_CONSTANT = [
   {
-    icon: "./files/images/phone.svg",
+    icon: "/images/phone.svg",
     path: "/phone",
     label: MENU_PHONE,
   },
   {
-    icon: "./files/images/message.svg",
+    icon: "/images/message.svg",
     path: "/message",
     label: MENU_MESSAGE,
   },
   {
-    icon: "./files/images/camera.svg",
+    icon: "/images/camera.svg",
     path: "/camera",
     label: MENU_CAMERA,
   },
   {
-    icon: "./files/images/setting.svg",
+    icon: "/images/setting.svg",
     path: "/setting",
     label: MENU_SETTING,
   },
