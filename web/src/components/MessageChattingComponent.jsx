@@ -9,7 +9,7 @@ import {
 } from "react-icons/md";
 
 const MessageChattingComponent = ({ isShow }) => {
-  const { setMenu, chatting } = useContext(MenuContext);
+  const { setMenu, chatting, setChatting } = useContext(MenuContext);
   const messagesEndRef = useRef(null);
   const [message, setMessage] = useState("");
 
@@ -20,6 +20,7 @@ const MessageChattingComponent = ({ isShow }) => {
   };
 
   useEffect(() => {
+    console.log(JSON.stringify(chatting));
     scrollToBottom();
   }, [chatting]);
 
@@ -31,6 +32,16 @@ const MessageChattingComponent = ({ isShow }) => {
   const sendMessage = () => {
     console.log("send " + message);
     setMessage("");
+
+    const newMessage = {
+      time: "just now",
+      message: message,
+      isMe: true, // or false, depending on who sent the message
+    };
+    setChatting((prevChatting) => ({
+      ...prevChatting,
+      chats: [...prevChatting.chats, newMessage],
+    }));
   };
 
   return (
@@ -58,7 +69,7 @@ const MessageChattingComponent = ({ isShow }) => {
                 className="w-8 h-8 object-cover rounded-full"
                 alt=""
                 onError={(error) => {
-                  error.target.src = ".//images/noimage.jpg";
+                  error.target.src = "./images/noimage.jpg";
                 }}
               />
               <div className="flex flex-col">
@@ -86,13 +97,20 @@ const MessageChattingComponent = ({ isShow }) => {
               <div className="no-scrollbar flex flex-col space-y-4 p-3 overflow-y-auto pb-12">
                 {chatting.chats &&
                   chatting.chats.map((v, i) => {
-                    return v.isMe ? (
+                    return !v.isMe ? (
                       <div className="flex items-end" key={i}>
                         <div
                           className="relative flex flex-col text-xs items-start"
-                          style={{ maxWidth: `${PHONE_WIDTH - 50}px` }}
+                          style={{
+                            maxWidth: `${PHONE_WIDTH - 50}px`,
+                          }}
                         >
-                          <span className="pb-5 px-2 py-1.5 rounded-lg inline-block rounded-bl-none bg-[#242527] text-white">
+                          <span
+                            className="pb-4 px-2 py-1.5 rounded-lg inline-block rounded-bl-none bg-[#242527] text-white text-left"
+                            style={{
+                              minWidth: `50px`,
+                            }}
+                          >
                             {v.message}
                           </span>
                           <span
@@ -109,13 +127,20 @@ const MessageChattingComponent = ({ isShow }) => {
                       <div className="flex items-end justify-end" key={i}>
                         <div
                           className="relative flex flex-col text-xs items-end"
-                          style={{ maxWidth: `${PHONE_WIDTH - 50}px` }}
+                          style={{
+                            maxWidth: `${PHONE_WIDTH - 50}px`,
+                          }}
                         >
-                          <span className="pb-5 px-2 py-1.5 rounded-lg inline-block rounded-br-none bg-[#134D37] text-white">
+                          <span
+                            className="pb-4 px-2 py-1.5 rounded-lg inline-block rounded-br-none bg-[#134D37] text-white text-left"
+                            style={{
+                              minWidth: `50px`,
+                            }}
+                          >
                             {v.message}
                           </span>
                           <span
-                            className="absolute bottom-0 right-1 text-gray-100"
+                            className="absolute bottom-0.5 right-1 text-gray-100"
                             style={{
                               fontSize: 10,
                             }}

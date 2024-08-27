@@ -31,7 +31,7 @@ const NewNewsNotificationComponent = ({ isShow }) => {
         }}
       >
         <div className="flex w-full items-center space-x-2 w-full">
-          <img src=".//images/news.svg" className="w-8 h-8" alt="" />
+          <img src="./images/news.svg" className="w-8 h-8" alt="" />
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white line-clamp-1">
               {notificationNews.from}

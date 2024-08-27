@@ -180,7 +180,7 @@ const BankComponent = ({ isShow }) => {
                     </div>
                     <div className="absolute bottom-0 right-0">
                       <img
-                        src=".//images/monas.png"
+                        src="./images/monas.png"
                         className="w-10 object-cover opacity-70"
                         alt=""
                       />

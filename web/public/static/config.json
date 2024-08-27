@@ -1,6 +1,6 @@
 {
   "name": "Kota V",
-  "logo": ".//images/kota-v.png",
+  "logo": "./images/kota-v.png",
   "APPS": {
     "MENU_LOCKSCREEN": "Lockscreen",
     "MENU_GARAGE": "Garage",
@@ -31,61 +31,61 @@
   },
   "MENUS": [
     {
-      "icon": ".//images/contact.svg",
+      "icon": "./images/contact.svg",
       "label": "Contact"
     },
     {
-      "icon": ".//images/mail.svg",
+      "icon": "./images/mail.svg",
       "label": "Email"
     },
     {
-      "icon": ".//images/ads.svg",
+      "icon": "./images/ads.svg",
       "label": "Ads"
     },
     {
-      "icon": ".//images/service.svg",
+      "icon": "./images/service.svg",
       "label": "Services"
     },
     {
-      "icon": ".//images/garage.svg",
+      "icon": "./images/garage.svg",
       "label": "Garage"
     },
     {
-      "icon": ".//images/house.svg",
+      "icon": "./images/house.svg",
       "label": "House"
     },
     {
-      "icon": ".//images/wallet.svg",
+      "icon": "./images/wallet.svg",
       "label": "Wallet"
     },
     {
-      "icon": ".//images/loops.svg",
+      "icon": "./images/loops.svg",
       "label": "Loops"
     },
     {
-      "icon": ".//images/news.svg",
+      "icon": "./images/news.svg",
       "label": "News"
     },
     {
-      "icon": ".//images/gallery.svg",
+      "icon": "./images/gallery.svg",
       "label": "Photos"
     }
   ],
   "BOTTOM_MENUS": [
     {
-      "icon": ".//images/phone.svg",
+      "icon": "./images/phone.svg",
       "label": "Phone"
     },
     {
-      "icon": ".//images/message.svg",
+      "icon": "./images/message.svg",
       "label": "Message"
     },
     {
-      "icon": ".//images/camera.svg",
+      "icon": "./images/camera.svg",
       "label": "Camera"
     },
     {
-      "icon": ".//images/setting.svg",
+      "icon": "./images/setting.svg",
       "label": "Setting"
     }
   ]

@@ -5,7 +5,8 @@ import { MdArrowBackIosNew, MdOutlineSearch } from "react-icons/md";
 import { searchByKeyValueContains } from "../utils/common";
 
 const MessageComponent = ({ isShow }) => {
-  const { setMenu, chats, setChats, chatsBk } = useContext(MenuContext);
+  const { setMenu, chats, setChats, chatsBk, setChatting } =
+    useContext(MenuContext);
 
   return (
     <div
@@ -68,7 +69,10 @@ const MessageComponent = ({ isShow }) => {
               <div
                 className="flex flex-col pl-1 pr-1"
                 key={i}
-                onClick={() => setMenu(MENU_MESSAGE_CHATTING)}
+                onClick={() => {
+                  setMenu(MENU_MESSAGE_CHATTING);
+                  setChatting(v);
+                }}
               >
                 <div
                   className={`w-full cursor-pointer flex space-x-2
@@ -79,16 +83,18 @@ const MessageComponent = ({ isShow }) => {
                     className="w-9 h-9 object-cover rounded-full"
                     alt=""
                     onError={(error) => {
-                      error.target.src = ".//images/noimage.jpg";
+                      error.target.src = "./images/noimage.jpg";
                     }}
                   />
                   <div className="flex justify-between border-b border-gray-900 pb-2 mb-2">
                     <div className="leading-1 col-span-4 text-sm">
                       <div className="line-clamp-1">{v.name}</div>
-                      <div className="text-xs line-clamp-1">{v.message}</div>
+                      <div className="text-xs line-clamp-1">
+                        {v.last_message}
+                      </div>
                     </div>
                     <div className="flex">
-                      <div className="text-xs">{v.time}</div>
+                      <div className="text-xs">{v.last_message_time}</div>
                     </div>
                   </div>
                 </div>

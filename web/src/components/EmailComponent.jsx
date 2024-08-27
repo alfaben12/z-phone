@@ -87,7 +87,7 @@ const EmailComponent = ({ isShow }) => {
                     className="w-9 h-9 object-cover rounded-full"
                     alt=""
                     onError={(error) => {
-                      error.target.src = ".//images/noimage.jpg";
+                      error.target.src = "./images/noimage.jpg";
                     }}
                   />
                   <div className="leading-1 col-span-4 text-sm">

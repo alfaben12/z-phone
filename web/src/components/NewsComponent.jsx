@@ -100,7 +100,7 @@ const NewsComponent = ({ isShow }) => {
                     src={detail.image}
                     alt=""
                     onError={(error) => {
-                      error.target.src = ".//images/noimage.jpg";
+                      error.target.src = "./images/noimage.jpg";
                     }}
                   />
                   <div className="py-1">
@@ -268,7 +268,7 @@ const NewsComponent = ({ isShow }) => {
                       src={v.image}
                       alt=""
                       onError={(error) => {
-                        error.target.src = ".//images/noimage.jpg";
+                        error.target.src = "./images/noimage.jpg";
                       }}
                     />
                     <div className="px-3 py-1">
@@ -315,7 +315,7 @@ const NewsComponent = ({ isShow }) => {
                         src={v.image}
                         alt=""
                         onError={(error) => {
-                          error.target.src = ".//images/noimage.jpg";
+                          error.target.src = "./images/noimage.jpg";
                         }}
                       />
                     </div>

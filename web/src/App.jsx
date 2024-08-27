@@ -33,9 +33,10 @@ import axios from "axios";
 
 function App() {
   const {
-    menus,
+    notificationMessage,
     menu,
     time,
+    chatting,
     setMenu,
     setContacts,
     setContactsBk,
@@ -125,21 +126,7 @@ function App() {
   };
 
   const getChats = () => {
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      photo: faker.image.avatar(),
-      name: faker.person.fullName(),
-      phone: faker.phone.number(),
-      time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
-        faker.date.past().getMinutes()
-      ).padStart(2, "0")}`,
-      message: faker.lorem.paragraphs(),
-      isRead: Math.random() < 0.5,
-    }));
-    sendEventData({ chats: data });
-  };
-
-  const getChatting = () => {
-    const chats = Array.from({ length: 300 }, (v, i) => ({
+    const chats = Array.from({ length: 3 }, (v, i) => ({
       time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
         faker.date.past().getMinutes()
       ).padStart(2, "0")}`,
@@ -147,15 +134,43 @@ function App() {
       isMe: Math.random() < 0.5 ? true : false,
     }));
 
-    sendEventData({
-      chatting: {
-        phone: faker.phone.number(),
-        photo: faker.image.avatar(),
-        name: faker.person.fullName(),
-        last_seen: "18:00",
-        chats: chats,
-      },
-    });
+    const data = Array.from({ length: 25 }, (v, i) => ({
+      photo: faker.image.avatar(),
+      name: faker.person.fullName(),
+      phone: faker.phone.number(),
+      last_message_time: `${String(faker.date.past().getHours()).padStart(
+        2,
+        "0"
+      )}:${String(faker.date.past().getMinutes()).padStart(2, "0")}`,
+      last_message: faker.lorem.paragraphs(),
+      last_seen: "18:00",
+      isRead: Math.random() < 0.5,
+      chats: chats,
+    }));
+
+    data[1].phone = "085123123";
+    sendEventData({ chats: data });
+  };
+
+  const getChatting = () => {
+    // const chats = Array.from({ length: 3 }, (v, i) => ({
+    //   time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
+    //     faker.date.past().getMinutes()
+    //   ).padStart(2, "0")}`,
+    //   message: faker.lorem.sentence(),
+    //   isMe: Math.random() < 0.5 ? true : false,
+    // }));
+
+    // sendEventData({
+    //   chatting: {
+    //     phone: faker.phone.number(),
+    //     photo: faker.image.avatar(),
+    //     name: faker.person.fullName(),
+    //     last_seen: "18:00",
+    //     chats: chats,
+    //   },
+    // });
+    console.log("app");
   };
 
   const getEmails = () => {
@@ -348,7 +363,7 @@ function App() {
     sendEventData({
       notification: {
         type: MENU_NEW_MESSAGE_NOTIFICATION,
-        from: faker.phone.number(),
+        from: "085123123",
         message: faker.lorem.paragraph(),
       },
     });
@@ -475,7 +490,7 @@ function App() {
       setContactsBk(data.contacts ? data.contacts : []);
       setChats(data.chats ? data.chats : []);
       setChatsBk(data.chats ? data.chats : []);
-      setChatting(data.chatting ? data.chatting : []);
+      setChatting(data.chatting ? data.chatting : {});
       setEmails(data.emails ? data.emails : []);
       setEmailsBk(data.emails ? data.emails : []);
       setEmail({});
@@ -553,6 +568,27 @@ function App() {
     setNotificationNews({ type: "" });
   }, []);
 
+  // LISTEN NEW MESSAGE
+  useEffect(() => {
+    console.log(chatting.phone);
+    console.log(notificationMessage.from);
+    if (
+      notificationMessage?.type == MENU_NEW_MESSAGE_NOTIFICATION &&
+      chatting?.phone == notificationMessage.from
+    ) {
+      const newMessage = {
+        time: "08:15",
+        message: faker.lorem.sentence(),
+        isMe: false, // or false, depending on who sent the message
+      };
+
+      setChatting((prevChatting) => ({
+        ...prevChatting,
+        chats: [...prevChatting.chats, newMessage],
+      }));
+    }
+  }, [notificationMessage]);
+
   return (
     <div className="font-normal">
       <div className="flex-col space-y-2">
@@ -618,7 +654,7 @@ function App() {
           }}
         >
           <img
-            src={`.//images/iphone-15pro.png`}
+            src={`./images/iphone-15pro.png`}
             alt=""
             className="w-full h-full object-cover"
           />

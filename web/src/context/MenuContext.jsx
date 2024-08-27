@@ -28,7 +28,7 @@ const MenuContext = createContext({
   contactsBk: [],
   chats: [],
   chatsBk: [],
-  chatting: [],
+  chatting: {},
   emails: [],
   emailsBk: [],
   email: [],
