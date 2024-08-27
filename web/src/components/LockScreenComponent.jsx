@@ -74,9 +74,12 @@ const LockScreenComponent = ({ isShow }) => {
           </p>
         </div>
         <div className="relative mt-4 mx-2.5">
-          <div className="absolute -bottom-4 scale-[0.85] origin-bottom inset-x-0 h-full w-full bg-white/10 backdrop-blur-md rounded-2xl"></div>
-          <div className="absolute -bottom-2 scale-95 origin-bottom inset-x-0 h-full w-full bg-white/30 backdrop-blur-md rounded-3xl shadow-sm"></div>
-          <div className="px-3 py-4 bg-white/40 backdrop-blur-md rounded-3xl shadow">
+          <div
+            className="px-3 py-4 rounded-3xl shadow"
+            style={{
+              backgroundColor: "rgb(255 255 255 / 0.5)",
+            }}
+          >
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-xs font-bold">{NAME} Reporter</p>

@@ -510,7 +510,7 @@ function App() {
   };
 
   useEffect(() => {
-    hide();
+    // hide();
 
     window.addEventListener("message", handleEventPhone);
     window.addEventListener("message", handleOpenPhone);

@@ -76,9 +76,8 @@ export const MenuProvider = ({ children }) => {
     phone: "085123876",
     photo:
       "https://assetsio.gnwcdn.com/gta-online-rockstar-newswire-image-character-in-warehouse.jpg",
-    // wallpaper:
-    //   "https://i.ibb.co.com/DV7d6xF/i-Phone-15-Pro-Black-Titanium-wallpaper.jpg",
-    wallpaper: "https://i.ibb.co.com/NtSprsq/bg.png",
+    wallpaper: "https://i.ibb.co.com/pftZvpY/peakpx-1.jpg",
+    // wallpaper: "https://i.ibb.co.com/NtSprsq/bg.png",
     unread_message_service: 9,
     unread_message: 10,
   });

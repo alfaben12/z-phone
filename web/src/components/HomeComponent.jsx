@@ -48,9 +48,10 @@ const HomeComponent = ({ isShow }) => {
       <div className="flex w-full absolute bottom-5">
         <div className="w-3"></div>
         <div
-          className="w-full bg-white/10 backdrop-blur-md"
+          className="w-full"
           style={{
             borderRadius: 25,
+            backgroundColor: "rgb(255 255 255 / 0.3)",
           }}
         >
           <div
