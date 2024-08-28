@@ -72,14 +72,14 @@ export const MenuProvider = ({ children }) => {
     type: null,
   });
   const [profile, setProfile] = useState({
-    name: "Alfaben Doe",
-    phone: "085123876",
-    photo:
-      "https://assetsio.gnwcdn.com/gta-online-rockstar-newswire-image-character-in-warehouse.jpg",
-    wallpaper: "https://i.ibb.co.com/pftZvpY/peakpx-1.jpg",
-    // wallpaper: "https://i.ibb.co.com/NtSprsq/bg.png",
-    unread_message_service: 9,
-    unread_message: 10,
+    // name: "Alfaben Doe",
+    // citizenid: "XXX123",
+    // phone: "085123876",
+    // photo:
+    //   "https://assetsio.gnwcdn.com/gta-online-rockstar-newswire-image-character-in-warehouse.jpg",
+    // wallpaper: "https://i.ibb.co.com/pftZvpY/peakpx-1.jpg",
+    // unread_message_service: 9,
+    // unread_message: 10,
   });
   const [contacts, setContacts] = useState([]);
   const [contactsBk, setContactsBk] = useState([]);

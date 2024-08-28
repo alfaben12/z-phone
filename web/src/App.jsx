@@ -63,8 +63,25 @@ function App() {
     setNotificationInternal,
     setMenus,
     setLovys,
+    setProfile,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("PROFILE");
+    const fetchData = async () => {
+      try {
+        const response = await axios.post("/get-profile");
+        setProfile(response.data);
+      } catch (err) {
+        setProfile({});
+      }
+    };
+
+    if (isOpen) {
+      fetchData();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     switch (menu) {
@@ -125,33 +142,41 @@ function App() {
     sendEventData({ contacts: data });
   };
 
-  const getChats = () => {
-    const chats = Array.from({ length: 3 }, (v, i) => ({
-      time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
-        faker.date.past().getMinutes()
-      ).padStart(2, "0")}`,
-      message: faker.lorem.sentence(),
-      isMe: Math.random() < 0.5 ? true : false,
-    }));
+  const getChats = async () => {
+    // const chats = Array.from({ length: 3 }, (v, i) => ({
+    //   time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
+    //     faker.date.past().getMinutes()
+    //   ).padStart(2, "0")}`,
+    //   message: faker.lorem.sentence(),
+    //   isMe: Math.random() < 0.5 ? true : false,
+    // }));
 
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      avatar: faker.image.avatar(),
-      conversation_name: faker.person.fullName(),
-      last_message_time: `${String(faker.date.past().getHours()).padStart(
-        2,
-        "0"
-      )}:${String(faker.date.past().getMinutes()).padStart(2, "0")}`,
-      last_message: faker.lorem.paragraphs(),
-      last_seen: "18:00",
-      isRead: Math.random() < 0.5,
-      chats: chats,
-    }));
+    // const data = Array.from({ length: 25 }, (v, i) => ({
+    //   avatar: faker.image.avatar(),
+    //   conversation_name: faker.person.fullName(),
+    //   last_message_time: `${String(faker.date.past().getHours()).padStart(
+    //     2,
+    //     "0"
+    //   )}:${String(faker.date.past().getMinutes()).padStart(2, "0")}`,
+    //   last_message: faker.lorem.paragraphs(),
+    //   last_seen: "18:00",
+    //   isRead: Math.random() < 0.5,
+    //   chats: chats,
+    // }));
 
-    data[1].phone = "085123123";
-    sendEventData({ chats: data });
+    // data[1].phone = "085123123";
+    let userChats = [];
+    try {
+      const response = await axios.post("/get-chats");
+      userChats = response.data;
+    } catch (error) {
+      console.error("error /get-chats", error);
+    }
+
+    sendEventData({ chats: userChats });
   };
 
-  const getChatting = () => {
+  const getChatting = async () => {
     // const chats = Array.from({ length: 3 }, (v, i) => ({
     //   time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
     //     faker.date.past().getMinutes()
@@ -169,7 +194,22 @@ function App() {
     //     chats: chats,
     //   },
     // });
-    console.log("app");
+
+    try {
+      const response = await axios.post("/get-chatting", {
+        conversationid: chatting.conversationid,
+      });
+
+      setChatting((prev) => ({
+        ...prev,
+        chats: response.data,
+      }));
+    } catch (err) {
+      setChatting((prev) => ({
+        ...prev,
+        chats: [],
+      }));
+    }
   };
 
   const getEmails = () => {
@@ -642,8 +682,8 @@ function App() {
           </button>
         </div>
       </div>
-      {/* <div id="z-phone-root-frame" className="z-phone-invisible"> */}
-      <div id="z-phone-root-frame">
+      <div id="z-phone-root-frame" className="z-phone-invisible">
+        {/* <div id="z-phone-root-frame"> */}
         <div
           className="absolute bottom-10 right-10"
           style={{

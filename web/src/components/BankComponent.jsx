@@ -126,7 +126,7 @@ const BankComponent = ({ isShow }) => {
                   </span>
                   <div className="flex flex-col">
                     <span className="text-base font-semibold line-clamp-1">
-                      Hi, {profile.name.split(" ")[0]}
+                      Hi, {profile?.name?.split(" ")[0]}
                     </span>
                     <span className="text-xs text-gray-400">
                       Welcome to Digital Banking.

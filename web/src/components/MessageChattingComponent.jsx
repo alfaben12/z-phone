@@ -7,9 +7,10 @@ import {
   MdSend,
   MdOutlineCameraAlt,
 } from "react-icons/md";
+import axios from "axios";
 
 const MessageChattingComponent = ({ isShow }) => {
-  const { setMenu, chatting, setChatting } = useContext(MenuContext);
+  const { setMenu, chatting, setChatting, profile } = useContext(MenuContext);
   const messagesEndRef = useRef(null);
   const [message, setMessage] = useState("");
 
@@ -20,7 +21,6 @@ const MessageChattingComponent = ({ isShow }) => {
   };
 
   useEffect(() => {
-    console.log(JSON.stringify(chatting));
     scrollToBottom();
   }, [chatting]);
 
@@ -36,7 +36,7 @@ const MessageChattingComponent = ({ isShow }) => {
     const newMessage = {
       time: "just now",
       message: message,
-      isMe: true, // or false, depending on who sent the message
+      sender_citizenid: profile.citizenid, // or false, depending on who sent the message
     };
     setChatting((prevChatting) => ({
       ...prevChatting,
@@ -97,7 +97,7 @@ const MessageChattingComponent = ({ isShow }) => {
               <div className="no-scrollbar flex flex-col space-y-4 p-3 overflow-y-auto pb-12">
                 {chatting.chats &&
                   chatting.chats.map((v, i) => {
-                    return !v.isMe ? (
+                    return !(v.sender_citizenid == profile.citizenid) ? (
                       <div className="flex items-end" key={i}>
                         <div
                           className="relative flex flex-col text-xs items-start"

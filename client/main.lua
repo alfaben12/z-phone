@@ -50,7 +50,7 @@ local function OpenPhone()
             print("open")
             PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
             SetNuiFocus(true, true)
-            SetNuiFocusKeepInput(true)
+            -- SetNuiFocusKeepInput(true)
             SendNUIMessage({
                 event = 'z-phone',
                 isOpen = true,
@@ -121,4 +121,23 @@ RegisterNUICallback('close', function(_, cb)
         PhoneData.isOpen = false
     end)
     cb('ok')
+end)
+
+
+RegisterNUICallback('get-chats', function(_, cb)
+    QBCore.Functions.TriggerCallback('z-phone:server:GetChats', function(chats)
+        cb(chats)
+    end)
+end)
+
+RegisterNUICallback('get-chatting', function(body, cb)
+    QBCore.Functions.TriggerCallback('z-phone:server:GetChatting', function(chatting)
+        cb(chatting)
+    end, body)
+end)
+
+RegisterNUICallback('get-profile', function(_, cb)
+    QBCore.Functions.TriggerCallback('z-phone:server:GetProfile', function(profile)
+        cb(profile)
+    end)
 end)
