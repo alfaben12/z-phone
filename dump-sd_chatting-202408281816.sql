@@ -16,6 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `zp_ads`
+--
+
+DROP TABLE IF EXISTS `zp_ads`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `zp_ads` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `media` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `content` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `zp_ads`
+--
+
+LOCK TABLES `zp_ads` WRITE;
+/*!40000 ALTER TABLE `zp_ads` DISABLE KEYS */;
+/*!40000 ALTER TABLE `zp_ads` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `zp_contacts`
 --
 
@@ -62,7 +87,7 @@ CREATE TABLE `zp_conversation_messages` (
   PRIMARY KEY (`messageid`),
   KEY `idx_conversationid` (`conversationid`),
   KEY `idx_sender_citizenid` (`sender_citizenid`),
-  CONSTRAINT `zp_conversation_messages_ibfk_1` FOREIGN KEY (`conversationid`) REFERENCES `zp_conversations` (`conversationid`),
+  CONSTRAINT `zp_conversation_messages_ibfk_1` FOREIGN KEY (`conversationid`) REFERENCES `zp_conversations` (`id`),
   CONSTRAINT `zp_conversation_messages_ibfk_2` FOREIGN KEY (`sender_citizenid`) REFERENCES `zp_users` (`citizenid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -91,7 +116,7 @@ CREATE TABLE `zp_conversation_participants` (
   PRIMARY KEY (`conversationid`,`citizenid`),
   KEY `citizenid` (`citizenid`),
   KEY `idx_conversationid_citizenid` (`conversationid`,`citizenid`),
-  CONSTRAINT `zp_conversation_participants_ibfk_1` FOREIGN KEY (`conversationid`) REFERENCES `zp_conversations` (`conversationid`),
+  CONSTRAINT `zp_conversation_participants_ibfk_1` FOREIGN KEY (`conversationid`) REFERENCES `zp_conversations` (`id`),
   CONSTRAINT `zp_conversation_participants_ibfk_2` FOREIGN KEY (`citizenid`) REFERENCES `zp_users` (`citizenid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -114,12 +139,12 @@ DROP TABLE IF EXISTS `zp_conversations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `zp_conversations` (
-  `conversationid` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
   `is_group` tinyint(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`conversationid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -134,6 +159,59 @@ INSERT INTO `zp_conversations` VALUES (1,'General Chat',0,'2024-08-28 09:03:10',
 UNLOCK TABLES;
 
 --
+-- Table structure for table `zp_tweet_comments`
+--
+
+DROP TABLE IF EXISTS `zp_tweet_comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `zp_tweet_comments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tweetid` int NOT NULL,
+  `citizenid` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `comment` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `tweetid` (`tweetid`),
+  CONSTRAINT `zp_tweet_comments_ibfk_1` FOREIGN KEY (`tweetid`) REFERENCES `zp_tweets` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `zp_tweet_comments`
+--
+
+LOCK TABLES `zp_tweet_comments` WRITE;
+/*!40000 ALTER TABLE `zp_tweet_comments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `zp_tweet_comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `zp_tweets`
+--
+
+DROP TABLE IF EXISTS `zp_tweets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `zp_tweets` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `citizenid` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tweet` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `zp_tweets`
+--
+
+LOCK TABLES `zp_tweets` WRITE;
+/*!40000 ALTER TABLE `zp_tweets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `zp_tweets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `zp_users`
 --
 
@@ -144,8 +222,8 @@ CREATE TABLE `zp_users` (
   `citizenid` varchar(20) NOT NULL,
   `phone_number` varchar(20) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `avatar` varchar(255) NOT NULL DEFAULT 'https://raw.githubusercontent.com/alfaben12/kmrp-assets/main/phone/default_avatar.jpg',
   `last_seen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `avatar` varchar(255) NOT NULL DEFAULT 'https://github.com/alfaben12/kmrp-assets/blob/main/phone/default_avatar.jpg?raw=true',
   PRIMARY KEY (`citizenid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -156,7 +234,7 @@ CREATE TABLE `zp_users` (
 
 LOCK TABLES `zp_users` WRITE;
 /*!40000 ALTER TABLE `zp_users` DISABLE KEYS */;
-INSERT INTO `zp_users` VALUES ('citizen001','123-456-7890','2024-08-28 09:03:10','https://raw.githubusercontent.com/alfaben12/kmrp-assets/main/phone/default_avatar.jpg','2024-08-28 10:27:46'),('citizen002','234-567-8901','2024-08-28 09:03:10','https://raw.githubusercontent.com/alfaben12/kmrp-assets/main/phone/default_avatar.jpg','2024-08-28 10:27:46'),('citizen003','345-678-9012','2024-08-28 09:03:10','https://raw.githubusercontent.com/alfaben12/kmrp-assets/main/phone/default_avatar.jpg','2024-08-28 10:27:46');
+INSERT INTO `zp_users` VALUES ('citizen001','123-456-7890','2024-08-28 09:03:10','2024-08-28 10:27:46','https://github.com/alfaben12/kmrp-assets/blob/main/phone/default_avatar.jpg?raw=true'),('citizen002','234-567-8901','2024-08-28 09:03:10','2024-08-28 10:27:46','https://github.com/alfaben12/kmrp-assets/blob/main/phone/default_avatar.jpg?raw=true'),('citizen003','345-678-9012','2024-08-28 09:03:10','2024-08-28 10:27:46','https://github.com/alfaben12/kmrp-assets/blob/main/phone/default_avatar.jpg?raw=true');
 /*!40000 ALTER TABLE `zp_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,4 +251,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-28 17:33:48
+-- Dump completed on 2024-08-28 18:16:59
