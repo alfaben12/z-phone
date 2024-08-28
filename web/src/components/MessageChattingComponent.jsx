@@ -65,7 +65,7 @@ const MessageChattingComponent = ({ isShow }) => {
               </div>
 
               <img
-                src={chatting.photo}
+                src={chatting.avatar}
                 className="w-8 h-8 object-cover rounded-full"
                 alt=""
                 onError={(error) => {
@@ -74,7 +74,7 @@ const MessageChattingComponent = ({ isShow }) => {
               />
               <div className="flex flex-col">
                 <div className="text-sm text-white line-clamp-1 font-medium">
-                  {chatting.name}
+                  {chatting.conversation_name}
                 </div>
                 <span className="text-xss font-light text-gray-400 -mt-1">
                   last seen {chatting.last_seen}

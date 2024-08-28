@@ -135,9 +135,8 @@ function App() {
     }));
 
     const data = Array.from({ length: 25 }, (v, i) => ({
-      photo: faker.image.avatar(),
-      name: faker.person.fullName(),
-      phone: faker.phone.number(),
+      avatar: faker.image.avatar(),
+      conversation_name: faker.person.fullName(),
       last_message_time: `${String(faker.date.past().getHours()).padStart(
         2,
         "0"

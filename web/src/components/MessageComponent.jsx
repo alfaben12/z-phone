@@ -79,7 +79,7 @@ const MessageComponent = ({ isShow }) => {
                 ${v.isRead ? "text-gray-400" : "text-white"}`}
                 >
                   <img
-                    src={v.photo}
+                    src={v.avatar}
                     className="w-9 h-9 object-cover rounded-full"
                     alt=""
                     onError={(error) => {
@@ -88,7 +88,7 @@ const MessageComponent = ({ isShow }) => {
                   />
                   <div className="flex justify-between border-b border-gray-900 pb-2 mb-2">
                     <div className="leading-1 col-span-4 text-sm">
-                      <div className="line-clamp-1">{v.name}</div>
+                      <div className="line-clamp-1">{v.conversation_name}</div>
                       <div className="text-xs line-clamp-1">
                         {v.last_message}
                       </div>

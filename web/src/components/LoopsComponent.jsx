@@ -52,18 +52,6 @@ const LoopsComponent = ({ isShow }) => {
       return;
     }
 
-    setTweetDetail((prev) => [
-      ...prev,
-      {
-        comment:
-          Math.random() < 0.5 ? faker.lorem.paragraphs() : faker.lorem.word(),
-        name: faker.person.fullName(),
-        photo: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
-        username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
-        created_at: faker.date.past({ years: 2 }).toDateString(),
-      },
-    ]);
-
     console.log("Form Data formDataTweet:", formDataTweet);
     // Here you can add your code to send formData to an API
   };
@@ -75,7 +63,20 @@ const LoopsComponent = ({ isShow }) => {
     }
 
     console.log("Form Data formDataComment:", formDataComment);
-    // Here you can add your code to send formData to an API
+
+    setTweetDetail((prev) => ({
+      ...prev,
+      comments: [
+        {
+          comment: formDataComment.comment,
+          name: faker.person.fullName(),
+          photo: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
+          username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
+          created_at: "0s",
+        },
+        ...prev.comments,
+      ],
+    }));
   };
 
   return (
@@ -260,7 +261,7 @@ const LoopsComponent = ({ isShow }) => {
                                 </div>
                                 <div>
                                   <span className="text-gray-500 text-xs">
-                                    90d
+                                    {v.created_at}
                                   </span>
                                 </div>
                               </div>
