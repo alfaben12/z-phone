@@ -136,6 +136,34 @@ RegisterNUICallback('get-chatting', function(body, cb)
     end, body)
 end)
 
+RegisterNUICallback('send-chatting', function(body, cb)
+    QBCore.Functions.TriggerCallback('z-phone:server:SendChatting', function(isOk)
+        cb(isOk)
+    end, body)
+end)
+
+RegisterNetEvent('z-phone:client:sendNotifMessage', function(message)
+    print(json.encode(message, {indent=true}))
+    if PhoneData.isOpen then
+        SendNUIMessage({
+            event = 'z-phone',
+            notification = {
+                type = "New Message",
+                from = message.from,
+                message = message.message,
+                from_citizenid = message.from_citizenid,
+            },
+        })
+    end
+    
+end)
+
+RegisterNUICallback('send-new-chat', function(body, cb)
+    QBCore.Functions.TriggerCallback('z-phone:server:SendChatting', function(isOk)
+        cb(isOk)
+    end, body)
+end)
+
 RegisterNUICallback('get-profile', function(_, cb)
     QBCore.Functions.TriggerCallback('z-phone:server:GetProfile', function(profile)
         cb(profile)

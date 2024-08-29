@@ -766,16 +766,17 @@ function App() {
 
   // LISTEN NEW MESSAGE
   useEffect(() => {
-    console.log(chatting.phone);
+    console.log(chatting?.conversation_name);
     console.log(notificationMessage.from);
+    console.log(notificationMessage?.type);
     if (
       notificationMessage?.type == MENU_NEW_MESSAGE_NOTIFICATION &&
-      chatting?.phone == notificationMessage.from
+      chatting?.conversation_name == notificationMessage.from
     ) {
       const newMessage = {
-        time: "08:15",
-        message: faker.lorem.sentence(),
-        isMe: false, // or false, depending on who sent the message
+        time: "just now",
+        message: notificationMessage.message,
+        sender_citizenid: notificationMessage.from_citizenid,
       };
 
       setChatting((prevChatting) => ({

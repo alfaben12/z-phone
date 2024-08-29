@@ -42,6 +42,13 @@ const MessageChattingComponent = ({ isShow }) => {
       ...prevChatting,
       chats: [...prevChatting.chats, newMessage],
     }));
+
+    axios.post("/send-chatting", {
+      conversationid: chatting.conversationid,
+      message: message,
+      conversation_name: chatting.conversation_name,
+      to_citizenid: chatting.citizenid,
+    });
   };
 
   return (
@@ -108,7 +115,7 @@ const MessageChattingComponent = ({ isShow }) => {
                           <span
                             className="pb-4 px-2 py-1.5 rounded-lg inline-block rounded-bl-none bg-[#242527] text-white text-left"
                             style={{
-                              minWidth: `50px`,
+                              minWidth: `90px`,
                             }}
                           >
                             {v.message}
@@ -134,7 +141,7 @@ const MessageChattingComponent = ({ isShow }) => {
                           <span
                             className="pb-4 px-2 py-1.5 rounded-lg inline-block rounded-br-none bg-[#134D37] text-white text-left"
                             style={{
-                              minWidth: `50px`,
+                              minWidth: `90px`,
                             }}
                           >
                             {v.message}
