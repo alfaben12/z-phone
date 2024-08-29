@@ -283,23 +283,35 @@ function App() {
     // sendEventData({ ads: data });
   };
 
-  const getGarages = () => {
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      name: faker.person.fullName(),
-      image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
-      model: faker.vehicle.manufacturer(),
-      brand: faker.vehicle.type(),
-      type: faker.vehicle.type(),
-      category: faker.vehicle.type(),
-      plate: faker.string.alphanumeric(8).toUpperCase(),
-      garage: faker.location.city(),
-      status: faker.number.int(3),
-      fuel: faker.number.int(100),
-      engine: faker.number.int(100),
-      body: faker.number.int(100),
-      created_at: faker.date.past({ years: 2 }).toDateString(),
-    }));
-    sendEventData({ garages: data });
+  const getGarages = async () => {
+    // const data = Array.from({ length: 25 }, (v, i) => ({
+    //   name: faker.person.fullName(),
+    //   image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
+    //   model: faker.vehicle.manufacturer(),
+    //   brand: faker.vehicle.type(),
+    //   type: faker.vehicle.type(),
+    //   category: faker.vehicle.type(),
+    //   plate: faker.string.alphanumeric(8).toUpperCase(),
+    //   garage: faker.location.city(),
+    //   status: faker.number.int(3),
+    //   fuel: faker.number.int(100),
+    //   engine: faker.number.int(100),
+    //   body: faker.number.int(100),
+    //   created_at: faker.date.past({ years: 2 }).toDateString(),
+    // }));
+
+    // console.log(JSON.stringify(data));
+    // sendEventData({ garages: data });
+
+    let result = [];
+    try {
+      const response = await axios.post("/get-garages");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-garages", error);
+    }
+
+    setGarages(result);
   };
 
   const getGallery = async () => {
@@ -480,24 +492,35 @@ function App() {
     setBank(result);
   };
 
-  const getHouses = () => {
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      name: faker.address.streetName(),
-      tier: `Tier ${faker.string.numeric(1)}`,
-      image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
-      keyholders: [
-        faker.string.alphanumeric(8).toLocaleUpperCase(),
-        faker.string.alphanumeric(8).toLocaleUpperCase(),
-        faker.string.alphanumeric(8).toLocaleUpperCase(),
-        faker.string.alphanumeric(8).toLocaleUpperCase(),
-        faker.string.alphanumeric(8).toLocaleUpperCase(),
-      ],
-      is_has_garage: Math.random() > 0.5 ? true : false,
-      is_house_locked: Math.random() > 0.5 ? true : false,
-      is_garage_locked: Math.random() > 0.5 ? true : false,
-      is_stash_locked: Math.random() > 0.5 ? true : false,
-    }));
-    sendEventData({ houses: data });
+  const getHouses = async () => {
+    // const data = Array.from({ length: 25 }, (v, i) => ({
+    //   name: faker.address.streetName(),
+    //   tier: `Tier ${faker.string.numeric(1)}`,
+    //   image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
+    //   keyholders: [
+    //     faker.string.alphanumeric(8).toLocaleUpperCase(),
+    //     faker.string.alphanumeric(8).toLocaleUpperCase(),
+    //     faker.string.alphanumeric(8).toLocaleUpperCase(),
+    //     faker.string.alphanumeric(8).toLocaleUpperCase(),
+    //     faker.string.alphanumeric(8).toLocaleUpperCase(),
+    //   ],
+    //   is_has_garage: Math.random() > 0.5 ? true : false,
+    //   is_house_locked: Math.random() > 0.5 ? true : false,
+    //   is_garage_locked: Math.random() > 0.5 ? true : false,
+    //   is_stash_locked: Math.random() > 0.5 ? true : false,
+    // }));
+    // console.log(JSON.stringify(data));
+    // sendEventData({ houses: data });
+
+    let result = [];
+    try {
+      const response = await axios.post("/get-houses");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-houses", error);
+    }
+
+    setHouses(result);
   };
 
   const getServices = async () => {
