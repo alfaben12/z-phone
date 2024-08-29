@@ -437,29 +437,47 @@ function App() {
     setNewsStreams(result.streams ? result.streams : []);
   };
 
-  const getBank = () => {
-    const histories = Array.from({ length: 25 }, (v, i) => ({
-      type: Math.random() < 0.5 ? "Debit" : "Credit",
-      label: faker.lorem.sentence(),
-      total: faker.string.numeric(5),
-      created_at: faker.date.past({ years: 2 }).toDateString(),
-    }));
+  const getBank = async () => {
+    // const histories = Array.from({ length: 25 }, (v, i) => ({
+    //   type: Math.random() < 0.5 ? "Debit" : "Credit",
+    //   label: faker.lorem.sentence(),
+    //   total: faker.string.numeric(5),
+    //   created_at: faker.date.past({ years: 2 }).toDateString(),
+    // }));
 
-    const bills = Array.from({ length: 25 }, (v, i) => ({
-      type: Math.random() < 0.5 ? "Ambulance" : "Police",
-      label: faker.lorem.sentence(),
-      total: faker.string.numeric(5),
-      created_at: faker.date.past({ years: 2 }).toDateString(),
-    }));
+    // const bills = Array.from({ length: 25 }, (v, i) => ({
+    //   type: Math.random() < 0.5 ? "Ambulance" : "Police",
+    //   label: faker.lorem.sentence(),
+    //   total: faker.string.numeric(5),
+    //   created_at: faker.date.past({ years: 2 }).toDateString(),
+    // }));
 
-    const balance = faker.string.numeric(6);
-    sendEventData({
-      bank: {
-        histories,
-        bills,
-        balance,
-      },
-    });
+    // const balance = faker.string.numeric(6);
+
+    // console.log(
+    //   JSON.stringify({
+    //     histories,
+    //     bills,
+    //     balance,
+    //   })
+    // );
+
+    // sendEventData({
+    //   bank: {
+    //     histories,
+    //     bills,
+    //     balance,
+    //   },
+    // });
+    let result = [];
+    try {
+      const response = await axios.post("/get-bank");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-bank", error);
+    }
+
+    setBank(result);
   };
 
   const getHouses = () => {
