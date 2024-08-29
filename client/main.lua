@@ -44,7 +44,7 @@ local function DisableDisplayControlActions()
     DisableControlAction(0, 245, true) -- disable chat
 end
 
-local function OpenPhone()
+function OpenPhone()
     QBCore.Functions.TriggerCallback('z-phone:server:HasPhone', function(HasPhone)
         if HasPhone then
             print("open")
@@ -143,7 +143,6 @@ RegisterNUICallback('send-chatting', function(body, cb)
 end)
 
 RegisterNetEvent('z-phone:client:sendNotifMessage', function(message)
-    print(json.encode(message, {indent=true}))
     if PhoneData.isOpen then
         SendNUIMessage({
             event = 'z-phone',
@@ -151,6 +150,7 @@ RegisterNetEvent('z-phone:client:sendNotifMessage', function(message)
                 type = "New Message",
                 from = message.from,
                 message = message.message,
+                media = message.media,
                 from_citizenid = message.from_citizenid,
             },
         })

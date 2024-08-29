@@ -13,6 +13,7 @@ const MessageChattingComponent = ({ isShow }) => {
   const { setMenu, chatting, setChatting, profile } = useContext(MenuContext);
   const messagesEndRef = useRef(null);
   const [message, setMessage] = useState("");
+  const [media, setMedia] = useState("");
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
@@ -36,7 +37,7 @@ const MessageChattingComponent = ({ isShow }) => {
     const newMessage = {
       time: "just now",
       message: message,
-      sender_citizenid: profile.citizenid, // or false, depending on who sent the message
+      sender_citizenid: profile.citizenid,
     };
     setChatting((prevChatting) => ({
       ...prevChatting,
@@ -46,9 +47,59 @@ const MessageChattingComponent = ({ isShow }) => {
     axios.post("/send-chatting", {
       conversationid: chatting.conversationid,
       message: message,
+      media: "",
       conversation_name: chatting.conversation_name,
       to_citizenid: chatting.citizenid,
     });
+  };
+
+  function hide() {
+    const container = document.getElementById("z-phone-root-frame");
+    container.setAttribute("class", "z-phone-fadeout");
+    setTimeout(function () {
+      container.setAttribute("class", "z-phone-invisible");
+    }, 300);
+  }
+
+  function show() {
+    const container = document.getElementById("z-phone-root-frame");
+    container.setAttribute("class", "z-phone-fadein");
+    setTimeout(function () {
+      container.setAttribute("class", "z-phone-visible");
+    }, 300);
+  }
+
+  const sendMessageMedia = async () => {
+    hide();
+    await axios.post("/close");
+    await axios
+      .post("/TakePhoto")
+      .then(function (response) {
+        const newMessage = {
+          time: "just now",
+          message: "",
+          media: response.data,
+          sender_citizenid: profile.citizenid,
+        };
+        setChatting((prevChatting) => ({
+          ...prevChatting,
+          chats: [...prevChatting.chats, newMessage],
+        }));
+
+        axios.post("/send-chatting", {
+          conversationid: chatting.conversationid,
+          message: "",
+          media: response.data,
+          conversation_name: chatting.conversation_name,
+          to_citizenid: chatting.citizenid,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+        show();
+      });
   };
 
   return (
@@ -118,7 +169,15 @@ const MessageChattingComponent = ({ isShow }) => {
                               minWidth: `90px`,
                             }}
                           >
-                            {v.message}
+                            {v.message == "" ? (
+                              <img
+                                className="rounded pb-1"
+                                src={v.media}
+                                alt=""
+                              />
+                            ) : (
+                              v.message
+                            )}
                           </span>
                           <span
                             className="absolute bottom-0 right-1 text-gray-100"
@@ -144,7 +203,15 @@ const MessageChattingComponent = ({ isShow }) => {
                               minWidth: `90px`,
                             }}
                           >
-                            {v.message}
+                            {v.message == "" ? (
+                              <img
+                                className="rounded pb-1"
+                                src={v.media}
+                                alt=""
+                              />
+                            ) : (
+                              v.message
+                            )}
                           </span>
                           <span
                             className="absolute bottom-0.5 right-1 text-gray-100"
@@ -163,7 +230,10 @@ const MessageChattingComponent = ({ isShow }) => {
             </div>
           </div>
           <div className="absolute bottom-0 bg-black flex items-center w-full pb-5 pt-2">
-            <div className="flex flex-wrap items-center text-white ml-2 mr-2 cursor-pointer">
+            <div
+              className="flex flex-wrap items-center text-white ml-2 mr-2 cursor-pointer"
+              onClick={sendMessageMedia}
+            >
               <MdOutlineCameraAlt className="text-xl" />
             </div>
             <div className="w-full">

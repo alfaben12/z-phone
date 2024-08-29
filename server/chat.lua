@@ -16,7 +16,7 @@ QBCore.Functions.CreateCallback('z-phone:server:GetChats', function(source, cb)
             )
             SELECT
                 from_user.avatar,
-                from_user.citizenid,
+								from_user.citizenid,
                 CASE
                     WHEN c.is_group = 0 THEN
                         COALESCE(
@@ -27,10 +27,14 @@ QBCore.Functions.CreateCallback('z-phone:server:GetChats', function(source, cb)
                 END AS conversation_name,
                 DATE_FORMAT(from_user.last_seen, '%y/%m/%d %H:%i') as last_seen,
                 0 as isRead,
-                last_msg.content AS last_message,
+								CASE
+                    WHEN last_msg.content = '' THEN
+                        'media'
+                    ELSE last_msg.content
+                END AS last_message,
                 DATE_FORMAT(last_msg.created_at, '%H:%i') AS last_message_time,
                 c.id as conversationid,
-                c.is_group
+								c.is_group
             FROM
                 zp_conversations c
             JOIN
@@ -75,6 +79,7 @@ QBCore.Functions.CreateCallback('z-phone:server:GetChatting', function(source, c
         local query = [[
             select 
                 zpcm.content as message,
+                zpcm.media,
                 DATE_FORMAT(zpcm.created_at, '%y/%m/%d %H:%i') as time,
                 zpcm.sender_citizenid
             from zp_conversation_messages zpcm WHERE conversationid = ?
@@ -97,12 +102,13 @@ QBCore.Functions.CreateCallback('z-phone:server:SendChatting', function(source, 
 
     if Player ~= nil then
         local citizenid = Player.PlayerData.citizenid
-        local query = "INSERT INTO zp_conversation_messages (conversationid, sender_citizenid, content) VALUES (?, ?, ?)"
+        local query = "INSERT INTO zp_conversation_messages (conversationid, sender_citizenid, content, media) VALUES (?, ?, ?, ?)"
 
         local id = MySQL.insert.await(query, {
             body.conversationid,
             citizenid,
             body.message,
+            body.media,
         })
 
         if id then
@@ -117,7 +123,9 @@ QBCore.Functions.CreateCallback('z-phone:server:SendChatting', function(source, 
                 body.from = contactName
                 body.from_citizenid = citizenid
                 local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(body.to_citizenid)
-                TriggerClientEvent("z-phone:client:sendNotifMessage", TargetPlayer.PlayerData.source, body)
+                if TargetPlayer ~= nil then
+                    TriggerClientEvent("z-phone:client:sendNotifMessage", TargetPlayer.PlayerData.source, body)
+                end
             end
 
             cb(true)

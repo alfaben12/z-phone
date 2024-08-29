@@ -776,6 +776,7 @@ function App() {
       const newMessage = {
         time: "just now",
         message: notificationMessage.message,
+        media: notificationMessage.media,
         sender_citizenid: notificationMessage.from_citizenid,
       };
 
