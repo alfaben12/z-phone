@@ -68,7 +68,6 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    console.log("PROFILE");
     const fetchData = async () => {
       try {
         const response = await axios.post("/get-profile");
@@ -161,10 +160,12 @@ function App() {
     //   last_message: faker.lorem.paragraphs(),
     //   last_seen: "18:00",
     //   isRead: Math.random() < 0.5,
-    //   chats: chats,
     // }));
 
+    // console.log(JSON.stringify(data));
+
     // data[1].phone = "085123123";
+    // sendEventData({ chats: userChats });
     let userChats = [];
     try {
       const response = await axios.post("/get-chats");
@@ -173,7 +174,8 @@ function App() {
       console.error("error /get-chats", error);
     }
 
-    sendEventData({ chats: userChats });
+    setChats(userChats ? userChats : []);
+    setChatsBk(userChats ? userChats : []);
   };
 
   const getChatting = async () => {
@@ -182,7 +184,7 @@ function App() {
     //     faker.date.past().getMinutes()
     //   ).padStart(2, "0")}`,
     //   message: faker.lorem.sentence(),
-    //   isMe: Math.random() < 0.5 ? true : false,
+    //   sender_citizenid: Math.random() < 0.5 ? "XXX123" : "333123",
     // }));
 
     // sendEventData({
