@@ -85,7 +85,7 @@ const ContactComponent = ({ isShow }) => {
                   onClick={() => setSelected(selected == i ? null : i)}
                 >
                   <img
-                    src={v.photo}
+                    src={v.avatar}
                     className="w-9 h-9 object-cover rounded-full"
                     alt=""
                     onError={(error) => {

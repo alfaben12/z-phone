@@ -64,6 +64,7 @@ function App() {
     setMenus,
     setLovys,
     setProfile,
+    setContactRequests,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -119,6 +120,7 @@ function App() {
         break;
       case MENU_PHONE:
         getCallHistories();
+        getContactRequest();
         break;
       case MENU_NEWS:
         getNews();
@@ -131,14 +133,27 @@ function App() {
     }
   }, [menu]);
 
-  const getContacts = () => {
-    const data = Array.from({ length: 50 }, (v, i) => ({
-      name: faker.person.fullName(),
-      phone: faker.phone.number(),
-      add_at: faker.date.past().toDateString(),
-      photo: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
-    }));
-    sendEventData({ contacts: data });
+  const getContacts = async () => {
+    // const data = Array.from({ length: 50 }, (v, i) => ({
+    //   name: faker.person.fullName(),
+    //   phone: faker.phone.number(),
+    //   add_at: faker.date.past().toDateString(),
+    //   photo: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
+    // }));
+
+    // console.log(JSON.stringify(data));
+    // sendEventData({ contacts: data });
+
+    let result = [];
+    try {
+      const response = await axios.post("/get-contacts");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-contacts", error);
+    }
+
+    setContacts(result ? result : []);
+    setContactsBk(result ? result : []);
   };
 
   const getChats = async () => {
@@ -166,16 +181,16 @@ function App() {
 
     // data[1].phone = "085123123";
     // sendEventData({ chats: userChats });
-    let userChats = [];
+    let result = [];
     try {
       const response = await axios.post("/get-chats");
-      userChats = response.data;
+      result = response.data;
     } catch (error) {
       console.error("error /get-chats", error);
     }
 
-    setChats(userChats ? userChats : []);
-    setChatsBk(userChats ? userChats : []);
+    setChats(result ? result : []);
+    setChatsBk(result ? result : []);
   };
 
   const getChatting = async () => {
@@ -214,35 +229,58 @@ function App() {
     }
   };
 
-  const getEmails = () => {
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      photo: faker.image.avatar(),
-      name: faker.person.fullName(),
-      time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
-        faker.date.past().getMinutes()
-      ).padStart(2, "0")}`,
-      title: faker.lorem.sentence(),
-      body: faker.lorem.paragraphs(),
-      isRead: Math.random() < 0.5,
-    }));
-    sendEventData({ emails: data });
+  const getEmails = async () => {
+    // const data = Array.from({ length: 25 }, (v, i) => ({
+    //   avatar: faker.image.avatar(),
+    //   name: faker.person.fullName(),
+    //   time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
+    //     faker.date.past().getMinutes()
+    //   ).padStart(2, "0")}`,
+    //   subject: faker.lorem.sentence(),
+    //   content: faker.lorem.paragraphs(),
+    //   isRead: Math.random() < 0.5,
+    // }));
+
+    // console.log(JSON.stringify(data));
+    // sendEventData({ emails: data });
+
+    let result = [];
+    try {
+      const response = await axios.post("/get-emails");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-emails", error);
+    }
+
+    setEmails(result ? result : []);
+    setEmailsBk(result ? result : []);
   };
 
-  const getAds = () => {
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      photo: faker.image.avatar(),
-      name: faker.person.fullName(),
-      phone: faker.person.fullName(),
-      time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
-        faker.date.past().getMinutes()
-      ).padStart(2, "0")}`,
-      image:
-        Math.random() < 0.4
-          ? faker.image.urlLoremFlickr({ height: 250, width: 444 })
-          : "",
-      body: faker.lorem.paragraphs(),
-    }));
-    sendEventData({ ads: data });
+  const getAds = async () => {
+    // const data = Array.from({ length: 25 }, (v, i) => ({
+    //   avatar: faker.image.avatar(),
+    //   name: faker.person.fullName(),
+    //   phone: faker.person.fullName(),
+    //   time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
+    //     faker.date.past().getMinutes()
+    //   ).padStart(2, "0")}`,
+    //   media:
+    //     Math.random() < 0.4
+    //       ? faker.image.urlLoremFlickr({ height: 250, width: 444 })
+    //       : "",
+    //   content: faker.lorem.paragraphs(),
+    // }));
+
+    let result = [];
+    try {
+      const response = await axios.post("/get-ads");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-ads", error);
+    }
+
+    setAds(result);
+    // sendEventData({ ads: data });
   };
 
   const getGarages = () => {
@@ -264,75 +302,139 @@ function App() {
     sendEventData({ garages: data });
   };
 
-  const getGallery = () => {
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      photo: faker.image.avatar(),
-      created_at: faker.date.past({ years: 2 }).toDateString(),
-    }));
-    sendEventData({ photos: data });
+  const getGallery = async () => {
+    // const data = Array.from({ length: 25 }, (v, i) => ({
+    //   photo: faker.image.avatar(),
+    //   created_at: faker.date.past({ years: 2 }).toDateString(),
+    // }));
+
+    // sendEventData({ photos: data });
+    let result = [];
+    try {
+      const response = await axios.post("/get-photos");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-photos", error);
+    }
+
+    setPhotos(result);
   };
 
-  const getTweets = () => {
-    const comments = Array.from({ length: 25 }, (v, i) => ({
-      comment:
-        Math.random() < 0.5 ? faker.lorem.paragraphs() : faker.lorem.word(),
-      name: faker.person.fullName(),
-      photo: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
-      username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
-      created_at: faker.date.past({ years: 2 }).toDateString(),
-    }));
+  const getTweets = async () => {
+    // const comments = Array.from({ length: 25 }, (v, i) => ({
+    //   comment:
+    //     Math.random() < 0.5 ? faker.lorem.paragraphs() : faker.lorem.word(),
+    //   name: faker.person.fullName(),
+    //   photo: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
+    //   username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
+    //   created_at: faker.date.past({ years: 2 }).toDateString(),
+    // }));
 
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      tweet:
-        Math.random() < 0.5 ? faker.lorem.paragraphs() : faker.lorem.word(),
-      photo:
-        Math.random() < 0.5
-          ? faker.image.urlLoremFlickr({ height: 250, width: 250 })
-          : "",
-      image:
-        Math.random() < 0.5
-          ? faker.image.urlLoremFlickr({ height: 250, width: 444 })
-          : "",
-      name: faker.person.fullName(),
-      username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
-      created_at: faker.date.past({ years: 2 }).toDateString(),
-      repost: 10,
-      comments: comments,
-    }));
+    // const data = Array.from({ length: 25 }, (v, i) => ({
+    //   tweet:
+    //     Math.random() < 0.5 ? faker.lorem.paragraphs() : faker.lorem.word(),
+    //   avatar:
+    //     Math.random() < 0.5
+    //       ? faker.image.urlLoremFlickr({ height: 250, width: 250 })
+    //       : "",
+    //   media:
+    //     Math.random() < 0.5
+    //       ? faker.image.urlLoremFlickr({ height: 250, width: 444 })
+    //       : "",
+    //   name: faker.person.fullName(),
+    //   username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
+    //   created_at: faker.date.past({ years: 2 }).toDateString(),
+    //   repost: 10,
+    //   comment: 10,
+    // }));
 
-    sendEventData({ tweets: data });
+    // console.log(JSON.stringify(data));
+    // console.log(JSON.stringify(comments));
+    // sendEventData({ tweets: data });
+
+    let result = [];
+    try {
+      const response = await axios.post("/get-tweets");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-tweets", error);
+    }
+
+    setTweets(result);
   };
 
-  const getCallHistories = () => {
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      from: faker.phone.number(),
-      photo: faker.image.avatar(),
-      created_at: faker.date.past({ years: 2 }).toDateString(),
-    }));
-    sendEventData({ callHistories: data });
+  const getCallHistories = async () => {
+    // const data = Array.from({ length: 25 }, (v, i) => ({
+    //   from: faker.phone.number(),
+    //   avatar: faker.image.avatar(),
+    //   created_at: faker.date.past({ years: 2 }).toDateString(),
+    // }));
+
+    // sendEventData({ callHistories: data });
+
+    let result = [];
+    try {
+      const response = await axios.post("/get-call-histories");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-call-histories", error);
+    }
+
+    setCallHistories(result);
   };
 
-  const getNews = () => {
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      reporter: faker.person.fullName(),
-      company: faker.company.name(),
-      image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
-      title: faker.lorem.paragraph(),
-      body: faker.lorem.paragraphs(),
-      created_at: faker.date.past({ years: 2 }).toDateString(),
-    }));
+  const getContactRequest = async () => {
+    // const data = Array.from({ length: 50 }, (v, i) => ({
+    //   name: faker.person.fullName(),
+    //   phone: faker.phone.number(),
+    //   request_at: faker.date.past().toDateString(),
+    //   avatar: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
+    // }));
+    // sendEventData({ contactRequest: data });
 
-    const streams = Array.from({ length: 25 }, (v, i) => ({
-      reporter: faker.person.fullName(),
-      company: faker.company.name(),
-      image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
-      // url: "https://www.youtube.com/watch?v=tMy6_XFpjeQ",
-      url: "https://www.youtube.com/watch?v=XNfvHbUs66c",
-      title: faker.lorem.paragraph(),
-      created_at: faker.date.past({ years: 2 }).toDateString(),
-    }));
+    let result = [];
+    try {
+      const response = await axios.post("/get-contact-requests");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-contact-requests", error);
+    }
 
-    sendEventData({ news: data, newsStreams: streams });
+    setContactRequests(result);
+  };
+
+  const getNews = async () => {
+    // const data = Array.from({ length: 25 }, (v, i) => ({
+    //   reporter: faker.person.fullName(),
+    //   company: faker.company.name(),
+    //   image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
+    //   title: faker.lorem.paragraph(),
+    //   body: faker.lorem.paragraphs(),
+    //   created_at: faker.date.past({ years: 2 }).toDateString(),
+    // }));
+
+    // const streams = Array.from({ length: 25 }, (v, i) => ({
+    //   reporter: faker.person.fullName(),
+    //   company: faker.company.name(),
+    //   image: faker.image.urlLoremFlickr({ height: 250, width: 444 }),
+    //   // url: "https://www.youtube.com/watch?v=tMy6_XFpjeQ",
+    //   url: "https://www.youtube.com/watch?v=XNfvHbUs66c",
+    //   title: faker.lorem.paragraph(),
+    //   created_at: faker.date.past({ years: 2 }).toDateString(),
+    // }));
+
+    // sendEventData({ news: data, newsStreams: streams });
+
+    let result = [];
+    try {
+      const response = await axios.post("/get-news");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-news", error);
+    }
+
+    setNews(result.news ? result.news : []);
+    setNewsStreams(result.streams ? result.streams : []);
   };
 
   const getBank = () => {
@@ -380,13 +482,24 @@ function App() {
     sendEventData({ houses: data });
   };
 
-  const getServices = () => {
-    const data = Array.from({ length: 25 }, (v, i) => ({
-      logo: faker.image.avatar(),
-      service: faker.company.name(),
-      onduty: faker.string.numeric(2),
-    }));
-    sendEventData({ services: data });
+  const getServices = async () => {
+    // const data = Array.from({ length: 25 }, (v, i) => ({
+    //   logo: faker.image.avatar(),
+    //   service: faker.company.name(),
+    //   onduty: faker.string.numeric(2),
+    // }));
+    // console.log(JSON.stringify(data));
+    // sendEventData({ services: data });
+
+    let result = [];
+    try {
+      const response = await axios.post("/get-services");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-services", error);
+    }
+
+    setServices(result);
   };
 
   const getLovys = () => {
@@ -552,6 +665,7 @@ function App() {
       setHouses(data.houses ? data.houses : []);
       setServices(data.services ? data.services : []);
       setCallHistories(data.callHistories ? data.callHistories : []);
+      setContactRequests(data.contactRequests ? data.contactRequests : []);
       setNews(data.news ? data.news : []);
       setNewsStreams(data.newsStreams ? data.newsStreams : []);
       setLovys(data.lovys ? data.lovys : []);

@@ -54,7 +54,7 @@ const EmailComponent = ({ isShow }) => {
                 onKeyUp={(e) => {
                   const data = searchByKeyValueContains(
                     emailsBk,
-                    "title",
+                    "subject",
                     e.target.value
                   );
                   setEmails(data);
@@ -83,7 +83,7 @@ const EmailComponent = ({ isShow }) => {
                   }`}
                 >
                   <img
-                    src={v.photo}
+                    src={v.avatar}
                     className="w-9 h-9 object-cover rounded-full"
                     alt=""
                     onError={(error) => {
@@ -92,8 +92,8 @@ const EmailComponent = ({ isShow }) => {
                   />
                   <div className="leading-1 col-span-4 text-sm">
                     <div className="line-clamp-1">{v.name}</div>
-                    <div className="line-clamp-1 text-xs">{v.title}</div>
-                    <div className="text-xs line-clamp-1">{v.body}</div>
+                    <div className="line-clamp-1 text-xs">{v.subject}</div>
+                    <div className="text-xs line-clamp-1">{v.content}</div>
                   </div>
                   <div className="flex flex-col items-end justify-between">
                     <div className="text-xs">{v.time}</div>

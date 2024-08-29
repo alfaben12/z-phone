@@ -39,11 +39,11 @@ const EmailDetailComponent = ({ isShow }) => {
         >
           <div className="flex flex-col px-4 py-2">
             <div className="flex items-center text-base pb-5">
-              <div>{email.title}</div>
+              <div>{email.subject}</div>
             </div>
             <div className="w-full cursor-pointer grid grid-cols-6 space-x-2">
               <img
-                src={email.photo}
+                src={email.avatar}
                 className="w-9 h-9 object-cover rounded-full"
                 alt=""
                 onError={(error) => {
@@ -79,7 +79,7 @@ const EmailDetailComponent = ({ isShow }) => {
             <div className="flex flex-col justify-between flex-1 mt-2 overflow-auto text-xs">
               <div>
                 <p>Hello, {profile.name}.</p>
-                <p className="mt-3">{email.body}</p>
+                <p className="mt-3">{email.content}</p>
                 <p className="mt-4">Best,</p>
                 <p>{email.name}</p>
               </div>

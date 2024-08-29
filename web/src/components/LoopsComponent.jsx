@@ -9,6 +9,7 @@ import LoadingComponent from "./LoadingComponent";
 import Markdown from "react-markdown";
 import { LuRepeat2 } from "react-icons/lu";
 import { faker } from "@faker-js/faker";
+import axios from "axios";
 
 const subMenuList = {
   create: "create",
@@ -70,7 +71,7 @@ const LoopsComponent = ({ isShow }) => {
         {
           comment: formDataComment.comment,
           name: faker.person.fullName(),
-          photo: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
+          avatar: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
           username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
           created_at: "0s",
         },
@@ -79,6 +80,25 @@ const LoopsComponent = ({ isShow }) => {
     }));
   };
 
+  const getComments = async (tweet) => {
+    tweet.comments = [];
+    setTweetDetail(tweet);
+
+    let result = [];
+    try {
+      const response = await axios.post("/get-tweet-comments", {
+        tweetid: tweet.id,
+      });
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-tweet-comments", error);
+    }
+
+    setTweetDetail((prev) => ({
+      ...prev,
+      comments: result,
+    }));
+  };
   return (
     <div
       className="relative flex flex-col w-full h-full"
@@ -146,7 +166,7 @@ const LoopsComponent = ({ isShow }) => {
                     <div className="flex items-center">
                       <img
                         className="h-10 w-10 rounded-full object-cover"
-                        src={tweetDetail.photo}
+                        src={tweetDetail.avatar}
                         alt=""
                         onError={(error) => {
                           error.target.src = "./images/noimage.jpg";
@@ -168,10 +188,10 @@ const LoopsComponent = ({ isShow }) => {
                   <div className="text-white block text-xs mt-2">
                     <Markdown>{tweetDetail.tweet}</Markdown>
                   </div>
-                  {tweetDetail.image != "" ? (
+                  {tweetDetail.media != "" ? (
                     <img
                       className="mt-2 rounded-lg border border-gray-800"
-                      src={tweetDetail.image}
+                      src={tweetDetail.media}
                       alt=""
                       onError={(error) => {
                         error.target.src = "./images/noimage.jpg";
@@ -186,7 +206,7 @@ const LoopsComponent = ({ isShow }) => {
                           <FaRegComment />
                         </span>
                         <span className="text-sm text-gray-200">
-                          {tweetDetail.comments.length}
+                          {tweetDetail.comment}
                         </span>
                       </div>
                       <div
@@ -234,16 +254,11 @@ const LoopsComponent = ({ isShow }) => {
                   <div className="flex flex-col space-y-2 mt-3 pb-5">
                     {tweetDetail.comments.map((v, i) => {
                       return (
-                        <div
-                          key={i}
-                          onClick={() => {
-                            setTweetDetail(v);
-                          }}
-                        >
+                        <div key={i}>
                           <div className="flex space-x-2">
                             <img
                               className="h-8 w-8 rounded-full object-cover mt-1"
-                              src={v.photo}
+                              src={v.avatar}
                               alt=""
                               onError={(error) => {
                                 error.target.src = "./images/noimage.jpg";
@@ -301,14 +316,14 @@ const LoopsComponent = ({ isShow }) => {
                   <div
                     key={i}
                     onClick={() => {
-                      setTweetDetail(v);
+                      getComments(v);
                     }}
                     className="cursor-pointer border-b border-gray-900"
                   >
                     <div className="flex space-x-2">
                       <img
                         className="h-9 w-9 rounded-full object-cover mt-1"
-                        src={v.photo}
+                        src={v.avatar}
                         alt=""
                         onError={(error) => {
                           error.target.src = "./images/noimage.jpg";
@@ -329,10 +344,10 @@ const LoopsComponent = ({ isShow }) => {
                           </div>
                         </div>
                         <p className="text-white block text-xs">{v.tweet}</p>
-                        {v.image != "" ? (
+                        {v.media != "" ? (
                           <img
                             className="mt-1 rounded-lg"
-                            src={v.image}
+                            src={v.media}
                             alt=""
                             onError={(error) => {
                               error.target.src = "./images/noimage.jpg";
@@ -345,7 +360,7 @@ const LoopsComponent = ({ isShow }) => {
                               <FaRegComment />
                             </span>
                             <span className="text-sm text-gray-200">
-                              {v.comments.length}
+                              {v.comment}
                             </span>
                           </div>
                           <div className="flex space-x-1 items-center">
@@ -390,7 +405,7 @@ const LoopsComponent = ({ isShow }) => {
           >
             <img
               className="w-9 h-9 rounded-full object-cover"
-              src={profile.photo}
+              src={profile.avatar}
               alt=""
               onError={(error) => {
                 error.target.src = "./images/noimage.jpg";

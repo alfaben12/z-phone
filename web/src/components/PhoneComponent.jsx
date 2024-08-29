@@ -11,15 +11,16 @@ import {
   MdCancel,
 } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
+import { FaCheck } from "react-icons/fa6";
 
 const subMenuList = {
   call: "call",
-  history: "history",
+  request: "request",
   keypad: "keypad",
 };
 
 const PhoneComponent = ({ isShow }) => {
-  const { callHistories, setMenu } = useContext(MenuContext);
+  const { callHistories, contactRequests, setMenu } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList["keypad"]);
   const [newPhone, setNewPhone] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
@@ -188,7 +189,7 @@ const PhoneComponent = ({ isShow }) => {
                   >
                     <div className="flex space-x-3 items-center w-full pl-1">
                       <img
-                        src={v.photo}
+                        src={v.avatar}
                         className="w-9 h-9 object-cover rounded-full"
                         alt=""
                         onError={(error) => {
@@ -213,14 +214,70 @@ const PhoneComponent = ({ isShow }) => {
             </>
           )}
         </div>
-        {/* HISTORY */}
+        {/* REQUEST CONTACT */}
         <div
-          className="flex justify-center items-center"
+          className="pb-16"
           style={{
-            ...(subMenu !== subMenuList["history"] ? { display: "none" } : {}),
+            ...(subMenu !== subMenuList["request"] ? { display: "none" } : {}),
           }}
         >
-          <span className="text-white text-sm">Sorry not ready for now.</span>
+          {/* <div className="bg-black flex items-center w-full pb-3 pt-1">
+            <div className="w-2"></div>
+            <div className="relative w-full">
+              <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                <MdOutlineSearch className="text-lg" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search..."
+                autoComplete="off"
+                className="text-sm w-full text-white flex-1 border border-gray-700 focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
+              />
+            </div>
+            <div className="w-2"></div>
+          </div> */}
+          {contactRequests == undefined ? (
+            <LoadingComponent />
+          ) : (
+            <>
+              {contactRequests.map((v, i) => {
+                return (
+                  <div
+                    className="flex w-full justify-between border-b border-gray-900 pb-2 mb-2 items-center"
+                    key={i}
+                    // onClick={() => setMenu(MENU_MESSAGE_CHATTING)}
+                  >
+                    <div className="flex space-x-3 items-center w-full pl-1">
+                      <img
+                        src={v.avatar}
+                        className="w-9 h-9 object-cover rounded-full"
+                        alt=""
+                        onError={(error) => {
+                          error.target.src = "./images/noimage.jpg";
+                        }}
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium line-clamp-1">
+                          {v.name}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          {v.request_at}
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <button className="flex space-x-1 bg-gray-700 items-center px-2 cursor-pointer hover:bg-green-700 rounded-lg">
+                        <FaCheck className="text-sm" />
+                        <span className="text-sm font-semibold py-0.5">
+                          Save
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </div>
         {/* KEYPAD */}
         <div
@@ -289,14 +346,14 @@ const PhoneComponent = ({ isShow }) => {
           <button
             type="button"
             className={`inline-flex flex-col items-center justify-center px-5 group ${
-              subMenu === subMenuList["history"]
+              subMenu === subMenuList["request"]
                 ? "text-white"
                 : "text-gray-600"
             }`}
-            onClick={() => setSubMenu(subMenuList["history"])}
+            onClick={() => setSubMenu(subMenuList["request"])}
           >
             <MdFormatListBulleted className="text-xl" />
-            <span className="text-xs">History</span>
+            <span className="text-xs">Requests</span>
           </button>
           <button
             type="button"

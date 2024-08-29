@@ -24,7 +24,7 @@ const AdsComponent = ({ isShow }) => {
 
   const handleAdsFormSubmit = (e) => {
     e.preventDefault();
-    if (!formDataAds.body) {
+    if (!formDataAds.content) {
       return;
     }
 
@@ -87,7 +87,7 @@ const AdsComponent = ({ isShow }) => {
                   <div className="flex justify-between w-full">
                     <div className="w-full grid grid-cols-6">
                       <img
-                        src={v.photo}
+                        src={v.avatar}
                         className="w-9 h-9 object-cover rounded-full"
                         alt=""
                         onError={(error) => {
@@ -115,12 +115,12 @@ const AdsComponent = ({ isShow }) => {
                     </div>
                   </div>
                   <div className="text-white block text-xs leading-snug mt-2">
-                    <Markdown>{v.body}</Markdown>
+                    <Markdown>{v.content}</Markdown>
                   </div>
-                  {v.image != "" ? (
+                  {v.media != "" ? (
                     <img
                       className="mt-2 rounded-xl border border-gray-800"
-                      src={v.image}
+                      src={v.media}
                       alt=""
                       onError={(error) => {
                         error.target.src = "./images/noimage.jpg";
@@ -145,8 +145,8 @@ const AdsComponent = ({ isShow }) => {
             >
               <div className="flex-col space-y-1 w-full">
                 <textarea
-                  defaultValue={formDataAds.body}
-                  name="body"
+                  defaultValue={formDataAds.content}
+                  name="content"
                   onChange={handleAdsFormChange}
                   placeholder="WTB bahan pertanian..."
                   rows={4}
