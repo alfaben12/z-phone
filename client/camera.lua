@@ -1,9 +1,14 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local frontCam = false
 
 local function SaveToInternalGallery()
     BeginTakeHighQualityPhoto()
     SaveHighQualityPhoto(0)
     FreeMemoryForHighQualityPhoto()
+end
+
+local function CellFrontCamActivate(activate)
+    return Citizen.InvokeNative(0x2491A93618B7D838, activate)
 end
 
 RegisterNUICallback('TakePhoto', function(_, cb)

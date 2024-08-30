@@ -3,32 +3,55 @@ import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { FaMoon, FaMask, FaRegImage, FaUser } from "react-icons/fa6";
+import axios from "axios";
 
 const SettingComponent = ({ isShow }) => {
-  const { profile, setMenu } = useContext(MenuContext);
+  const { profile, setMenu, setProfile } = useContext(MenuContext);
   const [isOnDisturb, setIsOnDisturb] = useState(false);
-  const [isAnnonim, setIsAnnonim] = useState(false);
+  const [isAnonim, setIsAnonim] = useState(false);
   const [avatar, setAvatar] = useState("");
   const [wallpaper, setWallpaper] = useState("");
 
-  const handleToggleIsOnDisturb = () => setIsOnDisturb(!isOnDisturb);
-  const handleToggleIsAnnonim = () => setIsAnnonim(!isAnnonim);
+  const handleToggleIsOnDisturb = () => {
+    axios.post("/update-profile", {
+      type: "is_donot_disturb",
+      value: !isOnDisturb ? 1 : 0,
+    });
+    setIsOnDisturb(!isOnDisturb);
+  };
+  const handleToggleIsAnonim = () => {
+    axios.post("/update-profile", {
+      type: "is_anonim",
+      value: !isAnonim ? 1 : 0,
+    });
+    setIsAnonim(!isAnonim);
+  };
 
   useEffect(() => {
     if (isShow) {
       setAvatar(profile.avatar);
       setWallpaper(profile.wallpaper);
-      setIsAnnonim(profile.is_anonim);
+      setIsAnonim(profile.is_anonim);
       setIsOnDisturb(profile.is_donot_disturb);
     }
   }, [isShow]);
 
-  const savePhotoOrWallpaper = (type) => {
+  const savePhotoOrWallpaper = async (type) => {
+    let result;
     if (type == "avatar") {
-      console.log(avatar);
+      result = await axios.post("/update-profile", {
+        type: type,
+        value: avatar,
+      });
     } else if (type == "wallpaper") {
-      console.log(wallpaper);
+      result = await axios.post("/update-profile", {
+        type: type,
+        value: wallpaper,
+      });
     }
+
+    console.log(JSON.stringify(result.data));
+    setProfile(result.data);
   };
 
   return (
@@ -70,7 +93,7 @@ const SettingComponent = ({ isShow }) => {
           />
           <div className="flex flex-col">
             <span className="text-sm line-clamp-1">{profile.name}</span>
-            <span className="text-xs line-clamp-1">{profile.phone}</span>
+            <span className="text-xs line-clamp-1">{profile.phone_number}</span>
           </div>
         </div>
 
@@ -83,26 +106,26 @@ const SettingComponent = ({ isShow }) => {
             </div>
             <div className="flex w-full justify-between items-center space-x-3 border-b border-gray-800 pb-1.5 mb-1.5">
               <span className="text-sm font-light line-clamp-1">
-                Anonym Number
+                Anonim Number
               </span>
               <div className="flex items-center justify-center">
                 <div className="relative inline-block align-middle select-none">
                   <input
                     type="checkbox"
-                    id="isAnnonim"
-                    checked={isAnnonim}
-                    onChange={handleToggleIsAnnonim}
+                    id="isAnonim"
+                    checked={isAnonim}
+                    onChange={handleToggleIsAnonim}
                     className="hidden"
                   />
                   <label
-                    htmlFor="isAnnonim"
+                    htmlFor="isAnonim"
                     className={`flex items-center cursor-pointer ${
-                      isAnnonim ? "bg-green-400" : "bg-gray-300"
+                      isAnonim ? "bg-green-400" : "bg-gray-300"
                     } relative block w-[40px] h-[25px] rounded-full transition-colors duration-300`}
                   >
                     <span
                       className={`block w-[20px] h-[20px] bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                        isAnnonim ? "translate-x-[18px]" : "translate-x-[2px]"
+                        isAnonim ? "translate-x-[18px]" : "translate-x-[2px]"
                       }`}
                     />
                   </label>
