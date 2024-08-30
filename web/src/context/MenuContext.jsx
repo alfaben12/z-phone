@@ -17,12 +17,14 @@ const MenuContext = createContext({
   profile: {
     name: "",
     phone: "",
-    photo: "",
+    avatar: "",
     // wallpaper:
     //   "https://i.ibb.co.com/DV7d6xF/i-Phone-15-Pro-Black-Titanium-wallpaper.jpg",
     wallpaper: "",
     unread_message_service: 0,
     unread_message: 0,
+    is_anonim: true,
+    is_donot_disturb: true,
   },
   contacts: [],
   contactsBk: [],
@@ -76,7 +78,7 @@ export const MenuProvider = ({ children }) => {
     // name: "Alfaben Doe",
     // citizenid: "XXX123",
     // phone: "085123876",
-    // photo:
+    // avatar:
     //   "https://assetsio.gnwcdn.com/gta-online-rockstar-newswire-image-character-in-warehouse.jpg",
     // wallpaper: "https://i.ibb.co.com/pftZvpY/peakpx-1.jpg",
     // unread_message_service: 9,

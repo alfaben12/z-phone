@@ -1,16 +1,35 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
-import { FaMoon, FaMask } from "react-icons/fa6";
+import { FaMoon, FaMask, FaRegImage, FaUser } from "react-icons/fa6";
 
 const SettingComponent = ({ isShow }) => {
   const { profile, setMenu } = useContext(MenuContext);
   const [isOnDisturb, setIsOnDisturb] = useState(false);
   const [isAnnonim, setIsAnnonim] = useState(false);
+  const [avatar, setAvatar] = useState("");
+  const [wallpaper, setWallpaper] = useState("");
 
   const handleToggleIsOnDisturb = () => setIsOnDisturb(!isOnDisturb);
   const handleToggleIsAnnonim = () => setIsAnnonim(!isAnnonim);
+
+  useEffect(() => {
+    if (isShow) {
+      setAvatar(profile.avatar);
+      setWallpaper(profile.wallpaper);
+      setIsAnnonim(profile.is_anonim);
+      setIsOnDisturb(profile.is_donot_disturb);
+    }
+  }, [isShow]);
+
+  const savePhotoOrWallpaper = (type) => {
+    if (type == "avatar") {
+      console.log(avatar);
+    } else if (type == "wallpaper") {
+      console.log(wallpaper);
+    }
+  };
 
   return (
     <div
@@ -42,7 +61,7 @@ const SettingComponent = ({ isShow }) => {
       >
         <div className="flex bg-gray-900 space-x-3 py-1 px-2 rounded-lg items-center">
           <img
-            src={profile.photo}
+            src={profile.avatar}
             className="w-12 h-12 rounded-full object-cover"
             alt=""
             onError={(error) => {
@@ -123,6 +142,64 @@ const SettingComponent = ({ isShow }) => {
                     />
                   </label>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex space-x-3 px-2">
+            <div>
+              <div className="p-1 bg-pink-800 rounded-lg">
+                <FaUser />
+              </div>
+            </div>
+            <div className="flex w-full justify-between items-center space-x-2 border-b border-gray-800 pb-1.5 mb-1.5">
+              <input
+                type="text"
+                placeholder="URL avatar"
+                className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none rounded-md px-2 py-1 bg-[#3B3B3B]"
+                autoComplete="off"
+                value={avatar}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setAvatar(value);
+                }}
+              />
+              <div className="flex items-center justify-center">
+                <button
+                  className="flex font-medium rounded-full text-white bg-blue-500 px-2 text-sm items-center justify-center"
+                  type="button"
+                  onClick={() => savePhotoOrWallpaper("avatar")}
+                >
+                  <span>SAVE</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="flex space-x-3 px-2">
+            <div>
+              <div className="p-1 bg-sky-800 rounded-lg">
+                <FaRegImage />
+              </div>
+            </div>
+            <div className="flex w-full justify-between items-center space-x-2 border-b border-gray-800 pb-1.5 mb-1.5">
+              <input
+                type="text"
+                placeholder="URL wallpaper"
+                className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none rounded-md px-2 py-1 bg-[#3B3B3B]"
+                autoComplete="off"
+                value={wallpaper}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setWallpaper(value);
+                }}
+              />
+              <div className="flex items-center justify-center">
+                <button
+                  className="flex font-medium rounded-full text-white bg-blue-500 px-2 text-sm items-center justify-center"
+                  type="button"
+                  onClick={() => savePhotoOrWallpaper("wallpaper")}
+                >
+                  <span>SAVE</span>
+                </button>
               </div>
             </div>
           </div>
