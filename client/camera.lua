@@ -31,8 +31,8 @@ RegisterNUICallback('TakePhoto', function(_, cb)
             cb(json.encode({ url = nil }))
             break
         elseif IsControlJustPressed(1, 176) then -- TAKE.. PIC
-            QBCore.Functions.TriggerCallback('z-phone:server:GetWebhook', function(hook)
-                if not hook then
+            lib.callback('z-phone:server:GetWebhook', false, function(hook)
+            if not hook then
                     QBCore.Functions.Notify('Camera not setup', 'error')
                     return
                 end

@@ -1,35 +1,74 @@
 import React, { useContext, useState } from "react";
-import { MENU_DEFAULT, MENU_MESSAGE_CHATTING } from "../constant/menu";
+import {
+  MENU_DEFAULT,
+  MENU_MESSAGE_CHATTING,
+  MENU_ADS,
+} from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdWhatsapp } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
 import { IoCamera } from "react-icons/io5";
 import Markdown from "react-markdown";
+import axios from "axios";
 
 const AdsComponent = ({ isShow }) => {
-  const { setMenu, ads } = useContext(MenuContext);
+  const { setMenu, ads, setAds } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState("list");
-
-  const [formDataAds, setFormDataAds] = useState({
-    body: "",
-  });
+  const [media, setMedia] = useState("");
+  const [content, setContent] = useState("");
 
   const handleAdsFormChange = (e) => {
-    const { name, value } = e.target;
-    setFormDataAds({
-      ...formDataAds,
-      [name]: value,
-    });
+    const { value } = e.target;
+    setContent(value);
   };
 
-  const handleAdsFormSubmit = (e) => {
+  const handleAdsFormSubmit = async (e) => {
     e.preventDefault();
-    if (!formDataAds.content) {
+    if (content == "") {
       return;
     }
 
-    console.log("Form Data:", formDataAds);
-    // Here you can add your code to send formData to an API
+    const response = await axios.post("/send-ads", {
+      content: content,
+      media: media,
+    });
+
+    setMedia("");
+    setContent("");
+    setAds(response.data);
+    setSubMenu("list");
+  };
+
+  function hide() {
+    const container = document.getElementById("z-phone-root-frame");
+    container.setAttribute("class", "z-phone-fadeout");
+    setTimeout(function () {
+      container.setAttribute("class", "z-phone-invisible");
+    }, 300);
+  }
+
+  function show() {
+    const container = document.getElementById("z-phone-root-frame");
+    container.setAttribute("class", "z-phone-fadein");
+    setTimeout(function () {
+      container.setAttribute("class", "z-phone-visible");
+    }, 300);
+  }
+
+  const takePhoto = async () => {
+    hide();
+    await axios.post("/close");
+    await axios
+      .post("/TakePhoto")
+      .then(function (response) {
+        setMedia(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+        show();
+      });
   };
 
   return (
@@ -44,6 +83,8 @@ const AdsComponent = ({ isShow }) => {
           className="flex items-center px-2 text-blue-500 cursor-pointer"
           onClick={() => {
             if (subMenu == "create") {
+              setMedia("");
+              setContent("");
               setSubMenu("list");
             } else {
               setMenu(MENU_DEFAULT);
@@ -128,7 +169,7 @@ const AdsComponent = ({ isShow }) => {
                     />
                   ) : null}
                   <div className="flex justify-center w-full">
-                    <div className="border-b border-gray-900 w-1/2 pt-4"></div>
+                    <div className="border-b border-gray-900 w-1/2 pt-2"></div>
                   </div>
                 </div>
               );
@@ -141,23 +182,33 @@ const AdsComponent = ({ isShow }) => {
           >
             <form
               onSubmit={handleAdsFormSubmit}
-              className="flex w-full p-2 space-x-2"
+              className="flex flex-col space-y-2 w-full p-2 space-x-2"
             >
-              <div className="flex-col space-y-1 w-full">
+              <div className="flex-col space-y-1 w-full bg-gray-900 p-3 rounded-lg">
+                {media != "" ? (
+                  <img src={media} className="rounded-lg" alt="" />
+                ) : null}
+
                 <textarea
-                  defaultValue={formDataAds.content}
+                  value={content}
                   name="content"
                   onChange={handleAdsFormChange}
                   placeholder="WTB bahan pertanian..."
                   rows={4}
-                  className="bg-black focus:outline-none text-white w-full text-xs resize-none no-scrollbar bg-gray-900 p-3 rounded-lg"
+                  className="focus:outline-none text-white w-full text-xs resize-none no-scrollbar bg-gray-900 rounded-lg"
                 ></textarea>
-                <div className="flex justify-between items-center">
-                  <IoCamera className="text-white text-xl cursor-pointer hover:text-green-500" />
-                  <button className="rounded-full bg-green-500 px-4 py-1 font-semibold text-white text-sm hover:bg-green-600">
-                    Post
-                  </button>
-                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <IoCamera
+                  className="text-white text-xl cursor-pointer hover:text-green-500"
+                  onClick={takePhoto}
+                />
+                <button
+                  type="submit"
+                  className="rounded-full bg-green-500 px-4 py-1 font-semibold text-white text-sm hover:bg-green-600"
+                >
+                  Post
+                </button>
               </div>
             </form>
           </div>

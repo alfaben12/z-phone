@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-QBCore.Functions.CreateCallback('z-phone:server:GetProfile', function(source, cb, body)
+lib.callback.register('z-phone:server:GetProfile', function(source, body)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player ~= nil then
         local citizenid = Player.PlayerData.citizenid
@@ -11,17 +11,20 @@ QBCore.Functions.CreateCallback('z-phone:server:GetProfile', function(source, cb
         local result = MySQL.single.await(query, {
             citizenid
         })
+
         result.name = Player.PlayerData.charinfo.firstname .. ' '.. Player.PlayerData.charinfo.lastname
 
         if result then
-            cb(result)
+            return result
         else
-            cb(nil)
+            return nil
         end
     end
+
+    return nil
 end)
 
-QBCore.Functions.CreateCallback('z-phone:server:UpdateProfile', function(source, cb, body)
+lib.callback.register('z-phone:server:UpdateProfile', function(source, body)
     local affectedRows = nil
     local Player = QBCore.Functions.GetPlayer(source)
     if Player ~= nil then
@@ -47,9 +50,11 @@ QBCore.Functions.CreateCallback('z-phone:server:UpdateProfile', function(source,
         end
 
         if affectedRows then
-            cb(true)
+            return true
         else
-            cb(false)
+            return false
         end
     end
+
+    return false
 end)

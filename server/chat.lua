@@ -1,6 +1,63 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-QBCore.Functions.CreateCallback('z-phone:server:GetChats', function(source, cb)
+lib.callback.register('z-phone:server:StartChatting', function(source, body)
+    local Player = QBCore.Functions.GetPlayer(source)
+
+    if Player ~= nil then
+        local citizenid = Player.PlayerData.citizenid
+        local query = [[
+            WITH CitizenCounts AS (
+                SELECT citizenid, COUNT(DISTINCT conversationid) AS conv_count
+                FROM zp_conversation_participants
+                GROUP BY citizenid
+            )
+            SELECT 
+                CASE 
+                    WHEN EXISTS (
+                        SELECT 1
+                        FROM CitizenCounts
+                        WHERE conv_count > 2
+                    ) THEN 0
+                    ELSE (
+                        SELECT COUNT(DISTINCT conversationid)
+                        FROM zp_conversation_participants
+                        WHERE citizenid IN (?, ?)
+                        GROUP BY conversationid
+                        HAVING COUNT(DISTINCT citizenid) = 2
+                    )
+                END AS count
+        ]]
+
+        local result = MySQL.scalar.await(query, {
+            citizenid,
+            body.to_citizenid
+        })
+
+        
+        if result.count == 0 then
+            local queryNewConv = "INSERT INTO zp_conversations (is_group) VALUES (?)"
+            local conversationid = MySQL.insert.await(queryNewConv, {
+                false,
+            })
+
+            local queryParticipant = "INSERT INTO zp_conversation_participants (citizenid) VALUES (?)"
+            local participanOne = MySQL.insert.await(queryParticipant, {
+                citizenid,
+            })
+
+            local participanOne = MySQL.insert.await(queryParticipant, {
+                body.to_citizenid,
+            })
+        end
+        if result ~= nil then
+            cb(result)
+        else
+            cb({})
+        end
+    end
+end)
+
+lib.callback.register('z-phone:server:GetChats', function(source)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player ~= nil then
         local citizenid = Player.PlayerData.citizenid
@@ -16,7 +73,7 @@ QBCore.Functions.CreateCallback('z-phone:server:GetChats', function(source, cb)
             )
             SELECT
                 from_user.avatar,
-								from_user.citizenid,
+				from_user.citizenid,
                 CASE
                     WHEN c.is_group = 0 THEN
                         COALESCE(
@@ -27,14 +84,14 @@ QBCore.Functions.CreateCallback('z-phone:server:GetChats', function(source, cb)
                 END AS conversation_name,
                 DATE_FORMAT(from_user.last_seen, '%y/%m/%d %H:%i') as last_seen,
                 0 as isRead,
-								CASE
+				CASE
                     WHEN last_msg.content = '' THEN
                         'media'
                     ELSE last_msg.content
                 END AS last_message,
                 DATE_FORMAT(last_msg.created_at, '%H:%i') AS last_message_time,
                 c.id as conversationid,
-								c.is_group
+				c.is_group
             FROM
                 zp_conversations c
             JOIN
@@ -64,14 +121,16 @@ QBCore.Functions.CreateCallback('z-phone:server:GetChats', function(source, cb)
         })
 
         if result ~= nil then
-            cb(result)
+            return result
         else
-            cb({})
+            return nil
         end
     end
+
+    return nil
 end)
 
-QBCore.Functions.CreateCallback('z-phone:server:GetChatting', function(source, cb, body)
+lib.callback.register('z-phone:server:GetChatting', function(source, body)
     local Player = QBCore.Functions.GetPlayer(source)
 
     if Player ~= nil then
@@ -90,14 +149,15 @@ QBCore.Functions.CreateCallback('z-phone:server:GetChatting', function(source, c
         })
 
         if result ~= nil then
-            cb(result)
+            return result
         else
-            cb({})
+            return nil
         end
     end
+    return nil
 end)
 
-QBCore.Functions.CreateCallback('z-phone:server:SendChatting', function(source, cb, body)
+lib.callback.register('z-phone:server:SendChatting', function(source, body)
     local Player = QBCore.Functions.GetPlayer(source)
 
     if Player ~= nil then
@@ -118,7 +178,7 @@ QBCore.Functions.CreateCallback('z-phone:server:SendChatting', function(source, 
                     (SELECT contact_name FROM zp_contacts WHERE citizenid = ? and contact_citizenid = ?),
                     (SELECT phone_number FROM zp_users WHERE citizenid = ?)
                 ) AS name
-            ]], {body.to_citizenid, citizenid, citizenid})
+            ]], { body.to_citizenid, citizenid, citizenid })
             if contactName then
                 body.from = contactName
                 body.from_citizenid = citizenid
@@ -128,9 +188,10 @@ QBCore.Functions.CreateCallback('z-phone:server:SendChatting', function(source, 
                 end
             end
 
-            cb(true)
+            return true
         else
-            cb(false)
+            return false
         end
     end
+    return false
 end)

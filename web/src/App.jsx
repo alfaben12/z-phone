@@ -138,7 +138,7 @@ function App() {
     //   name: faker.person.fullName(),
     //   phone: faker.phone.number(),
     //   add_at: faker.date.past().toDateString(),
-    //   photo: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
+    //   avatar: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
     // }));
 
     // console.log(JSON.stringify(data));
@@ -260,7 +260,7 @@ function App() {
     // const data = Array.from({ length: 25 }, (v, i) => ({
     //   avatar: faker.image.avatar(),
     //   name: faker.person.fullName(),
-    //   phone: faker.person.fullName(),
+    //   phone_number: faker.person.fullName(),
     //   time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
     //     faker.date.past().getMinutes()
     //   ).padStart(2, "0")}`,
@@ -279,6 +279,7 @@ function App() {
       console.error("error /get-ads", error);
     }
 
+    console.log("ADS");
     setAds(result);
     // sendEventData({ ads: data });
   };

@@ -1,14 +1,13 @@
 RegisterNUICallback('get-profile', function(_, cb)
-    QBCore.Functions.TriggerCallback('z-phone:server:GetProfile', function(profile)
+    lib.callback('z-phone:server:GetProfile', false, function(profile)
         cb(profile)
     end)
 end)
 
 RegisterNUICallback('update-profile', function(body, cb)
-    QBCore.Functions.TriggerCallback('z-phone:server:UpdateProfile', function(isOk)
-        print(isOk)
+    lib.callback('z-phone:server:UpdateProfile', false, function(isOk)
         if isOk then
-            QBCore.Functions.TriggerCallback('z-phone:server:GetProfile', function(profile)
+            lib.callback('z-phone:server:GetProfile', false, function(profile)
                 cb(profile)
             end)
         end

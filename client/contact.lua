@@ -1,0 +1,5 @@
+RegisterNUICallback('get-contacts', function(_, cb)
+    lib.callback('z-phone:server:GetContacts', false, function(contacts)
+        cb(contacts)
+    end)
+end)

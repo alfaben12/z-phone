@@ -174,6 +174,9 @@ const MessageChattingComponent = ({ isShow }) => {
                                 className="rounded pb-1"
                                 src={v.media}
                                 alt=""
+                                onError={(error) => {
+                                  error.target.src = "./images/noimage.jpg";
+                                }}
                               />
                             ) : (
                               v.message

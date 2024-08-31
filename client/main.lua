@@ -44,9 +44,8 @@ local function DisableDisplayControlActions()
 end
 
 function OpenPhone()
-    QBCore.Functions.TriggerCallback('z-phone:server:HasPhone', function(HasPhone)
+    lib.callback('z-phone:server:HasPhone', false, function(HasPhone)
         if HasPhone then
-            print("open")
             PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
             SetNuiFocus(true, true)
             -- SetNuiFocusKeepInput(true)
