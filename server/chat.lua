@@ -1,60 +1,103 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-lib.callback.register('z-phone:server:StartChatting', function(source, body)
+lib.callback.register('z-phone:server:StartOrContinueChatting', function(source, body)
     local Player = QBCore.Functions.GetPlayer(source)
 
     if Player ~= nil then
         local citizenid = Player.PlayerData.citizenid
-        local query = [[
-            WITH CitizenCounts AS (
-                SELECT citizenid, COUNT(DISTINCT conversationid) AS conv_count
+        local queryGetConversationID = [[
+            WITH ConversationParticipants AS (
+                SELECT conversationid
                 FROM zp_conversation_participants
-                GROUP BY citizenid
+                WHERE citizenid IN (?, ?)
+                GROUP BY conversationid
+                HAVING COUNT(DISTINCT citizenid) = 2
+            ),
+            InvalidConversations AS (
+                SELECT conversationid
+                FROM zp_conversation_participants
+                GROUP BY conversationid
+                HAVING COUNT(DISTINCT citizenid) > 2
             )
             SELECT 
                 CASE 
-                    WHEN EXISTS (
-                        SELECT 1
-                        FROM CitizenCounts
-                        WHERE conv_count > 2
-                    ) THEN 0
-                    ELSE (
-                        SELECT COUNT(DISTINCT conversationid)
-                        FROM zp_conversation_participants
-                        WHERE citizenid IN (?, ?)
-                        GROUP BY conversationid
-                        HAVING COUNT(DISTINCT citizenid) = 2
-                    )
-                END AS count
+                    WHEN EXISTS (SELECT 1 FROM InvalidConversations) THEN NULL
+                    ELSE (SELECT conversationid FROM ConversationParticipants)
+                END AS conversationid
         ]]
 
-        local result = MySQL.scalar.await(query, {
+        local conversationid = MySQL.scalar.await(queryGetConversationID, {
             citizenid,
             body.to_citizenid
         })
-
         
-        if result.count == 0 then
+        if conversationid == nil then
             local queryNewConv = "INSERT INTO zp_conversations (is_group) VALUES (?)"
-            local conversationid = MySQL.insert.await(queryNewConv, {
+            conversationid = MySQL.insert.await(queryNewConv, {
                 false,
             })
 
-            local queryParticipant = "INSERT INTO zp_conversation_participants (citizenid) VALUES (?)"
+            local queryParticipant = "INSERT INTO zp_conversation_participants (conversationid, citizenid) VALUES (?, ?)"
             local participanOne = MySQL.insert.await(queryParticipant, {
+                conversationid,
                 citizenid,
             })
 
             local participanOne = MySQL.insert.await(queryParticipant, {
+                conversationid,
                 body.to_citizenid,
             })
         end
-        if result ~= nil then
-            cb(result)
+
+        local queryChatting = [[
+            SELECT
+                from_user.avatar,
+				from_user.citizenid,
+                CASE
+                    WHEN c.is_group = 0 THEN
+                        COALESCE(
+                            contact.contact_name,
+                            from_user.phone_number
+                        )
+                    ELSE c.name
+                END AS conversation_name,
+                DATE_FORMAT(from_user.last_seen, '%y/%m/%d %H:%i') as last_seen,
+                0 as isRead,
+                c.id as conversationid,
+				c.is_group
+            FROM
+                zp_conversations c
+            JOIN
+                zp_conversation_participants p
+                ON c.id = p.conversationid
+            LEFT JOIN
+                zp_conversation_participants other_participant
+                ON c.id = other_participant.conversationid
+                AND other_participant.citizenid != p.citizenid
+            LEFT JOIN
+                zp_users from_user
+                ON other_participant.citizenid = from_user.citizenid
+            LEFT JOIN
+                zp_contacts contact
+                ON contact.citizenid = p.citizenid
+                AND contact.contact_citizenid = other_participant.citizenid
+            WHERE
+                c.id = ? and p.citizenid = ?
+            LIMIT 1
+            ]]
+                
+        local result = MySQL.single.await(queryChatting, {
+            conversationid,
+            citizenid
+        })
+        
+        if result then 
+            return result
         else
-            cb({})
+            return nil
         end
     end
+    return nil
 end)
 
 lib.callback.register('z-phone:server:GetChats', function(source)

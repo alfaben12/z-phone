@@ -12,7 +12,8 @@ import Markdown from "react-markdown";
 import axios from "axios";
 
 const AdsComponent = ({ isShow }) => {
-  const { setMenu, ads, setAds } = useContext(MenuContext);
+  const { profile, setMenu, ads, setAds, setChatting } =
+    useContext(MenuContext);
   const [subMenu, setSubMenu] = useState("list");
   const [media, setMedia] = useState("");
   const [content, setContent] = useState("");
@@ -69,6 +70,16 @@ const AdsComponent = ({ isShow }) => {
       .finally(function () {
         show();
       });
+  };
+
+  const handleChat = async (v) => {
+    const response = await axios.post("/new-or-continue-chat", {
+      to_citizenid: v.citizenid,
+    });
+
+    setChatting(response.data);
+    setSubMenu("list");
+    setMenu(MENU_MESSAGE_CHATTING);
   };
 
   return (
@@ -147,11 +158,16 @@ const AdsComponent = ({ isShow }) => {
                           </div>
                         </div>
                       </div>
+
                       <div className="flex flex-col items-end justify-between text-gray-400">
-                        <MdWhatsapp
-                          className="cursor-pointer text-2xl text-[#33C056]"
-                          onClick={() => setMenu(MENU_MESSAGE_CHATTING)}
-                        />
+                        {profile.citizenid == v.citizenid ? null : (
+                          <MdWhatsapp
+                            className="cursor-pointer text-2xl text-[#33C056]"
+                            onClick={() => {
+                              handleChat(v);
+                            }}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>

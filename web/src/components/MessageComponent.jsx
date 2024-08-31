@@ -65,41 +65,45 @@ const MessageComponent = ({ isShow }) => {
           </div>
 
           {chats.map((v, i) => {
-            return (
-              <div
-                className="flex flex-col pl-1 pr-1"
-                key={i}
-                onClick={() => {
-                  setMenu(MENU_MESSAGE_CHATTING);
-                  setChatting(v);
-                }}
-              >
+            if (v.last_message != null) {
+              return (
                 <div
-                  className={`w-full cursor-pointer flex space-x-2
-                ${v.isRead ? "text-gray-400" : "text-white"}`}
+                  className="flex flex-col pl-1 pr-1"
+                  key={i}
+                  onClick={() => {
+                    setMenu(MENU_MESSAGE_CHATTING);
+                    setChatting(v);
+                  }}
                 >
-                  <img
-                    src={v.avatar}
-                    className="w-9 h-9 object-cover rounded-full"
-                    alt=""
-                    onError={(error) => {
-                      error.target.src = "./images/noimage.jpg";
-                    }}
-                  />
-                  <div className="flex justify-between border-b border-gray-900 pb-2 mb-2 w-full">
-                    <div className="leading-1 col-span-4 text-sm">
-                      <div className="line-clamp-1">{v.conversation_name}</div>
-                      <div className="text-xs line-clamp-1">
-                        {v.last_message}
+                  <div
+                    className={`w-full cursor-pointer flex space-x-2
+                  ${v.isRead ? "text-gray-400" : "text-white"}`}
+                  >
+                    <img
+                      src={v.avatar}
+                      className="w-9 h-9 object-cover rounded-full"
+                      alt=""
+                      onError={(error) => {
+                        error.target.src = "./images/noimage.jpg";
+                      }}
+                    />
+                    <div className="flex justify-between border-b border-gray-900 pb-2 mb-2 w-full">
+                      <div className="leading-1 col-span-4 text-sm">
+                        <div className="line-clamp-1">
+                          {v.conversation_name}
+                        </div>
+                        <div className="text-xs line-clamp-1">
+                          {v.last_message}
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex">
-                      <div className="text-xs">{v.last_message_time}</div>
+                      <div className="flex">
+                        <div className="text-xs">{v.last_message_time}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
+              );
+            }
           })}
         </div>
       )}
