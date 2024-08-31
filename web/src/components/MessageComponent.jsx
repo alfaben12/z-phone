@@ -54,7 +54,7 @@ const MessageComponent = ({ isShow }) => {
                 onKeyUp={(e) => {
                   const data = searchByKeyValueContains(
                     chatsBk,
-                    "name",
+                    "conversation_name",
                     e.target.value
                   );
                   setChats(data);

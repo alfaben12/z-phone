@@ -12,7 +12,7 @@ const GarageComponent = ({ isShow }) => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [dataModal, setDataModal] = useState(null);
 
-  const getStatus = (typ) => {
+  const getState = (typ) => {
     switch (typ) {
       case 1:
         return (
@@ -111,13 +111,13 @@ const GarageComponent = ({ isShow }) => {
                     <span>{dataModal.garage}</span>
                   </span>
                   <span className="flex justify-between">
-                    <span className="text-gray-400">Status:</span>
-                    <span>{getStatus(dataModal.status)}</span>
+                    <span className="text-gray-400">State:</span>
+                    <span>{getState(dataModal.state)}</span>
                   </span>
                 </div>
                 <div className="flex flex-col gap-3 pb-2 pt-2 text-xs">
                   <span className="flex justify-between">
-                    <span className="text-gray-400">Pembelian:</span>
+                    <span className="text-gray-400">Purchase:</span>
                     <span>{dataModal.created_at}</span>
                   </span>
                   <div className=" border-b border border-dashed"></div>
@@ -175,6 +175,7 @@ const GarageComponent = ({ isShow }) => {
                     "name",
                     e.target.value
                   );
+                  console.log(JSON.stringify(garagesBk));
                   setGarages(data);
                 }}
               />
@@ -193,7 +194,7 @@ const GarageComponent = ({ isShow }) => {
                 }}
               >
                 <div className="absolute -top-2.5 right-2 z-10">
-                  {getStatus(v.status)}
+                  {getState(v.state)}
                 </div>
                 <div
                   className="absolute bottom-5 right-14 w-20 h-20 bg-white opacity-5 rounded-xl"

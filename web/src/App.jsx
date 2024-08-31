@@ -312,6 +312,7 @@ function App() {
       console.error("error /get-garages", error);
     }
 
+    setGaragesBk(result);
     setGarages(result);
   };
 
