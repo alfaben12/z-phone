@@ -11,8 +11,8 @@ lib.callback.register('z-phone:server:GetContacts', function(source)
                 zpu.avatar,
                 zpu.phone_number
             from zp_contacts zpc
-            JOIN zp_users zpu ON zpu.citizenid = zpc.citizenid
-            WHERE zpu.citizenid = ?
+            JOIN zp_users zpu ON zpu.citizenid = zpc.contact_citizenid
+            WHERE zpc.citizenid = ?
         ]]
 
         local result = MySQL.query.await(query, {

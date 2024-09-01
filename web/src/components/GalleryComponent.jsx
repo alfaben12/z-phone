@@ -3,12 +3,33 @@ import { MENU_DEFAULT, PHONE_HEIGHT, PHONE_WIDTH } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdCancel } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
+import axios from "axios";
 
 const GalleryComponent = ({ isShow }) => {
-  const { setMenu, photos } = useContext(MenuContext);
+  const { setMenu, photos, setPhotos } = useContext(MenuContext);
   const [isShowModal, setIsShowModal] = useState(false);
   const [dataModal, setDataModal] = useState(null);
 
+  const handleDelete = async () => {
+    console.log(JSON.stringify(dataModal));
+    if (dataModal == null) {
+      return;
+    }
+
+    await axios
+      .post("/delete-photos", { id: dataModal.id })
+      .then(function (response) {
+        if (response.data != "" || response.data != null) {
+          setPhotos(response.data);
+          setIsShowModal(false);
+          setDataModal(null);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {});
+  };
   return (
     <div
       className="relative flex flex-col w-full h-full"
@@ -47,7 +68,10 @@ const GalleryComponent = ({ isShow }) => {
             )}
             <div className="flex justify-center items-center space-x-2">
               <div>
-                <button className="rounded-full bg-red-500 text-white text-xs px-2 py-1">
+                <button
+                  className="rounded-full bg-red-500 text-white text-xs px-2 py-1"
+                  onClick={handleDelete}
+                >
                   Delete
                 </button>
               </div>

@@ -26,6 +26,7 @@ import {
   PHONE_HEIGHT,
   PHONE_ROUNDED,
   PHONE_WIDTH,
+  MENU_CAMERA,
 } from "./constant/menu";
 import DynamicComponent from "./components/DynamicComponent";
 import { faker } from "@faker-js/faker";
@@ -127,6 +128,9 @@ function App() {
         break;
       case MENU_LOVY:
         getLovys();
+        break;
+      case MENU_CAMERA:
+        takePhoto();
         break;
       default:
         return;
@@ -543,6 +547,11 @@ function App() {
     }
 
     setServices(result);
+  };
+
+  const takePhoto = async () => {
+    // console.log("take photo");
+    // setMenu(menu_);
   };
 
   const getLovys = () => {

@@ -6,6 +6,7 @@ import {
   MENU_ADS,
   MENU_BANK,
   MENU_CONTACT,
+  MENU_CAMERA,
   MENU_DEFAULT,
   MENU_EMAIL,
   MENU_EMAIL_DETAIL,
@@ -50,6 +51,7 @@ import InternalNotificationComponent from "./notif/InternalNotificationComponent
 import LoadingComponent from "./LoadingComponent";
 import LovyComponent from "./LovyComponent";
 import PlayTVComponent from "./PlayTVComponent";
+import CameraComponent from "./CameraComponent";
 
 const DynamicComponent = () => {
   const {
@@ -98,6 +100,7 @@ const DynamicComponent = () => {
           <NewsComponent isShow={menu === menus.APPS.MENU_NEWS} />
           <LovyComponent isShow={menu === menus.APPS.MENU_LOVY} />
           <PlayTVComponent isShow={menu === menus.APPS.MENU_PLAYTV} />
+          <CameraComponent isShow={menu === menus.APPS.MENU_CAMERA} />
           <div
             className="absolute top-0 left-0 z-50 w-full"
             style={{
