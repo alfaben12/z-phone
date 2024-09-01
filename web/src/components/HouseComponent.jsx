@@ -9,11 +9,23 @@ import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdCancel, MdWhatsapp } from "react-icons/md";
 import { FaLocationDot, FaKey, FaHouse } from "react-icons/fa6";
 import LoadingComponent from "./LoadingComponent";
+import axios from "axios";
 
 const HouseComponent = ({ isShow }) => {
   const { setMenu, houses } = useContext(MenuContext);
   const [isShowModal, setIsShowModal] = useState(false);
   const [dataModal, setDataModal] = useState(null);
+
+  const handleGPS = async (house) => {
+    if (house.coords == null || house.coord == "") {
+      return;
+    }
+
+    const response = await axios.post("/get-direction", {
+      name: house.name,
+      coords: JSON.parse(house.coords),
+    });
+  };
 
   return (
     <div
@@ -210,6 +222,9 @@ const HouseComponent = ({ isShow }) => {
                   <button
                     className="flex w-full rounded-lg bg-gray-700 py-2 text-sm items-center justify-center space-x-1"
                     type="button"
+                    onClick={() => {
+                      handleGPS(v);
+                    }}
                   >
                     <span>Location</span>
                     <div>
