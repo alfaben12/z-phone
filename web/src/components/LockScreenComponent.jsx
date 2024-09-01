@@ -91,7 +91,7 @@ const LockScreenComponent = ({ isShow }) => {
                 <div className="w-1/2">
                   <img
                     className="rounded-lg h-24 w-full object-cover"
-                    src="https://images.unsplash.com/photo-1588974269162-4c0d5ccc6094?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3302&q=80"
+                    src="https://www.dojrp.com/uploads/monthly_2019_01/large.20190116151045_1.jpg.352d6fa3b008f95193fa9c04fe450524.jpg"
                     alt=""
                     onError={(error) => {
                       error.target.src = "./images/noimage.jpg";

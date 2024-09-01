@@ -14,7 +14,7 @@ lib.callback.register('z-phone:server:GetNews', function(source, body)
                 stream,
                 is_stream,
                 DATE_FORMAT(created_at, '%y/%m/%d %H:%i') as created_at
-            FROM zp_news WHERE is_stream = ?
+            FROM zp_news WHERE is_stream = ? ORDER BY id DESC
         ]]
         local resultNews = MySQL.query.await(query, {false})
         local resultNewsStream = MySQL.query.await(query, {true})

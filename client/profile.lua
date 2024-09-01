@@ -1,10 +1,3 @@
-Profile = nil
-CreateThread(function()
-    lib.callback('z-phone:server:GetProfile', false, function(profile)
-        Profile = profile
-    end)
-end)
-
 RegisterNUICallback('get-profile', function(_, cb)
     lib.callback('z-phone:server:GetProfile', false, function(profile)
         cb(profile)

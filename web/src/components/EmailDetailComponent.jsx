@@ -25,7 +25,7 @@ const EmailDetailComponent = ({ isShow }) => {
         </div>
         <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit"></span>
         <div className="flex items-center px-2 text-red-700">
-          <FaRegTrashAlt className="text-lg" />
+          {/* <FaRegTrashAlt className="text-lg" /> */}
         </div>
       </div>
       {email == null ? (

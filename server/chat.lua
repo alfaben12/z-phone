@@ -157,20 +157,20 @@ lib.callback.register('z-phone:server:GetChats', function(source)
             WHERE
                 p.citizenid = ?
             ORDER BY
-                c.created_at DESC
+                last_msg.created_at DESC
         ]]
         local result = MySQL.query.await(query, {
             citizenid
         })
 
-        if result ~= nil then
+        if result then
             return result
         else
-            return nil
+            return {}
         end
     end
 
-    return nil
+    return {}
 end)
 
 lib.callback.register('z-phone:server:GetChatting', function(source, body)
@@ -191,13 +191,13 @@ lib.callback.register('z-phone:server:GetChatting', function(source, body)
             body.conversationid
         })
 
-        if result ~= nil then
+        if result then
             return result
         else
-            return nil
+            return {}
         end
     end
-    return nil
+    return {}
 end)
 
 lib.callback.register('z-phone:server:SendChatting', function(source, body)

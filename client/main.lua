@@ -14,6 +14,13 @@ PhoneData = {
     },
 }
 
+Profile = nil
+CreateThread(function()
+    lib.callback('z-phone:server:GetProfile', false, function(profile)
+        Profile = profile
+    end)
+end)
+
 function GetStreetName()
     local pos = GetEntityCoords(PlayerPedId())
     local s1, s2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)

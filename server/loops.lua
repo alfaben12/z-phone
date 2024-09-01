@@ -34,10 +34,10 @@ lib.callback.register('z-phone:server:GetTweets', function(source)
         if result then
             return result
         else
-            return nil
+            return {}
         end
     end
-    return nil
+    return {}
 end)
 
 lib.callback.register('z-phone:server:GetComments', function(source, body)
@@ -68,10 +68,10 @@ lib.callback.register('z-phone:server:GetComments', function(source, body)
         if result then
             return result
         else
-            return nil
+            return {}
         end
     end
-    return nil
+    return {}
 end)
 
 lib.callback.register('z-phone:server:SendTweet', function(source, body)

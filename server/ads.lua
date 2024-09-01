@@ -29,11 +29,11 @@ lib.callback.register('z-phone:server:GetAds', function(source)
         if result then
             return result
         else
-            return nil
+            return {}
         end
     end
 
-    return nil
+    return {}
 end)
 
 lib.callback.register('z-phone:server:SendAds', function(source, body)

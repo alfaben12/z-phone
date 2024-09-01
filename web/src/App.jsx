@@ -237,7 +237,7 @@ function App() {
     // const data = Array.from({ length: 25 }, (v, i) => ({
     //   avatar: faker.image.avatar(),
     //   name: faker.person.fullName(),
-    //   time: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
+    //   created_at: `${String(faker.date.past().getHours()).padStart(2, "0")}:${String(
     //     faker.date.past().getMinutes()
     //   ).padStart(2, "0")}`,
     //   subject: faker.lorem.sentence(),
@@ -800,7 +800,7 @@ function App() {
 
   return (
     <div className="font-normal">
-      <div className="flex-col space-y-2">
+      {/* <div className="flex-col space-y-2">
         <div>
           <button
             className={`${
@@ -851,7 +851,7 @@ function App() {
             New Internal
           </button>
         </div>
-      </div>
+      </div> */}
       <div id="z-phone-root-frame" className="z-phone-invisible">
         {/* <div id="z-phone-root-frame"> */}
         <div

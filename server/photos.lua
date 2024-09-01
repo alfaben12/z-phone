@@ -10,7 +10,7 @@ lib.callback.register('z-phone:server:GetPhotos', function(source)
                 zpp.media as photo,
                 DATE_FORMAT(zpp.created_at, '%y/%m/%d %H:%i') as created_at
             from zp_photos zpp
-            WHERE zpp.citizenid = ?
+            WHERE zpp.citizenid = ? ORDER BY zpp.id DESC
         ]]
 
         local result = MySQL.query.await(query, {
@@ -20,10 +20,10 @@ lib.callback.register('z-phone:server:GetPhotos', function(source)
         if result then
             return result
         else
-            return nil
+            return {}
         end
     end
-    return nil
+    return {}
 end)
 
 lib.callback.register('z-phone:server:SavePhotos', function(source, body)

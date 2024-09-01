@@ -9,6 +9,10 @@ const EmailComponent = ({ isShow }) => {
   const { setMenu, emails, setEmails, emailsBk, setEmail } =
     useContext(MenuContext);
 
+  const handleDetail = async (v) => {
+    setEmail(v);
+    setMenu(MENU_EMAIL_DETAIL);
+  };
   return (
     <div
       className="relative flex flex-col w-full h-full"
@@ -72,14 +76,11 @@ const EmailComponent = ({ isShow }) => {
               <div
                 className="flex flex-col pb-4 pl-1 cursor-pointer"
                 key={i}
-                onClick={() => {
-                  setEmail(v);
-                  setMenu(MENU_EMAIL_DETAIL);
-                }}
+                onClick={() => handleDetail(v)}
               >
                 <div
                   className={`w-full grid grid-cols-6 ${
-                    v.isRead ? "text-gray-400" : "text-white"
+                    v.is_read ? "text-gray-400" : "text-white"
                   }`}
                 >
                   <img
@@ -96,7 +97,7 @@ const EmailComponent = ({ isShow }) => {
                     <div className="text-xs line-clamp-1">{v.content}</div>
                   </div>
                   <div className="flex flex-col items-end justify-between">
-                    <div className="text-xs">{v.time}</div>
+                    <div className="text-xs">{v.created_at}</div>
                   </div>
                 </div>
               </div>

@@ -12,7 +12,7 @@ lib.callback.register('z-phone:server:GetContacts', function(source)
                 zpu.phone_number
             from zp_contacts zpc
             JOIN zp_users zpu ON zpu.citizenid = zpc.contact_citizenid
-            WHERE zpc.citizenid = ?
+            WHERE zpc.citizenid = ? ORDER BY zpc.contact_name ASC
         ]]
 
         local result = MySQL.query.await(query, {
@@ -22,8 +22,8 @@ lib.callback.register('z-phone:server:GetContacts', function(source)
         if result then
             return result
         else
-            return nil
+            return {}
         end
     end
-    return nil
+    return {}
 end)

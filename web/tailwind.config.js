@@ -16,7 +16,6 @@ module.exports = {
           900: "#1C1C1E",
         },
       },
-
       fontSize: {
         xss: "0.6rem",
         xs: "0.75rem",
