@@ -35,7 +35,6 @@ const CameraComponent = ({ isShow }) => {
       .then(async function (response) {
         if (response.data != "" || response.data != null) {
           savePhoto(response.data);
-          setMenu(MENU_GALLERY);
         }
       })
       .catch(function (error) {
@@ -55,6 +54,7 @@ const CameraComponent = ({ isShow }) => {
       })
       .finally(function () {
         show();
+        setMenu(MENU_GALLERY);
       });
   };
 

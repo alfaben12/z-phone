@@ -158,7 +158,7 @@ const NewsComponent = ({ isShow }) => {
                   <div className="absolute w-full h-[165px] bg-transparent"></div>
                   <ReactPlayer
                     ref={playerRef}
-                    url={stream.url}
+                    url={stream.stream}
                     onProgress={handleProgress}
                     onDuration={handleDuration}
                     volume={volume}
@@ -219,6 +219,9 @@ const NewsComponent = ({ isShow }) => {
                       Reporter - {stream.reporter}
                     </span>
                     <span className="text-white text-sm">{stream.title}</span>
+                    <div className="pt-2 text-xs pb-5">
+                      <Markdown>{stream.body}</Markdown>
+                    </div>
                   </div>
                 </div>
               </div>

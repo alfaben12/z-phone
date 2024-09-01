@@ -5,7 +5,19 @@ lib.callback.register('z-phone:server:GetProfile', function(source, body)
     if Player ~= nil then
         local citizenid = Player.PlayerData.citizenid
         local query = [[
-            select * from zp_users zpu WHERE zpu.citizenid = ? LIMIT 1
+            select 
+                zpu.citizenid,
+                zpu.phone_number,
+                zpu.created_at,
+                zpu.last_seen,
+                zpu.avatar,
+                zpu.unread_message_service,
+                zpu.unread_message,
+                zpu.wallpaper,
+                zpu.is_anonim,
+                zpu.is_donot_disturb,
+                zpu.loops_username as username
+            from zp_users zpu WHERE zpu.citizenid = ? LIMIT 1
         ]]
 
         local result = MySQL.single.await(query, {

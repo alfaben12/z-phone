@@ -18,7 +18,7 @@ lib.callback.register('z-phone:server:GetHouses', function(source, body)
                 ph.keyholders 
             FROM 
                 houselocations hl 
-            LEFT JOIN player_houses ph ON hl.NAME = ph.house 
+            LEFT JOIN player_houses ph ON hl.name = ph.house 
             WHERE ph.citizenid = ?
             ORDER BY ph.id DESC
         ]]

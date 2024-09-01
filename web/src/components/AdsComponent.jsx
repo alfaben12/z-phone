@@ -200,7 +200,7 @@ const AdsComponent = ({ isShow }) => {
               onSubmit={handleAdsFormSubmit}
               className="flex flex-col space-y-2 w-full p-2 space-x-2"
             >
-              <div className="flex-col space-y-1 w-full bg-gray-900 p-3 rounded-lg">
+              <div className="flex-col space-y-1 w-full bg-gray-900 px-2 pt-2 rounded-lg">
                 {media != "" ? (
                   <img src={media} className="rounded-lg" alt="" />
                 ) : null}

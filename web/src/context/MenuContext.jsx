@@ -23,6 +23,7 @@ const MenuContext = createContext({
     wallpaper: "",
     unread_message_service: 0,
     unread_message: 0,
+    username: "",
     is_anonim: true,
     is_donot_disturb: true,
   },

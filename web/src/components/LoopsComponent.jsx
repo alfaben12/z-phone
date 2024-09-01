@@ -19,10 +19,10 @@ const subMenuList = {
 };
 
 const LoopsComponent = ({ isShow }) => {
-  const { profile, tweets, setMenu } = useContext(MenuContext);
+  const { profile, tweets, setTweets, setMenu } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList.tweet);
   const [tweetDetail, setTweetDetail] = useState(null);
-
+  const [media, setMedia] = useState("");
   const [formDataTweet, setFormDataTweet] = useState({
     tweet: "",
   });
@@ -47,13 +47,30 @@ const LoopsComponent = ({ isShow }) => {
     });
   };
 
-  const handleTweetFormSubmit = (e) => {
+  const handleTweetFormSubmit = async (e) => {
     e.preventDefault();
     if (!formDataTweet.tweet) {
       return;
     }
 
     console.log("Form Data formDataTweet:", formDataTweet);
+    try {
+      const response = await axios.post("/send-tweet", {
+        tweet: formDataTweet.tweet,
+        media: media,
+      });
+
+      if (response.data != null) {
+        setTweets(response.data);
+        setMedia("");
+        setFormDataTweet({
+          tweet: "",
+        });
+        setSubMenu(subMenuList.tweet);
+      }
+    } catch (error) {
+      console.error("error /new-tweet", error);
+    }
     // Here you can add your code to send formData to an API
   };
 
@@ -63,21 +80,25 @@ const LoopsComponent = ({ isShow }) => {
       return;
     }
 
-    console.log("Form Data formDataComment:", formDataComment);
-
     setTweetDetail((prev) => ({
       ...prev,
       comments: [
         {
           comment: formDataComment.comment,
-          name: faker.person.fullName(),
-          avatar: faker.image.urlLoremFlickr({ height: 250, width: 250 }),
-          username: `@${faker.person.fullName().split(" ")[0].toLowerCase()}`,
-          created_at: "0s",
+          name: profile.name,
+          avatar: profile.avatar,
+          username: profile.username,
+          created_at: "now",
         },
         ...prev.comments,
       ],
     }));
+
+    axios.post("/send-tweet-comments", {
+      tweetid: tweetDetail.id,
+      tweet_citizenid: tweetDetail.citizenid,
+      comment: formDataComment.comment,
+    });
   };
 
   const getComments = async (tweet) => {
@@ -88,6 +109,7 @@ const LoopsComponent = ({ isShow }) => {
     try {
       const response = await axios.post("/get-tweet-comments", {
         tweetid: tweet.id,
+        tweet_citizenid: tweet.citizenid,
       });
       result = response.data;
     } catch (error) {
@@ -99,6 +121,39 @@ const LoopsComponent = ({ isShow }) => {
       comments: result,
     }));
   };
+
+  function hide() {
+    const container = document.getElementById("z-phone-root-frame");
+    container.setAttribute("class", "z-phone-fadeout");
+    setTimeout(function () {
+      container.setAttribute("class", "z-phone-invisible");
+    }, 300);
+  }
+
+  function show() {
+    const container = document.getElementById("z-phone-root-frame");
+    container.setAttribute("class", "z-phone-fadein");
+    setTimeout(function () {
+      container.setAttribute("class", "z-phone-visible");
+    }, 300);
+  }
+
+  const takePhoto = async () => {
+    hide();
+    await axios.post("/close");
+    await axios
+      .post("/TakePhoto")
+      .then(function (response) {
+        setMedia(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+        show();
+      });
+  };
+
   return (
     <div
       className="relative flex flex-col w-full h-full"
@@ -178,7 +233,7 @@ const LoopsComponent = ({ isShow }) => {
                             {tweetDetail.name}
                           </div>
                           <div className="line-clamp-1 text-xs text-gray-400 font-normal">
-                            {tweetDetail.username}
+                            @{tweetDetail.username}
                           </div>
                         </div>
                       </div>
@@ -225,7 +280,7 @@ const LoopsComponent = ({ isShow }) => {
                       </div>
                     </div>
                     <p className="text-gray-400 text-xs">
-                      {tweetDetail.created_at}
+                      {tweetDetail.created_at}d
                     </p>
                   </div>
 
@@ -271,12 +326,12 @@ const LoopsComponent = ({ isShow }) => {
                                     {v.name}{" "}
                                   </span>
                                   <span className="text-gray-500 text-xs">
-                                    {v.username}
+                                    @{v.username}
                                   </span>
                                 </div>
                                 <div>
                                   <span className="text-gray-500 text-xs">
-                                    {v.created_at}
+                                    {v.created_at}d
                                   </span>
                                 </div>
                               </div>
@@ -336,11 +391,13 @@ const LoopsComponent = ({ isShow }) => {
                               {v.name}{" "}
                             </span>{" "}
                             <span className="text-gray-500 text-xs">
-                              {v.username}
+                              @{v.username}
                             </span>
                           </div>
                           <div>
-                            <span className="text-gray-500 text-xs">90d</span>
+                            <span className="text-gray-500 text-xs">
+                              {v.created_at}d
+                            </span>
                           </div>
                         </div>
                         <p className="text-white block text-xs">{v.tweet}</p>
@@ -413,17 +470,29 @@ const LoopsComponent = ({ isShow }) => {
             />
 
             <div className="flex-col space-y-2 w-full">
-              <textarea
-                defaultValue={formDataTweet.tweet}
-                name="tweet"
-                onChange={handleTweetFormChange}
-                placeholder="What's happening?"
-                rows={4}
-                className="bg-black focus:outline-none text-white w-full text-xs resize-none no-scrollbar bg-gray-900 p-3 rounded-lg"
-              ></textarea>
+              <div className="flex-col space-y-1 w-full bg-gray-900 px-2 pt-2 rounded-lg">
+                {media != "" ? (
+                  <img src={media} className="rounded-lg" alt="" />
+                ) : null}
+
+                <textarea
+                  value={formDataTweet.tweet}
+                  name="tweet"
+                  onChange={handleTweetFormChange}
+                  placeholder="What's happening?"
+                  rows={4}
+                  className="focus:outline-none text-white w-full text-xs resize-none no-scrollbar bg-gray-900 rounded-lg"
+                ></textarea>
+              </div>
               <div className="flex justify-between items-center">
-                <IoCamera className="text-white text-xl cursor-pointer hover:text-[#1d9cf0]" />
-                <button className="rounded-full bg-[#1d9cf0] px-4 py-1 font-semibold text-white text-sm hover:bg-[#0975bd]">
+                <IoCamera
+                  className="text-white text-xl cursor-pointer hover:text-[#1d9cf0]"
+                  onClick={takePhoto}
+                />
+                <button
+                  type="submit"
+                  className="rounded-full bg-[#1d9cf0] px-4 py-1 font-semibold text-white text-sm hover:bg-[#0975bd]"
+                >
                   Post
                 </button>
               </div>

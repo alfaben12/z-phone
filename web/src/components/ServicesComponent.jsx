@@ -8,6 +8,7 @@ import {
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdCancel } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
+import { FaBell } from "react-icons/fa6";
 
 const ServicesComponent = ({ isShow }) => {
   const { setMenu, services, setInternalNotif } = useContext(MenuContext);
@@ -112,8 +113,8 @@ const ServicesComponent = ({ isShow }) => {
         <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit">
           {/* Services */}
         </span>
-        <div className="flex items-center px-2 text-blue-500">
-          {/* <MdEdit className='text-lg' /> */}
+        <div className="flex items-center px-2 text-white">
+          <FaBell className="text-lg" />
         </div>
       </div>
       <div
@@ -163,7 +164,7 @@ const ServicesComponent = ({ isShow }) => {
                       {v.service}
                     </span>
                     <span className="text-xs text-gray-200 font-medium pb-2">
-                      Total: {v.onduty}
+                      Type: {v.type}
                     </span>
                   </div>
                   <div

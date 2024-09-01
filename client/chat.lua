@@ -1,6 +1,5 @@
 RegisterNUICallback('new-or-continue-chat', function(body, cb)
     lib.callback('z-phone:server:StartOrContinueChatting', false, function(chatting)
-        print(json.encode(chatting, {indent=true}))
         cb(chatting)
     end, body)
 end)
