@@ -5,6 +5,10 @@ const MenuContext = createContext({
   time: "",
   menus: null,
   menu: MENU_LOCKSCREEN,
+  notificationOutside: {
+    type: "",
+    message: "",
+  },
   notificationCall: {
     type: "",
   },
@@ -63,6 +67,10 @@ export const MenuProvider = ({ children }) => {
   const [time, setTime] = useState(jakartaTime);
   const [menus, setMenus] = useState(null);
   const [menu, setMenu] = useState(MENU_LOCKSCREEN);
+  const [notificationOutside, setNotificationOutside] = useState({
+    type: null,
+    message: null,
+  });
   const [notificationMessage, setNotificationMessage] = useState({
     type: null,
   });
@@ -167,6 +175,8 @@ export const MenuProvider = ({ children }) => {
         setLovys,
         contactRequests,
         setContactRequests,
+        notificationOutside,
+        setNotificationOutside,
       }}
     >
       {children}

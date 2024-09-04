@@ -38,6 +38,7 @@ function App() {
     menu,
     time,
     chatting,
+    notificationOutside,
     setMenu,
     setContacts,
     setContactsBk,
@@ -66,6 +67,7 @@ function App() {
     setLovys,
     setProfile,
     setContactRequests,
+    setNotificationOutside,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -603,6 +605,15 @@ function App() {
     });
   };
 
+  const sendInternalClosed = () => {
+    sendEventData({
+      notificationOutside: {
+        type: "test",
+        message: "Twitter",
+      },
+    });
+  };
+
   const sendEventData = (data) => {
     const targetWindow = window;
     const targetOrigin = "*";
@@ -691,6 +702,9 @@ function App() {
       if (data.notification.type == MENU_INTERNAL_NOTIFICATION) {
         setNotificationInternal(data.notification);
       }
+    } else if (data.notificationOutside) {
+      console.log("pokk");
+      setNotificationOutside(data.notificationOutside);
     } else {
       setContacts(data.contacts ? data.contacts : []);
       setContactsBk(data.contacts ? data.contacts : []);
@@ -798,9 +812,18 @@ function App() {
     }
   }, [notificationMessage]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setNotificationOutside({});
+    }, 5000);
+
+    // Cleanup the timer when the component is unmounted
+    return () => clearTimeout(timer);
+  }, [notificationOutside]);
+
   return (
     <div className="font-normal">
-      {/* <div className="flex-col space-y-2">
+      <div className="flex-col space-y-2">
         <div>
           <button
             className={`${
@@ -851,7 +874,24 @@ function App() {
             New Internal
           </button>
         </div>
-      </div> */}
+        <div>
+          <button
+            className={`${
+              isOpen ? "bg-blue-500" : "bg-red-500"
+            } px-5 py-2 rounded text-white`}
+            onClick={() => sendInternalClosed()}
+          >
+            Notification Close
+          </button>
+        </div>
+      </div>
+      {notificationOutside.message != null ? (
+        <>
+          <div className="absolute bottom-10 right-10">
+            <div className=" animate-slideInRight bg-red-500 w-24 h-24"></div>
+          </div>
+        </>
+      ) : null}
       <div id="z-phone-root-frame" className="z-phone-invisible">
         {/* <div id="z-phone-root-frame"> */}
         <div
