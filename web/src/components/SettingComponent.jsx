@@ -265,13 +265,13 @@ const SettingComponent = ({ isShow }) => {
                   if (v == frame) {
                     return (
                       <option key={i} value={v} selected>
-                        Background {v}
+                        Frame {v}
                       </option>
                     );
                   } else {
                     return (
                       <option key={i} value={v}>
-                        Background {v}
+                        Frame {v}
                       </option>
                     );
                   }
