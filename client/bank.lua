@@ -1,0 +1,5 @@
+RegisterNUICallback('get-bank', function(_, cb)
+    lib.callback('z-phone:server:GetBank', false, function(bank)
+        cb(bank)
+    end)
+end)

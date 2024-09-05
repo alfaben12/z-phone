@@ -16,7 +16,8 @@ lib.callback.register('z-phone:server:GetProfile', function(source, body)
                 zpu.wallpaper,
                 zpu.is_anonim,
                 zpu.is_donot_disturb,
-                zpu.loops_username as username
+                zpu.loops_username as username,
+                zpu.frame
             from zp_users zpu WHERE zpu.citizenid = ? LIMIT 1
         ]]
 
@@ -57,11 +58,20 @@ lib.callback.register('z-phone:server:UpdateProfile', function(source, body)
             affectedRows = MySQL.update.await('UPDATE zp_users SET is_donot_disturb = ? WHERE citizenid = ?', {
                 body.value, citizenid
             })
+        elseif body.type == 'frame' then
+            affectedRows = MySQL.update.await('UPDATE zp_users SET frame = ? WHERE citizenid = ?', {
+                body.value, citizenid
+            })
         else
             print("RETRIGER DETECTED, SHOULD BANN IF NEEDED")
         end
 
         if affectedRows then
+            TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+                type = "Notification",
+                from = "Setting",
+                message = "Success updated!"
+            })
             return true
         else
             return false

@@ -214,7 +214,7 @@ const BankComponent = ({ isShow }) => {
                           <div className="w-1/2">
                             <div
                               className={`flex justify-end items-center w-full  ${
-                                v.type == "Debit"
+                                v.type == "withdraw"
                                   ? "text-green-500"
                                   : "text-red-500"
                               }`}
@@ -258,14 +258,14 @@ const BankComponent = ({ isShow }) => {
                         <div className="flex items-center space-x-4">
                           <div className="flex-1 line-clamp-1">
                             <p className="text-sm font-medium truncate text-white">
-                              {v.type}
+                              {v.type.toUpperCase()}
                             </p>
                             <p className="text-xs truncate text-gray-400">
                               {v.label}
                             </p>
                           </div>
                           <div className="inline-flex items-center text-base font-semibold">
-                            {v.type == "Debit" ? (
+                            {v.type == "withdraw" ? (
                               <span className="text-red-500">
                                 - ${currencyFormat(v.total)}
                               </span>
@@ -307,7 +307,7 @@ const BankComponent = ({ isShow }) => {
                         <div className="flex w-full items-center space-x-4 justify-between">
                           <div className="flex flex-col text-base font-semibold">
                             <span className="text-sm line-clamp-1">
-                              {v.type}
+                              {v.type.toUpperCase()}
                             </span>
                             <span className="text-red-500 line-clamp-1">
                               - ${currencyFormat(v.total)}

@@ -33,7 +33,7 @@ const NewMessageNotificationComponent = ({ isShow }) => {
               {notificationInternal.from}
             </span>
             <span className="text-xs text-gray-300 line-clamp-1">
-              new notification.
+              {notificationInternal.message}
             </span>
           </div>
         </div>

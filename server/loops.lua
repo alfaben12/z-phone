@@ -121,7 +121,7 @@ lib.callback.register('z-phone:server:SendTweetComment', function(source, body)
                 TriggerClientEvent("z-phone:client:sendNotifInternal", TargetPlayer.PlayerData.source, {
                     type = "Notification",
                     from = "Loops",
-                    message = "@"..body.username .. " comment tweet"
+                    message = "@"..body.username .. " reply on your tweet"
                 })
             end
             return true
