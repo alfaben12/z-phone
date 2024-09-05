@@ -31,6 +31,8 @@ import {
 import DynamicComponent from "./components/DynamicComponent";
 import { faker } from "@faker-js/faker";
 import axios from "axios";
+import { FaBell } from "react-icons/fa6";
+import { MdCall } from "react-icons/md";
 
 function App() {
   const {
@@ -38,7 +40,6 @@ function App() {
     menu,
     time,
     chatting,
-    notificationOutside,
     setMenu,
     setContacts,
     setContactsBk,
@@ -67,9 +68,16 @@ function App() {
     setLovys,
     setProfile,
     setContactRequests,
-    setNotificationOutside,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [outsideMessageNotif, setOutsideMessageNotif] = useState({
+    from: null,
+    message: null,
+  });
+  const [outsideCallNotif, setOutsideCallNotif] = useState({
+    from: null,
+    message: null,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -605,11 +613,20 @@ function App() {
     });
   };
 
-  const sendInternalClosed = () => {
+  const sendOutsideNewMessage = () => {
     sendEventData({
-      notificationOutside: {
-        type: "test",
-        message: "Twitter",
+      outsideMessageNotif: {
+        from: "Alfaben",
+        message: "New Message!",
+      },
+    });
+  };
+
+  const sendOutsideIncomingCall = () => {
+    sendEventData({
+      outsideCallNotif: {
+        from: "Alfaben",
+        message: "Incoming call",
       },
     });
   };
@@ -702,9 +719,10 @@ function App() {
       if (data.notification.type == MENU_INTERNAL_NOTIFICATION) {
         setNotificationInternal(data.notification);
       }
-    } else if (data.notificationOutside) {
-      console.log("pokk");
-      setNotificationOutside(data.notificationOutside);
+    } else if (data.outsideMessageNotif) {
+      setOutsideMessageNotif(data.outsideMessageNotif);
+    } else if (data.outsideCallNotif) {
+      setOutsideCallNotif(data.outsideCallNotif);
     } else {
       setContacts(data.contacts ? data.contacts : []);
       setContactsBk(data.contacts ? data.contacts : []);
@@ -814,12 +832,15 @@ function App() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setNotificationOutside({});
+      setOutsideMessageNotif({
+        from: null,
+        message: null,
+      });
     }, 5000);
 
     // Cleanup the timer when the component is unmounted
     return () => clearTimeout(timer);
-  }, [notificationOutside]);
+  }, [outsideMessageNotif]);
 
   return (
     <div className="font-normal">
@@ -879,16 +900,68 @@ function App() {
             className={`${
               isOpen ? "bg-blue-500" : "bg-red-500"
             } px-5 py-2 rounded text-white`}
-            onClick={() => sendInternalClosed()}
+            onClick={() => sendOutsideNewMessage()}
           >
-            Notification Close
+            Notification Message (X)
+          </button>
+        </div>
+        <div>
+          <button
+            className={`${
+              isOpen ? "bg-blue-500" : "bg-red-500"
+            } px-5 py-2 rounded text-white`}
+            onClick={() => sendOutsideIncomingCall()}
+          >
+            Notification CALL (X)
           </button>
         </div>
       </div>
-      {notificationOutside.message != null ? (
+      {outsideMessageNotif.message != null && !isOpen ? (
         <>
-          <div className="absolute bottom-10 right-10">
-            <div className=" animate-slideInRight bg-red-500 w-24 h-24"></div>
+          <div className="animate-slideInRight absolute bottom-10 right-5">
+            <div className="bg-green-600 rounded-lg px-3 py-2">
+              <div className="flex space-x-2 items-center">
+                <div className="text-lg text-white">
+                  <FaBell />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm text-white">
+                    {outsideMessageNotif.message}
+                  </span>
+                  <div className="flex space-x-1 text-white">
+                    <span className="text-sm">From</span>
+                    <span className="text-sm font-semibold">
+                      {outsideMessageNotif.from}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+      {outsideCallNotif.message != null && !isOpen ? (
+        <>
+          <div className=" absolute bottom-10 right-5">
+            <div className="bg-green-600 rounded-lg px-3 py-2">
+              <div className="flex space-x-2 items-center">
+                <div className="text-lg text-white">
+                  <MdCall />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm text-white">
+                    {outsideCallNotif.message}
+                  </span>
+                  <div className="flex space-x-1 text-white">
+                    <span className="text-sm">From</span>
+                    <span className="text-sm font-semibold">
+                      {outsideCallNotif.from}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </>
       ) : null}
@@ -922,6 +995,12 @@ function App() {
                   width: `${PHONE_WIDTH}px`,
                 }}
               >
+                <div className="absolute top-0 right-0 w-full flex justify-center">
+                  <img
+                    src={`./images/iphone-top.svg`}
+                    className="pt-2 w-[70px] object cover"
+                  />
+                </div>
                 <div className="flex items-center">
                   <div className="text-xs font-medium text-white">{time}</div>
                 </div>

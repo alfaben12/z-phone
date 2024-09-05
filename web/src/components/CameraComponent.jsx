@@ -2,10 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { MENU_DEFAULT, MENU_GALLERY } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
-import LoadingComponent from "./LoadingComponent";
-import { FaBell } from "react-icons/fa6";
-import { useSwipeable } from "react-swipeable";
-import { IoMdHeart, IoMdClose } from "react-icons/io";
 import axios from "axios";
 
 const CameraComponent = ({ isShow }) => {
