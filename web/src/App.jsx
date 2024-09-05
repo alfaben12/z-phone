@@ -39,6 +39,7 @@ function App() {
     notificationMessage,
     menu,
     time,
+    profile,
     chatting,
     setMenu,
     setContacts,
@@ -976,7 +977,10 @@ function App() {
           }}
         >
           <img
-            src={`./images/iphone-15pro.png`}
+            src={`./frames/${profile ? profile.frame : "1.svg"}`}
+            onError={(error) => {
+              error.target.src = "./frames/1.svg";
+            }}
             alt=""
             className="w-full h-full object-cover"
           />

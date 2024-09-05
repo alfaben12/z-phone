@@ -26,6 +26,7 @@ const MenuContext = createContext({
     username: "",
     is_anonim: true,
     is_donot_disturb: true,
+    frame: "iPhone 15 Pro Black Titanium.svg",
   },
   contacts: [],
   contactsBk: [],

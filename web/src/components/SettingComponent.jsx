@@ -4,6 +4,7 @@ import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { FaMoon, FaMask, FaRegImage, FaUser } from "react-icons/fa6";
 import axios from "axios";
+import { IoPhonePortraitOutline } from "react-icons/io5";
 
 const SettingComponent = ({ isShow }) => {
   const { profile, setMenu, setProfile } = useContext(MenuContext);
@@ -11,6 +12,7 @@ const SettingComponent = ({ isShow }) => {
   const [isAnonim, setIsAnonim] = useState(false);
   const [avatar, setAvatar] = useState("");
   const [wallpaper, setWallpaper] = useState("");
+  const [frame, setFrame] = useState("");
 
   const handleToggleIsOnDisturb = () => {
     axios.post("/update-profile", {
@@ -29,6 +31,7 @@ const SettingComponent = ({ isShow }) => {
 
   useEffect(() => {
     if (isShow) {
+      setFrame(profile.frame);
       setAvatar(profile.avatar);
       setWallpaper(profile.wallpaper);
       setIsAnonim(profile.is_anonim);
@@ -48,9 +51,13 @@ const SettingComponent = ({ isShow }) => {
         type: type,
         value: wallpaper,
       });
+    } else if (type == "frame") {
+      result = await axios.post("/update-profile", {
+        type: type,
+        value: frame,
+      });
     }
 
-    console.log(JSON.stringify(result.data));
     setProfile(result.data);
   };
 
@@ -220,6 +227,61 @@ const SettingComponent = ({ isShow }) => {
                   className="flex font-medium rounded-full text-white bg-blue-500 px-2 text-sm items-center justify-center"
                   type="button"
                   onClick={() => savePhotoOrWallpaper("wallpaper")}
+                >
+                  <span>SAVE</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="flex space-x-3 px-2">
+            <div>
+              <div className="p-1 bg-amber-800 rounded-lg">
+                <IoPhonePortraitOutline />
+              </div>
+            </div>
+            <div className="flex w-full justify-between items-center space-x-2 border-b border-gray-800 pb-1.5 mb-1.5">
+              <select
+                placeholder="URL wallpaper"
+                className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none rounded-md px-2 py-1 bg-[#3B3B3B]"
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setFrame(value);
+                  setProfile((prevState) => ({
+                    ...prevState,
+                    frame: value,
+                  }));
+                }}
+              >
+                {[
+                  "1.svg",
+                  "2.svg",
+                  "3.svg",
+                  "4.svg",
+                  "5.svg",
+                  "6.svg",
+                  "7.svg",
+                  "8.svg",
+                ].map((v, i) => {
+                  if (v == frame) {
+                    return (
+                      <option key={i} value={v} selected>
+                        Background {v}
+                      </option>
+                    );
+                  } else {
+                    return (
+                      <option key={i} value={v}>
+                        Background {v}
+                      </option>
+                    );
+                  }
+                })}
+              </select>
+              <div className="flex items-center justify-center">
+                <button
+                  className="flex font-medium rounded-full text-white bg-blue-500 px-2 text-sm items-center justify-center"
+                  type="button"
+                  onClick={() => savePhotoOrWallpaper("frame")}
                 >
                   <span>SAVE</span>
                 </button>
