@@ -19,7 +19,7 @@ const GalleryComponent = ({ isShow }) => {
     await axios
       .post("/delete-photos", { id: dataModal.id })
       .then(function (response) {
-        if (response.data != "" || response.data != null) {
+        if (response.data != "" && response.data != null) {
           setPhotos(response.data);
           setIsShowModal(false);
           setDataModal(null);

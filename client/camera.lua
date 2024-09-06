@@ -28,7 +28,7 @@ RegisterNUICallback('TakePhoto', function(_, cb)
         elseif IsControlJustPressed(1, 177) then -- CANCEL
             DestroyMobilePhone()
             CellCamActivate(false, false)
-            cb(json.encode({ url = nil }))
+            cb(nil)
             break
         elseif IsControlJustPressed(1, 176) then -- TAKE.. PIC
             lib.callback('z-phone:server:GetWebhook', false, function(hook)

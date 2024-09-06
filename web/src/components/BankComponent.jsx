@@ -16,6 +16,7 @@ import {
 import { MdOutlineReceiptLong } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
 import { currencyFormat } from "../utils/common";
+import axios from "axios";
 
 const subMenuList = {
   balance: "balance",
@@ -25,7 +26,7 @@ const subMenuList = {
 };
 
 const BankComponent = ({ isShow }) => {
-  const { setMenu, bank, profile } = useContext(MenuContext);
+  const { setMenu, bank, profile, setBank } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList["balance"]);
 
   const handleTransferChange = (e) => {
@@ -76,6 +77,35 @@ const BankComponent = ({ isShow }) => {
     // Here you can add your code to send formData to an API
   };
 
+  const handlePayInvoice = async (bill) => {
+    await axios
+      .post("/pay-invoice", bill)
+      .then(function (response) {
+        if (response.data) {
+          setBank((prev) => ({
+            ...prev,
+            balance: bank.balance - bill.amount,
+            bills: bank.bills.filter((item) => item.id !== bill.id),
+            histories: [
+              {
+                type: "withdraw",
+                label: bill.reason,
+                total: bill.amount,
+                created_at: "just now",
+              },
+              ...bank.histories,
+            ],
+          }));
+          console.log(JSON.stringify(bank.histories));
+        } else {
+          setMenu(MENU_DEFAULT);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {});
+  };
   return (
     <div
       className="relative flex flex-col w-full h-full"
@@ -215,12 +245,13 @@ const BankComponent = ({ isShow }) => {
                             <div
                               className={`flex justify-end items-center w-full  ${
                                 v.type == "withdraw"
-                                  ? "text-green-500"
-                                  : "text-red-500"
+                                  ? "text-red-500"
+                                  : "text-green-500"
                               }`}
                             >
                               <FaDollarSign className="text-sm" />
                               <span className="text-sm truncate">
+                                {v.type == "withdraw" ? "- " : ""}
                                 {currencyFormat(v.total)}
                               </span>
                             </div>
@@ -261,18 +292,28 @@ const BankComponent = ({ isShow }) => {
                               {v.type.toUpperCase()}
                             </p>
                             <p className="text-xs truncate text-gray-400">
-                              {v.label}
+                              {v.label == "" ? "-" : v.label}
                             </p>
                           </div>
-                          <div className="inline-flex items-center text-base font-semibold">
+                          <div className="inline-flex items-end text-base font-semibold">
                             {v.type == "withdraw" ? (
-                              <span className="text-red-500">
-                                - ${currencyFormat(v.total)}
-                              </span>
+                              <div className="flex flex-col -space-y-1 text-right">
+                                <span className="text-red-500">
+                                  - ${currencyFormat(v.total)}
+                                </span>
+                                <span className="text-xss text-gray-400">
+                                  {v.created_at}
+                                </span>
+                              </div>
                             ) : (
-                              <span className="text-green-500">
-                                + ${currencyFormat(v.total)}
-                              </span>
+                              <div className="flex flex-col -space-y-1 text-right">
+                                <span className="text-green-500">
+                                  + ${currencyFormat(v.total)}
+                                </span>
+                                <span className="text-xss text-gray-400">
+                                  {v.created_at}
+                                </span>
+                              </div>
                             )}
                           </div>
                         </div>
@@ -307,19 +348,26 @@ const BankComponent = ({ isShow }) => {
                         <div className="flex w-full items-center space-x-4 justify-between">
                           <div className="flex flex-col text-base font-semibold">
                             <span className="text-sm line-clamp-1">
-                              {v.type.toUpperCase()}
+                              {v.society.toUpperCase()}
                             </span>
                             <span className="text-red-500 line-clamp-1">
-                              - ${currencyFormat(v.total)}
+                              - ${currencyFormat(v.amount)}
                             </span>
                           </div>
-
-                          <button className="flex space-x-1 bg-gray-700 items-center px-2 cursor-pointer hover:bg-green-700 rounded-lg">
-                            <FaCheck className="text-sm" />
-                            <span className="text-sm font-semibold py-0.5">
-                              Pay
+                          <div className="flex flex-col space-y-1 text-right">
+                            <button
+                              className="flex space-x-1 bg-gray-700 items-center justify-center px-2 cursor-pointer hover:bg-green-700 rounded-lg"
+                              onClick={() => handlePayInvoice(v)}
+                            >
+                              <FaCheck className="text-sm" />
+                              <span className="text-sm font-semibold py-0.5">
+                                Pay
+                              </span>
+                            </button>
+                            <span className="text-xss text-gray-400">
+                              {v.created_at}
                             </span>
-                          </button>
+                          </div>
                         </div>
                       </li>
                     );

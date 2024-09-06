@@ -29,8 +29,10 @@ const CameraComponent = ({ isShow }) => {
     await axios
       .post("/TakePhoto")
       .then(async function (response) {
-        if (response.data != "" || response.data != null) {
+        if (response.data != "" && response.data != null) {
           savePhoto(response.data);
+        } else {
+          setMenu(MENU_DEFAULT);
         }
       })
       .catch(function (error) {
