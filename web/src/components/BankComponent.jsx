@@ -243,15 +243,15 @@ const BankComponent = ({ isShow }) => {
                           </div>
                           <div className="w-1/2">
                             <div
-                              className={`flex justify-end items-center w-full  ${
+                              className={`flex justify-end items-center w-full text-sm ${
                                 v.type == "withdraw"
                                   ? "text-red-500"
                                   : "text-green-500"
                               }`}
                             >
-                              <FaDollarSign className="text-sm" />
-                              <span className="text-sm truncate">
-                                {v.type == "withdraw" ? "- " : ""}
+                              {v.type == "withdraw" ? "- " : ""}
+                              <FaDollarSign />
+                              <span className="truncate">
                                 {currencyFormat(v.total)}
                               </span>
                             </div>
