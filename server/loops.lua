@@ -117,7 +117,7 @@ lib.callback.register('z-phone:server:SendTweetComment', function(source, body)
 
         if id then
             local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(body.tweet_citizenid)
-            if TargetPlayer ~= nil then
+            if TargetPlayer ~= nil and TargetPlayer.PlayerData.source ~= source then
                 TriggerClientEvent("z-phone:client:sendNotifInternal", TargetPlayer.PlayerData.source, {
                     type = "Notification",
                     from = "Loops",

@@ -1,6 +1,6 @@
 QBCore = exports['qb-core']:GetCoreObject()
 PlayerJob = {}
-
+Profile = {}
 PhoneData = {
     MetaData = {},
     isOpen = false,
@@ -14,8 +14,16 @@ PhoneData = {
     },
 }
 
-Profile = nil
 CreateThread(function()
+    Wait(500)
+    if next(Profile) == nil then
+        lib.callback('z-phone:server:GetProfile', false, function(profile)
+            Profile = profile
+        end)
+    end
+end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     lib.callback('z-phone:server:GetProfile', false, function(profile)
         Profile = profile
     end)

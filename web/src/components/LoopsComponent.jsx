@@ -99,6 +99,10 @@ const LoopsComponent = ({ isShow }) => {
       tweet_citizenid: tweetDetail.citizenid,
       comment: formDataComment.comment,
     });
+
+    setFormDataComment({
+      comment: "",
+    });
   };
 
   const getComments = async (tweet) => {
@@ -293,6 +297,8 @@ const LoopsComponent = ({ isShow }) => {
                       className="bg-black text-xs font-medium w-full focus:outline-none"
                       placeholder="Comment"
                       name="comment"
+                      value={formDataComment.comment}
+                      autoComplete="off"
                       onChange={handleCommentFormChange}
                       autoComplete="off"
                       required
