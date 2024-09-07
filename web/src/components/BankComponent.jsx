@@ -28,6 +28,10 @@ const subMenuList = {
 const BankComponent = ({ isShow }) => {
   const { setMenu, bank, profile, setBank } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList["balance"]);
+  const [receiver, setReceiver] = useState({
+    isValid: false,
+    name: "",
+  });
 
   const handleTransferChange = (e) => {
     const { value } = e.target;
@@ -62,19 +66,64 @@ const BankComponent = ({ isShow }) => {
     });
   };
 
-  const handleTransferFormSubmit = (e) => {
+  const handleTransferFormSubmit = async (e) => {
     e.preventDefault();
     if (!formDataTransfer.receiver) {
+      console.log("1");
+      return;
+    }
+    if (formDataTransfer.receiver.length < 8) {
+      console.log("11");
       return;
     }
     if (!formDataTransfer.total) {
+      console.log("2");
       return;
     }
     if (!formDataTransfer.note) {
+      console.log("3");
       return;
     }
+    if (bank.balance < formDataTransfer.total) {
+      console.log("4");
+      return;
+    }
+    formDataTransfer.iban = formDataTransfer.receiver;
     console.log("Form Data:", formDataTransfer);
-    // Here you can add your code to send formData to an API
+
+    await axios
+      .post("/transfer", formDataTransfer)
+      .then(function (response) {
+        if (response.data) {
+          setBank((prev) => ({
+            ...prev,
+            balance: bank.balance - formDataTransfer.total,
+            histories: [
+              {
+                type: "withdraw",
+                label: "creating...",
+                total: formDataTransfer.total,
+                created_at: "just now",
+              },
+              ...bank.histories,
+            ],
+          }));
+          setSubMenu(subMenuList["balance"]);
+          setReceiver({
+            isValid: false,
+            name: "",
+          });
+          setFormDataTransfer({
+            receiver: "",
+            total: "",
+            note: "",
+          });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {});
   };
 
   const handlePayInvoice = async (bill) => {
@@ -102,6 +151,39 @@ const BankComponent = ({ isShow }) => {
         }
       })
       .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {});
+  };
+
+  const handleCheckReceiver = async () => {
+    if (!formDataTransfer.receiver) {
+      return;
+    }
+
+    if (formDataTransfer.receiver.length < 8) {
+      return;
+    }
+
+    await axios
+      .post("/transfer-check", {
+        iban: formDataTransfer.receiver,
+      })
+      .then(function (response) {
+        if (response.data) {
+          setReceiver(response.data);
+        } else {
+          setReceiver({
+            isValid: false,
+            name: "",
+          });
+        }
+      })
+      .catch(function (error) {
+        setReceiver({
+          isValid: false,
+          name: "",
+        });
         console.log(error);
       })
       .finally(function () {});
@@ -413,7 +495,14 @@ const BankComponent = ({ isShow }) => {
               </div>
               <div className="px-3">
                 <div className="flex flex-col space-y-1 border-b border-gray-800 w-full pb-1">
-                  <span className="text-sm text-gray-400">To</span>
+                  <div className="text-sm text-gray-400 flex space-x-1 items-center">
+                    <span>To</span>
+                    {receiver.isValid ? (
+                      <span className="text-green-500 font-semibold">
+                        {receiver.name}
+                      </span>
+                    ) : null}
+                  </div>
                   <span className="text-xss text-gray-400">
                     Isi dengan nomor akun bank penerima.
                   </span>
@@ -438,7 +527,10 @@ const BankComponent = ({ isShow }) => {
                         borderRadius: 5,
                       }}
                     >
-                      <div className="flex items-center cursor-pointer space-x-1">
+                      <div
+                        className="flex items-center cursor-pointer space-x-1"
+                        onClick={handleCheckReceiver}
+                      >
                         <span>Check</span>
                         <FaSearch />
                       </div>
@@ -498,7 +590,7 @@ const BankComponent = ({ isShow }) => {
                   type="submit"
                   className="w-full bg-blue-600 hover:bg-blue-700 font-semibold py-2 rounded-lg flex justify-center items-center space-x-2"
                 >
-                  <span>Submit</span>
+                  <span>Transfer</span>
                   <FaArrowRightLong />
                 </button>
               </div>
