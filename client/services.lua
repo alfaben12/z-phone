@@ -16,7 +16,7 @@ RegisterNUICallback('get-services', function(_, cb)
             ServicesFormatted[#ServicesFormatted + 1] = {
                 logo = 'https://raw.githubusercontent.com/alfaben12/kmrp-assets/main/logo/business/goverment.png',
                 service = QBCore.Shared.Jobs[v].label,
-                type = QBCore.Shared.Jobs[v].type,
+                type = QBCore.Shared.Jobs[v].type and QBCore.Shared.Jobs[v].type or "General",
             }
         end
     end

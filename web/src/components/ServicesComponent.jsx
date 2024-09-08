@@ -58,8 +58,8 @@ const ServicesComponent = ({ isShow }) => {
           <LoadingComponent />
         ) : (
           <div className="flex flex-col justify-center rounded-xl h-full w-full px-3">
-            <div className="bg-gray-700 rounded-lg py-2 flex flex-col w-full p-3">
-              <div className="flex justify-between items-center pb-2">
+            <div className="bg-slate-700 rounded-lg py-2 flex flex-col w-full p-3">
+              <div className="flex justify-between items-center pb-1">
                 <span className="truncate font-semibold">
                   {service.service}
                 </span>
@@ -80,12 +80,12 @@ const ServicesComponent = ({ isShow }) => {
                 <div className="flex flex-col gap-1 py-2 text-xs">
                   <span className="flex justify-between items-center">
                     <textarea
-                      defaultValue={formDataMessage.message}
+                      value={formDataMessage.message}
                       name="message"
                       onChange={handleMessageFormChange}
                       placeholder="Message for a service"
                       rows={4}
-                      className="bg-black focus:outline-none text-white w-full text-xs resize-none no-scrollbar bg-gray-900 p-3 rounded-lg"
+                      className="bg-black focus:outline-none text-white w-full text-xs resize-none no-scrollbar bg-slate-800 p-3 rounded-lg"
                     ></textarea>
                   </span>
                   <div className="flex justify-end pt-2">
@@ -164,7 +164,7 @@ const ServicesComponent = ({ isShow }) => {
                       {v.service}
                     </span>
                     <span className="text-xs text-gray-200 font-medium pb-2">
-                      Type: {v.type}
+                      Type: {v.type.toUpperCase()}
                     </span>
                   </div>
                   <div

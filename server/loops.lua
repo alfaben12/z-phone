@@ -10,11 +10,7 @@ lib.callback.register('z-phone:server:GetTweets', function(source)
                 zpt.citizenid,
                 zpt.tweet,
                 zpt.media,
-                CONCAT(
-                    JSON_UNQUOTE(JSON_EXTRACT(p.charinfo, '$.firstname')), 
-                    ' ', 
-                    JSON_UNQUOTE(JSON_EXTRACT(p.charinfo, '$.lastname'))
-                ) AS name,
+                zpu.loops_name AS name,
                 zpu.avatar,
                 zpu.loops_username AS username,
                 DATEDIFF(CURDATE(), zpt.created_at) AS created_at,
@@ -23,7 +19,6 @@ lib.callback.register('z-phone:server:GetTweets', function(source)
             FROM
                 zp_tweets zpt
             JOIN zp_users zpu ON zpu.citizenid = zpt.citizenid
-            JOIN players p ON p.citizenid = zpt.citizenid
             LEFT JOIN zp_tweet_comments zptc ON zptc.tweetid = zpt.id
             GROUP BY zpt.id, zpt.tweet, zpt.media, zpu.avatar, zpu.loops_username, zpu.created_at, name
             ORDER BY zpt.id DESC
@@ -47,18 +42,13 @@ lib.callback.register('z-phone:server:GetComments', function(source, body)
         local query = [[
             SELECT
                 zptc.comment,
-                CONCAT(
-                    JSON_UNQUOTE(JSON_EXTRACT(p.charinfo, '$.firstname')), 
-                    ' ', 
-                    JSON_UNQUOTE(JSON_EXTRACT(p.charinfo, '$.lastname'))
-                ) AS name,
+                zpu.loops_name AS name,
                 zpu.avatar,
                 zpu.loops_username AS username,
                 DATEDIFF(CURDATE(), zptc.created_at) AS created_at
             FROM
                 zp_tweet_comments zptc
             JOIN zp_users zpu ON zpu.citizenid = zptc.citizenid
-            JOIN players p ON p.citizenid = zptc.citizenid
             WHERE zptc.tweetid = ?
             ORDER BY zptc.id DESC
         ]]

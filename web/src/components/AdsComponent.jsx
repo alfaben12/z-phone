@@ -73,13 +73,21 @@ const AdsComponent = ({ isShow }) => {
   };
 
   const handleChat = async (v) => {
-    const response = await axios.post("/new-or-continue-chat", {
-      to_citizenid: v.citizenid,
-    });
-
-    setChatting(response.data);
-    setSubMenu("list");
-    setMenu(MENU_MESSAGE_CHATTING);
+    await axios
+      .post("/new-or-continue-chat", {
+        to_citizenid: v.citizenid,
+      })
+      .then(function (response) {
+        if (response.data) {
+          setChatting(response.data);
+          setSubMenu("list");
+          setMenu(MENU_MESSAGE_CHATTING);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {});
   };
 
   return (
