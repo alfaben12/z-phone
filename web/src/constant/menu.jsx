@@ -30,6 +30,7 @@ export const MENU_INTERNAL_NOTIFICATION =
   config.APPS.MENU_INTERNAL_NOTIFICATION;
 export const NAME = config.name;
 export const LOGO = config.logo;
+export const CLOSE_CALL = "CLOSE_CALL";
 
 export const MENU_CONSTANT = [
   {

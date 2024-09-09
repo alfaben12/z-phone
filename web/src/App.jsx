@@ -27,6 +27,7 @@ import {
   PHONE_ROUNDED,
   PHONE_WIDTH,
   MENU_CAMERA,
+  CLOSE_CALL,
 } from "./constant/menu";
 import DynamicComponent from "./components/DynamicComponent";
 import { faker } from "@faker-js/faker";
@@ -92,6 +93,25 @@ function App() {
 
     if (isOpen) {
       fetchData();
+
+      if (outsideCallNotif.message != null) {
+        setNotificationCall({
+          type: MENU_INCOMING_CALL_NOTIFICATION,
+          from: outsideCallNotif.from,
+          photo: faker.image.avatar(),
+        });
+      }
+
+      setOutsideMessageNotif({
+        from: null,
+        avatar: null,
+        message: null,
+      });
+      setOutsideCallNotif({
+        from: null,
+        avatar: null,
+        message: null,
+      });
     }
   }, [isOpen]);
 
@@ -576,6 +596,14 @@ function App() {
     sendEventData({ lovys: data });
   };
 
+  const sendCallClose = () => {
+    sendEventData({
+      closeCall: {
+        type: CLOSE_CALL,
+      },
+    });
+  };
+
   const sendMessageNotification = () => {
     sendEventData({
       notification: {
@@ -702,6 +730,15 @@ function App() {
     let data = event.data;
     if (data.event !== "z-phone") {
       return;
+    }
+
+    if (data.closeCall) {
+      setOutsideCallNotif({
+        from: null,
+        avatar: null,
+        message: null,
+      });
+      setNotificationCall({ type: "" });
     }
 
     if (data.notification) {
@@ -914,6 +951,16 @@ function App() {
             onClick={() => sendOutsideIncomingCall()}
           >
             Notification CALL (X)
+          </button>
+        </div>
+        <div>
+          <button
+            className={`${
+              isOpen ? "bg-blue-500" : "bg-red-500"
+            } px-5 py-2 rounded text-white`}
+            onClick={() => sendCallClose()}
+          >
+            Close CALL (X)
           </button>
         </div>
       </div>
