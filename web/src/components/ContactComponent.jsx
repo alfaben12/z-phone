@@ -1,10 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  MENU_DEFAULT,
-  MENU_MESSAGE_CHATTING,
-  PHONE_HEIGHT,
-  PHONE_WIDTH,
-} from "../constant/menu";
+import { MENU_DEFAULT, MENU_MESSAGE_CHATTING } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import {
   MdArrowBackIosNew,
@@ -21,6 +16,7 @@ import axios from "axios";
 
 const ContactComponent = ({ isShow }) => {
   const {
+    resolution,
     contacts,
     contactsBk,
     setMenu,
@@ -84,8 +80,8 @@ const ContactComponent = ({ isShow }) => {
           formEdit ? "visible" : "invisible"
         }`}
         style={{
-          height: PHONE_HEIGHT,
-          width: PHONE_WIDTH,
+          height: resolution.layoutHeight,
+          width: resolution.layoutWidth,
           backgroundColor: "rgba(31, 41, 55, 0.8)",
         }}
       >

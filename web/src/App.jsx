@@ -23,9 +23,6 @@ import {
   MENU_LOVY,
   PHONE_FRAME_HEIGHT,
   PHONE_FRAME_WIDTH,
-  PHONE_HEIGHT,
-  PHONE_ROUNDED,
-  PHONE_WIDTH,
   MENU_CAMERA,
   CLOSE_CALL,
 } from "./constant/menu";
@@ -42,6 +39,7 @@ function App() {
     time,
     profile,
     chatting,
+    resolution,
     setMenu,
     setContacts,
     setContactsBk,
@@ -70,6 +68,7 @@ function App() {
     setLovys,
     setProfile,
     setContactRequests,
+    setResolution,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
   const [outsideMessageNotif, setOutsideMessageNotif] = useState({
@@ -801,19 +800,6 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    // hide();
-
-    window.addEventListener("message", handleEventPhone);
-    window.addEventListener("message", handleOpenPhone);
-    window.addEventListener("keydown", handleEsc);
-    return () => {
-      window.removeEventListener("message", handleEventPhone);
-      window.removeEventListener("message", handleOpenPhone);
-      window.removeEventListener("keydown", handleEsc);
-    };
-  }, []);
-
   const localStorageKey = "zphone";
   const getConfigFromDefaultConfig = () => {
     fetch("static/config.json") // Adjust the path accordingly
@@ -838,18 +824,26 @@ function App() {
     // } else {
     //   getConfigFromDefaultConfig();
     // }
+
+    openPhone(true);
     getConfigFromDefaultConfig();
     setNotificationInternal({ type: "" });
     setNotificationMessage({ type: "" });
     setNotificationCall({ type: "" });
     setNotificationNews({ type: "" });
+
+    window.addEventListener("message", handleEventPhone);
+    window.addEventListener("message", handleOpenPhone);
+    window.addEventListener("keydown", handleEsc);
+    return () => {
+      window.removeEventListener("message", handleEventPhone);
+      window.removeEventListener("message", handleOpenPhone);
+      window.removeEventListener("keydown", handleEsc);
+    };
   }, []);
 
   // LISTEN NEW MESSAGE
   useEffect(() => {
-    console.log(chatting?.conversation_name);
-    console.log(notificationMessage.from);
-    console.log(notificationMessage?.type);
     if (
       notificationMessage?.type == MENU_NEW_MESSAGE_NOTIFICATION &&
       chatting?.conversation_name == notificationMessage.from
@@ -880,9 +874,44 @@ function App() {
     return () => clearTimeout(timer);
   }, [outsideMessageNotif]);
 
+  function generateDimensions(height) {
+    const initWidthAndHeight = {
+      initWidth: resolution.frameWidth,
+      initHeight: resolution.frameHeight,
+    };
+
+    const aspectRatio =
+      initWidthAndHeight.initHeight / initWidthAndHeight.initWidth;
+    const newWidth = height / aspectRatio;
+    const newRadius = height * 0.066;
+    const newMargin = height * 0.033;
+
+    return {
+      frameWidth: newWidth,
+      frameHeight: height,
+      layoutWidth: newWidth - newMargin,
+      layoutHeight: height - newMargin,
+      radius: newRadius,
+    };
+  }
+
+  function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   return (
     <div className="font-normal">
       <div className="flex-col space-y-2">
+        <button
+          className="bg-blue-500"
+          onClick={() => {
+            const height = generateDimensions(getRandomNumber(500, 720));
+            console.log(height);
+            setResolution(height);
+          }}
+        >
+          Change Ratio
+        </button>
         <div>
           <button
             className={`${
@@ -1018,9 +1047,9 @@ function App() {
         <div
           className="absolute bottom-10 right-10"
           style={{
-            height: `${PHONE_FRAME_HEIGHT}px`,
-            width: `${PHONE_FRAME_WIDTH}px`,
-            padding: 5,
+            height: `${resolution.frameHeight}px`,
+            width: `${resolution.frameWidth}px`,
+            // padding: 5,
           }}
         >
           <img
@@ -1035,15 +1064,15 @@ function App() {
             <div
               className={`relative overflow-hidden bg-black `}
               style={{
-                height: `${PHONE_HEIGHT}px`,
-                width: `${PHONE_WIDTH}px`,
-                borderRadius: `${PHONE_ROUNDED}px`,
+                height: `${resolution.layoutHeight}px`,
+                width: `${resolution.layoutWidth}px`,
+                borderRadius: `${resolution.radius}px`,
               }}
             >
               <div
                 className={`absolute flex justify-between px-4 py-2 z-50`}
                 style={{
-                  width: `${PHONE_WIDTH}px`,
+                  width: `${resolution.layoutWidth}px`,
                 }}
               >
                 <div className="absolute top-0 right-0 w-full flex justify-center">

@@ -1,15 +1,16 @@
-import React from "react";
-import { PHONE_HEIGHT, PHONE_WIDTH } from "../constant/menu";
+import React, { useContext } from "react";
+import MenuContext from "../context/MenuContext";
 
 const LayoutComponent = ({ children }) => {
+  const { resolution } = useContext(MenuContext);
   return (
     <div
       className="no-scrollbar"
       style={{
-        maxWidth: `${PHONE_WIDTH}px`,
-        width: `${PHONE_WIDTH}px`,
-        maxHeight: `${PHONE_HEIGHT}px`,
-        height: `${PHONE_HEIGHT}px`,
+        maxWidth: `${resolution.layoutWidth}px`,
+        width: `${resolution.layoutWidth}px`,
+        maxHeight: `${resolution.layoutHeight}px`,
+        height: `${resolution.layoutHeight}px`,
       }}
     >
       {children}

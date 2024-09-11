@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { MENU_DEFAULT, PHONE_HEIGHT, PHONE_WIDTH } from "../constant/menu";
+import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdCancel, MdOutlineSearch } from "react-icons/md";
 import { GiHomeGarage, GiPoliceBadge, GiMechanicGarage } from "react-icons/gi";
@@ -8,7 +8,8 @@ import { searchByKeyValueContains } from "../utils/common";
 import LoadingComponent from "./LoadingComponent";
 
 const GarageComponent = ({ isShow }) => {
-  const { setMenu, garages, setGarages, garagesBk } = useContext(MenuContext);
+  const { resolution, setMenu, garages, setGarages, garagesBk } =
+    useContext(MenuContext);
   const [isShowModal, setIsShowModal] = useState(false);
   const [dataModal, setDataModal] = useState(null);
 
@@ -56,8 +57,8 @@ const GarageComponent = ({ isShow }) => {
           isShowModal ? "visible" : "invisible"
         }`}
         style={{
-          height: PHONE_HEIGHT,
-          width: PHONE_WIDTH,
+          height: resolution.layoutHeight,
+          width: resolution.layoutWidth,
           backgroundColor: "rgba(31, 41, 55, 0.8)",
         }}
       >

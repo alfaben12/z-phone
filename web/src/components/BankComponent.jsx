@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { LOGO, MENU_DEFAULT, NAME, PHONE_HEIGHT } from "../constant/menu";
+import { LOGO, MENU_DEFAULT, NAME } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { LuSun } from "react-icons/lu";
@@ -26,7 +26,8 @@ const subMenuList = {
 };
 
 const BankComponent = ({ isShow }) => {
-  const { setMenu, bank, profile, setBank } = useContext(MenuContext);
+  const { setMenu, bank, profile, setBank, resolution } =
+    useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList["balance"]);
   const [receiver, setReceiver] = useState({
     isValid: false,
@@ -250,7 +251,7 @@ const BankComponent = ({ isShow }) => {
               <div
                 className="relative z-20 flex flex-col w-full mt-24 bg-gray-900 rounded-t-2xl text-white px-4 py-4"
                 style={{
-                  height: `${PHONE_HEIGHT - 120}px`,
+                  height: `${resolution.layoutHeight - 120}px`,
                   marginBottom: 50,
                 }}
               >

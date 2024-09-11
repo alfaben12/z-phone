@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import { MENU_DEFAULT, PHONE_HEIGHT } from "../constant/menu";
+import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
-import { FaHashtag, FaRegComment } from "react-icons/fa6";
+import { FaHashtag, FaRegComment, FaRegUser } from "react-icons/fa6";
 import { GoMention } from "react-icons/go";
 import { IoCamera } from "react-icons/io5";
 import LoadingComponent from "./LoadingComponent";
@@ -14,13 +14,15 @@ import axios from "axios";
 const subMenuList = {
   create: "create",
   tweet: "tweet",
-  mention: "mention",
-  hashtag: "hashtags",
+  profile: "profile",
+  signup: "signup",
+  signin: "signin",
 };
 
 const LoopsComponent = ({ isShow }) => {
-  const { profile, tweets, setTweets, setMenu } = useContext(MenuContext);
-  const [subMenu, setSubMenu] = useState(subMenuList.tweet);
+  const { resolution, profile, tweets, setTweets, setMenu } =
+    useContext(MenuContext);
+  const [subMenu, setSubMenu] = useState(subMenuList.signin);
   const [tweetDetail, setTweetDetail] = useState(null);
   const [media, setMedia] = useState("");
   const [formDataTweet, setFormDataTweet] = useState({
@@ -186,10 +188,14 @@ const LoopsComponent = ({ isShow }) => {
             alt=""
           />
         </span>
-        <div className="flex items-center px-2 space-x-2 text-white">
-          <FaHashtag className="text-lg hover:text-[#1d9cf0] cursor-pointer" />
-          <GoMention className="text-lg hover:text-[#1d9cf0] cursor-pointer" />
-        </div>
+        {subMenuList.profile == subMenu ? null : (
+          <div
+            className="flex items-center px-2 space-x-2 text-white cursor-pointer"
+            onClick={() => setSubMenu(subMenuList.profile)}
+          >
+            <FaRegUser className="text-lg hover:text-[#1d9cf0]" />
+          </div>
+        )}
       </div>
       <div
         className={`no-scrollbar absolute w-full z-30 overflow-auto text-white bg-black ${
@@ -203,7 +209,7 @@ const LoopsComponent = ({ isShow }) => {
             <div
               className="rounded-lg flex flex-col w-full pt-8"
               style={{
-                height: PHONE_HEIGHT,
+                height: resolution.layoutHeight,
               }}
             >
               <div className="flex w-full justify-between bg-black z-10 pb-2.5">
@@ -300,7 +306,6 @@ const LoopsComponent = ({ isShow }) => {
                       value={formDataComment.comment}
                       autoComplete="off"
                       onChange={handleCommentFormChange}
-                      autoComplete="off"
                       required
                     />
                     <button className="rounded-full" type="submit">
@@ -355,6 +360,34 @@ const LoopsComponent = ({ isShow }) => {
             </div>
           </div>
         )}
+      </div>
+      <div
+        className={`no-scrollbar absolute w-full z-40 overflow-auto text-white bg-black ${
+          subMenu == subMenuList.signin ? "visible" : "invisible"
+        }`}
+      >
+        <div className="relative flex flex-col rounded-xl h-full w-full px-2">
+          <div
+            className="rounded-lg flex flex-col w-full pt-8 bg-red-500"
+            style={{
+              height: resolution.layoutHeight,
+            }}
+          >
+            <div className="flex w-full justify-between bg-black z-10 pb-2.5">
+              <div
+                className="flex items-center text-blue-500 cursor-pointer"
+                onClick={() => {
+                  setSubMenu(subMenuList.tweet);
+                }}
+              >
+                <MdArrowBackIosNew className="text-lg" />
+                <span className="text-xs">Back</span>
+              </div>
+              <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit"></span>
+              <div className="flex items-center px-2 space-x-2 text-white"></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         className="no-scrollbar flex flex-col w-full h-full overflow-y-auto"
@@ -504,6 +537,14 @@ const LoopsComponent = ({ isShow }) => {
               </div>
             </div>
           </form>
+        </div>
+
+        <div
+          style={{
+            ...(subMenu !== subMenuList.profile ? { display: "none" } : {}),
+          }}
+        >
+          <div className="w-full flex flex-col"></div>
         </div>
       </div>
     </div>

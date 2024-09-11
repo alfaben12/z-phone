@@ -1,10 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  MENU_DEFAULT,
-  NAME,
-  PHONE_HEIGHT,
-  PHONE_WIDTH,
-} from "../constant/menu";
+import { MENU_DEFAULT, NAME } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdCancel, MdWhatsapp } from "react-icons/md";
 import { FaLocationDot, FaKey, FaHouse } from "react-icons/fa6";
@@ -12,7 +7,7 @@ import LoadingComponent from "./LoadingComponent";
 import axios from "axios";
 
 const HouseComponent = ({ isShow }) => {
-  const { setMenu, houses } = useContext(MenuContext);
+  const { setMenu, houses, resolution } = useContext(MenuContext);
   const [isShowModal, setIsShowModal] = useState(false);
   const [dataModal, setDataModal] = useState(null);
 
@@ -39,8 +34,8 @@ const HouseComponent = ({ isShow }) => {
           isShowModal ? "visible" : "invisible"
         }`}
         style={{
-          height: PHONE_HEIGHT,
-          width: PHONE_WIDTH,
+          height: resolution.layoutHeight,
+          width: resolution.layoutWidth,
           backgroundColor: "rgba(31, 41, 55, 0.8)",
         }}
       >

@@ -4,15 +4,14 @@ import { MdCall, MdCallEnd } from "react-icons/md";
 import {
   MENU_INCALL,
   MENU_INCOMING_CALL_NOTIFICATION,
-  PHONE_HEIGHT,
-  PHONE_WIDTH,
 } from "../../constant/menu";
 import { MdOutlinePhone } from "react-icons/md";
 import useSound from "use-sound";
 import notificationMessageSound from "/sounds/call-sound.mp3";
 
 const IncomingCallNotificationComponent = ({ isShow }) => {
-  const { notificationCall, setNotificationCall } = useContext(MenuContext);
+  const { resolution, notificationCall, setNotificationCall } =
+    useContext(MenuContext);
   const [isClose, setIsClose] = useState(false);
   const [play, { stop }] = useSound(notificationMessageSound);
 
@@ -31,8 +30,8 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
       style={{
         display: isShow ? "block" : "none",
         background: "rgb(0, 0, 0, 0.9)",
-        height: PHONE_HEIGHT,
-        width: PHONE_WIDTH,
+        height: resolution.layoutHeight,
+        width: resolution.layoutWidth,
       }}
     >
       <div className="flex px-3 py-4 space-x-2 w-full h-full items-center">

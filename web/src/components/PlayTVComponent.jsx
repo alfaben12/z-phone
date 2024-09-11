@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { MENU_DEFAULT, PHONE_HEIGHT } from "../constant/menu";
+import { MENU_DEFAULT } from "../constant/menu";
 import { MdArrowBackIosNew } from "react-icons/md";
 import ReactPlayer from "react-player/lazy";
 import MenuContext from "../context/MenuContext";
 
 const PlayTVComponent = ({ isShow }) => {
-  const { setMenu } = useContext(MenuContext);
+  const { resolution, setMenu } = useContext(MenuContext);
   const [stream, setStream] = useState({
     url: "",
   });
@@ -65,7 +65,7 @@ const PlayTVComponent = ({ isShow }) => {
           <div
             className="rounded-lg flex flex-col w-full pt-8"
             style={{
-              height: PHONE_HEIGHT,
+              height: resolution.layoutHeight,
             }}
           >
             <div className="flex w-full justify-between bg-black z-10 pb-2.5">

@@ -1,17 +1,13 @@
 import React, { useContext, useState } from "react";
-import {
-  MENU_DEFAULT,
-  NAME,
-  PHONE_HEIGHT,
-  PHONE_WIDTH,
-} from "../constant/menu";
+import { MENU_DEFAULT, NAME } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdCancel } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
 import { FaBell } from "react-icons/fa6";
 
 const ServicesComponent = ({ isShow }) => {
-  const { setMenu, services, setInternalNotif } = useContext(MenuContext);
+  const { resolution, setMenu, services, setInternalNotif } =
+    useContext(MenuContext);
   const [isShowModal, setIsShowModal] = useState(false);
   const [service, setService] = useState(null);
 
@@ -49,8 +45,8 @@ const ServicesComponent = ({ isShow }) => {
           isShowModal ? "visible" : "invisible"
         }`}
         style={{
-          height: PHONE_HEIGHT,
-          width: PHONE_WIDTH,
+          height: resolution.layoutHeight,
+          width: resolution.layoutWidth,
           backgroundColor: "rgba(31, 41, 55, 0.8)",
         }}
       >

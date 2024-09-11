@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { MENU_DEFAULT, PHONE_HEIGHT, PHONE_WIDTH } from "../constant/menu";
+import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import {
   MdArrowBackIosNew,
@@ -20,7 +20,8 @@ const subMenuList = {
 };
 
 const PhoneComponent = ({ isShow }) => {
-  const { callHistories, contactRequests, setMenu } = useContext(MenuContext);
+  const { resolution, callHistories, contactRequests, setMenu } =
+    useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList["keypad"]);
   const [newPhone, setNewPhone] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
@@ -76,8 +77,8 @@ const PhoneComponent = ({ isShow }) => {
           isShowModal ? "visible" : "invisible"
         }`}
         style={{
-          height: PHONE_HEIGHT,
-          width: PHONE_WIDTH,
+          height: resolution.layoutHeight,
+          width: resolution.layoutWidth,
           backgroundColor: "rgba(31, 41, 55, 0.8)",
         }}
       >

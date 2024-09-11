@@ -1,16 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import {
-  MENU_DEFAULT,
-  MENU_INCALL,
-  PHONE_HEIGHT,
-  PHONE_WIDTH,
-} from "../../constant/menu";
+import { MENU_DEFAULT, MENU_INCALL } from "../../constant/menu";
 import MenuContext from "../../context/MenuContext";
 import { MdCallEnd } from "react-icons/md";
 import Marquee from "react-fast-marquee";
 
 const InCallComponent = ({ isShow }) => {
-  const { notificationCall, setNotificationCall, setMenu } =
+  const { resolution, notificationCall, setNotificationCall, setMenu } =
     useContext(MenuContext);
   const [isClose, setIsClose] = useState(false);
   const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
@@ -50,8 +45,8 @@ const InCallComponent = ({ isShow }) => {
       style={{
         display: isShow ? "block" : "none",
         background: "rgb(0, 0, 0, 0.9)",
-        height: PHONE_HEIGHT,
-        width: PHONE_WIDTH,
+        height: resolution.layoutHeight,
+        width: resolution.layoutWidth,
       }}
     >
       <div className="flex flex-col">

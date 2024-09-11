@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import { MENU_DEFAULT, PHONE_HEIGHT } from "../constant/menu";
+import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdLiveTv } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
@@ -13,7 +13,7 @@ const subMenuList = {
 };
 
 const NewsComponent = ({ isShow }) => {
-  const { setMenu, news, newsStreams } = useContext(MenuContext);
+  const { resolution, setMenu, news, newsStreams } = useContext(MenuContext);
   const [detail, setDetail] = useState(null);
   const [stream, setStream] = useState(null);
   const [subMenu, setSubMenu] = useState("feed");
@@ -77,7 +77,7 @@ const NewsComponent = ({ isShow }) => {
             <div
               className="rounded-lg flex flex-col w-full pt-8"
               style={{
-                height: PHONE_HEIGHT,
+                height: resolution.layoutHeight,
               }}
             >
               <div className="flex w-full justify-between bg-black z-10 pb-2.5">
@@ -134,7 +134,7 @@ const NewsComponent = ({ isShow }) => {
             <div
               className="rounded-lg flex flex-col w-full pt-8"
               style={{
-                height: PHONE_HEIGHT,
+                height: resolution.layoutHeight,
               }}
             >
               <div className="flex w-full justify-between bg-black z-10 pb-2.5">

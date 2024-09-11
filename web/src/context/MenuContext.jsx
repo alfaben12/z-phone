@@ -5,6 +5,14 @@ const MenuContext = createContext({
   time: "",
   menus: null,
   menu: MENU_LOCKSCREEN,
+  resolution: {
+    frameWidth: 300,
+    frameHeight: 620,
+    layoutWidth: 280,
+    layoutHeight: 600,
+    radius: 40,
+    margin: 20,
+  },
   notificationCall: {
     type: "",
   },
@@ -60,7 +68,14 @@ export const MenuProvider = ({ children }) => {
     timeZone: "Asia/Jakarta",
   };
   const jakartaTime = date.toLocaleString("en-US", options);
-
+  const [resolution, setResolution] = useState({
+    frameWidth: 300,
+    frameHeight: 620,
+    layoutWidth: 280,
+    layoutHeight: 600,
+    radius: 40,
+    margin: 20,
+  });
   const [time, setTime] = useState(jakartaTime);
   const [menus, setMenus] = useState(null);
   const [menu, setMenu] = useState(MENU_LOCKSCREEN);
@@ -168,6 +183,8 @@ export const MenuProvider = ({ children }) => {
         setLovys,
         contactRequests,
         setContactRequests,
+        resolution,
+        setResolution,
       }}
     >
       {children}
