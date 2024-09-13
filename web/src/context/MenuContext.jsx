@@ -12,6 +12,7 @@ const MenuContext = createContext({
     layoutHeight: 600,
     radius: 40,
     margin: 20,
+    scale: 1,
   },
   notificationCall: {
     type: "",
@@ -75,6 +76,7 @@ export const MenuProvider = ({ children }) => {
     layoutHeight: 600,
     radius: 40,
     margin: 20,
+    scale: 1,
   });
   const [time, setTime] = useState(jakartaTime);
   const [menus, setMenus] = useState(null);

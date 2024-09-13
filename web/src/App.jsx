@@ -885,6 +885,7 @@ function App() {
     const newWidth = height / aspectRatio;
     const newRadius = height * 0.066;
     const newMargin = height * 0.033;
+    let newScale = (height / initWidthAndHeight.initHeight) * resolution.scale;
 
     return {
       frameWidth: newWidth,
@@ -892,6 +893,7 @@ function App() {
       layoutWidth: newWidth - newMargin,
       layoutHeight: height - newMargin,
       radius: newRadius,
+      scale: newScale,
     };
   }
 

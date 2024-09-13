@@ -35,7 +35,6 @@ import EmailComponent from "./EmailComponent";
 import EmailDetailComponent from "./EmailDetailComponent";
 import AdsComponent from "./AdsComponent";
 import ServicesComponent from "./ServicesComponent";
-import LoopsComponent from "./LoopsComponent";
 import BankComponent from "./BankComponent";
 import GarageComponent from "./GarageComponent";
 import GalleryComponent from "./GalleryComponent";
@@ -52,6 +51,7 @@ import LoadingComponent from "./LoadingComponent";
 import LovyComponent from "./LovyComponent";
 import PlayTVComponent from "./PlayTVComponent";
 import CameraComponent from "./CameraComponent";
+import LoopsComponent from "./loops/LoopsComponent";
 
 const DynamicComponent = () => {
   const {

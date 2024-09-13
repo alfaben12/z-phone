@@ -33,7 +33,7 @@ const month = [
 ][new Date().getMonth()];
 
 const LockScreenComponent = ({ isShow }) => {
-  const { profile, setMenu } = useContext(MenuContext);
+  const { resolution, profile, setMenu } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -57,7 +57,12 @@ const LockScreenComponent = ({ isShow }) => {
       }}
     >
       <div className={`relative ${isOpen ? "animate-slideUp" : ""}`}>
-        <div className="flex flex-col pt-10 items-center">
+        <div
+          className="flex flex-col pt-10 items-center"
+          style={{
+            transform: `scale(${resolution.scale})`,
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-8 w-8 text-white"
@@ -73,7 +78,12 @@ const LockScreenComponent = ({ isShow }) => {
             {day}, {month} {dateNumber}
           </p>
         </div>
-        <div className="relative mt-4 mx-2.5">
+        <div
+          className="relative mt-4 mx-2.5"
+          style={{
+            transform: `scale(${resolution.scale})`,
+          }}
+        >
           <div
             className="px-3 py-4 rounded-3xl shadow"
             style={{

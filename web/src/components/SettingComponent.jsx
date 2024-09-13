@@ -319,7 +319,7 @@ const SettingComponent = ({ isShow }) => {
               <img src="./images/loops.svg" className="rounded-lg" alt="" />
             </div>
             <div className="flex w-full justify-between items-center space-x-2 border-b border-gray-800 pb-1.5 mb-1.5">
-              <div className="flex flex-col space-y-1">
+              <div className="flex flex-col space-y-1 w-full">
                 <input
                   type="text"
                   placeholder="Loops Name"

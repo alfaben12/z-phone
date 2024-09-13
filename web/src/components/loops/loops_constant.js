@@ -1,0 +1,9 @@
+export const LOOPS_TWEETS = "LOOPS_TWEETS";
+export const LOOPS_DETAIL = "LOOPS_DETAIL";
+export const LOOPS_SIGNIN = "LOOPS_SIGNIN";
+export const LOOPS_SIGNUP = "LOOPS_SIGNUP";
+export const LOOPS_POST = "LOOPS_POST";
+export const LOOPS_PROFILE = "LOOPS_PROFILE";
+export const LOOPS_TESTING = "LOOPS_TESTING";
+export const LOOPS_TAB_POST = "LOOPS_TAB_POST";
+export const LOOPS_TAB_REPLIES = "LOOPS_TAB_REPLIES";

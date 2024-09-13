@@ -8,7 +8,7 @@ import {
 import MenuContext from "../context/MenuContext";
 
 const HomeComponent = ({ isShow }) => {
-  const { menus, profile, setMenu } = useContext(MenuContext);
+  const { resolution, menus, profile, setMenu } = useContext(MenuContext);
 
   return (
     <div
