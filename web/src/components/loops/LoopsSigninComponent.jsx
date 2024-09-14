@@ -5,7 +5,7 @@ import {
   LOOPS_DETAIL,
   LOOPS_SIGNUP,
   LOOPS_TWEETS,
-  LOOPS_LOCAL_STORAGE_IS_AUTH,
+  LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE,
 } from "./loops_constant";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MENU_DEFAULT } from "../../constant/menu";
@@ -57,7 +57,10 @@ const LoopsSigninComponent = ({ isShow, setSubMenu }) => {
 
     setErrorMessage(null);
     setSubMenu(LOOPS_TWEETS);
-    localStorage.setItem(LOOPS_LOCAL_STORAGE_IS_AUTH, "ok");
+    localStorage.setItem(
+      LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE,
+      JSON.stringify(result.profile)
+    );
   };
 
   return (

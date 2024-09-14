@@ -8,23 +8,24 @@ import { useEffect } from "react";
 import Markdown from "react-markdown";
 import { FaRegComment, FaRegUser } from "react-icons/fa6";
 import { LuRepeat2 } from "react-icons/lu";
+import { getLoopsProfile } from "./../../utils/common";
 
 const LoopsDetailComponent = ({
   isShow,
   setSubMenu,
   selectedTweet,
   setSelectedTweet,
+  setProfileID,
 }) => {
-  const { resolution, profile, tweets, setTweets, setMenu } =
-    useContext(MenuContext);
+  const { resolution, tweets, setTweets, setMenu } = useContext(MenuContext);
   const [comments, setComments] = useState([]);
+  const [profile, setProfile] = useState(null);
 
   const getComments = async (tweet) => {
     let result = [];
     try {
       const response = await axios.post("/get-tweet-comments", {
         tweetid: selectedTweet.id,
-        tweet_citizenid: selectedTweet.citizenid,
       });
       result = response.data;
     } catch (error) {
@@ -32,7 +33,6 @@ const LoopsDetailComponent = ({
     }
 
     setComments(result);
-    console.log(JSON.stringify(comments));
   };
 
   const [formData, setFormData] = useState({
@@ -51,16 +51,37 @@ const LoopsDetailComponent = ({
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Process the form data (e.g., send to API)
-    if (formData.password.length < 4) {
+    if (!formData.comment) {
       return;
     }
-    console.log(formData);
+
+    setComments((prev) => [
+      {
+        comment: formData.comment,
+        name: profile.fullname,
+        avatar: profile.avatar,
+        username: profile.username,
+        created_at: "now",
+      },
+      ...prev,
+    ]);
+
+    axios.post("/send-tweet-comments", {
+      tweetid: selectedTweet.id,
+      loops_userid: selectedTweet.loops_userid,
+      comment: formData.comment,
+      comment_username: profile.username,
+    });
+
+    setFormData({
+      comment: "",
+    });
   };
 
   useEffect(() => {
     if (isShow && selectedTweet != null) {
       getComments();
+      setProfile(getLoopsProfile());
     }
   }, [isShow]);
 
@@ -91,14 +112,23 @@ const LoopsDetailComponent = ({
             <div className="flex items-center px-2 space-x-2 text-white">
               <FaRegUser
                 className="text-lg hover:text-[#1d9cf0] cursor-pointer"
-                onClick={() => setSubMenu(LOOPS_PROFILE)}
+                onClick={() => {
+                  setProfileID(0);
+                  setSubMenu(LOOPS_PROFILE);
+                }}
               />
             </div>
           </div>
           <div className="no-scrollbar w-full h-full overflow-y-auto">
             <div className="flex-1 overflow-y-auto bg-black pb-2 flex no-scrollbar">
               <div className="rounded-xl border border-black w-full">
-                <div className="flex justify-between items-center pt-1">
+                <div
+                  className="flex justify-between items-center pt-1 cursor-pointer"
+                  onClick={() => {
+                    setProfileID(selectedTweet?.loops_userid);
+                    setSubMenu(LOOPS_PROFILE);
+                  }}
+                >
                   <div className="flex items-center">
                     <img
                       className="h-10 w-10 rounded-full object-cover"
@@ -147,10 +177,7 @@ const LoopsDetailComponent = ({
                     </div>
                     <div
                       className="flex space-x-1 items-center cursor-pointer"
-                      onClick={() => {
-                        // setTweetDetail(null);
-                        // setSubMenu(subMenuList.create);
-                      }}
+                      onClick={() => {}}
                     >
                       <span className="text-lg text-gray-200">
                         <LuRepeat2 />
@@ -171,12 +198,13 @@ const LoopsDetailComponent = ({
                 >
                   <input
                     type="text"
-                    className="bg-black text-xs font-medium w-full focus:outline-none"
+                    className="bg-black text-xs font-medium w-full focus:outline-none text-white ml-2"
                     placeholder="Comment"
                     autoComplete="off"
                     name="comment"
                     value={formData.comment}
                     onChange={handleChange}
+                    required
                   />
                   <button className="rounded-full" type="submit">
                     <img
@@ -193,18 +221,28 @@ const LoopsDetailComponent = ({
                       <div key={i}>
                         <div className="flex space-x-2">
                           <img
-                            className="h-8 w-8 rounded-full object-cover mt-1"
+                            className="h-8 w-8 rounded-full object-cover mt-1 cursor-pointer"
                             src={v.avatar}
                             alt=""
                             onError={(error) => {
                               error.target.src = "./images/noimage.jpg";
                             }}
+                            onClick={() => {
+                              setProfileID(v.loops_userid);
+                              setSubMenu(LOOPS_PROFILE);
+                            }}
                           />
                           <div className="flex flex-col w-full">
                             <div className="flex justify-between">
-                              <div className="line-clamp-1 text-white">
+                              <div
+                                className="line-clamp-1 text-white cursor-pointer"
+                                onClick={() => {
+                                  setProfileID(v.loops_userid);
+                                  setSubMenu(LOOPS_PROFILE);
+                                }}
+                              >
                                 <span className="font-semibold text-sm">
-                                  {v.name}
+                                  {v.name}{" "}
                                 </span>
                                 <span className="text-gray-500 text-xs">
                                   {v.username}
@@ -212,7 +250,8 @@ const LoopsDetailComponent = ({
                               </div>
                               <div>
                                 <span className="text-gray-500 text-xs">
-                                  {v.created_at}d
+                                  {v.created_at}
+                                  {v.created_at == "now" ? "" : "d"}
                                 </span>
                               </div>
                             </div>

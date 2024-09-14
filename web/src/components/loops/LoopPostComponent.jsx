@@ -10,7 +10,7 @@ import { FaRegComment, FaRegUser } from "react-icons/fa6";
 import { LuRepeat2 } from "react-icons/lu";
 import { IoCamera } from "react-icons/io5";
 
-const LoopPostComponent = ({ isShow, setSubMenu }) => {
+const LoopPostComponent = ({ isShow, setSubMenu, setProfileID }) => {
   const { resolution, profile, tweets, setTweets, setMenu } =
     useContext(MenuContext);
 
@@ -41,6 +41,7 @@ const LoopPostComponent = ({ isShow, setSubMenu }) => {
       });
 
       if (response.data != null) {
+        setTweets(response.data);
         setMedia("");
         setFormData({
           tweet: "",
@@ -110,7 +111,10 @@ const LoopPostComponent = ({ isShow, setSubMenu }) => {
             <div className="flex items-center px-2 space-x-2 text-white">
               <FaRegUser
                 className="text-lg hover:text-[#1d9cf0] cursor-pointer"
-                onClick={() => setSubMenu(LOOPS_PROFILE)}
+                onClick={() => {
+                  setProfileID(0);
+                  setSubMenu(LOOPS_PROFILE);
+                }}
               />
             </div>
           </div>

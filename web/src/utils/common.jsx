@@ -1,3 +1,5 @@
+import { LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE } from "./../components/loops/loops_constant";
+
 export function searchByKeyValueContains(data, key, value) {
   if (value == "") {
     return data;
@@ -26,4 +28,13 @@ export function isNonAlphaNumeric(str) {
   // Regular expression to test for non-alphanumeric characters
   const regex = /[^a-zA-Z0-9]/;
   return regex.test(str);
+}
+
+export function getLoopsProfile() {
+  const profile = localStorage.getItem(LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE);
+  if (profile) {
+    return JSON.parse(profile);
+  }
+
+  return null;
 }

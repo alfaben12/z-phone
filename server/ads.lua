@@ -9,7 +9,7 @@ lib.callback.register('z-phone:server:GetAds', function(source)
                 zpa.content,
                 zpa.media,
                 zpa.citizenid,
-                DATE_FORMAT(zpa.created_at, '%y/%m/%d %H:%i') as time,
+                DATE_FORMAT(zpa.created_at, '%Y/%m/%d %H:%i') as time,
                 zpu.avatar,
                 zpu.phone_number,
                 CONCAT(

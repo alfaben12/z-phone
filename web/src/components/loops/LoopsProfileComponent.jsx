@@ -7,12 +7,14 @@ import {
   LOOPS_TAB_REPLIES,
   LOOPS_TAB_SETTING,
   LOOPS_TWEETS,
+  LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE,
 } from "./loops_constant";
 import {
   MdArrowBackIosNew,
   MdMail,
   MdMailOutline,
   MdVerified,
+  MdCall,
 } from "react-icons/md";
 import {
   FaA,
@@ -22,49 +24,82 @@ import {
   FaRegCalendar,
   FaRegComment,
   FaUser,
+  FaRegImage,
 } from "react-icons/fa6";
 import { LuRepeat2 } from "react-icons/lu";
+import { getLoopsProfile } from "./../../utils/common";
+import { isNumeric, isNonAlphaNumeric } from "./../../utils/common";
 
-const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
-  const { resolution, profile, tweets, setTweets, setMenu } =
-    useContext(MenuContext);
+const LoopsProfileComponent = ({
+  isShow,
+  setSubMenu,
+  setSelectedTweet,
+  setProfileID,
+  profileID,
+}) => {
+  const { resolution, tweets, setTweets, setMenu } = useContext(MenuContext);
   const [loopsProfile, setLoopsProfile] = useState(null);
   const [activeTab, setActiveTab] = useState(LOOPS_TAB_POST);
+  const [isMe, setIsMe] = useState(false);
   const [formData, setFormData] = useState({
+    id: 0,
     fullname: "",
     username: "",
     bio: "",
     avatar: "",
-    isAllowMessage: false,
+    cover: "",
+    phone_number: "",
+    is_allow_message: false,
   });
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  const getLoopsProfile = async (tweet) => {
-    let result = [];
+  const getProfile = async () => {
+    setActiveTab(LOOPS_TAB_POST);
+
+    let id = profileID;
+    if (profileID == 0) {
+      id = getLoopsProfile().id;
+    }
+
+    let result = {};
     try {
-      const response = await axios.post("/get-loops-profile");
+      const response = await axios.post("/get-loops-profile", {
+        id: id,
+      });
       result = response.data;
     } catch (error) {
       console.error("error /get-loops-profile", error);
     }
 
-    setFormData({
-      fullname: result.fullname,
-      username: result.username,
-      bio: result.bio,
-      avatar: result.avatar,
-      isAllowMessage: result.is_allow_message,
-    });
-    setLoopsProfile(result);
-  };
-
-  useEffect(() => {
-    if (isShow) {
-      getLoopsProfile();
+    const data = result?.profile;
+    data.tweets = result?.tweets;
+    data.replies = result?.replies;
+    console.log(data);
+    setLoopsProfile(data);
+    setIsMe(result.is_me);
+    if (result.is_me) {
+      setFormData({
+        id: data.id,
+        fullname: data.fullname,
+        username: data.username,
+        bio: data.bio,
+        avatar: data.avatar,
+        cover: data.cover,
+        is_allow_message: data.is_allow_message,
+        phone_number: data.phone_number,
+      });
     }
-  }, [isShow]);
+  };
 
   const [opacity, setOpacity] = useState(1);
   const scrollDivRef = useRef(null);
+
+  useEffect(() => {
+    if (isShow) {
+      scrollDivRef.current.scrollTop = 0;
+      getProfile();
+    }
+  }, [isShow]);
 
   const handleScroll = () => {
     if (scrollDivRef.current) {
@@ -88,10 +123,10 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
 
   const handleChangeSetting = (e) => {
     const { name, value } = e.target;
-    if (name == "isAllowMessage") {
+    if (name == "is_allow_message") {
       setFormData({
         ...formData,
-        [name]: !formData.isAllowMessage,
+        [name]: !formData.is_allow_message,
       });
     } else {
       setFormData({
@@ -102,9 +137,42 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
   };
 
   // Handle form submission
-  const handleSubmitSetting = (e) => {
+  const handleSubmitSetting = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    if (isNonAlphaNumeric(formData.username)) {
+      setErrorMessage("Username not valid");
+      return;
+    }
+
+    if (isNumeric(formData.phone_number)) {
+      setErrorMessage("Phone number not valid");
+      return;
+    }
+
+    let result = null;
+    try {
+      const response = await axios.post("/update-loops-profile", formData);
+      result = response.data;
+    } catch (error) {
+      console.error("error /update-loops-profile", error);
+    }
+
+    if (result == null) {
+      setErrorMessage("Please try again later!");
+      return;
+    }
+
+    if (!result.is_valid) {
+      setErrorMessage(result.message);
+      return;
+    }
+
+    localStorage.setItem(
+      LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE,
+      JSON.stringify(result.profile)
+    );
+    setLoopsProfile(result.profile);
+    setErrorMessage(null);
   };
 
   return (
@@ -122,7 +190,7 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
         >
           <div className="absolute top-0 left-0 w-full" style={{ opacity }}>
             <img
-              src="https://d25yuvogekh0nj.cloudfront.net/2019/08/Twitter-Banner-Size-Guide-blog-banner-1250x500.png"
+              src={loopsProfile?.cover}
               className="h-24 w-full object-cover"
             />
           </div>
@@ -153,7 +221,7 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
             </div>
           </div>
           <div
-            className="no-scrollbar flex flex-col w-full h-full overflow-y-auto z-30"
+            className="no-scrollbar flex flex-col w-full h-full overflow-y-auto z-30 pb-5"
             ref={scrollDivRef}
           >
             <div className="flex flex-col space-y-1 px-2">
@@ -189,16 +257,18 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
               <div className="flex flex-col" style={{ opacity }}>
                 <span className="flex space-x-2 text-white text-lg font-semibold items-center">
                   <span>{loopsProfile?.fullname}</span>
-                  <MdVerified className="text-[#1d9cf0]" />
+                  {loopsProfile?.is_verified ? (
+                    <MdVerified className="text-[#1d9cf0]" />
+                  ) : null}
                 </span>
                 <span className="text-gray-300 text-xs pb-2">
-                  {loopsProfile?.username}
+                  @{loopsProfile?.username}
                 </span>
                 <span className="text-gray-300 text-sm pb-2">
                   {loopsProfile?.bio}
                 </span>
                 <span className="flex space-x-2 text-gray-300 text-xs items-center">
-                  <FaRegCalendar className="text-gray-400" />
+                  <FaRegCalendar className="text-gray-200" />
                   <span>Join at {loopsProfile?.join_at}</span>
                 </span>
               </div>
@@ -231,21 +301,23 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                     }`}
                   ></span>
                 </div>
-                <div
-                  className="flex flex-col w-full items-center space-y-1 cursor-pointer"
-                  onClick={() => setActiveTab(LOOPS_TAB_SETTING)}
-                >
-                  <span className="text-sm text-center text-white">
-                    Setting
-                  </span>
-                  <span
-                    className={`h-0.5 w-10 rounded ${
-                      activeTab == LOOPS_TAB_SETTING
-                        ? "bg-[#1d9cf0]"
-                        : "bg-transparent"
-                    }`}
-                  ></span>
-                </div>
+                {isMe ? (
+                  <div
+                    className="flex flex-col w-full items-center space-y-1 cursor-pointer"
+                    onClick={() => setActiveTab(LOOPS_TAB_SETTING)}
+                  >
+                    <span className="text-sm text-center text-white">
+                      Setting
+                    </span>
+                    <span
+                      className={`h-0.5 w-10 rounded ${
+                        activeTab == LOOPS_TAB_SETTING
+                          ? "bg-[#1d9cf0]"
+                          : "bg-transparent"
+                      }`}
+                    ></span>
+                  </div>
+                ) : null}
               </div>
               <div
                 style={{
@@ -277,13 +349,14 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                               <span className="font-semibold text-sm">
                                 {v.name}{" "}
                               </span>
-                              10d
                               <span className="text-gray-500 text-xs">
                                 {v.username}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-500 text-xs">10d</span>
+                              <span className="text-gray-500 text-xs">
+                                {v.created_at}d
+                              </span>
                             </div>
                           </div>
                           <p className="text-white block text-xs">{v.tweet}</p>
@@ -356,7 +429,9 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-500 text-xs">10d</span>
+                              <span className="text-gray-500 text-xs">
+                                {v.created_at}d
+                              </span>
                             </div>
                           </div>
                           <p className="text-white block text-xs">{v.tweet}</p>
@@ -400,9 +475,12 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                 }}
                 onSubmit={handleSubmitSetting}
               >
+                {errorMessage != null ? (
+                  <span className="text-red-500 text-xs">{errorMessage}</span>
+                ) : null}
                 <div className="flex space-x-3 pt-3">
                   <div>
-                    <div className="p-1 rounded-lg border">
+                    <div className="p-1 rounded-lg border border-gray-500">
                       <MdMail className="text-white" />
                     </div>
                   </div>
@@ -414,23 +492,23 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                       <div className="relative inline-block align-middle select-none">
                         <input
                           type="checkbox"
-                          id="isAllowMessage"
+                          id="is_allow_message"
                           className="hidden"
-                          name="isAllowMessage"
-                          checked={formData.isAllowMessage}
+                          name="is_allow_message"
+                          checked={formData.is_allow_message}
                           onChange={handleChangeSetting}
                         />
                         <label
-                          htmlFor="isAllowMessage"
+                          htmlFor="is_allow_message"
                           className={`flex items-center cursor-pointer ${
-                            formData.isAllowMessage
+                            formData.is_allow_message
                               ? "bg-green-400"
                               : "bg-gray-300"
                           } relative block w-[40px] h-[25px] rounded-full transition-colors duration-300`}
                         >
                           <span
                             className={`block w-[20px] h-[20px] bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                              formData.isAllowMessage
+                              formData.is_allow_message
                                 ? "translate-x-[18px]"
                                 : "translate-x-[2px]"
                             }`}
@@ -442,7 +520,7 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                 </div>
                 <div className="flex space-x-3">
                   <div>
-                    <div className="p-1 rounded-lg border">
+                    <div className="p-1 rounded-lg border border-gray-500">
                       <FaUser className="text-white" />
                     </div>
                   </div>
@@ -455,12 +533,32 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                       name="avatar"
                       value={formData.avatar}
                       onChange={handleChangeSetting}
+                      required
                     />
                   </div>
                 </div>
                 <div className="flex space-x-3">
                   <div>
-                    <div className="p-1 rounded-lg border">
+                    <div className="p-1 rounded-lg border border-gray-500">
+                      <FaRegImage className="text-white" />
+                    </div>
+                  </div>
+                  <div className="flex w-full justify-between items-center space-x-2 pb-1.5 mb-1.5">
+                    <input
+                      type="text"
+                      placeholder="URL Cover"
+                      className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none rounded-md px-2 py-1 bg-[#3B3B3B]"
+                      autoComplete="off"
+                      name="cover"
+                      value={formData.cover}
+                      onChange={handleChangeSetting}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <div>
+                    <div className="p-1 rounded-lg border border-gray-500">
                       <FaAt className="text-white" />
                     </div>
                   </div>
@@ -473,12 +571,13 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                       name="username"
                       value={formData.username}
                       onChange={handleChangeSetting}
+                      required
                     />
                   </div>
                 </div>
                 <div className="flex space-x-3">
                   <div>
-                    <div className="p-1 rounded-lg border">
+                    <div className="p-1 rounded-lg border border-gray-500">
                       <FaA className="text-white" />
                     </div>
                   </div>
@@ -491,12 +590,32 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                       name="fullname"
                       value={formData.fullname}
                       onChange={handleChangeSetting}
+                      required
                     />
                   </div>
                 </div>
                 <div className="flex space-x-3">
                   <div>
-                    <div className="p-1 rounded-lg border">
+                    <div className="p-1 rounded-lg border border-gray-500">
+                      <MdCall className="text-white" />
+                    </div>
+                  </div>
+                  <div className="flex w-full justify-between items-center space-x-2 pb-1.5 mb-1.5">
+                    <input
+                      type="text"
+                      placeholder="Phone number"
+                      className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none rounded-md px-2 py-1 bg-[#3B3B3B]"
+                      autoComplete="off"
+                      name="phone_number"
+                      value={formData.phone_number}
+                      onChange={handleChangeSetting}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <div>
+                    <div className="p-1 rounded-lg border border-gray-500">
                       <FaBarsStaggered className="text-white" />
                     </div>
                   </div>
@@ -508,6 +627,7 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                       name="bio"
                       value={formData.bio}
                       onChange={handleChangeSetting}
+                      required
                     />
                   </div>
                 </div>

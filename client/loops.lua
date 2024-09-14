@@ -31,8 +31,19 @@ RegisterNUICallback('get-tweet-comments', function(body, cb)
 end)
 
 RegisterNUICallback('send-tweet-comments', function(body, cb)
-    body.username = Profile.username
     lib.callback('z-phone:server:SendTweetComment', false, function(isOk)
         cb(isOk)
+    end, body)
+end)
+
+RegisterNUICallback('update-loops-profile', function(body, cb)
+    lib.callback('z-phone:server:UpdateLoopsProfile', false, function(profile)
+        cb(profile)
+    end, body)
+end)
+
+RegisterNUICallback('get-loops-profile', function(body, cb)
+    lib.callback('z-phone:server:GetLoopsProfile', false, function(profile)
+        cb(profile)
     end, body)
 end)
