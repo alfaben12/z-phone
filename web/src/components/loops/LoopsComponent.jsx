@@ -18,7 +18,7 @@ import LoopsSignupComponent from "./LoopsSignupComponent";
 const LoopsComponent = ({ isShow }) => {
   const { resolution, profile, tweets, setTweets, setMenu } =
     useContext(MenuContext);
-  const [subMenu, setSubMenu] = useState(LOOPS_TWEETS);
+  const [subMenu, setSubMenu] = useState(LOOPS_SIGNIN);
   const [selectedTweet, setSelectedTweet] = useState(null);
 
   useEffect(() => {

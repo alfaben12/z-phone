@@ -5,10 +5,24 @@ import {
   LOOPS_DETAIL,
   LOOPS_TAB_POST,
   LOOPS_TAB_REPLIES,
+  LOOPS_TAB_SETTING,
   LOOPS_TWEETS,
 } from "./loops_constant";
-import { MdArrowBackIosNew, MdMailOutline, MdVerified } from "react-icons/md";
-import { FaRegCalendar, FaRegComment } from "react-icons/fa6";
+import {
+  MdArrowBackIosNew,
+  MdMail,
+  MdMailOutline,
+  MdVerified,
+} from "react-icons/md";
+import {
+  FaA,
+  FaAt,
+  FaBarsStaggered,
+  FaLock,
+  FaRegCalendar,
+  FaRegComment,
+  FaUser,
+} from "react-icons/fa6";
 import { LuRepeat2 } from "react-icons/lu";
 
 const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
@@ -16,6 +30,13 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
     useContext(MenuContext);
   const [loopsProfile, setLoopsProfile] = useState(null);
   const [activeTab, setActiveTab] = useState(LOOPS_TAB_POST);
+  const [formData, setFormData] = useState({
+    fullname: "",
+    username: "",
+    bio: "",
+    avatar: "",
+    isAllowMessage: false,
+  });
 
   const getLoopsProfile = async (tweet) => {
     let result = [];
@@ -26,6 +47,13 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
       console.error("error /get-loops-profile", error);
     }
 
+    setFormData({
+      fullname: result.fullname,
+      username: result.username,
+      bio: result.bio,
+      avatar: result.avatar,
+      isAllowMessage: result.is_allow_message,
+    });
     setLoopsProfile(result);
   };
 
@@ -57,6 +85,27 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
       }
     };
   }, []);
+
+  const handleChangeSetting = (e) => {
+    const { name, value } = e.target;
+    if (name == "isAllowMessage") {
+      setFormData({
+        ...formData,
+        [name]: !formData.isAllowMessage,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
+  // Handle form submission
+  const handleSubmitSetting = (e) => {
+    e.preventDefault();
+    console.log(formData);
+  };
 
   return (
     <div
@@ -92,7 +141,7 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
               className="flex items-center px-2 space-x-2 text-white"
               style={{ opacity: opacity < 0.2 ? 1 : 0 }}
             >
-              <span className="text-xs">{loopsProfile?.name}</span>
+              <span className="text-xs">{loopsProfile?.fullname}</span>
               <img
                 src={loopsProfile?.avatar}
                 className="w-4 h-4 rounded-full object-cover"
@@ -117,16 +166,29 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                     error.target.src = "./images/noimage.jpg";
                   }}
                 />
-                <div className="flex space-x-2 items-center">
-                  <span className="text-xs text-white">Send message </span>
-                  <button className="w-8 h-8 border border-gray-600 rounded-full items-center flex justify-center hover:bg-gray-700">
-                    <MdMailOutline className="text-xl text-white" />
-                  </button>
-                </div>
+                {loopsProfile?.is_allow_message ? (
+                  <>
+                    <div className="flex space-x-2 items-center">
+                      <span className="text-xs text-white">Send message </span>
+                      <button className="w-8 h-8 border border-gray-600 rounded-full items-center flex justify-center hover:bg-gray-700">
+                        <MdMailOutline className="text-xl text-white" />
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center">
+                      <span className="text-xs text-white">Private</span>
+                      <div className="w-8 h-8 rounded-full items-center flex justify-center">
+                        <FaLock className="text-white" />
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
               <div className="flex flex-col" style={{ opacity }}>
                 <span className="flex space-x-2 text-white text-lg font-semibold items-center">
-                  <span>{loopsProfile?.name}</span>
+                  <span>{loopsProfile?.fullname}</span>
                   <MdVerified className="text-[#1d9cf0]" />
                 </span>
                 <span className="text-gray-300 text-xs pb-2">
@@ -169,6 +231,21 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                     }`}
                   ></span>
                 </div>
+                <div
+                  className="flex flex-col w-full items-center space-y-1 cursor-pointer"
+                  onClick={() => setActiveTab(LOOPS_TAB_SETTING)}
+                >
+                  <span className="text-sm text-center text-white">
+                    Setting
+                  </span>
+                  <span
+                    className={`h-0.5 w-10 rounded ${
+                      activeTab == LOOPS_TAB_SETTING
+                        ? "bg-[#1d9cf0]"
+                        : "bg-transparent"
+                    }`}
+                  ></span>
+                </div>
               </div>
               <div
                 style={{
@@ -199,15 +276,14 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                             <div className="line-clamp-1 text-white">
                               <span className="font-semibold text-sm">
                                 {v.name}{" "}
-                              </span>{" "}
+                              </span>
+                              10d
                               <span className="text-gray-500 text-xs">
-                                @{v.username}
+                                {v.username}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-500 text-xs">
-                                {v.created_at}d
-                              </span>
+                              <span className="text-gray-500 text-xs">10d</span>
                             </div>
                           </div>
                           <p className="text-white block text-xs">{v.tweet}</p>
@@ -274,15 +350,13 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                             <div className="line-clamp-1 text-white">
                               <span className="font-semibold text-sm">
                                 {v.name}{" "}
-                              </span>{" "}
+                              </span>
                               <span className="text-gray-500 text-xs">
-                                @{v.username}
+                                {v.username}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-500 text-xs">
-                                {v.created_at}d
-                              </span>
+                              <span className="text-gray-500 text-xs">10d</span>
                             </div>
                           </div>
                           <p className="text-white block text-xs">{v.tweet}</p>
@@ -320,6 +394,129 @@ const LoopsProfileComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                   );
                 })}
               </div>
+              <form
+                style={{
+                  display: activeTab == LOOPS_TAB_SETTING ? "block" : "none",
+                }}
+                onSubmit={handleSubmitSetting}
+              >
+                <div className="flex space-x-3 pt-3">
+                  <div>
+                    <div className="p-1 rounded-lg border">
+                      <MdMail className="text-white" />
+                    </div>
+                  </div>
+                  <div className="flex w-full justify-between items-center space-x-3 pb-1.5 mb-1.5">
+                    <span className="text-sm font-light text-white line-clamp-1">
+                      Allow Message
+                    </span>
+                    <div className="flex items-center justify-center">
+                      <div className="relative inline-block align-middle select-none">
+                        <input
+                          type="checkbox"
+                          id="isAllowMessage"
+                          className="hidden"
+                          name="isAllowMessage"
+                          checked={formData.isAllowMessage}
+                          onChange={handleChangeSetting}
+                        />
+                        <label
+                          htmlFor="isAllowMessage"
+                          className={`flex items-center cursor-pointer ${
+                            formData.isAllowMessage
+                              ? "bg-green-400"
+                              : "bg-gray-300"
+                          } relative block w-[40px] h-[25px] rounded-full transition-colors duration-300`}
+                        >
+                          <span
+                            className={`block w-[20px] h-[20px] bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                              formData.isAllowMessage
+                                ? "translate-x-[18px]"
+                                : "translate-x-[2px]"
+                            }`}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <div>
+                    <div className="p-1 rounded-lg border">
+                      <FaUser className="text-white" />
+                    </div>
+                  </div>
+                  <div className="flex w-full justify-between items-center space-x-2 pb-1.5 mb-1.5">
+                    <input
+                      type="text"
+                      placeholder="URL avatar"
+                      className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none rounded-md px-2 py-1 bg-[#3B3B3B]"
+                      autoComplete="off"
+                      name="avatar"
+                      value={formData.avatar}
+                      onChange={handleChangeSetting}
+                    />
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <div>
+                    <div className="p-1 rounded-lg border">
+                      <FaAt className="text-white" />
+                    </div>
+                  </div>
+                  <div className="flex w-full justify-between items-center space-x-2 pb-1.5 mb-1.5">
+                    <input
+                      type="text"
+                      placeholder="Username (without @)"
+                      className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none rounded-md px-2 py-1 bg-[#3B3B3B]"
+                      autoComplete="off"
+                      name="username"
+                      value={formData.username}
+                      onChange={handleChangeSetting}
+                    />
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <div>
+                    <div className="p-1 rounded-lg border">
+                      <FaA className="text-white" />
+                    </div>
+                  </div>
+                  <div className="flex w-full justify-between items-center space-x-2 pb-1.5 mb-1.5">
+                    <input
+                      type="text"
+                      placeholder="Fullname"
+                      className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none rounded-md px-2 py-1 bg-[#3B3B3B]"
+                      autoComplete="off"
+                      name="fullname"
+                      value={formData.fullname}
+                      onChange={handleChangeSetting}
+                    />
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <div>
+                    <div className="p-1 rounded-lg border">
+                      <FaBarsStaggered className="text-white" />
+                    </div>
+                  </div>
+                  <div className="flex w-full justify-between items-center space-x-2 pb-1.5 mb-1.5">
+                    <textarea
+                      placeholder="Bio"
+                      className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none resize-none no-scrollbar rounded-md px-2 py-1 bg-[#3B3B3B]"
+                      autoComplete="off"
+                      name="bio"
+                      value={formData.bio}
+                      onChange={handleChangeSetting}
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center justify-end">
+                  <button className="text-center bg-[#1d9cf0] px-3 py-1 text-white rounded-md text-sm">
+                    SAVE
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

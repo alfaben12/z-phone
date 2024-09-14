@@ -14,6 +14,8 @@ const LoopsSigninComponent = ({ isShow, setSubMenu }) => {
     password: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -23,12 +25,32 @@ const LoopsSigninComponent = ({ isShow, setSubMenu }) => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Process the form data (e.g., send to API)
     if (formData.password.length < 4) {
       return;
     }
+
+    let result = null;
+    try {
+      const response = await axios.post("/loops-login");
+      result = response.data;
+    } catch (error) {
+      console.error("error /loops-login", error);
+    }
+
+    if (result == null) {
+      setErrorMessage("Try again later!");
+      return;
+    }
+
+    if (!result.is_valid) {
+      setErrorMessage(result.message);
+      return;
+    }
+
+    setSubMenu(LOOPS_TWEETS);
     console.log(formData);
   };
 
@@ -54,7 +76,7 @@ const LoopsSigninComponent = ({ isShow, setSubMenu }) => {
             <div
               className="flex items-center text-blue-500 cursor-pointer"
               onClick={() => {
-                setSubMenu(LOOPS_TWEETS);
+                setMenu(MENU_DEFAULT);
               }}
             >
               <MdArrowBackIosNew className="text-lg" />
@@ -105,7 +127,7 @@ const LoopsSigninComponent = ({ isShow, setSubMenu }) => {
                   value={formData.password}
                   onChange={handleChange}
                 />
-
+                <span className="text-red-500 text-xs">{errorMessage}</span>
                 <button type="submit" className="h-10 bg-[#1d9cf0] rounded-xl">
                   Login
                 </button>

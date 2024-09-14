@@ -204,10 +204,10 @@ const LoopsDetailComponent = ({
                             <div className="flex justify-between">
                               <div className="line-clamp-1 text-white">
                                 <span className="font-semibold text-sm">
-                                  {v.name}{" "}
+                                  {v.name}
                                 </span>
                                 <span className="text-gray-500 text-xs">
-                                  @{v.username}
+                                  {v.username}
                                 </span>
                               </div>
                               <div>

@@ -1,7 +1,12 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import MenuContext from "../../context/MenuContext";
-import { LOOPS_DETAIL, LOOPS_PROFILE, LOOPS_TWEETS } from "./loops_constant";
+import {
+  LOOPS_DETAIL,
+  LOOPS_PROFILE,
+  LOOPS_SIGNIN,
+  LOOPS_TWEETS,
+} from "./loops_constant";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MENU_DEFAULT } from "../../constant/menu";
 import { FaRegComment, FaRegUser } from "react-icons/fa6";
@@ -28,7 +33,7 @@ const LoopsTweetsComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
             <div
               className="flex items-center text-blue-500 cursor-pointer"
               onClick={() => {
-                setMenu(MENU_DEFAULT);
+                setSubMenu(LOOPS_SIGNIN);
               }}
             >
               <MdArrowBackIosNew className="text-lg" />
@@ -75,18 +80,16 @@ const LoopsTweetsComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
                         />
                         <div className="flex flex-col w-full">
                           <div className="flex justify-between">
-                            <div className="line-clamp-1 text-white">
+                            <div className="line-clamp-1 text-white truncate">
                               <span className="font-semibold text-sm">
                                 {v.name}{" "}
-                              </span>{" "}
+                              </span>
                               <span className="text-gray-500 text-xs">
-                                @{v.username}
+                                {v.username}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-500 text-xs">
-                                {v.created_at}d
-                              </span>
+                              <span className="text-gray-500 text-xs">10d</span>
                             </div>
                           </div>
                           <p className="text-white block text-xs">{v.tweet}</p>
