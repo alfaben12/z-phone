@@ -1,7 +1,12 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import MenuContext from "../../context/MenuContext";
-import { LOOPS_DETAIL, LOOPS_SIGNUP, LOOPS_TWEETS } from "./loops_constant";
+import {
+  LOOPS_DETAIL,
+  LOOPS_SIGNUP,
+  LOOPS_TWEETS,
+  LOOPS_LOCAL_STORAGE_IS_AUTH,
+} from "./loops_constant";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MENU_DEFAULT } from "../../constant/menu";
 
@@ -34,7 +39,7 @@ const LoopsSigninComponent = ({ isShow, setSubMenu }) => {
 
     let result = null;
     try {
-      const response = await axios.post("/loops-login");
+      const response = await axios.post("/loops-login", formData);
       result = response.data;
     } catch (error) {
       console.error("error /loops-login", error);
@@ -50,8 +55,9 @@ const LoopsSigninComponent = ({ isShow, setSubMenu }) => {
       return;
     }
 
+    setErrorMessage(null);
     setSubMenu(LOOPS_TWEETS);
-    console.log(formData);
+    localStorage.setItem(LOOPS_LOCAL_STORAGE_IS_AUTH, "ok");
   };
 
   return (
@@ -127,7 +133,9 @@ const LoopsSigninComponent = ({ isShow, setSubMenu }) => {
                   value={formData.password}
                   onChange={handleChange}
                 />
-                <span className="text-red-500 text-xs">{errorMessage}</span>
+                {errorMessage != null ? (
+                  <span className="text-red-500 text-xs">{errorMessage}</span>
+                ) : null}
                 <button type="submit" className="h-10 bg-[#1d9cf0] rounded-xl">
                   Login
                 </button>

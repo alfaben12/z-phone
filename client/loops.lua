@@ -1,3 +1,15 @@
+RegisterNUICallback('loops-login', function(body, cb)
+    lib.callback('z-phone:server:LoopsLogin', false, function(res)
+        cb(res)
+    end, body)
+end)
+
+RegisterNUICallback('loops-signup', function(body, cb)
+    lib.callback('z-phone:server:LoopsSignup', false, function(res)
+        cb(res)
+    end, body)
+end)
+
 RegisterNUICallback('get-tweets', function(_, cb)
     lib.callback('z-phone:server:GetTweets', false, function(tweets)
         cb(tweets)

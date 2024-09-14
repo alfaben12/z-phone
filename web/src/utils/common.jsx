@@ -15,3 +15,15 @@ export function currencyFormat(amount) {
     maximumFractionDigits: 0,
   }).format(amount);
 }
+
+export function isNumeric(str) {
+  // Regular expression to check if the string contains only digits
+  const regex = /[^0-9]/;
+  return regex.test(str);
+}
+
+export function isNonAlphaNumeric(str) {
+  // Regular expression to test for non-alphanumeric characters
+  const regex = /[^a-zA-Z0-9]/;
+  return regex.test(str);
+}

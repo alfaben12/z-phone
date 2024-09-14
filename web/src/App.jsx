@@ -825,7 +825,7 @@ function App() {
     //   getConfigFromDefaultConfig();
     // }
 
-    openPhone(true);
+    // openPhone(true);
     getConfigFromDefaultConfig();
     setNotificationInternal({ type: "" });
     setNotificationMessage({ type: "" });

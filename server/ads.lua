@@ -20,6 +20,7 @@ lib.callback.register('z-phone:server:GetAds', function(source)
             JOIN zp_users zpu ON zpu.citizenid = zpa.citizenid
             JOIN players p ON p.citizenid = zpa.citizenid
             ORDER BY zpa.id DESC
+            LIMIT 100
         ]]
 
         local result = MySQL.query.await(query, {

@@ -111,7 +111,7 @@ const LoopsDetailComponent = ({
                     <div className="flex justify-between w-full">
                       <div className="ml-1.5 leading-tight">
                         <div className="line-clamp-1 text-white text-sm">
-                          {selectedTweet?.name}
+                          {selectedTweet?.name}{" "}
                         </div>
                         <div className="line-clamp-1 text-xs text-gray-400 font-normal">
                           {selectedTweet?.username}
@@ -161,7 +161,7 @@ const LoopsDetailComponent = ({
                     </div>
                   </div>
                   <p className="text-gray-400 text-xs">
-                    {selectedTweet?.created_at}
+                    {selectedTweet?.created_at}d
                   </p>
                 </div>
 

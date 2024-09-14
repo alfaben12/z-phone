@@ -14,7 +14,6 @@ const SettingComponent = ({ isShow }) => {
   const [wallpaper, setWallpaper] = useState("");
   const [frame, setFrame] = useState("");
   const [loopsName, setLoopsName] = useState("");
-  const [loopsUsername, setLoopsUsername] = useState("");
 
   const handleToggleIsOnDisturb = () => {
     axios.post("/update-profile", {
@@ -39,7 +38,6 @@ const SettingComponent = ({ isShow }) => {
       setIsAnonim(profile.is_anonim);
       setIsOnDisturb(profile.is_donot_disturb);
       setLoopsName(profile.loops_name);
-      setLoopsUsername(profile.username);
     }
   }, [isShow]);
 
@@ -68,19 +66,6 @@ const SettingComponent = ({ isShow }) => {
       result = await axios.post("/update-profile", {
         type: type,
         value: frame,
-      });
-    } else if (type == "loops") {
-      if (!loopsName) {
-        return;
-      }
-
-      if (!loopsUsername) {
-        return;
-      }
-      result = await axios.post("/update-profile", {
-        type: type,
-        name: loopsName,
-        username: loopsUsername,
       });
     }
 
@@ -308,46 +293,6 @@ const SettingComponent = ({ isShow }) => {
                   className="flex font-medium rounded-full text-white bg-blue-500 px-2 text-sm items-center justify-center"
                   type="button"
                   onClick={() => saveSetting("frame")}
-                >
-                  <span>SAVE</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="flex space-x-3 px-2">
-            <div className="w-7">
-              <img src="./images/loops.svg" className="rounded-lg" alt="" />
-            </div>
-            <div className="flex w-full justify-between items-center space-x-2 border-b border-gray-800 pb-1.5 mb-1.5">
-              <div className="flex flex-col space-y-1 w-full">
-                <input
-                  type="text"
-                  placeholder="Loops Name"
-                  className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none rounded-md px-2 py-1 bg-[#3B3B3B]"
-                  autoComplete="off"
-                  value={loopsName}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    setLoopsName(value);
-                  }}
-                />
-                <input
-                  type="text"
-                  placeholder="Loops Username"
-                  className="w-full text-xs text-white flex-1 border border-gray-700 focus:outline-none rounded-md px-2 py-1 bg-[#3B3B3B]"
-                  autoComplete="off"
-                  value={loopsUsername}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    setLoopsUsername(value);
-                  }}
-                />
-              </div>
-              <div className="flex items-center justify-center">
-                <button
-                  className="flex font-medium rounded-full text-white bg-blue-500 px-2 text-sm items-center justify-center"
-                  type="button"
-                  onClick={() => saveSetting("loops")}
                 >
                   <span>SAVE</span>
                 </button>

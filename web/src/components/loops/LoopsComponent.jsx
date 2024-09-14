@@ -8,6 +8,7 @@ import {
   LOOPS_SIGNUP,
   LOOPS_TESTING,
   LOOPS_TWEETS,
+  LOOPS_LOCAL_STORAGE_IS_AUTH,
 } from "./loops_constant";
 import LoopsTweetsComponent from "./LoopsTweetsComponent";
 import LoopsDetailComponent from "./LoopsDetailComponent";
@@ -21,9 +22,26 @@ const LoopsComponent = ({ isShow }) => {
   const [subMenu, setSubMenu] = useState(LOOPS_SIGNIN);
   const [selectedTweet, setSelectedTweet] = useState(null);
 
+  const checkAuth = () => {
+    const isAuth = localStorage.getItem(LOOPS_LOCAL_STORAGE_IS_AUTH);
+    if ([LOOPS_SIGNIN, LOOPS_SIGNUP].includes(subMenu)) {
+      if (isAuth == "ok") {
+        setSubMenu(LOOPS_TWEETS);
+      }
+    } else {
+      if (isAuth != "ok") {
+        setSubMenu(LOOPS_SIGNIN);
+      }
+    }
+  };
+
   useEffect(() => {
-    console.log(subMenu);
+    checkAuth();
   }, [subMenu]);
+
+  useEffect(() => {
+    console.log("ok");
+  }, []);
 
   return (
     <div

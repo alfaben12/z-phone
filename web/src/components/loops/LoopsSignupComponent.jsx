@@ -9,6 +9,7 @@ import {
 } from "./loops_constant";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MENU_DEFAULT } from "../../constant/menu";
+import { isNumeric, isNonAlphaNumeric } from "./../../utils/common";
 
 const LoopsSignupComponent = ({ isShow, setSubMenu }) => {
   const { resolution, profile, tweets, setTweets, setMenu } =
@@ -17,9 +18,11 @@ const LoopsSignupComponent = ({ isShow, setSubMenu }) => {
   const [formData, setFormData] = useState({
     fullname: "",
     username: "",
+    phone_number: "",
     password: "",
-    confirm_password: "",
   });
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,17 +33,52 @@ const LoopsSignupComponent = ({ isShow, setSubMenu }) => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Process the form data (e.g., send to API)
     if (formData.password.length < 4) {
+      setErrorMessage("Password min 4 character");
       return;
     }
 
-    if (formData.password != formData.confirm_password) {
+    if (isNonAlphaNumeric(formData.username)) {
+      setErrorMessage("Username not valid");
       return;
     }
-    console.log(formData);
+
+    if (isNumeric(formData.phone_number)) {
+      setErrorMessage("Phone number not valid");
+      return;
+    }
+
+    setIsLoading(true);
+    let result = null;
+    try {
+      const response = await axios.post("/loops-signup", formData);
+      result = response.data;
+    } catch (error) {
+      console.error("error /loops-signup", error);
+    }
+    setIsLoading(false);
+
+    if (result == null) {
+      setErrorMessage("Try again later!");
+      return;
+    }
+
+    if (!result.is_valid) {
+      setErrorMessage(result.message);
+      return;
+    }
+
+    setFormData({
+      fullname: "",
+      username: "",
+      phone_number: "",
+      password: "",
+    });
+    setErrorMessage(null);
+    setSubMenu(LOOPS_SIGNIN);
   };
 
   return (
@@ -117,6 +155,16 @@ const LoopsSignupComponent = ({ isShow, setSubMenu }) => {
                   onChange={handleChange}
                 />
                 <input
+                  type="text"
+                  placeholder="Phone number"
+                  className="w-full text-sm text-white flex-1 border border-gray-600 bg-black focus:outline-none rounded-xl pl-4 pr-1 py-2"
+                  autoComplete="off"
+                  required
+                  name="phone_number"
+                  value={formData.phone_number}
+                  onChange={handleChange}
+                />
+                <input
                   type="password"
                   placeholder="Password"
                   className="w-full text-sm text-white flex-1 border border-gray-600 bg-black focus:outline-none rounded-xl pl-4 pr-1 py-2"
@@ -126,20 +174,24 @@ const LoopsSignupComponent = ({ isShow, setSubMenu }) => {
                   value={formData.password}
                   onChange={handleChange}
                 />
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  className="w-full text-sm text-white flex-1 border border-gray-600 bg-black focus:outline-none rounded-xl pl-4 pr-1 py-2"
-                  autoComplete="off"
-                  required
-                  name="confirm_password"
-                  value={formData.confirm_password}
-                  onChange={handleChange}
-                />
-
-                <button type="submit" className="h-10 bg-[#1d9cf0] rounded-xl">
-                  Sign up
-                </button>
+                {errorMessage != null ? (
+                  <span className="text-red-500 text-xs">{errorMessage}</span>
+                ) : null}
+                {isLoading ? (
+                  <button
+                    type="button"
+                    className="h-10 bg-[#1d9cf0] rounded-xl"
+                  >
+                    Loading...
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="h-10 bg-[#1d9cf0] rounded-xl"
+                  >
+                    Sign up
+                  </button>
+                )}
                 <button
                   type="button"
                   className="h-10 bg-white text-black text-xs rounded-xl flex space-x-1 items-center justify-center"

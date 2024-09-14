@@ -4,6 +4,7 @@ import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 import LoadingComponent from "./LoadingComponent";
+import Markdown from "react-markdown";
 
 const EmailDetailComponent = ({ isShow }) => {
   const { setMenu, email, profile } = useContext(MenuContext);
@@ -37,7 +38,7 @@ const EmailDetailComponent = ({ isShow }) => {
             paddingTop: 60,
           }}
         >
-          <div className="flex flex-col px-4 py-2">
+          <div className="w-full flex flex-col px-4 py-2">
             <div className="flex items-center text-base pb-5">
               <div>{email.subject}</div>
             </div>
@@ -73,13 +74,15 @@ const EmailDetailComponent = ({ isShow }) => {
                 </div>
               </div>
               <div className="flex flex-col items-end justify-between text-gray-400">
-                <div className="text-xs">9:6AM</div>
+                <div className="text-xss">{email.created_at}</div>
               </div>
             </div>
-            <div className="flex flex-col justify-between flex-1 mt-2 overflow-auto text-xs">
+            <div className="w-full flex flex-col justify-between flex-1 mt-2 overflow-auto text-xs">
               <div>
                 <p>Hello, {profile.name}.</p>
-                <p className="mt-3">{email.content}</p>
+                <p className="mt-3">
+                  <Markdown>{email.content}</Markdown>
+                </p>
                 <p className="mt-4">Best,</p>
                 <p>{email.name}</p>
               </div>

@@ -13,7 +13,7 @@ lib.callback.register('z-phone:server:GetEmails', function(source)
                 content,
                 is_read,
                 DATE_FORMAT(created_at, '%y/%m/%d %H:%i') as created_at
-            FROM zp_emails WHERE citizenid = ? ORDER BY id DESC
+            FROM zp_emails WHERE citizenid = ? ORDER BY id DESC LIMIT 100
         ]]
         local result = MySQL.query.await(query, {citizenid})
 
