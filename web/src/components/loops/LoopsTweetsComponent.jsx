@@ -1,7 +1,12 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import MenuContext from "../../context/MenuContext";
-import { LOOPS_DETAIL, LOOPS_PROFILE, LOOPS_TWEETS } from "./loops_constant";
+import {
+  LOOPS_DETAIL,
+  LOOPS_POST,
+  LOOPS_PROFILE,
+  LOOPS_TWEETS,
+} from "./loops_constant";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { FaRegComment, FaRegUser } from "react-icons/fa6";
 import { LuRepeat2 } from "react-icons/lu";
@@ -18,7 +23,7 @@ const LoopsTweetsComponent = ({ isShow, setSubMenu, setSelectedTweet }) => {
       } w-full h-full absolute top-0 left-0`}
     >
       <div
-        className="absolute bottom-10 right-5 h-10 w-10 rounded-full bg-gray-700  cursor-pointer"
+        className="absolute bottom-10 right-5 h-10 w-10 rounded-full bg-gray-700 cursor-pointer z-50"
         onClick={() => setSubMenu(LOOPS_POST)}
       >
         <img

@@ -9,12 +9,14 @@ import {
   LOOPS_TESTING,
   LOOPS_TWEETS,
   LOOPS_LOCAL_STORAGE_IS_AUTH,
+  LOOPS_POST,
 } from "./loops_constant";
 import LoopsTweetsComponent from "./LoopsTweetsComponent";
 import LoopsDetailComponent from "./LoopsDetailComponent";
 import LoopsProfileComponent from "./LoopsProfileComponent";
 import LoopsSigninComponent from "./LoopsSigninComponent";
 import LoopsSignupComponent from "./LoopsSignupComponent";
+import LoopPostComponent from "./LoopPostComponent";
 
 const LoopsComponent = ({ isShow }) => {
   const { resolution, profile, tweets, setTweets, setMenu } =
@@ -50,6 +52,10 @@ const LoopsComponent = ({ isShow }) => {
         display: isShow ? "block" : "none",
       }}
     >
+      <LoopPostComponent
+        isShow={subMenu == LOOPS_POST}
+        setSubMenu={setSubMenu}
+      />
       <LoopsTweetsComponent
         isShow={subMenu == LOOPS_TWEETS}
         setSubMenu={setSubMenu}
