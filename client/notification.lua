@@ -10,6 +10,14 @@ RegisterNetEvent('z-phone:client:sendNotifMessage', function(message)
                 from_citizenid = message.from_citizenid,
             },
         })
+    else
+        SendNUIMessage({
+            event = 'z-phone',
+            outsideMessageNotif = {
+                from = message.from,
+                message = "New message!"
+            },
+        })
     end
 end)
 

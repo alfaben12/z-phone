@@ -53,6 +53,14 @@ module.exports = {
           "80%": { transform: "translateX(0)", opacity: "1" },
           "100%": { transform: "translateX(100%)", opacity: "0" },
         },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        fadeOut: {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
       },
       animation: {
         slideUp: "slideUp 1s ease-out forwards",
@@ -60,6 +68,8 @@ module.exports = {
         slideDownThenUp:
           "slideDown 0.5s ease-out, slideUp 1s ease-out 3s forwards",
         slideInRight: "slideInRight 5s ease-in-out forwards",
+        fadeIn: 'fadeIn 1s ease-in forwards',
+        fadeOut: 'fadeOut 1s ease-out forwards',
       },
     },
   },

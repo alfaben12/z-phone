@@ -75,3 +75,56 @@ lib.callback.register('z-phone:server:UpdateContact', function(source, body)
     end
     return false
 end)
+
+lib.callback.register('z-phone:server:SaveContact', function(source, body)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if Player ~= nil then
+        local citizenid = Player.PlayerData.citizenid
+        local queryCheckPhoneNumber = [[
+            select zpu.* from zp_users zpu WHERE zpu.phone_number = ? LIMIT 1
+        ]]
+        local phoneNumber = MySQL.single.await(queryCheckPhoneNumber, {
+            body.phone_number,
+        })
+        if not phoneNumber then
+            TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+                type = "Notification",
+                from = "Contact",
+                message = "Phone Number not registered!"
+            })
+            return false
+        end
+
+        local queryCheckDuplicate = [[
+            select zpc.* from zp_contacts zpc WHERE zpc.contact_citizenid = ? and zpc.citizenid = ? LIMIT 1
+        ]]
+        local isDuplicate = MySQL.single.await(queryCheckDuplicate, {
+            phoneNumber.citizenid,
+            citizenid
+        })
+
+        if isDuplicate then
+            TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+                type = "Notification",
+                from = "Contact",
+                message = "Duplicate contact (".. isDuplicate.contact_name ..")!"
+            })
+            return false
+        end
+
+        local queryInsert = "INSERT INTO zp_contacts (citizenid, contact_citizenid, contact_name) VALUES (?, ?, ?)"
+        local contactId = MySQL.insert.await(queryInsert, {
+            citizenid,
+            phoneNumber.citizenid,
+            body.name
+        })
+        
+        TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+            type = "Notification",
+            from = "Contact",
+            message = "Success save contact!"
+        })
+        return true
+    end
+    return false
+end)

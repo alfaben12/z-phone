@@ -12,6 +12,7 @@ import {
 } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
 import { FaCheck } from "react-icons/fa6";
+import axios from "axios";
 
 const subMenuList = {
   call: "call",
@@ -37,7 +38,7 @@ const PhoneComponent = ({ isShow }) => {
     });
   };
 
-  const handlePhoneFormSubmit = (e) => {
+  const handlePhoneFormSubmit = async (e) => {
     e.preventDefault();
     if (!formDataNew.name) {
       return;
@@ -49,10 +50,22 @@ const PhoneComponent = ({ isShow }) => {
 
     const data = {
       name: formDataNew.name,
-      phone: newPhone,
+      phone_number: newPhone,
     };
-    console.log("Form Data:", data);
-    // Here you can add your code to send formData to an API
+
+    try {
+      const result = await axios.post("/save-contact", data);
+      if (result.data) {
+        setNewPhone("");
+      }
+    } catch (error) {
+      console.error("error /save-contact", error);
+    }
+
+    setFormDataNew({
+      name: "",
+    });
+    setIsShowModal(false);
   };
 
   const handleKeyPress = (value) => {
@@ -83,7 +96,7 @@ const PhoneComponent = ({ isShow }) => {
         }}
       >
         <div className="flex flex-col justify-center rounded-xl h-full w-full px-3">
-          <div className="bg-gray-700 rounded-lg py-2 flex flex-col w-full p-3">
+          <div className="bg-slate-700 rounded-lg py-2 flex flex-col w-full p-3">
             <div className="flex justify-between items-center pb-2">
               <span className="truncate font-semibold">New Contact</span>
               <div>
@@ -100,10 +113,11 @@ const PhoneComponent = ({ isShow }) => {
                   <span>
                     <input
                       name="name"
-                      className="border-b w-36 text-base font-medium focus:outline-none bg-gray-700"
+                      className="border-b w-36 text-base font-medium focus:outline-none bg-slate-700"
                       placeholder="John"
                       onChange={handlePhoneFormChange}
                       autoComplete="off"
+                      value={formDataNew.name}
                       required
                     />
                   </span>
@@ -113,7 +127,7 @@ const PhoneComponent = ({ isShow }) => {
                   <span>
                     <input
                       name="phone"
-                      className="border-b w-36 text-base font-medium focus:outline-none bg-gray-700"
+                      className="border-b w-36 text-base font-medium focus:outline-none bg-slate-700"
                       placeholder="086263887"
                       readOnly={true}
                       value={newPhone}

@@ -997,7 +997,7 @@ function App() {
       </div>
       {outsideMessageNotif.message != null && !isOpen ? (
         <>
-          <div className="animate-slideInRight absolute bottom-10 right-5">
+          <div className="animate-fadeIn absolute bottom-10 right-5">
             <div className="bg-green-600 rounded-lg px-3 py-2">
               <div className="flex space-x-2 items-center">
                 <div className="text-lg text-white">
