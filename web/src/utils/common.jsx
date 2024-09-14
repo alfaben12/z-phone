@@ -30,8 +30,10 @@ export function isNonAlphaNumeric(str) {
   return regex.test(str);
 }
 
-export function getLoopsProfile() {
-  const profile = localStorage.getItem(LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE);
+export function getLoopsProfile(citizenid) {
+  const profile = localStorage.getItem(
+    LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE + "-" + citizenid
+  );
   if (profile) {
     return JSON.parse(profile);
   }

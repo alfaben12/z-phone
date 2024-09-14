@@ -37,7 +37,8 @@ const LoopsProfileComponent = ({
   setProfileID,
   profileID,
 }) => {
-  const { resolution, tweets, setTweets, setMenu } = useContext(MenuContext);
+  const { resolution, tweets, setTweets, setMenu, profile } =
+    useContext(MenuContext);
   const [loopsProfile, setLoopsProfile] = useState(null);
   const [activeTab, setActiveTab] = useState(LOOPS_TAB_POST);
   const [isMe, setIsMe] = useState(false);
@@ -58,7 +59,7 @@ const LoopsProfileComponent = ({
 
     let id = profileID;
     if (profileID == 0) {
-      id = getLoopsProfile().id;
+      id = getLoopsProfile(profile.citizenid).id;
     }
 
     let result = {};
@@ -168,7 +169,7 @@ const LoopsProfileComponent = ({
     }
 
     localStorage.setItem(
-      LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE,
+      LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE + "-" + profile.citizenid,
       JSON.stringify(result.profile)
     );
     setLoopsProfile(result.profile);

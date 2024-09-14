@@ -26,7 +26,7 @@ const LoopsComponent = ({ isShow }) => {
   const [profileID, setProfileID] = useState(0);
 
   const checkAuth = () => {
-    const isAuth = getLoopsProfile();
+    const isAuth = getLoopsProfile(profile.citizenid);
     if ([LOOPS_SIGNIN, LOOPS_SIGNUP].includes(subMenu)) {
       if (isAuth) {
         setSubMenu(LOOPS_TWEETS);

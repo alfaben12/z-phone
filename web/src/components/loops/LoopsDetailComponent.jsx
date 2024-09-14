@@ -17,9 +17,10 @@ const LoopsDetailComponent = ({
   setSelectedTweet,
   setProfileID,
 }) => {
-  const { resolution, tweets, setTweets, setMenu } = useContext(MenuContext);
+  const { resolution, tweets, setTweets, setMenu, profile } =
+    useContext(MenuContext);
   const [comments, setComments] = useState([]);
-  const [profile, setProfile] = useState(null);
+  const [profileLoops, setProfileLoops] = useState(null);
 
   const getComments = async (tweet) => {
     let result = [];
@@ -58,9 +59,9 @@ const LoopsDetailComponent = ({
     setComments((prev) => [
       {
         comment: formData.comment,
-        name: profile.fullname,
-        avatar: profile.avatar,
-        username: profile.username,
+        name: profileLoops.fullname,
+        avatar: profileLoops.avatar,
+        username: profileLoops.username,
         created_at: "now",
       },
       ...prev,
@@ -81,7 +82,8 @@ const LoopsDetailComponent = ({
   useEffect(() => {
     if (isShow && selectedTweet != null) {
       getComments();
-      setProfile(getLoopsProfile());
+      console.log(profile.citizenid);
+      setProfileLoops(getLoopsProfile(profile.citizenid));
     }
   }, [isShow]);
 

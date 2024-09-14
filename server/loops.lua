@@ -341,6 +341,7 @@ lib.callback.register('z-phone:server:UpdateLoopsProfile', function(source, body
         if affectedRow then
             local profileQuery = [[
                 SELECT 
+                    zplu.id,
                     zplu.fullname,
                     zplu.username,
                     zplu.avatar,

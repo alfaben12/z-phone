@@ -58,7 +58,7 @@ const LoopsSigninComponent = ({ isShow, setSubMenu }) => {
     setErrorMessage(null);
     setSubMenu(LOOPS_TWEETS);
     localStorage.setItem(
-      LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE,
+      LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE + "-" + profile.citizenid,
       JSON.stringify(result.profile)
     );
   };
