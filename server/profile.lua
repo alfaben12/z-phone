@@ -17,7 +17,8 @@ lib.callback.register('z-phone:server:GetProfile', function(source, body)
                 zpu.is_anonim,
                 zpu.is_donot_disturb,
                 zpu.frame,
-                zpu.iban
+                zpu.iban,
+                zpu.active_loops_userid
             from zp_users zpu WHERE zpu.citizenid = ? LIMIT 1
         ]]
 

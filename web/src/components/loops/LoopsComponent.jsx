@@ -9,6 +9,7 @@ import {
   LOOPS_TESTING,
   LOOPS_TWEETS,
   LOOPS_POST,
+  LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE,
 } from "./loops_constant";
 import LoopsTweetsComponent from "./LoopsTweetsComponent";
 import LoopsDetailComponent from "./LoopsDetailComponent";
@@ -25,25 +26,70 @@ const LoopsComponent = ({ isShow }) => {
   const [selectedTweet, setSelectedTweet] = useState(null);
   const [profileID, setProfileID] = useState(0);
 
-  const checkAuth = () => {
-    const isAuth = getLoopsProfile(profile.citizenid);
-    if ([LOOPS_SIGNIN, LOOPS_SIGNUP].includes(subMenu)) {
-      if (isAuth) {
-        setSubMenu(LOOPS_TWEETS);
-      }
-    } else {
-      if (!isAuth) {
-        setSubMenu(LOOPS_SIGNIN);
+  const checkAuth = async () => {
+    let isAuth = getLoopsProfile(profile.citizenid);
+    if (!isAuth) {
+      if (profile.active_loops_userid != 0) {
+        let result = {};
+        try {
+          const response = await axios.post("/get-loops-profile", {
+            id: profile.active_loops_userid,
+          });
+          result = response.data;
+        } catch (error) {
+          console.error("error /get-loops-profile", error);
+        }
+
+        const data = result?.profile;
+        data.tweets = result?.tweets;
+        data.replies = result?.replies;
+        localStorage.setItem(
+          LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE + "-" + profile.citizenid,
+          JSON.stringify(data)
+        );
+
+        isAuth = result?.profile;
+      } else {
+        isAuth = null;
       }
     }
+
+    return isAuth;
   };
 
   useEffect(() => {
-    checkAuth();
+    const isAuth = async () => {
+      const auth = await checkAuth();
+      if ([LOOPS_SIGNIN, LOOPS_SIGNUP].includes(subMenu)) {
+        if (auth) {
+          setSubMenu(LOOPS_TWEETS);
+        }
+      } else {
+        if (!auth) {
+          setSubMenu(LOOPS_SIGNIN);
+        }
+      }
+    };
+
+    isAuth();
   }, [subMenu]);
 
   useEffect(() => {
-    checkAuth();
+    console.log("ok2");
+    const isAuth = async () => {
+      const auth = await checkAuth();
+      if ([LOOPS_SIGNIN, LOOPS_SIGNUP].includes(subMenu)) {
+        if (auth) {
+          setSubMenu(LOOPS_TWEETS);
+        }
+      } else {
+        if (!auth) {
+          setSubMenu(LOOPS_SIGNIN);
+        }
+      }
+    };
+
+    isAuth();
   }, []);
 
   return (

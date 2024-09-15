@@ -35,7 +35,12 @@ export function getLoopsProfile(citizenid) {
     LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE + "-" + citizenid
   );
   if (profile) {
-    return JSON.parse(profile);
+    const data = JSON.parse(profile);
+    if (Array.isArray(data)) {
+      return null;
+    }
+
+    return data;
   }
 
   return null;

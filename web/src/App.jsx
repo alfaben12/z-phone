@@ -90,8 +90,21 @@ function App() {
       }
     };
 
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await axios.post("/get-profile");
+    //     setProfile(response.data);
+    //   } catch (err) {
+    //     setProfile({});
+    //   }
+    // };
+
     if (isOpen) {
-      fetchData();
+      // fetchData();
 
       if (outsideCallNotif.message != null) {
         setNotificationCall({

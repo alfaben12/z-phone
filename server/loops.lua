@@ -508,3 +508,24 @@ lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
         replies = {}
     }
 end)
+
+lib.callback.register('z-phone:server:UpdateLoopsLogout', function(source, body)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if Player ~= nil then
+        local citizenid = Player.PlayerData.citizenid
+
+        local affectedRow = MySQL.update.await([[
+            UPDATE zp_users SET 
+                active_loops_userid = ?
+            WHERE citizenid = ?
+        ]], {
+            0,
+            citizenid
+        })
+
+        
+        return true
+    end
+
+    return true
+end)
