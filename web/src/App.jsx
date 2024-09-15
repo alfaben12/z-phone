@@ -25,6 +25,7 @@ import {
   PHONE_FRAME_WIDTH,
   MENU_CAMERA,
   CLOSE_CALL,
+  MENU_START_CALL_NOTIFICATION,
 } from "./constant/menu";
 import DynamicComponent from "./components/DynamicComponent";
 import { faker } from "@faker-js/faker";
@@ -94,24 +95,21 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await axios.post("/get-profile");
-    //     setProfile(response.data);
-    //   } catch (err) {
-    //     setProfile({});
-    //   }
-    // };
+    const fetchData = async () => {
+      try {
+        const response = await axios.post("/get-profile");
+        setProfile(response.data);
+      } catch (err) {
+        setProfile({});
+      }
+    };
 
     if (isOpen) {
-      // fetchData();
+      fetchData();
 
       if (outsideCallNotif.message != null) {
-        setNotificationCall({
-          type: MENU_INCOMING_CALL_NOTIFICATION,
-          from: outsideCallNotif.from,
-          photo: faker.image.avatar(),
-        });
+        outsideCallNotif.type = MENU_INCOMING_CALL_NOTIFICATION;
+        setNotificationCall(outsideCallNotif);
       }
 
       setOutsideMessageNotif({
@@ -636,6 +634,16 @@ function App() {
     });
   };
 
+  const sendStartCallNotification = () => {
+    sendEventData({
+      notification: {
+        type: MENU_START_CALL_NOTIFICATION,
+        to: faker.phone.number(),
+        photo: faker.image.avatar(),
+      },
+    });
+  };
+
   const sendNewsNotification = () => {
     sendEventData({
       notification: {
@@ -751,58 +759,62 @@ function App() {
         message: null,
       });
       setNotificationCall({ type: "" });
-    }
-
-    if (data.notification) {
-      if (data.notification.type == MENU_NEW_MESSAGE_NOTIFICATION) {
-        setNotificationMessage(data.notification);
-      }
-
-      if (data.notification.type == MENU_INCOMING_CALL_NOTIFICATION) {
-        setNotificationCall(data.notification);
-      }
-
-      if (data.notification.type == MENU_NEW_NEWS_NOTIFICATION) {
-        setNotificationNews(data.notification);
-      }
-
-      if (data.notification.type == MENU_INTERNAL_NOTIFICATION) {
-        setNotificationInternal(data.notification);
-      }
-    } else if (data.outsideMessageNotif) {
-      setOutsideMessageNotif(data.outsideMessageNotif);
-    } else if (data.outsideCallNotif) {
-      setOutsideCallNotif(data.outsideCallNotif);
     } else {
-      setContacts(data.contacts ? data.contacts : []);
-      setContactsBk(data.contacts ? data.contacts : []);
-      setChats(data.chats ? data.chats : []);
-      setChatsBk(data.chats ? data.chats : []);
-      setChatting(data.chatting ? data.chatting : {});
-      setEmails(data.emails ? data.emails : []);
-      setEmailsBk(data.emails ? data.emails : []);
-      setEmail({});
-      setAds(data.ads ? data.ads : []);
-      setGarages(data.garages ? data.garages : []);
-      setGaragesBk(data.garages ? data.garages : []);
-      setPhotos(data.photos ? data.photos : []);
-      setTweets(data.tweets ? data.tweets : []);
-      setBank(
-        data.bank
-          ? data.bank
-          : {
-              balance: 0,
-              histories: [],
-              bills: [],
-            }
-      );
-      setHouses(data.houses ? data.houses : []);
-      setServices(data.services ? data.services : []);
-      setCallHistories(data.callHistories ? data.callHistories : []);
-      setContactRequests(data.contactRequests ? data.contactRequests : []);
-      setNews(data.news ? data.news : []);
-      setNewsStreams(data.newsStreams ? data.newsStreams : []);
-      setLovys(data.lovys ? data.lovys : []);
+      if (data.notification) {
+        if (data.notification.type == MENU_NEW_MESSAGE_NOTIFICATION) {
+          setNotificationMessage(data.notification);
+        }
+
+        if (data.notification.type == MENU_INCOMING_CALL_NOTIFICATION) {
+          setNotificationCall(data.notification);
+        }
+
+        if (data.notification.type == MENU_START_CALL_NOTIFICATION) {
+          setNotificationCall(data.notification);
+        }
+
+        if (data.notification.type == MENU_NEW_NEWS_NOTIFICATION) {
+          setNotificationNews(data.notification);
+        }
+
+        if (data.notification.type == MENU_INTERNAL_NOTIFICATION) {
+          setNotificationInternal(data.notification);
+        }
+      } else if (data.outsideMessageNotif) {
+        setOutsideMessageNotif(data.outsideMessageNotif);
+      } else if (data.outsideCallNotif) {
+        setOutsideCallNotif(data.outsideCallNotif);
+      } else {
+        setContacts(data.contacts ? data.contacts : []);
+        setContactsBk(data.contacts ? data.contacts : []);
+        setChats(data.chats ? data.chats : []);
+        setChatsBk(data.chats ? data.chats : []);
+        setChatting(data.chatting ? data.chatting : {});
+        setEmails(data.emails ? data.emails : []);
+        setEmailsBk(data.emails ? data.emails : []);
+        setEmail({});
+        setAds(data.ads ? data.ads : []);
+        setGarages(data.garages ? data.garages : []);
+        setGaragesBk(data.garages ? data.garages : []);
+        setPhotos(data.photos ? data.photos : []);
+        setTweets(data.tweets ? data.tweets : []);
+        setBank(
+          data.bank
+            ? data.bank
+            : {
+                balance: 0,
+                histories: [],
+                bills: [],
+              }
+        );
+        setHouses(data.houses ? data.houses : []);
+        setServices(data.services ? data.services : []);
+        setCallHistories(data.callHistories ? data.callHistories : []);
+        setContactRequests(data.contactRequests ? data.contactRequests : []);
+        setNews(data.news ? data.news : []);
+        setNewsStreams(data.newsStreams ? data.newsStreams : []);
+        setLovys(data.lovys ? data.lovys : []);
+      }
     }
   };
 
@@ -962,6 +974,16 @@ function App() {
             className={`${
               isOpen ? "bg-blue-500" : "bg-red-500"
             } px-5 py-2 rounded text-white`}
+            onClick={() => sendStartCallNotification()}
+          >
+            Start Call
+          </button>
+        </div>
+        <div>
+          <button
+            className={`${
+              isOpen ? "bg-blue-500" : "bg-red-500"
+            } px-5 py-2 rounded text-white`}
             onClick={() => sendNewsNotification()}
           >
             New Reporter News
@@ -1058,106 +1080,107 @@ function App() {
         </>
       ) : null}
       <div id="z-phone-root-frame" className="z-phone-invisible">
-        {/* <div id="z-phone-root-frame"> */}
-        <div
-          className="absolute bottom-10 right-10"
-          style={{
-            height: `${resolution.frameHeight}px`,
-            width: `${resolution.frameWidth}px`,
-            // padding: 5,
-          }}
-        >
-          <img
-            src={`./frames/${profile ? profile.frame : "1.svg"}`}
-            onError={(error) => {
-              error.target.src = "./frames/1.svg";
+        {profile ? (
+          <div
+            className="absolute bottom-10 right-10"
+            style={{
+              height: `${resolution.frameHeight}px`,
+              width: `${resolution.frameWidth}px`,
+              // padding: 5,
             }}
-            alt=""
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-            <div
-              className={`relative overflow-hidden bg-black `}
-              style={{
-                height: `${resolution.layoutHeight}px`,
-                width: `${resolution.layoutWidth}px`,
-                borderRadius: `${resolution.radius}px`,
+          >
+            <img
+              src={`./frames/${profile ? profile.frame : "1.svg"}`}
+              onError={(error) => {
+                error.target.src = "./frames/1.svg";
               }}
-            >
+              alt=""
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
               <div
-                className={`absolute flex justify-between px-4 py-2 z-50`}
+                className={`relative overflow-hidden bg-black `}
                 style={{
+                  height: `${resolution.layoutHeight}px`,
                   width: `${resolution.layoutWidth}px`,
+                  borderRadius: `${resolution.radius}px`,
                 }}
               >
-                <div className="absolute top-0 right-0 w-full flex justify-center">
-                  <img
-                    src={`./images/iphone-top.svg`}
-                    className="pt-2 w-[70px] object cover"
-                  />
-                </div>
-                <div className="flex items-center">
-                  <div className="text-xs font-medium text-white">{time}</div>
-                </div>
-                <div className="flex items-center">
-                  <div>
-                    <svg
-                      width="16"
-                      height="9"
-                      viewBox="0 0 23 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M21.6245 0.59993H20.2828C19.5418 0.59993 18.9412 1.17916 18.9412 1.89368V13.1062C18.9412 13.8207 19.5418 14.3999 20.2828 14.3999H21.6245C22.3655 14.3999 22.9662 13.8207 22.9662 13.1062V1.89368C22.9662 1.17916 22.3655 0.59993 21.6245 0.59993ZM13.9691 3.61884H15.3108C16.0517 3.61884 16.6524 4.19807 16.6524 4.91258V13.1063C16.6524 13.8208 16.0517 14.4001 15.3108 14.4001H13.9691C13.2281 14.4001 12.6274 13.8208 12.6274 13.1063V4.91258C12.6274 4.19807 13.2281 3.61884 13.9691 3.61884ZM8.99703 6.63734H7.65536C6.91438 6.63734 6.31369 7.21657 6.31369 7.93109V13.1061C6.31369 13.8206 6.91438 14.3998 7.65536 14.3998H8.99703C9.73801 14.3998 10.3387 13.8206 10.3387 13.1061V7.93109C10.3387 7.21657 9.73801 6.63734 8.99703 6.63734ZM2.68333 9.2248H1.34167C0.600684 9.2248 0 9.80403 0 10.5185V13.106C0 13.8206 0.600684 14.3998 1.34167 14.3998H2.68333C3.42431 14.3998 4.025 13.8206 4.025 13.106V10.5185C4.025 9.80403 3.42431 9.2248 2.68333 9.2248Z"
-                        fill="white"
-                      />
-                    </svg>
+                <div
+                  className={`absolute flex justify-between px-4 py-2 z-50`}
+                  style={{
+                    width: `${resolution.layoutWidth}px`,
+                  }}
+                >
+                  <div className="absolute top-0 right-0 w-full flex justify-center">
+                    <img
+                      src={`./images/iphone-top.svg`}
+                      className="pt-2 w-[70px] object cover"
+                    />
                   </div>
-                  <span className="text-xs font-medium text-white pl-1">
-                    5G
-                  </span>
-                  <div>
-                    <svg
-                      width="30"
-                      height="12"
-                      viewBox="0 0 33 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <rect
-                        opacity="0.4"
-                        x="1.54116"
-                        y="0.600009"
-                        width="27.6"
-                        height="13.8"
-                        rx="4.025"
-                        stroke="white"
-                        strokeWidth="1.15"
-                      />
-                      <path
-                        opacity="0.5"
-                        d="M30.8661 5.20001V9.80001C31.7929 9.41042 32.3956 8.50411 32.3956 7.50001C32.3956 6.49591 31.7929 5.5896 30.8661 5.20001"
-                        fill="white"
-                      />
-                      <rect
-                        x="3.26614"
-                        y="2.32501"
-                        width="19.55"
-                        height="10.35"
-                        rx="2.3"
-                        fill="white"
-                      />
-                    </svg>
+                  <div className="flex items-center">
+                    <div className="text-xs font-medium text-white">{time}</div>
+                  </div>
+                  <div className="flex items-center">
+                    <div>
+                      <svg
+                        width="16"
+                        height="9"
+                        viewBox="0 0 23 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M21.6245 0.59993H20.2828C19.5418 0.59993 18.9412 1.17916 18.9412 1.89368V13.1062C18.9412 13.8207 19.5418 14.3999 20.2828 14.3999H21.6245C22.3655 14.3999 22.9662 13.8207 22.9662 13.1062V1.89368C22.9662 1.17916 22.3655 0.59993 21.6245 0.59993ZM13.9691 3.61884H15.3108C16.0517 3.61884 16.6524 4.19807 16.6524 4.91258V13.1063C16.6524 13.8208 16.0517 14.4001 15.3108 14.4001H13.9691C13.2281 14.4001 12.6274 13.8208 12.6274 13.1063V4.91258C12.6274 4.19807 13.2281 3.61884 13.9691 3.61884ZM8.99703 6.63734H7.65536C6.91438 6.63734 6.31369 7.21657 6.31369 7.93109V13.1061C6.31369 13.8206 6.91438 14.3998 7.65536 14.3998H8.99703C9.73801 14.3998 10.3387 13.8206 10.3387 13.1061V7.93109C10.3387 7.21657 9.73801 6.63734 8.99703 6.63734ZM2.68333 9.2248H1.34167C0.600684 9.2248 0 9.80403 0 10.5185V13.106C0 13.8206 0.600684 14.3998 1.34167 14.3998H2.68333C3.42431 14.3998 4.025 13.8206 4.025 13.106V10.5185C4.025 9.80403 3.42431 9.2248 2.68333 9.2248Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </div>
+                    <span className="text-xs font-medium text-white pl-1">
+                      5G
+                    </span>
+                    <div>
+                      <svg
+                        width="30"
+                        height="12"
+                        viewBox="0 0 33 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          opacity="0.4"
+                          x="1.54116"
+                          y="0.600009"
+                          width="27.6"
+                          height="13.8"
+                          rx="4.025"
+                          stroke="white"
+                          strokeWidth="1.15"
+                        />
+                        <path
+                          opacity="0.5"
+                          d="M30.8661 5.20001V9.80001C31.7929 9.41042 32.3956 8.50411 32.3956 7.50001C32.3956 6.49591 31.7929 5.5896 30.8661 5.20001"
+                          fill="white"
+                        />
+                        <rect
+                          x="3.26614"
+                          y="2.32501"
+                          width="19.55"
+                          height="10.35"
+                          rx="2.3"
+                          fill="white"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
+                <DynamicComponent />
               </div>
-              <DynamicComponent />
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );

@@ -23,6 +23,7 @@
     "MENU_MESSAGE_CHATTING": "Chatting",
     "MENU_EMAIL_DETAIL": "Email Detail",
     "MENU_INCOMING_CALL_NOTIFICATION": "Incoming Call",
+    "MENU_START_CALL_NOTIFICATION": "Calling...",
     "MENU_NEW_MESSAGE_NOTIFICATION": "New Message",
     "MENU_INCALL": "In Call",
     "MENU_NEWS": "News",

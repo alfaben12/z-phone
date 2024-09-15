@@ -1,16 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import MenuContext from "../../context/MenuContext";
 import { MdCall, MdCallEnd } from "react-icons/md";
-import {
-  MENU_INCALL,
-  MENU_INCOMING_CALL_NOTIFICATION,
-} from "../../constant/menu";
+import { MENU_INCALL, MENU_START_CALL_NOTIFICATION } from "../../constant/menu";
 import { MdOutlinePhone } from "react-icons/md";
 import useSound from "use-sound";
 import notificationMessageSound from "/sounds/call-sound.mp3";
 import axios from "axios";
 
-const IncomingCallNotificationComponent = ({ isShow }) => {
+const StartCallNotificationComponent = ({ isShow }) => {
   const { resolution, notificationCall, setNotificationCall } =
     useContext(MenuContext);
   const [isClose, setIsClose] = useState(false);
@@ -39,7 +36,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
         <div className="flex flex-col justify-between w-full h-full items-center pt-5 pb-10">
           <div className="flex flex-col space-y-3 w-full">
             <span className="flex space-x-2 text-lg text-gray-100 font-semibold line-clamp-1 items-center">
-              <span>{MENU_INCOMING_CALL_NOTIFICATION}...</span>
+              <span>{MENU_START_CALL_NOTIFICATION}...</span>
               <div>
                 <span className="relative flex h-3 w-3 items-center">
                   <MdOutlinePhone className="text-xl animate-ping absolute" />
@@ -63,7 +60,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
                     fontSize: "1rem",
                   }}
                 >
-                  {notificationCall.from}
+                  {notificationCall.to_person}
                 </span>
                 <span className="text-xs text-gray-300 line-clamp-1">
                   mobile
@@ -71,48 +68,29 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between w-full px-5 pb-10">
+          <div className="flex justify-center w-full px-5 pb-10">
             <div className="flex flex-col space-y-2 items-center">
               <button
                 className="flex justify-center items-center bg-red-500 w-12 h-12 rounded-full text-white"
                 onClick={async () => {
                   setIsClose(true);
                   stop();
-                  // setTimeout(() => {
-                  //   setNotificationCall({ type: "" });
-                  // }, 1000);
-
                   let result = null;
                   try {
-                    const response = await axios.post("/decline-call", {
+                    const response = await axios.post("/cancel-call", {
                       to_source: notificationCall.to_source,
                     });
                     result = response.data;
                   } catch (error) {
-                    console.error("error /decline-call", error);
+                    console.error("error /cancel-call", error);
                   }
+
+                  // setNotificationCall({ type: "" });
                 }}
               >
                 <MdCallEnd className="text-3xl" />
               </button>
-              <span className="text-white text-xs">Decline</span>
-            </div>
-            <div className="flex flex-col space-y-2 items-center">
-              <button
-                className="flex justify-center items-center bg-green-500 w-12 h-12 rounded-full text-white"
-                onClick={() => {
-                  setIsClose(true);
-                  stop();
-                  setNotificationCall({
-                    type: MENU_INCALL,
-                    from: notificationCall.from,
-                    photo: notificationCall.photo,
-                  });
-                }}
-              >
-                <MdCall className="text-3xl" />
-              </button>
-              <span className="text-white text-xs">Accept</span>
+              <span className="text-white text-xs">Cancel</span>
             </div>
           </div>
         </div>
@@ -120,4 +98,4 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
     </div>
   );
 };
-export default IncomingCallNotificationComponent;
+export default StartCallNotificationComponent;

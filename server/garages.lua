@@ -13,7 +13,7 @@ lib.callback.register('z-phone:server:GetVehicles', function(source, body)
                 pv.engine,
                 pv.body,
                 pv.state,
-                DATE_FORMAT(pv.created_at, '%Y/%m/%d %H:%i') as created_at
+                DATE_FORMAT(pv.created_at, '%d/%m/%y %H:%i') as created_at
             from player_vehicles pv WHERE pv.citizenid = ? order by plate asc
         ]]
 

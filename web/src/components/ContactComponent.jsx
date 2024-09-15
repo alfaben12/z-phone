@@ -13,6 +13,7 @@ import {
 import LoadingComponent from "./LoadingComponent";
 import { searchByKeyValueContains } from "../utils/common";
 import axios from "axios";
+import { MENU_START_CALL_NOTIFICATION } from "./../constant/menu";
 
 const ContactComponent = ({ isShow }) => {
   const {
@@ -23,6 +24,7 @@ const ContactComponent = ({ isShow }) => {
     setContacts,
     setContactsBk,
     setChatting,
+    profile,
   } = useContext(MenuContext);
   const [selected, setSelected] = useState(null);
   const [formEdit, setFormEdit] = useState(null);
@@ -248,7 +250,22 @@ const ContactComponent = ({ isShow }) => {
                   >
                     <MdWhatsapp className="cursor-pointer text-2xl text-[#33C056] m-1" />
                   </div>
-                  <div className="border border-gray-800 hover:bg-gray-800 rounded-lg mr-4">
+                  <div
+                    className="border border-gray-800 hover:bg-gray-800 rounded-lg mr-4"
+                    onClick={async () => {
+                      let result = null;
+                      try {
+                        const response = await axios.post("/start-call", {
+                          from_avatar: profile.avatar,
+                          from_phone_number: profile.phone_number,
+                          to_phone_number: v.phone_number,
+                        });
+                        result = response.data;
+                      } catch (error) {
+                        console.error("error /start-call", error);
+                      }
+                    }}
+                  >
                     <MdOutlinePhone className="cursor-pointer text-2xl text-yellow-600 m-1" />
                   </div>
                   <div

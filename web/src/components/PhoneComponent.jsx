@@ -9,6 +9,8 @@ import {
   MdOutlinePhone,
   MdBackspace,
   MdCancel,
+  MdOutlineCallMade,
+  MdOutlineCallReceived,
 } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
 import { FaCheck } from "react-icons/fa6";
@@ -213,16 +215,22 @@ const PhoneComponent = ({ isShow }) => {
                       />
                       <div className="flex flex-col">
                         <span className="text-sm font-medium line-clamp-1">
-                          {v.from}
+                          {v.to_person}
                         </span>
                         <span className="text-xs text-gray-400">
                           {v.created_at}
                         </span>
                       </div>
                     </div>
-                    <div className="flex space-x-2 pr-3 items-center cursor-pointer hover:text-green-500">
-                      <MdOutlinePhone className="text-2xl" />
-                    </div>
+                    {v.flag == "OUT" ? (
+                      <div className="flex space-x-2 pr-3 items-center cursor-pointer text-red-500 hover:text-red-600">
+                        <MdOutlineCallMade className="text-2xl" />
+                      </div>
+                    ) : (
+                      <div className="flex space-x-2 pr-3 items-center cursor-pointer text-green-500 hover:text-green-600">
+                        <MdOutlineCallReceived className="text-2xl" />
+                      </div>
+                    )}
                   </div>
                 );
               })}

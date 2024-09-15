@@ -61,7 +61,7 @@ lib.callback.register('z-phone:server:StartOrContinueChatting', function(source,
                         )
                     ELSE c.name
                 END AS conversation_name,
-                DATE_FORMAT(from_user.last_seen, '%y/%m/%d %H:%i') as last_seen,
+                DATE_FORMAT(from_user.last_seen, '%d/%m/%y %H:%i') as last_seen,
                 0 as isRead,
                 c.id as conversationid,
 				c.is_group
@@ -125,7 +125,7 @@ lib.callback.register('z-phone:server:GetChats', function(source)
                         )
                     ELSE c.name
                 END AS conversation_name,
-                DATE_FORMAT(from_user.last_seen, '%y/%m/%d %H:%i') as last_seen,
+                DATE_FORMAT(from_user.last_seen, '%d/%m/%y %H:%i') as last_seen,
                 0 as isRead,
 				CASE
                     WHEN last_msg.content = '' THEN
@@ -182,7 +182,7 @@ lib.callback.register('z-phone:server:GetChatting', function(source, body)
             select 
                 zpcm.content as message,
                 zpcm.media,
-                DATE_FORMAT(zpcm.created_at, '%y/%m/%d %H:%i') as time,
+                DATE_FORMAT(zpcm.created_at, '%d/%m/%y %H:%i') as time,
                 zpcm.sender_citizenid
             from zp_conversation_messages zpcm WHERE conversationid = ?
         ]]

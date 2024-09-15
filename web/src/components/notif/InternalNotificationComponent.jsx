@@ -9,7 +9,7 @@ const NewMessageNotificationComponent = ({ isShow }) => {
     if (isShow) {
       setTimeout(() => {
         setNotificationInternal({ type: "" });
-      }, 4000);
+      }, 3000);
     }
   }, [isShow]);
 

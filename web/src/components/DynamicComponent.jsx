@@ -26,6 +26,7 @@ import {
   MENU_NEWS,
   MENU_NEW_NEWS_NOTIFICATION,
   MENU_INTERNAL_NOTIFICATION,
+  MENU_START_CALL_NOTIFICATION,
 } from "../constant/menu";
 import MessageComponent from "./MessageComponent";
 import MessageChattingComponent from "./MessageChattingComponent";
@@ -52,6 +53,7 @@ import LovyComponent from "./LovyComponent";
 import PlayTVComponent from "./PlayTVComponent";
 import CameraComponent from "./CameraComponent";
 import LoopsComponent from "./loops/LoopsComponent";
+import StartCallNotificationComponent from "./notif/StartCallNotificationComponent";
 
 const DynamicComponent = () => {
   const {
@@ -64,8 +66,8 @@ const DynamicComponent = () => {
   } = useContext(MenuContext);
 
   useEffect(() => {
-    console.log("change state " + menu);
-  }, [menu]);
+    console.log("change state " + notificationCall);
+  }, [notificationCall]);
 
   function isNullOrUndefined(value) {
     return value === menus.APPS.null || value === menus.APPS.undefined;
@@ -120,6 +122,16 @@ const DynamicComponent = () => {
           >
             <IncomingCallNotificationComponent
               isShow={notificationCall.type == MENU_INCOMING_CALL_NOTIFICATION}
+            />
+          </div>
+          <div
+            className="absolute top-0 left-0 z-50 w-full"
+            style={{
+              display: !isNullOrUndefined(notificationCall) ? "block" : "none",
+            }}
+          >
+            <StartCallNotificationComponent
+              isShow={notificationCall.type == MENU_START_CALL_NOTIFICATION}
             />
           </div>
           <div
