@@ -11,7 +11,7 @@ const NewMessageNotificationComponent = ({ isShow }) => {
 
   useEffect(() => {
     if (isShow) {
-      play();
+      // play();
       setTimeout(() => {
         setNotificationMessage({ type: "" });
       }, 4000);

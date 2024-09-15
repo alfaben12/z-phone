@@ -55,6 +55,10 @@ const LoopsSigninComponent = ({ isShow, setSubMenu }) => {
       return;
     }
 
+    setFormData({
+      username: "",
+      password: "",
+    });
     setErrorMessage(null);
     setSubMenu(LOOPS_TWEETS);
     localStorage.setItem(

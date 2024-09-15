@@ -8,6 +8,7 @@ import {
   LOOPS_TAB_SETTING,
   LOOPS_TWEETS,
   LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE,
+  LOOPS_SIGNIN,
 } from "./loops_constant";
 import {
   MdArrowBackIosNew,
@@ -628,6 +629,7 @@ const LoopsProfileComponent = ({
                       name="bio"
                       value={formData.bio}
                       onChange={handleChangeSetting}
+                      rows={3}
                       required
                     />
                   </div>
@@ -636,6 +638,26 @@ const LoopsProfileComponent = ({
                   <button className="text-center bg-[#1d9cf0] px-3 py-1 text-white rounded-md text-sm">
                     SAVE
                   </button>
+                </div>
+
+                <div className="flex items-center justify-center w-full py-5">
+                  <button
+                    type="button"
+                    className="text-center text-gray-100 underline text-sm font-semibold"
+                    onClick={() => {
+                      localStorage.removeItem(
+                        LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE +
+                          "-" +
+                          profile.citizenid
+                      );
+                      setSubMenu(LOOPS_SIGNIN);
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+                <div className="pb-2 text-xs text-gray-200 flex justify-center">
+                  <span>&copy; 2025 Loops Corp.</span>
                 </div>
               </form>
             </div>

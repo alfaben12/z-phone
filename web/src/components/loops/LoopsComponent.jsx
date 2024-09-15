@@ -42,6 +42,10 @@ const LoopsComponent = ({ isShow }) => {
     checkAuth();
   }, [subMenu]);
 
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
   return (
     <div
       className="relative w-full h-full"

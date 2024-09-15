@@ -18,7 +18,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
   useEffect(() => {
     if (isShow) {
       setIsClose(false);
-      play();
+      // play();
     }
   }, [isShow]);
 
