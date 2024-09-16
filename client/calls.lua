@@ -26,6 +26,25 @@ RegisterNUICallback('decline-call', function(body, cb)
     end, body)
 end)
 
+RegisterNUICallback('end-call', function(body, cb)
+    lib.callback('z-phone:server:EndCall', false, function(isOk)
+        cb(isOk)
+    end, body)
+end)
+
+RegisterNUICallback('accept-call', function(body, cb)
+    if PhoneData.isOpen then
+        DoPhoneAnimation('cellphone_text_to_call')
+    else
+        DoPhoneAnimation('cellphone_call_listen_base')
+    end
+
+    PhoneData.CallData.InCall = true
+    lib.callback('z-phone:server:AcceptCall', false, function(isOk)
+        cb(isOk)
+    end, body)
+end)
+
 RegisterNUICallback('get-call-histories', function(_, cb)
     lib.callback('z-phone:server:GetCallHistories', false, function(histories)
         cb(histories)

@@ -26,6 +26,7 @@ import {
   MENU_CAMERA,
   CLOSE_CALL,
   MENU_START_CALL_NOTIFICATION,
+  MENU_INCALL,
 } from "./constant/menu";
 import DynamicComponent from "./components/DynamicComponent";
 import { faker } from "@faker-js/faker";
@@ -769,7 +770,15 @@ function App() {
           setNotificationCall(data.notification);
         }
 
+        if (data.notification.type == MENU_INCALL) {
+          setNotificationCall(data.notification);
+        }
+
         if (data.notification.type == MENU_START_CALL_NOTIFICATION) {
+          setNotificationCall(data.notification);
+        }
+
+        if (data.notification.type == MENU_INCOMING_CALL_NOTIFICATION) {
           setNotificationCall(data.notification);
         }
 

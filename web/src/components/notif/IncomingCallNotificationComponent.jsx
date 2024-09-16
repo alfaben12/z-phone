@@ -100,14 +100,30 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
             <div className="flex flex-col space-y-2 items-center">
               <button
                 className="flex justify-center items-center bg-green-500 w-12 h-12 rounded-full text-white"
-                onClick={() => {
+                onClick={async () => {
                   setIsClose(true);
                   stop();
-                  setNotificationCall({
-                    type: MENU_INCALL,
-                    from: notificationCall.from,
-                    photo: notificationCall.photo,
-                  });
+
+                  let result = null;
+                  try {
+                    const response = await axios.post("/accept-call", {
+                      from: notificationCall.from,
+                      photo: notificationCall.photo,
+                      to_source: notificationCall.to_source,
+                      to_person_for_caller:
+                        notificationCall.to_person_for_caller,
+                      to_photo_for_caller: notificationCall.to_photo_for_caller,
+                    });
+                    result = response.data;
+                  } catch (error) {
+                    console.error("error /accept-call", error);
+                  }
+
+                  // setNotificationCall({
+                  //   type: MENU_INCALL,
+                  //   from: notificationCall.from,
+                  //   photo: notificationCall.photo,
+                  // });
                 }}
               >
                 <MdCall className="text-3xl" />

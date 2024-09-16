@@ -62,6 +62,8 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
         message = "Incoming call..",
         to_source = source,
         from_source = TargetPlayer.PlayerData.source,
+        to_person_for_caller = contactNameTarget,
+        to_photo_for_caller = targetUser.avatar,
     })
 
     TriggerClientEvent("z-phone:client:sendNotifStartCall", source, {
@@ -105,6 +107,37 @@ lib.callback.register('z-phone:server:DeclineCall', function(source, body)
         from = "Phone Call",
         message = "Call declined!"
     })
+    return true
+end)
+
+lib.callback.register('z-phone:server:AcceptCall', function(source, body)
+    -- CALLER
+    TriggerClientEvent("z-phone:client:setInCall", body.to_source, {
+        from = body.to_person_for_caller,
+        photo = body.to_photo_for_caller,
+        from_source = body.to_source,
+        to_source = source,
+    })
+
+    -- RECEIVER
+    TriggerClientEvent("z-phone:client:setInCall", source, {
+        from = body.from,
+        photo = body.photo,
+        from_source = source,
+        to_source = body.to_source,
+    })
+    return true
+end)
+
+lib.callback.register('z-phone:server:EndCall', function(source, body)
+    TriggerClientEvent("z-phone:client:sendNotifInternal", body.to_source, {
+        type = "Notification",
+        from = "Phone Call",
+        message = "Call ended!"
+    })
+
+    TriggerClientEvent("z-phone:client:closeCall", body.to_source)
+    TriggerClientEvent("z-phone:client:closeCall", source)
     return true
 end)
 

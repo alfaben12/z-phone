@@ -44,6 +44,8 @@ RegisterNetEvent('z-phone:client:sendNotifIncomingCall', function(message)
                 photo = message.photo,
                 from_source = message.from_source,
                 to_source = message.to_source,
+                to_person_for_caller = message.to_person_for_caller,
+                to_photo_for_caller = message.to_photo_for_caller,
             },
         })
     else
@@ -55,17 +57,33 @@ RegisterNetEvent('z-phone:client:sendNotifIncomingCall', function(message)
                 message = message.message,
                 from_source = message.from_source,
                 to_source = message.to_source,
+                to_person_for_caller = message.to_person_for_caller,
+                to_photo_for_caller = message.to_photo_for_caller,
             },
         })
     end
 end)
 
 RegisterNetEvent('z-phone:client:sendNotifStartCall', function(message)
+    
     SendNUIMessage({
         event = 'z-phone',
         notification = {
             type = 'Calling...',
             to_person = message.to_person,
+            photo = message.photo,
+            from_source = message.from_source,
+            to_source = message.to_source,
+        },
+    })
+end)
+
+RegisterNetEvent('z-phone:client:setInCall', function(message)
+    SendNUIMessage({
+        event = 'z-phone',
+        notification = {
+            type = "In Call",
+            from = message.from,
             photo = message.photo,
             from_source = message.from_source,
             to_source = message.to_source,

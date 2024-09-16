@@ -3,6 +3,7 @@ import { MENU_DEFAULT, MENU_INCALL } from "../../constant/menu";
 import MenuContext from "../../context/MenuContext";
 import { MdCallEnd } from "react-icons/md";
 import Marquee from "react-fast-marquee";
+import axios from "axios";
 
 const InCallComponent = ({ isShow }) => {
   const { resolution, notificationCall, setNotificationCall, setMenu } =
@@ -68,7 +69,7 @@ const InCallComponent = ({ isShow }) => {
             {notificationCall.from}
           </Marquee>
         </span>
-        <span className="text-gray-400 text-sm text-bold truncate text-center">
+        <span className="text-gray-300 text-lg text-bold truncate text-center">
           {`${formatTime(time.hours)}:${formatTime(time.minutes)}:${formatTime(
             time.seconds
           )}`}
@@ -77,12 +78,17 @@ const InCallComponent = ({ isShow }) => {
       <div className="flex flex-col items-center pt-28">
         <button
           className="flex justify-center items-center bg-red-600 w-12 h-12 rounded-full text-white"
-          onClick={() => {
+          onClick={async () => {
             setIsClose(true);
-            setTimeout(() => {
-              setNotificationCall({ type: "" });
-            }, 1000);
-            setMenu(MENU_DEFAULT);
+            let result = null;
+            try {
+              const response = await axios.post("/end-call", {
+                to_source: notificationCall.to_source,
+              });
+              result = response.data;
+            } catch (error) {
+              console.error("error /end-call", error);
+            }
           }}
         >
           <MdCallEnd className="text-2xl" />
