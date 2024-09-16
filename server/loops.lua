@@ -420,7 +420,8 @@ lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
                 DATE_FORMAT(zplu.join_at, '%d %b %Y') as join_at,
                 zplu.is_verified,
                 zplu.is_allow_message,
-                zplu.phone_number
+                zplu.phone_number,
+                zplu.citizenid
             FROM zp_loops_users zplu
             WHERE zplu.id = ?
         ]]

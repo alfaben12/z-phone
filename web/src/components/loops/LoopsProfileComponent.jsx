@@ -10,6 +10,7 @@ import {
   LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE,
   LOOPS_SIGNIN,
 } from "./loops_constant";
+import { MENU_MESSAGE_CHATTING } from "../../constant/menu";
 import {
   MdArrowBackIosNew,
   MdMail,
@@ -38,8 +39,15 @@ const LoopsProfileComponent = ({
   setProfileID,
   profileID,
 }) => {
-  const { resolution, tweets, setTweets, setMenu, profile, setProfile } =
-    useContext(MenuContext);
+  const {
+    resolution,
+    tweets,
+    setTweets,
+    setMenu,
+    profile,
+    setProfile,
+    setChatting,
+  } = useContext(MenuContext);
   const [loopsProfile, setLoopsProfile] = useState(null);
   const [activeTab, setActiveTab] = useState(LOOPS_TAB_POST);
   const [isMe, setIsMe] = useState(false);
@@ -268,7 +276,26 @@ const LoopsProfileComponent = ({
                         <span className="text-xs text-white">
                           Send message{" "}
                         </span>
-                        <button className="w-8 h-8 border border-gray-600 rounded-full items-center flex justify-center hover:bg-gray-700">
+                        <button
+                          className="w-8 h-8 border border-gray-600 rounded-full items-center flex justify-center hover:bg-gray-700"
+                          onClick={async () => {
+                            await axios
+                              .post("/new-or-continue-chat", {
+                                to_citizenid: loopsProfile.citizenid,
+                                phone_number: loopsProfile.phone_number,
+                              })
+                              .then(function (response) {
+                                if (response.data) {
+                                  setChatting(response.data);
+                                  setMenu(MENU_MESSAGE_CHATTING);
+                                }
+                              })
+                              .catch(function (error) {
+                                console.log(error);
+                              })
+                              .finally(function () {});
+                          }}
+                        >
                           <MdMailOutline className="text-xl text-white" />
                         </button>
                       </div>

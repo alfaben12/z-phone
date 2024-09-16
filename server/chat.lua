@@ -2,102 +2,139 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 lib.callback.register('z-phone:server:StartOrContinueChatting', function(source, body)
     local Player = QBCore.Functions.GetPlayer(source)
+    if Player == nil then return nil end
 
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
-        local queryGetConversationID = [[
-            WITH ConversationParticipants AS (
-                SELECT conversationid
-                FROM zp_conversation_participants
-                WHERE citizenid IN (?, ?)
-                GROUP BY conversationid
-                HAVING COUNT(DISTINCT citizenid) = 2
-            ),
-            InvalidConversations AS (
-                SELECT conversationid
-                FROM zp_conversation_participants
-                GROUP BY conversationid
-                HAVING COUNT(DISTINCT citizenid) > 2
-            )
-            SELECT 
-                CASE 
-                    WHEN EXISTS (SELECT 1 FROM InvalidConversations) THEN NULL
-                    ELSE (SELECT conversationid FROM ConversationParticipants)
-                END AS conversationid
-        ]]
+    local citizenid = Player.PlayerData.citizenid
 
-        local conversationid = MySQL.scalar.await(queryGetConversationID, {
-            citizenid,
-            body.to_citizenid
+    if body.to_citizenid == citizenid then 
+        TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+            type = "Notification",
+            from = "Loops",
+            message = "Cannot chat to your self!"
         })
-        
-        if conversationid == nil then
-            local queryNewConv = "INSERT INTO zp_conversations (is_group) VALUES (?)"
-            conversationid = MySQL.insert.await(queryNewConv, {
-                false,
-            })
-
-            local queryParticipant = "INSERT INTO zp_conversation_participants (conversationid, citizenid) VALUES (?, ?)"
-            local participanOne = MySQL.insert.await(queryParticipant, {
-                conversationid,
-                citizenid,
-            })
-
-            local participanOne = MySQL.insert.await(queryParticipant, {
-                conversationid,
-                body.to_citizenid,
-            })
-        end
-
-        local queryChatting = [[
-            SELECT
-                from_user.avatar,
-				from_user.citizenid,
-                CASE
-                    WHEN c.is_group = 0 THEN
-                        COALESCE(
-                            contact.contact_name,
-                            from_user.phone_number
-                        )
-                    ELSE c.name
-                END AS conversation_name,
-                DATE_FORMAT(from_user.last_seen, '%d/%m/%y %H:%i') as last_seen,
-                0 as isRead,
-                c.id as conversationid,
-				c.is_group
-            FROM
-                zp_conversations c
-            JOIN
-                zp_conversation_participants p
-                ON c.id = p.conversationid
-            LEFT JOIN
-                zp_conversation_participants other_participant
-                ON c.id = other_participant.conversationid
-                AND other_participant.citizenid != p.citizenid
-            LEFT JOIN
-                zp_users from_user
-                ON other_participant.citizenid = from_user.citizenid
-            LEFT JOIN
-                zp_contacts contact
-                ON contact.citizenid = p.citizenid
-                AND contact.contact_citizenid = other_participant.citizenid
-            WHERE
-                c.id = ? and p.citizenid = ?
-            LIMIT 1
-            ]]
-                
-        local result = MySQL.single.await(queryChatting, {
-            conversationid,
-            citizenid
-        })
-        
-        if result then 
-            return result
-        else
-            return nil
-        end
+        return nil 
     end
-    return nil
+
+    if body.phone_number then
+        local queryCheckUserTarget = [[
+            select zpu.* from zp_users zpu WHERE zpu.phone_number = ? LIMIT 1
+        ]]
+        local userTarget = MySQL.single.await(queryCheckUserTarget, {
+            body.phone_number,
+        })
+
+        if not userTarget then
+            TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+                type = "Notification",
+                from = "Loops",
+                message = "Invalid phone number!"
+            })
+            return nil 
+        end
+
+        body.to_citizenid = userTarget.citizenid
+    end
+
+    if body.to_citizenid == citizenid then 
+        TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+            type = "Notification",
+            from = "Bank",
+            message = "Cannot chat to your self!"
+        })
+        return nil 
+    end
+    
+    local queryGetConversationID = [[
+        WITH ConversationParticipants AS (
+            SELECT conversationid
+            FROM zp_conversation_participants
+            WHERE citizenid IN (?, ?)
+            GROUP BY conversationid
+            HAVING COUNT(DISTINCT citizenid) = 2
+        ),
+        InvalidConversations AS (
+            SELECT conversationid
+            FROM zp_conversation_participants
+            GROUP BY conversationid
+            HAVING COUNT(DISTINCT citizenid) > 2
+        )
+        SELECT 
+            CASE 
+                WHEN EXISTS (SELECT 1 FROM InvalidConversations) THEN NULL
+                ELSE (SELECT conversationid FROM ConversationParticipants)
+            END AS conversationid
+    ]]
+
+    local conversationid = MySQL.scalar.await(queryGetConversationID, {
+        citizenid,
+        body.to_citizenid
+    })
+     
+    if conversationid == nil then
+        local queryNewConv = "INSERT INTO zp_conversations (is_group) VALUES (?)"
+        conversationid = MySQL.insert.await(queryNewConv, {
+            false,
+        })
+
+        local queryParticipant = "INSERT INTO zp_conversation_participants (conversationid, citizenid) VALUES (?, ?)"
+        local participanOne = MySQL.insert.await(queryParticipant, {
+            conversationid,
+            citizenid,
+        })
+
+        local participanOne = MySQL.insert.await(queryParticipant, {
+            conversationid,
+            body.to_citizenid,
+        })
+    end
+
+    local queryChatting = [[
+        SELECT
+            from_user.avatar,
+			from_user.citizenid,
+            CASE
+                WHEN c.is_group = 0 THEN
+                    COALESCE(
+                        contact.contact_name,
+                        from_user.phone_number
+                    )
+                ELSE c.name
+            END AS conversation_name,
+            DATE_FORMAT(from_user.last_seen, '%d/%m/%y %H:%i') as last_seen,
+            0 as isRead,
+            c.id as conversationid,
+			c.is_group
+        FROM
+            zp_conversations c
+        JOIN
+            zp_conversation_participants p
+            ON c.id = p.conversationid
+        LEFT JOIN
+            zp_conversation_participants other_participant
+            ON c.id = other_participant.conversationid
+            AND other_participant.citizenid != p.citizenid
+        LEFT JOIN
+            zp_users from_user
+            ON other_participant.citizenid = from_user.citizenid
+        LEFT JOIN
+            zp_contacts contact
+            ON contact.citizenid = p.citizenid
+            AND contact.contact_citizenid = other_participant.citizenid
+        WHERE
+            c.id = ? and p.citizenid = ?
+        LIMIT 1
+        ]]
+            
+    local result = MySQL.single.await(queryChatting, {
+        conversationid,
+        citizenid
+    })
+     
+    if result then 
+        return result
+    else
+        return nil
+    end
 end)
 
 lib.callback.register('z-phone:server:GetChats', function(source)
