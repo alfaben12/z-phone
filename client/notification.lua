@@ -35,6 +35,8 @@ RegisterNetEvent('z-phone:client:sendNotifInternal', function(message)
 end)
 
 RegisterNetEvent('z-phone:client:sendNotifIncomingCall', function(message)
+    PhoneData.CallData.CallId = message.call_id
+
     if PhoneData.isOpen then
         SendNUIMessage({
             event = 'z-phone',
@@ -46,6 +48,7 @@ RegisterNetEvent('z-phone:client:sendNotifIncomingCall', function(message)
                 to_source = message.to_source,
                 to_person_for_caller = message.to_person_for_caller,
                 to_photo_for_caller = message.to_photo_for_caller,
+                call_id = message.call_id
             },
         })
     else
@@ -59,6 +62,7 @@ RegisterNetEvent('z-phone:client:sendNotifIncomingCall', function(message)
                 to_source = message.to_source,
                 to_person_for_caller = message.to_person_for_caller,
                 to_photo_for_caller = message.to_photo_for_caller,
+                call_id = message.call_id
             },
         })
     end
@@ -78,6 +82,10 @@ RegisterNetEvent('z-phone:client:sendNotifStartCall', function(message)
 end)
 
 RegisterNetEvent('z-phone:client:setInCall', function(message)
+    PhoneData.CallData.InCall = true
+    PhoneData.CallData.CallId = message.call_id
+    exports['pma-voice']:addPlayerToCall(message.call_id)
+
     SendNUIMessage({
         event = 'z-phone',
         notification = {
@@ -86,6 +94,7 @@ RegisterNetEvent('z-phone:client:setInCall', function(message)
             photo = message.photo,
             from_source = message.from_source,
             to_source = message.to_source,
+            call_id = message.call_id
         },
     })
 end)
@@ -96,6 +105,11 @@ RegisterNetEvent('z-phone:client:closeCall', function()
         DoPhoneAnimation('cellphone_text_in')
     end
 
+    if PhoneData.CallData.CallId then
+        PhoneData.CallData.CallId = nil
+        exports['pma-voice']:removePlayerFromCall(PhoneData.CallData.CallId)
+    end
+    
     SendNUIMessage({
         event = 'z-phone',
         closeCall = {

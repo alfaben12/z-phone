@@ -113,6 +113,7 @@ const IncomingCallNotificationComponent = ({ isShow }) => {
                       to_person_for_caller:
                         notificationCall.to_person_for_caller,
                       to_photo_for_caller: notificationCall.to_photo_for_caller,
+                      call_id: notificationCall.call_id,
                     });
                     result = response.data;
                   } catch (error) {

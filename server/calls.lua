@@ -86,6 +86,7 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
         from_source = TargetPlayer.PlayerData.source,
         to_person_for_caller = contactNameTarget,
         to_photo_for_caller = targetUser.avatar,
+        call_id = body.call_id
     })
 
     TriggerClientEvent("z-phone:client:sendNotifStartCall", source, {
@@ -159,6 +160,7 @@ lib.callback.register('z-phone:server:AcceptCall', function(source, body)
         photo = body.to_photo_for_caller,
         from_source = body.to_source,
         to_source = source,
+        call_id = body.call_id
     })
 
     -- RECEIVER
@@ -167,6 +169,7 @@ lib.callback.register('z-phone:server:AcceptCall', function(source, body)
         photo = body.photo,
         from_source = source,
         to_source = body.to_source,
+        call_id = body.call_id
     })
 
     return true

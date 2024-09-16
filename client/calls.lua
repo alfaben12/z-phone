@@ -1,3 +1,8 @@
+local function GenerateCallId(caller, target)
+    local CallId = math.ceil(((tonumber(caller) + tonumber(target)) / 100 * 1))
+    return CallId
+end
+
 RegisterNUICallback('start-call', function(body, cb)
     if PhoneData.CallData.InCall then
         TriggerEvent("z-phone:client:sendNotifInternal", {
@@ -8,6 +13,9 @@ RegisterNUICallback('start-call', function(body, cb)
         return
     end
 
+    local callId = GenerateCallId(Profile.phone_number, body.to_phone_number)
+    body.call_id = callId
+
     lib.callback('z-phone:server:StartCall', false, function(res)
         if res.is_valid then
             PhoneData.CallData.InCall = true
@@ -16,6 +24,8 @@ RegisterNUICallback('start-call', function(body, cb)
             else
                 DoPhoneAnimation('cellphone_call_listen_base')
             end
+
+            PhoneData.CallData.CallId = callId
         end
         
         cb(res)
@@ -23,9 +33,6 @@ RegisterNUICallback('start-call', function(body, cb)
 end)
 
 RegisterNUICallback('cancel-call', function(body, cb)
-    DoPhoneAnimation('cellphone_text_in')
-    PhoneData.CallData.InCall = false
-
     lib.callback('z-phone:server:CancelCall', false, function(isOk)
         cb(isOk)
     end, body)
@@ -38,9 +45,6 @@ RegisterNUICallback('decline-call', function(body, cb)
 end)
 
 RegisterNUICallback('end-call', function(body, cb)
-    DoPhoneAnimation('cellphone_text_in')
-    PhoneData.CallData.InCall = false
-    
     lib.callback('z-phone:server:EndCall', false, function(isOk)
         cb(isOk)
     end, body)

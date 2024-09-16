@@ -10,7 +10,8 @@ PhoneData = {
         anim = nil,
     },
     CallData = {
-        InCall = false
+        InCall = false,
+        CallId = nil
     },
 }
 
