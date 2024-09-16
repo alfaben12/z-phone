@@ -28,6 +28,13 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
             message = "Phone number not registered!"
         }
     end
+
+    if targetUser.is_donot_disturb then
+        return {
+            is_valid = false,
+            message = "Person is busy!"
+        }
+    end
     
     if InCalls[targetUser.citizenid] then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
@@ -78,6 +85,11 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
         contactNameCaller = body.from_phone_number
     end
 
+    if body.is_anonim then
+        contactNameCaller = "Anonim"
+        body.from_avatar = ""
+    end
+
     TriggerClientEvent("z-phone:client:sendNotifIncomingCall", TargetPlayer.PlayerData.source, {
         from = contactNameCaller,
         photo = body.from_avatar,
@@ -96,17 +108,19 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
         from_source = source,
     })
 
-    local historyCallerQuery = "INSERT INTO zp_calls_histories (citizenid, to_citizenid, flag) VALUES (?, ?, ?)"
-    MySQL.Async.insert(historyCallerQuery, {
+    local historyQuery = "INSERT INTO zp_calls_histories (citizenid, to_citizenid, flag, is_anonim) VALUES (?, ?, ?, ?)"
+    MySQL.Async.insert(historyQuery, {
         citizenid,
         targetUser.citizenid,
-        "OUT"
+        "OUT",
+        body.is_anonim
     })
 
-    MySQL.Async.insert(historyCallerQuery, {
+    MySQL.Async.insert(historyQuery, {
         targetUser.citizenid,
         citizenid,
-        "IN"
+        "IN",
+        body.is_anonim
     })
 
     InCalls[citizenid] = true
@@ -208,7 +222,8 @@ lib.callback.register('z-phone:server:GetCallHistories', function(source)
             END AS avatar,
             IFNULL(zpc.contact_name, zpu.phone_number) AS to_person,
             DATE_FORMAT(zpch.created_at, '%d %b %Y %H:%i') as created_at,
-            zpch.flag
+            zpch.flag,
+            zpch.is_anonim
         FROM zp_calls_histories zpch
         LEFT JOIN zp_users zpu ON zpu.citizenid = zpch.to_citizenid
         LEFT JOIN zp_contacts zpc ON zpc.contact_citizenid = zpch.to_citizenid

@@ -16,6 +16,7 @@ RegisterNUICallback('start-call', function(body, cb)
 
     local callId = GenerateCallId(Profile.phone_number, body.to_phone_number)
     body.call_id = callId
+    body.is_anonim = Profile.is_anonim
 
     lib.callback('z-phone:server:StartCall', false, function(res)
         if res.is_valid then
@@ -27,6 +28,14 @@ RegisterNUICallback('start-call', function(body, cb)
             end
 
             PhoneData.CallData.CallId = callId
+        else
+            TriggerEvent("z-phone:client:sendNotifInternal", {
+                type = "Notification",
+                from = "Call",
+                message = res.message
+            })
+            cb(false)
+            return
         end
         
         cb(res)

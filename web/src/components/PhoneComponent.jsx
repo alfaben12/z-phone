@@ -223,7 +223,7 @@ const PhoneComponent = ({ isShow }) => {
                   >
                     <div className="flex space-x-2 items-center w-full pl-1">
                       <img
-                        src={v.avatar}
+                        src={!v.is_anonim ? v.avatar : "./images/anonim.jpg"}
                         className="w-9 h-9 object-cover rounded-full"
                         alt=""
                         onError={(error) => {
@@ -232,7 +232,11 @@ const PhoneComponent = ({ isShow }) => {
                       />
                       <div className="flex flex-col">
                         <span className="text-sm font-medium line-clamp-1">
-                          {v.to_person}
+                          {!v.is_anonim
+                            ? v.to_person
+                            : v.flag == "OUT"
+                            ? "(as anonim) " + v.to_person
+                            : "Anonim"}
                         </span>
                         <span className="text-xs text-gray-400">
                           {v.created_at}
