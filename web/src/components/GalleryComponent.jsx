@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
-import { MdArrowBackIosNew, MdCancel } from "react-icons/md";
+import { MdArrowBackIosNew, MdClose } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
 import axios from "axios";
 
@@ -76,8 +76,8 @@ const GalleryComponent = ({ isShow }) => {
                 </button>
               </div>
               <div>
-                <MdCancel
-                  className="text-3xl text-white cursor-pointer"
+                <MdClose
+                  className="text-3xl cursor-pointer text-white hover:text-red-500"
                   onClick={() => setIsShowModal(false)}
                 />
               </div>

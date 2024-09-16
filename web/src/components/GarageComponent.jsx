@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { MENU_DEFAULT } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
-import { MdArrowBackIosNew, MdCancel, MdOutlineSearch } from "react-icons/md";
+import { MdArrowBackIosNew, MdClose, MdOutlineSearch } from "react-icons/md";
 import { GiHomeGarage, GiPoliceBadge, GiMechanicGarage } from "react-icons/gi";
 import { FaRoad } from "react-icons/fa";
 import { searchByKeyValueContains } from "../utils/common";
@@ -69,8 +69,8 @@ const GarageComponent = ({ isShow }) => {
                 {dataModal != null ? dataModal.name : ""}
               </span>
               <div>
-                <MdCancel
-                  className="text-2xl text-red-500 cursor-pointer hover:text-red-700"
+                <MdClose
+                  className="text-2xl cursor-pointer text-white hover:text-red-500"
                   onClick={() => setIsShowModal(false)}
                 />
               </div>

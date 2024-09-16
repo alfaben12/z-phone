@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { MENU_DEFAULT, NAME } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
-import { MdArrowBackIosNew, MdCancel, MdWhatsapp } from "react-icons/md";
+import { MdArrowBackIosNew, MdClose, MdWhatsapp } from "react-icons/md";
 import { FaLocationDot, FaKey, FaHouse } from "react-icons/fa6";
 import LoadingComponent from "./LoadingComponent";
 import axios from "axios";
@@ -46,8 +46,8 @@ const HouseComponent = ({ isShow }) => {
                 {dataModal != null ? dataModal.name : ""}
               </span>
               <div>
-                <MdCancel
-                  className="text-2xl text-red-500 cursor-pointer hover:text-red-700"
+                <MdClose
+                  className="text-2xl cursor-pointer text-white hover:text-red-500"
                   onClick={() => setIsShowModal(false)}
                 />
               </div>

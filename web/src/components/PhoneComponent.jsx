@@ -8,7 +8,7 @@ import {
   MdFormatListBulleted,
   MdOutlinePhone,
   MdBackspace,
-  MdCancel,
+  MdClose,
   MdOutlineCallMade,
   MdOutlineCallReceived,
   MdDelete,
@@ -119,8 +119,8 @@ const PhoneComponent = ({ isShow }) => {
             <div className="flex justify-between items-center pb-2">
               <span className="truncate font-semibold">New Contact</span>
               <div>
-                <MdCancel
-                  className="text-2xl text-red-500 cursor-pointer hover:text-red-700"
+                <MdClose
+                  className="text-2xl cursor-pointer text-white hover:text-red-500"
                   onClick={() => setIsShowModal(false)}
                 />
               </div>

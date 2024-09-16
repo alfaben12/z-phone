@@ -8,7 +8,7 @@ import {
   MdOutlinePhone,
   MdOutlineSearch,
   MdDelete,
-  MdCancel,
+  MdClose,
 } from "react-icons/md";
 import { FaShare } from "react-icons/fa6";
 import LoadingComponent from "./LoadingComponent";
@@ -93,8 +93,8 @@ const ContactComponent = ({ isShow }) => {
             <div className="flex justify-between items-center pb-2">
               <span className="truncate font-semibold">Update Contact</span>
               <div>
-                <MdCancel
-                  className="text-2xl text-red-500 cursor-pointer hover:text-red-700"
+                <MdClose
+                  className="text-2xl cursor-pointer text-white hover:text-red-500"
                   onClick={() => setFormEdit(null)}
                 />
               </div>

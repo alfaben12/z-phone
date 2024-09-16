@@ -52,7 +52,10 @@ const MenuContext = createContext({
   tweets: [],
   bank: null,
   houses: [],
-  services: [],
+  services: {
+    list: [],
+    reports: [],
+  },
   callHistories: [],
   contactRequests: [],
   news: [],
@@ -118,7 +121,10 @@ export const MenuProvider = ({ children }) => {
   const [tweets, setTweets] = useState([]);
   const [bank, setBank] = useState(null);
   const [houses, setHouses] = useState([]);
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState({
+    list: [],
+    reports: [],
+  });
   const [callHistories, setCallHistories] = useState([]);
   const [contactRequests, setContactRequests] = useState([]);
   const [news, setNews] = useState([]);

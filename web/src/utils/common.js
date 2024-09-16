@@ -1,4 +1,4 @@
-import { LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE } from "./../components/loops/loops_constant";
+import { LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE } from "../components/loops/loops_constant";
 
 export function searchByKeyValueContains(data, key, value) {
   if (value == "") {
@@ -31,6 +31,9 @@ export function isNonAlphaNumeric(str) {
 }
 
 export function getLoopsProfile(citizenid) {
+  if (citizenid == undefined) {
+    return null;
+  }
   const profile = localStorage.getItem(
     LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE + "-" + citizenid
   );
