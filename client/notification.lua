@@ -65,7 +65,6 @@ RegisterNetEvent('z-phone:client:sendNotifIncomingCall', function(message)
 end)
 
 RegisterNetEvent('z-phone:client:sendNotifStartCall', function(message)
-    
     SendNUIMessage({
         event = 'z-phone',
         notification = {
@@ -92,6 +91,11 @@ RegisterNetEvent('z-phone:client:setInCall', function(message)
 end)
 
 RegisterNetEvent('z-phone:client:closeCall', function()
+    if PhoneData.CallData.InCall then
+        PhoneData.CallData.InCall = false
+        DoPhoneAnimation('cellphone_text_in')
+    end
+
     SendNUIMessage({
         event = 'z-phone',
         closeCall = {

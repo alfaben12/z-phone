@@ -1,4 +1,13 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local InCalls = {}
+
+-- CreateThread(function()
+--     while true do
+--         print(json.encode(InCalls, {indent=true}))
+
+--         Wait(1000)
+--     end
+-- end)
 
 lib.callback.register('z-phone:server:StartCall', function(source, body)
     local Player = QBCore.Functions.GetPlayer(source)
@@ -18,6 +27,19 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
             is_valid = false,
             message = "Phone number not registered!"
         }
+    end
+    
+    if InCalls[targetUser.citizenid] then
+        TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+            type = "Notification",
+            from = "Phone Call",
+            message = "Person in a call!"
+        })
+
+        return {
+            is_valid = false,
+            message = "Person in a call!"
+        }  
     end
 
     local contactNameQuery = [[
@@ -86,6 +108,7 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
         "IN"
     })
 
+    InCalls[citizenid] = true
     return {
         is_valid = true,
         message = "Waiting for response!"
@@ -93,12 +116,25 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:CancelCall', function(source, body)
+    local Player1 = QBCore.Functions.GetPlayer(source)
+    local Player2 = QBCore.Functions.GetPlayer(body.to_source)
+    
     TriggerClientEvent("z-phone:client:closeCall", body.to_source)
     TriggerClientEvent("z-phone:client:closeCall", source)
+
+    InCalls[Player1.PlayerData.citizenid] = nil
+    InCalls[Player2.PlayerData.citizenid] = nil
+
     return true
 end)
 
 lib.callback.register('z-phone:server:DeclineCall', function(source, body)
+    local Player1 = QBCore.Functions.GetPlayer(source)
+    local Player2 = QBCore.Functions.GetPlayer(body.to_source)
+
+    InCalls[Player1.PlayerData.citizenid] = nil
+    InCalls[Player2.PlayerData.citizenid] = nil
+
     TriggerClientEvent("z-phone:client:closeCall", body.to_source)
     TriggerClientEvent("z-phone:client:closeCall", source)
 
@@ -111,6 +147,12 @@ lib.callback.register('z-phone:server:DeclineCall', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:AcceptCall', function(source, body)
+    local Player1 = QBCore.Functions.GetPlayer(source)
+    local Player2 = QBCore.Functions.GetPlayer(body.to_source)
+
+    InCalls[Player1.PlayerData.citizenid] = true
+    InCalls[Player2.PlayerData.citizenid] = true
+
     -- CALLER
     TriggerClientEvent("z-phone:client:setInCall", body.to_source, {
         from = body.to_person_for_caller,
@@ -126,10 +168,17 @@ lib.callback.register('z-phone:server:AcceptCall', function(source, body)
         from_source = source,
         to_source = body.to_source,
     })
+
     return true
 end)
 
 lib.callback.register('z-phone:server:EndCall', function(source, body)
+    local Player1 = QBCore.Functions.GetPlayer(source)
+    local Player2 = QBCore.Functions.GetPlayer(body.to_source)
+
+    InCalls[Player1.PlayerData.citizenid] = nil
+    InCalls[Player2.PlayerData.citizenid] = nil
+    
     TriggerClientEvent("z-phone:client:sendNotifInternal", body.to_source, {
         type = "Notification",
         from = "Phone Call",
@@ -138,6 +187,7 @@ lib.callback.register('z-phone:server:EndCall', function(source, body)
 
     TriggerClientEvent("z-phone:client:closeCall", body.to_source)
     TriggerClientEvent("z-phone:client:closeCall", source)
+
     return true
 end)
 

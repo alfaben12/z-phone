@@ -114,8 +114,6 @@ end)
 
 RegisterKeyMapping('phone', 'Open Phone', 'keyboard', Config.OpenPhone)
 
-
-
 RegisterNUICallback('close', function(_, cb)
     if not PhoneData.CallData.InCall then
         DoPhoneAnimation('cellphone_text_out')
