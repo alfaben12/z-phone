@@ -31,7 +31,7 @@ const MessageChattingComponent = ({ isShow }) => {
   };
 
   const sendMessage = () => {
-    console.log("send " + message);
+    // console.log("send " + message);
     setMessage("");
 
     const newMessage = {

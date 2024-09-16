@@ -66,7 +66,7 @@ const DynamicComponent = () => {
   } = useContext(MenuContext);
 
   useEffect(() => {
-    console.log("change state " + notificationCall);
+    // console.log("change state " + notificationCall);
   }, [notificationCall]);
 
   function isNullOrUndefined(value) {

@@ -75,7 +75,6 @@ const LoopsComponent = ({ isShow }) => {
   }, [subMenu]);
 
   useEffect(() => {
-    console.log("ok2");
     const isAuth = async () => {
       const auth = await checkAuth();
       if ([LOOPS_SIGNIN, LOOPS_SIGNUP].includes(subMenu)) {

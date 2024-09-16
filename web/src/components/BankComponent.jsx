@@ -70,27 +70,21 @@ const BankComponent = ({ isShow }) => {
   const handleTransferFormSubmit = async (e) => {
     e.preventDefault();
     if (!formDataTransfer.receiver) {
-      console.log("1");
       return;
     }
     if (formDataTransfer.receiver.length < 8) {
-      console.log("11");
       return;
     }
     if (!formDataTransfer.total) {
-      console.log("2");
       return;
     }
     if (!formDataTransfer.note) {
-      console.log("3");
       return;
     }
     if (bank.balance < formDataTransfer.total) {
-      console.log("4");
       return;
     }
     formDataTransfer.iban = formDataTransfer.receiver;
-    console.log("Form Data:", formDataTransfer);
 
     await axios
       .post("/transfer", formDataTransfer)
@@ -146,7 +140,6 @@ const BankComponent = ({ isShow }) => {
               ...bank.histories,
             ],
           }));
-          console.log(JSON.stringify(bank.histories));
         } else {
           setMenu(MENU_DEFAULT);
         }

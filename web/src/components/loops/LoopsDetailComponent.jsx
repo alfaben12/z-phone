@@ -82,7 +82,6 @@ const LoopsDetailComponent = ({
   useEffect(() => {
     if (isShow && selectedTweet != null) {
       getComments();
-      console.log(profile.citizenid);
       setProfileLoops(getLoopsProfile(profile.citizenid));
     }
   }, [isShow]);

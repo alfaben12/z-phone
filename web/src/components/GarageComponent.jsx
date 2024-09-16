@@ -176,7 +176,6 @@ const GarageComponent = ({ isShow }) => {
                     "name",
                     e.target.value
                   );
-                  console.log(JSON.stringify(garagesBk));
                   setGarages(data);
                 }}
               />

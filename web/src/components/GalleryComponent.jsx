@@ -11,7 +11,6 @@ const GalleryComponent = ({ isShow }) => {
   const [dataModal, setDataModal] = useState(null);
 
   const handleDelete = async () => {
-    console.log(JSON.stringify(dataModal));
     if (dataModal == null) {
       return;
     }
