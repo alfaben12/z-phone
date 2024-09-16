@@ -11,6 +11,7 @@ import {
   MdCancel,
   MdOutlineCallMade,
   MdOutlineCallReceived,
+  MdDelete,
 } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
 import { FaCheck } from "react-icons/fa6";
@@ -23,9 +24,15 @@ const subMenuList = {
 };
 
 const PhoneComponent = ({ isShow }) => {
-  const { resolution, callHistories, contactRequests, setMenu } =
-    useContext(MenuContext);
+  const {
+    resolution,
+    callHistories,
+    contactRequests,
+    setMenu,
+    setContactRequests,
+  } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList["keypad"]);
+  const [requestID, setRequestID] = useState(0);
   const [newPhone, setNewPhone] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
   const [formDataNew, setFormDataNew] = useState({
@@ -53,12 +60,18 @@ const PhoneComponent = ({ isShow }) => {
     const data = {
       name: formDataNew.name,
       phone_number: newPhone,
+      request_id: requestID,
     };
 
     try {
       const result = await axios.post("/save-contact", data);
       if (result.data) {
         setNewPhone("");
+
+        if (requestID != 0) {
+          setContactRequests(deleteContactRequest(contactRequests, requestID));
+          setRequestID(0);
+        }
       }
     } catch (error) {
       console.error("error /save-contact", error);
@@ -78,6 +91,10 @@ const PhoneComponent = ({ isShow }) => {
 
   const handleDelete = () => {
     setNewPhone(newPhone.slice(0, -1));
+  };
+
+  const deleteContactRequest = (array, idToDelete) => {
+    return array.filter((item) => item.id !== idToDelete);
   };
 
   return (
@@ -204,7 +221,7 @@ const PhoneComponent = ({ isShow }) => {
                     key={i}
                     // onClick={() => setMenu(MENU_MESSAGE_CHATTING)}
                   >
-                    <div className="flex space-x-3 items-center w-full pl-1">
+                    <div className="flex space-x-2 items-center w-full pl-1">
                       <img
                         src={v.avatar}
                         className="w-9 h-9 object-cover rounded-full"
@@ -270,7 +287,7 @@ const PhoneComponent = ({ isShow }) => {
                     key={i}
                     // onClick={() => setMenu(MENU_MESSAGE_CHATTING)}
                   >
-                    <div className="flex space-x-3 items-center w-full pl-1">
+                    <div className="flex space-x-2 items-center w-full pl-1">
                       <img
                         src={v.avatar}
                         className="w-9 h-9 object-cover rounded-full"
@@ -288,12 +305,47 @@ const PhoneComponent = ({ isShow }) => {
                         </span>
                       </div>
                     </div>
-                    <div>
-                      <button className="flex space-x-1 bg-gray-700 items-center px-2 cursor-pointer hover:bg-green-700 rounded-lg">
+                    <div className="flex space-x-1 px-1">
+                      <button
+                        className="flex space-x-1 bg-gray-700 items-center px-2 cursor-pointer hover:bg-green-600 rounded-lg"
+                        onClick={() => {
+                          setRequestID(v.id);
+                          setIsShowModal(true);
+                          setNewPhone(v.name);
+                        }}
+                      >
                         <FaCheck className="text-sm" />
                         <span className="text-sm font-semibold py-0.5">
                           Save
                         </span>
+                      </button>
+
+                      <button
+                        className="px-1 cursor-pointer hover:bg-red-500 rounded-lg"
+                        onClick={async () => {
+                          setRequestID(0);
+                          setContactRequests(
+                            deleteContactRequest(contactRequests, v.id)
+                          );
+
+                          let result = null;
+                          try {
+                            const response = await axios.post(
+                              "/delete-contact-requests",
+                              {
+                                id: v.id,
+                              }
+                            );
+                            result = response.data;
+                          } catch (error) {
+                            console.error(
+                              "error /delete-contact-requests",
+                              error
+                            );
+                          }
+                        }}
+                      >
+                        <MdDelete className="text-lg" />
                       </button>
                     </div>
                   </div>
@@ -319,6 +371,7 @@ const PhoneComponent = ({ isShow }) => {
                 display: newPhone.length > 0 ? "block" : "none",
               }}
               onClick={() => {
+                setRequestID(0);
                 setIsShowModal(true);
               }}
             >

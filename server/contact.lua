@@ -119,6 +119,10 @@ lib.callback.register('z-phone:server:SaveContact', function(source, body)
             body.name
         })
         
+        if body.request_id ~= 0 then
+            MySQL.query.await("DELETE FROM zp_contacts_requests WHERE id = ?", { body.request_id })
+        end
+
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "Contact",
@@ -127,4 +131,60 @@ lib.callback.register('z-phone:server:SaveContact', function(source, body)
         return true
     end
     return false
+end)
+
+lib.callback.register('z-phone:server:GetContactRequest', function(source)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if not Player then return false end
+
+    local citizenid = Player.PlayerData.citizenid
+    local query = [[
+        SELECT 
+            zpcr.id,
+            zpu.avatar,
+            zpu.phone_number AS name,
+            DATE_FORMAT(zpcr.created_at, '%d %b %Y %H:%i') as request_at
+        FROM zp_contacts_requests zpcr
+        LEFT JOIN zp_users zpu ON zpu.citizenid = zpcr.from_citizenid
+        WHERE zpcr.citizenid = ? ORDER BY zpcr.id DESC
+    ]]
+
+    local requests = MySQL.query.await(query, {
+        citizenid
+    })
+    
+    if not requests then
+        requests = {}
+    end
+
+    return requests
+end)
+
+lib.callback.register('z-phone:server:ShareContact', function(source, body)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if not Player then return false end
+
+    local TargetPlayer = QBCore.Functions.GetPlayer(body.to_source)
+    if not TargetPlayer then return false end
+
+    local citizenid = Player.PlayerData.citizenid
+    local targetCitizenID = TargetPlayer.PlayerData.citizenid
+    local query = "INSERT INTO zp_contacts_requests (citizenid, from_citizenid) VALUES (?, ?)"
+    MySQL.insert.await(query, {
+        targetCitizenID,
+        citizenid,
+    })
+
+    TriggerClientEvent("z-phone:client:sendNotifInternal", body.to_source, {
+        type = "Notification",
+        from = "Contact",
+        message = "New contact request received!"
+    })
+    return true
+end)
+
+
+lib.callback.register('z-phone:server:DeleteContactRequest', function(source, body)
+    MySQL.query.await("DELETE FROM zp_contacts_requests WHERE id = ?", { body.id })
+    return true
 end)

@@ -10,6 +10,7 @@ import {
   MdDelete,
   MdCancel,
 } from "react-icons/md";
+import { FaShare } from "react-icons/fa6";
 import LoadingComponent from "./LoadingComponent";
 import { searchByKeyValueContains } from "../utils/common";
 import axios from "axios";
@@ -151,8 +152,22 @@ const ContactComponent = ({ isShow }) => {
         <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit">
           Contact
         </span>
-        <div className="flex items-center px-2 text-blue-500">
-          {/* <MdEdit className='text-lg' /> */}
+        <div
+          className="flex items-center space-x-1 px-2 group text-white hover:text-green-300"
+          onClick={async () => {
+            let result = null;
+            try {
+              const response = await axios.post("/share-contact", {});
+              result = response.data;
+            } catch (error) {
+              console.error("error /share-contact", error);
+            }
+          }}
+        >
+          <span className="text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            Share
+          </span>
+          <FaShare className="text-lg" />
         </div>
       </div>
       {contacts == undefined ? (

@@ -11,7 +11,7 @@ local InCalls = {}
 
 lib.callback.register('z-phone:server:StartCall', function(source, body)
     local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return end
+    if not Player then return false end
 
     local citizenid = Player.PlayerData.citizenid
     local userQuery = [[
@@ -196,7 +196,7 @@ end)
 
 lib.callback.register('z-phone:server:GetCallHistories', function(source)
     local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return end
+    if not Player then return false end
 
     local citizenid = Player.PlayerData.citizenid
     local query = [[
@@ -212,7 +212,7 @@ lib.callback.register('z-phone:server:GetCallHistories', function(source)
         FROM zp_calls_histories zpch
         LEFT JOIN zp_users zpu ON zpu.citizenid = zpch.to_citizenid
         LEFT JOIN zp_contacts zpc ON zpc.contact_citizenid = zpch.to_citizenid
-        WHERE zpch.citizenid = ? ORDER BY zpch.id DESC
+        WHERE zpch.citizenid = ? ORDER BY zpch.id DESC LIMIT 100
     ]]
 
     local histories = MySQL.query.await(query, {

@@ -10,6 +10,7 @@ RegisterNUICallback('start-call', function(body, cb)
             from = "Call",
             message = "You're in a call!"
         })
+        cb(false)
         return
     end
 
@@ -57,6 +58,7 @@ RegisterNUICallback('accept-call', function(body, cb)
             from = "Call",
             message = "You're in a call!"
         })
+        cb(false)
         return
     end
 
