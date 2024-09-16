@@ -69,6 +69,12 @@ local function DisableDisplayControlActions()
 end
 
 function OpenPhone()
+    local hasWeapon, weaponHash = GetCurrentPedWeapon(PlayerPedId(), true)
+    if weaponHash ~= GetHashKey("WEAPON_UNARMED") then
+        QBCore.Functions.Notify("Cannot open radio!", 'error')
+        return
+    end
+
     lib.callback('z-phone:server:HasPhone', false, function(HasPhone)
         if HasPhone then
             PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
