@@ -1,16 +1,19 @@
 import React, { useContext, useState } from "react";
-import { MENU_DEFAULT, NAME } from "../constant/menu";
+import { MENU_DEFAULT, NAME, MENU_MESSAGE_CHATTING } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdClose } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
 import { FaBell } from "react-icons/fa6";
+import axios from "axios";
 
 const ServicesComponent = ({ isShow }) => {
-  const { resolution, setMenu, services } = useContext(MenuContext);
+  const { resolution, setMenu, services, setChatting, setServices } =
+    useContext(MenuContext);
   const [isShowModal, setIsShowModal] = useState(false);
   const [ackReport, setAckReport] = useState(null);
   const [service, setService] = useState(null);
   const [subMenu, setSubMenu] = useState("list");
+  const [solvedReason, setSolvedReason] = useState("");
   const [formDataMessage, setFormDataMessage] = useState({
     message: "",
   });
@@ -23,14 +26,32 @@ const ServicesComponent = ({ isShow }) => {
     });
   };
 
-  const handleMessageFormSubmit = (e) => {
+  const handleMessageFormSubmit = async (e) => {
     e.preventDefault();
     if (!formDataMessage.message) {
       return;
     }
 
-    console.log("Form Data:", formDataMessage);
-    // Here you can add your code to send formData to an API
+    formDataMessage.job = service.job;
+    let result = null;
+    try {
+      const response = await axios.post(
+        "/send-message-service",
+        formDataMessage
+      );
+      result = response.data;
+      setFormDataMessage({
+        message: "",
+      });
+      setIsShowModal(false);
+      setService(null);
+    } catch (error) {
+      console.error("error /send-message-service", error);
+    }
+  };
+
+  const deleteMessages = (array, idToDelete) => {
+    return array.filter((item) => item.id !== idToDelete);
   };
 
   return (
@@ -211,7 +232,7 @@ const ServicesComponent = ({ isShow }) => {
               <div className="bg-slate-700 rounded-lg py-2 flex flex-col w-full p-3">
                 <div className="flex justify-between items-center pb-1">
                   <span className="truncate font-semibold">
-                    {ackReport.from}
+                    {ackReport.phone_number}
                   </span>
                   <div>
                     <MdClose
@@ -230,16 +251,72 @@ const ServicesComponent = ({ isShow }) => {
                         name="message"
                         placeholder="Message for a service"
                         rows={5}
-                        className="bg-black focus:outline-none text-white w-full text-xs resize-none no-scrollbar bg-slate-800 p-3 rounded-lg"
+                        className="bg-black focus:outline-none text-white w-full text-xs resize-none no-scrollbar bg-slate-800 px-3 py-2 rounded-lg"
                         readOnly
                       ></textarea>
                     </span>
                   </div>
+                  <input
+                    placeholder="(REQUIRED) reason why it's solved"
+                    className="bg-black focus:outline-none text-white w-full text-xs resize-none no-scrollbar bg-slate-800 px-3 py-2 rounded-lg"
+                    onChange={(e) => {
+                      const { value } = e.target;
+                      setSolvedReason(value);
+                    }}
+                  />
                   <div className="flex justify-center space-x-2 py-2">
-                    <button className="px-2 py-1 text-white text-xs bg-green-500 hover:bg-green-600 text-center rounded">
+                    <button
+                      className="px-2 py-1 text-white text-xs bg-green-500 hover:bg-green-600 text-center rounded"
+                      onClick={async () => {
+                        if (solvedReason == "") {
+                          return;
+                        }
+
+                        await axios
+                          .post("/solved-message-service", {
+                            id: ackReport.id,
+                            reason: solvedReason,
+                          })
+                          .then(function (response) {
+                            if (response.data) {
+                              setAckReport(null);
+                              setServices((prevChatting) => ({
+                                ...prevChatting,
+                                reports: deleteMessages(
+                                  services.reports,
+                                  ackReport.id
+                                ),
+                              }));
+                            }
+                          })
+                          .catch(function (error) {
+                            console.log(error);
+                          })
+                          .finally(function () {});
+                      }}
+                    >
                       Solved
                     </button>
-                    <button className="px-2 py-1 text-white text-xs bg-yellow-500 hover:bg-yellow-600 text-center rounded">
+                    <button
+                      className="px-2 py-1 text-white text-xs bg-yellow-500 hover:bg-yellow-600 text-center rounded"
+                      onClick={async () => {
+                        await axios
+                          .post("/new-or-continue-chat", {
+                            to_citizenid: ackReport.citizenid,
+                          })
+                          .then(function (response) {
+                            if (response.data) {
+                              setChatting(response.data);
+                              setMenu(MENU_MESSAGE_CHATTING);
+                              setAckReport(null);
+                            }
+                          })
+                          .catch(function (error) {
+                            console.log(error);
+                          })
+                          .finally(function () {});
+                      }}
+                    >
                       Message
                     </button>
                   </div>
@@ -284,7 +361,7 @@ const ServicesComponent = ({ isShow }) => {
                       className={`w-full flex flex-col cursor-pointer text-white border-b border-gray-900 pb-1 mb-1 px-2 hover:text-green-400`}
                     >
                       <div className="flex text-xs justify-between w-full">
-                        <span className="line-clamp-1">{v.from}</span>
+                        <span className="line-clamp-1">{v.phone_number}</span>
                         <span className="text-gray-300">{v.created_at}</span>
                       </div>
                       <span className="text-xs line-clamp-1">{v.message}</span>
