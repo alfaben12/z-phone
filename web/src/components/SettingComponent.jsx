@@ -4,16 +4,46 @@ import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { FaMoon, FaMask, FaRegImage, FaUser } from "react-icons/fa6";
 import axios from "axios";
-import { IoPhonePortraitOutline } from "react-icons/io5";
+import { IoPhonePortraitOutline, IoResizeSharp } from "react-icons/io5";
 
 const SettingComponent = ({ isShow }) => {
-  const { profile, setMenu, setProfile } = useContext(MenuContext);
+  const { resolution, profile, setMenu, setProfile, setResolution } =
+    useContext(MenuContext);
   const [isOnDisturb, setIsOnDisturb] = useState(false);
   const [isAnonim, setIsAnonim] = useState(false);
   const [avatar, setAvatar] = useState("");
   const [wallpaper, setWallpaper] = useState("");
   const [frame, setFrame] = useState("");
-  const [loopsName, setLoopsName] = useState("");
+  const [sizeRatio, setSizeRatio] = useState();
+
+  function generateDimensions(height) {
+    const initWidthAndHeight = {
+      initWidth: resolution.frameWidth,
+      initHeight: resolution.frameHeight,
+    };
+
+    const aspectRatio =
+      initWidthAndHeight.initHeight / initWidthAndHeight.initWidth;
+    const newWidth = height / aspectRatio;
+    const newRadius = height * 0.066;
+    const newMargin = height * 0.033;
+    let newScale = (height / initWidthAndHeight.initHeight) * resolution.scale;
+
+    return {
+      frameWidth: newWidth,
+      frameHeight: height,
+      layoutWidth: newWidth - newMargin,
+      layoutHeight: height - newMargin,
+      radius: newRadius,
+      scale: newScale,
+    };
+  }
+
+  const handleSizeRatioChange = (event) => {
+    const ratio = generateDimensions(event.target.value);
+    setSizeRatio(ratio.frameHeight);
+    setResolution(ratio);
+  };
 
   const handleToggleIsOnDisturb = () => {
     axios.post("/update-profile", {
@@ -37,7 +67,7 @@ const SettingComponent = ({ isShow }) => {
       setWallpaper(profile.wallpaper);
       setIsAnonim(profile.is_anonim);
       setIsOnDisturb(profile.is_donot_disturb);
-      setLoopsName(profile.loops_name);
+      setSizeRatio(resolution.frameHeight);
     }
   }, [isShow]);
 
@@ -263,16 +293,7 @@ const SettingComponent = ({ isShow }) => {
                   }));
                 }}
               >
-                {[
-                  "1.svg",
-                  "2.svg",
-                  "3.svg",
-                  "4.svg",
-                  "5.svg",
-                  "6.svg",
-                  "7.svg",
-                  "8.svg",
-                ].map((v, i) => {
+                {["1.svg", "2.svg", "3.svg", "4.svg"].map((v, i) => {
                   if (v == frame) {
                     return (
                       <option key={i} value={v} selected>
@@ -293,6 +314,34 @@ const SettingComponent = ({ isShow }) => {
                   className="flex font-medium rounded-full text-white bg-blue-500 px-2 text-sm items-center justify-center"
                   type="button"
                   onClick={() => saveSetting("frame")}
+                >
+                  <span>SAVE</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="flex space-x-3 px-2">
+            <div>
+              <div className="p-1 bg-sky-800 rounded-lg">
+                <IoResizeSharp />
+              </div>
+            </div>
+            <div className="flex w-full justify-between items-center space-x-2 border-b border-gray-800 pb-1.5 mb-1.5">
+              <input
+                type="range"
+                min={500}
+                max={720}
+                step="0.01"
+                value={sizeRatio}
+                style={{ width: "100%" }}
+                onChange={handleSizeRatioChange}
+              />
+
+              <div className="flex items-center justify-center">
+                <button
+                  className="flex font-medium rounded-full text-white bg-blue-500 px-2 text-sm items-center justify-center"
+                  type="button"
+                  onClick={() => saveSetting("wallpaper")}
                 >
                   <span>SAVE</span>
                 </button>
