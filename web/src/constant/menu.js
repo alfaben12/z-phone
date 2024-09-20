@@ -33,6 +33,7 @@ export const MENU_INTERNAL_NOTIFICATION =
 export const NAME = config.name;
 export const LOGO = config.logo;
 export const CLOSE_CALL = "CLOSE_CALL";
+export const MENU_INTERNET_DATA = config.APPS.MENU_INTERNET_DATA;
 
 export const MENU_CONSTANT = [
   {
@@ -109,6 +110,7 @@ export const BOTTOM_MENU_CONSTANT = [
     label: MENU_SETTING,
   },
 ];
+export const CFG_INETMAX = config.INETMAX;
 
 export const PHONE_FRAME_HEIGHT = 610;
 export const PHONE_FRAME_WIDTH = 300;

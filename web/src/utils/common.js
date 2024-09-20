@@ -48,3 +48,28 @@ export function getLoopsProfile(citizenid) {
 
   return null;
 }
+
+export function convertFromKb(valueInKb) {
+  if (valueInKb == NaN || valueInKb == undefined) {
+    return "Calculating";
+  }
+
+  let value;
+  let unit;
+
+  if (valueInKb < 1024) {
+    value = valueInKb;
+    unit = "KB";
+  } else if (valueInKb < 1024 * 1024) {
+    value = valueInKb / 1024;
+    unit = "MB";
+  } else if (valueInKb < 1024 * 1024 * 1024) {
+    value = valueInKb / (1024 * 1024);
+    unit = "GB";
+  } else {
+    value = valueInKb / (1024 * 1024 * 1024);
+    unit = "TB"; // Optionally, you can handle terabytes (TB) as well
+  }
+
+  return `${parseFloat(value).toFixed(2)}${unit}`;
+}

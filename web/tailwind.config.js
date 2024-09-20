@@ -68,8 +68,8 @@ module.exports = {
         slideDownThenUp:
           "slideDown 0.5s ease-out, slideUp 1s ease-out 3s forwards",
         slideInRight: "slideInRight 5s ease-in-out forwards",
-        fadeIn: 'fadeIn 1s ease-in forwards',
-        fadeOut: 'fadeOut 1s ease-out forwards',
+        fadeIn: "fadeIn 1s ease-in forwards",
+        fadeOut: "fadeOut 1s ease-out forwards",
       },
     },
   },

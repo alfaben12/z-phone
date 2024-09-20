@@ -27,6 +27,7 @@ import {
   CLOSE_CALL,
   MENU_START_CALL_NOTIFICATION,
   MENU_INCALL,
+  MENU_INTERNET_DATA,
 } from "./constant/menu";
 import DynamicComponent from "./components/DynamicComponent";
 import { faker } from "@faker-js/faker";
@@ -71,6 +72,7 @@ function App() {
     setProfile,
     setContactRequests,
     setResolution,
+    setInetMax,
   } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
   const [outsideMessageNotif, setOutsideMessageNotif] = useState({
@@ -81,19 +83,6 @@ function App() {
     from: null,
     message: null,
   });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post("/get-profile");
-        setProfile(response.data);
-      } catch (err) {
-        setProfile({});
-      }
-    };
-
-    fetchData();
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -173,6 +162,9 @@ function App() {
         break;
       case MENU_CAMERA:
         takePhoto();
+        break;
+      case MENU_INTERNET_DATA:
+        getInternetData();
         break;
       default:
         return;
@@ -591,6 +583,18 @@ function App() {
     setServices(result);
   };
 
+  const getInternetData = async () => {
+    let result = [];
+    try {
+      const response = await axios.post("/get-internet-data");
+      result = response.data;
+    } catch (error) {
+      console.error("error /get-internet-data", error);
+    }
+
+    setInetMax(result);
+  };
+
   const takePhoto = async () => {
     // console.log("take photo");
     // setMenu(menu_);
@@ -732,7 +736,8 @@ function App() {
       return;
     }
 
-    setMenu(MENU_LOCKSCREEN);
+    // setMenu(MENU_LOCKSCREEN);
+    setMenu(MENU_INTERNET_DATA);
     setIsOpen(data.isOpen);
     switch (data.event) {
       case "z-phone":
@@ -823,6 +828,7 @@ function App() {
         setNews(data.news ? data.news : []);
         setNewsStreams(data.newsStreams ? data.newsStreams : []);
         setLovys(data.lovys ? data.lovys : []);
+        setInetMax(data.inetMax ? data.inetMax : null);
       }
     }
   };
@@ -859,7 +865,7 @@ function App() {
     //   getConfigFromDefaultConfig();
     // }
 
-    // openPhone(true);
+    openPhone(true);
     getConfigFromDefaultConfig();
     setNotificationInternal({ type: "" });
     setNotificationMessage({ type: "" });

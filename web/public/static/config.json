@@ -1,13 +1,31 @@
 {
   "name": "Kota V",
   "logo": "./images/kota-v.png",
+  "INETMAX": {
+    "MIN_TOPUP": 10,
+    "BUY": [
+      {
+        "text": "50",
+        "total": 50
+      },
+      {
+        "text": "100",
+        "total": 100
+      },
+      {
+        "text": "250",
+        "total": 250
+      }
+    ]
+  },
   "APPS": {
+    "MENU_INTERNET_DATA": "InetMax",
     "MENU_LOCKSCREEN": "Lockscreen",
     "MENU_GARAGE": "Garage",
     "MENU_EMAIL": "Email",
     "MENU_ADS": "Ads",
     "MENU_BANK": "Wallet",
-    "MENU_HOUSE": "House",
+    "MENU_HOUSE": "Houses",
     "MENU_SERVICE": "Services",
     "MENU_CAMERA": "Camera",
     "MENU_GALLERY": "Photos",
@@ -44,7 +62,7 @@
       "label": "Ads"
     },
     {
-      "icon": "./images/service.svg",
+      "icon": "./images/services.svg",
       "label": "Services"
     },
     {
@@ -52,8 +70,8 @@
       "label": "Garage"
     },
     {
-      "icon": "./images/house.svg",
-      "label": "House"
+      "icon": "./images/houses.svg",
+      "label": "Houses"
     },
     {
       "icon": "./images/wallet.svg",
@@ -70,6 +88,10 @@
     {
       "icon": "./images/gallery.svg",
       "label": "Photos"
+    },
+    {
+      "icon": "./images/internet-data.svg",
+      "label": "InetMax"
     }
   ],
   "BOTTOM_MENUS": [

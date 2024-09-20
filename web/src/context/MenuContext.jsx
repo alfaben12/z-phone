@@ -61,6 +61,7 @@ const MenuContext = createContext({
   news: [],
   newsStreams: [],
   lovys: [],
+  inetMax: {},
 });
 
 export const MenuProvider = ({ children }) => {
@@ -130,6 +131,7 @@ export const MenuProvider = ({ children }) => {
   const [news, setNews] = useState([]);
   const [newsStreams, setNewsStreams] = useState([]);
   const [lovys, setLovys] = useState([]);
+  const [inetMax, setInetMax] = useState({});
 
   return (
     <MenuContext.Provider
@@ -193,6 +195,8 @@ export const MenuProvider = ({ children }) => {
         setContactRequests,
         resolution,
         setResolution,
+        inetMax,
+        setInetMax,
       }}
     >
       {children}

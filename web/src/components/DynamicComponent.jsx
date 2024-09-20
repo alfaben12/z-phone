@@ -54,6 +54,7 @@ import PlayTVComponent from "./PlayTVComponent";
 import CameraComponent from "./CameraComponent";
 import LoopsComponent from "./loops/LoopsComponent";
 import StartCallNotificationComponent from "./notif/StartCallNotificationComponent";
+import InetMaxComponent from "./inetmax/InetMaxComponent";
 
 const DynamicComponent = () => {
   const {
@@ -66,8 +67,8 @@ const DynamicComponent = () => {
   } = useContext(MenuContext);
 
   useEffect(() => {
-    // console.log("change state " + notificationCall);
-  }, [notificationCall]);
+    console.log("change state " + menu);
+  }, [menu]);
 
   function isNullOrUndefined(value) {
     return value === menus.APPS.null || value === menus.APPS.undefined;
@@ -103,6 +104,7 @@ const DynamicComponent = () => {
           <LovyComponent isShow={menu === menus.APPS.MENU_LOVY} />
           <PlayTVComponent isShow={menu === menus.APPS.MENU_PLAYTV} />
           <CameraComponent isShow={menu === menus.APPS.MENU_CAMERA} />
+          <InetMaxComponent isShow={menu === menus.APPS.MENU_INTERNET_DATA} />
           <div
             className="absolute top-0 left-0 z-50 w-full"
             style={{

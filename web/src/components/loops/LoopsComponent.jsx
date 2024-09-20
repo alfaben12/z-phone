@@ -71,7 +71,9 @@ const LoopsComponent = ({ isShow }) => {
       }
     };
 
-    isAuth();
+    if (profile.citizenid) {
+      isAuth();
+    }
   }, [subMenu]);
 
   useEffect(() => {
@@ -88,8 +90,29 @@ const LoopsComponent = ({ isShow }) => {
       }
     };
 
-    isAuth();
+    if (profile.citizenid) {
+      isAuth();
+    }
   }, []);
+
+  useEffect(() => {
+    const isAuth = async () => {
+      const auth = await checkAuth();
+      if ([LOOPS_SIGNIN, LOOPS_SIGNUP].includes(subMenu)) {
+        if (auth) {
+          setSubMenu(LOOPS_TWEETS);
+        }
+      } else {
+        if (!auth) {
+          setSubMenu(LOOPS_SIGNIN);
+        }
+      }
+    };
+
+    if (profile.citizenid) {
+      isAuth();
+    }
+  }, [profile]);
 
   return (
     <div
