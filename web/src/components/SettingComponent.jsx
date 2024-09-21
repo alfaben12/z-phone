@@ -14,7 +14,7 @@ const SettingComponent = ({ isShow }) => {
   const [avatar, setAvatar] = useState("");
   const [wallpaper, setWallpaper] = useState("");
   const [frame, setFrame] = useState("");
-  const [sizeRatio, setSizeRatio] = useState();
+  const [sizeRatio, setSizeRatio] = useState(0);
 
   function generateDimensions(height) {
     const initWidthAndHeight = {
@@ -96,6 +96,14 @@ const SettingComponent = ({ isShow }) => {
       result = await axios.post("/update-profile", {
         type: type,
         value: frame,
+      });
+    } else if (type == "phone_height") {
+      if (!sizeRatio) {
+        return;
+      }
+      result = await axios.post("/update-profile", {
+        type: type,
+        value: sizeRatio,
       });
     }
 
@@ -341,7 +349,7 @@ const SettingComponent = ({ isShow }) => {
                 <button
                   className="flex font-medium rounded-full text-white bg-blue-500 px-2 text-sm items-center justify-center"
                   type="button"
-                  onClick={() => saveSetting("wallpaper")}
+                  onClick={() => saveSetting("phone_height")}
                 >
                   <span>SAVE</span>
                 </button>

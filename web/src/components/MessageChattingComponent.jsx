@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
-import { MENU_DEFAULT, PHONE_WIDTH, MENU_MESSAGE } from "../constant/menu";
+import { MENU_DEFAULT, MENU_MESSAGE } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import {
   MdOutlinePhone,
@@ -8,12 +8,16 @@ import {
   MdOutlineCameraAlt,
 } from "react-icons/md";
 import axios from "axios";
+import { useLongPress } from "@uidotdev/usehooks";
 
 const MessageChattingComponent = ({ isShow }) => {
-  const { setMenu, chatting, setChatting, profile } = useContext(MenuContext);
+  const { setMenu, chatting, setChatting, profile, resolution } =
+    useContext(MenuContext);
   const messagesEndRef = useRef(null);
   const [message, setMessage] = useState("");
   const [media, setMedia] = useState("");
+  const [deleteMessage, setDeleteMessage] = useState(null);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
@@ -77,25 +81,28 @@ const MessageChattingComponent = ({ isShow }) => {
     await axios.post("/close");
     await axios
       .post("/TakePhoto")
-      .then(function (response) {
+      .then(async function (response) {
         const newMessage = {
           time: "just now",
           message: "",
           media: response.data,
           sender_citizenid: profile.citizenid,
         };
-        setChatting((prevChatting) => ({
-          ...prevChatting,
-          chats: [...prevChatting.chats, newMessage],
-        }));
 
-        axios.post("/send-chatting", {
+        const responseSend = await axios.post("/send-chatting", {
           conversationid: chatting.conversationid,
           message: "",
           media: response.data,
           conversation_name: chatting.conversation_name,
           to_citizenid: chatting.citizenid,
         });
+
+        if (responseSend.data) {
+          setChatting((prevChatting) => ({
+            ...prevChatting,
+            chats: [...prevChatting.chats, newMessage],
+          }));
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -105,6 +112,22 @@ const MessageChattingComponent = ({ isShow }) => {
       });
   };
 
+  const onPressChat = useLongPress(
+    (event) => {
+      const data = JSON.parse(event.target.dataset.info);
+      if (data) {
+        setDeleteMessage(data);
+        setIsOpenDelete(true);
+      }
+    },
+    {
+      onStart: (event) => console.log("Press started"),
+      onFinish: (event) => console.log("Press Finished"),
+      onCancel: (event) => console.log("Press cancelled"),
+      threshold: 500,
+    }
+  );
+
   return (
     <div
       className="relative flex flex-col w-full h-full"
@@ -112,6 +135,62 @@ const MessageChattingComponent = ({ isShow }) => {
         display: isShow ? "block" : "none",
       }}
     >
+      <div
+        className={`absolute w-full z-20 ${
+          isOpenDelete ? "visible" : "invisible"
+        }`}
+        style={{
+          height: resolution.layoutHeight,
+          width: resolution.layoutWidth,
+          backgroundColor: "rgba(31, 41, 55, 0.8)",
+        }}
+      >
+        <div className="flex flex-col justify-center h-full w-full px-5">
+          <div className="flex flex-col space-y-2 bg-slate-600 w-full rounded p-3">
+            <span className="text-white text-sm font-semibold">
+              Delete message?
+            </span>
+            <span className="text-white text-sm">
+              {deleteMessage?.msg?.message == ""
+                ? "Media"
+                : deleteMessage?.msg?.message}
+            </span>
+            <div className="flex justify-end space-x-4">
+              <button
+                className="rounded text-sm text-white"
+                onClick={() => {
+                  setDeleteMessage(null);
+                  setIsOpenDelete(false);
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="rounded text-sm text-red-500"
+                onClick={async () => {
+                  const response = await axios.post("/delete-message", {
+                    id: deleteMessage?.msg?.id,
+                  });
+
+                  if (response.data) {
+                    chatting.chats[deleteMessage?.index].is_deleted = true;
+                    setChatting((prevChatting) => ({
+                      ...prevChatting,
+                      chats: chatting.chats,
+                    }));
+                  }
+
+                  setDeleteMessage(null);
+                  setIsOpenDelete(false);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {chatting == undefined ? (
         <LoadingComponent />
       ) : (
@@ -163,26 +242,42 @@ const MessageChattingComponent = ({ isShow }) => {
                         <div
                           className="relative flex flex-col text-xs items-start"
                           style={{
-                            maxWidth: `${PHONE_WIDTH - 50}px`,
+                            maxWidth: `${resolution.layoutWidth - 50}px`,
                           }}
                         >
                           <span
                             className="pb-4 px-2 py-1.5 rounded-lg inline-block rounded-bl-none bg-[#242527] text-white text-left"
                             style={{
-                              minWidth: `90px`,
+                              minWidth: `100px`,
                             }}
                           >
-                            {v.message == "" ? (
-                              <img
-                                className="rounded pb-1"
-                                src={v.media}
-                                alt=""
-                                onError={(error) => {
-                                  error.target.src = "./images/noimage.jpg";
-                                }}
-                              />
+                            {v.is_deleted ? (
+                              <span className="text-gray-200 italic">
+                                This message was deleted
+                              </span>
                             ) : (
-                              v.message
+                              <>
+                                {v.message == "" ? (
+                                  <img
+                                    className="rounded pb-1"
+                                    src={v.media}
+                                    alt=""
+                                    data-info={JSON.stringify({
+                                      msg: v,
+                                      index: i,
+                                    })}
+                                  />
+                                ) : (
+                                  <span
+                                    data-info={JSON.stringify({
+                                      msg: v,
+                                      index: i,
+                                    })}
+                                  >
+                                    {v.message}
+                                  </span>
+                                )}
+                              </>
                             )}
                           </span>
                           <span
@@ -196,29 +291,54 @@ const MessageChattingComponent = ({ isShow }) => {
                         </div>
                       </div>
                     ) : (
-                      <div className="flex items-end justify-end" key={i}>
+                      <div
+                        className="flex items-end justify-end"
+                        key={i}
+                        {...(v.is_deleted || v.minute_diff > 30
+                          ? null
+                          : onPressChat)}
+                      >
                         <div
                           className="relative flex flex-col text-xs items-end"
                           style={{
-                            maxWidth: `${PHONE_WIDTH - 50}px`,
+                            maxWidth: `${resolution.layoutWidth - 50}px`,
                           }}
                         >
-                          <span
+                          <div
                             className="pb-4 px-2 py-1.5 rounded-lg inline-block rounded-br-none bg-[#134D37] text-white text-left"
                             style={{
-                              minWidth: `90px`,
+                              minWidth: `100px`,
                             }}
                           >
-                            {v.message == "" ? (
-                              <img
-                                className="rounded pb-1"
-                                src={v.media}
-                                alt=""
-                              />
+                            {v.is_deleted ? (
+                              <span className="text-gray-200 italic">
+                                This message was deleted
+                              </span>
                             ) : (
-                              v.message
+                              <>
+                                {v.message == "" ? (
+                                  <img
+                                    className="rounded pb-1"
+                                    src={v.media}
+                                    alt=""
+                                    data-info={JSON.stringify({
+                                      msg: v,
+                                      index: i,
+                                    })}
+                                  />
+                                ) : (
+                                  <span
+                                    data-info={JSON.stringify({
+                                      msg: v,
+                                      index: i,
+                                    })}
+                                  >
+                                    {v.message} {v.minute_diff}
+                                  </span>
+                                )}
+                              </>
                             )}
-                          </span>
+                          </div>
                           <span
                             className="absolute bottom-0.5 right-1 text-gray-100"
                             style={{

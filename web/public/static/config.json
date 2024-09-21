@@ -1,6 +1,9 @@
 {
   "name": "Kota V",
   "logo": "./images/kota-v.png",
+  "LATEST_NEWS": {
+    
+  },
   "INETMAX": {
     "IS_DISABLE_TOPUP": true,
     "MIN_TOPUP": 100,

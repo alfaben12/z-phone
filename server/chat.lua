@@ -147,6 +147,7 @@ lib.callback.register('z-phone:server:GetChats', function(source)
                     conversationid,
                     content,
                     created_at,
+                    is_deleted,
                     ROW_NUMBER() OVER (PARTITION BY conversationid ORDER BY created_at DESC) AS rn
                 FROM
                     zp_conversation_messages
@@ -165,6 +166,8 @@ lib.callback.register('z-phone:server:GetChats', function(source)
                 DATE_FORMAT(from_user.last_seen, '%d/%m/%y %H:%i') as last_seen,
                 0 as isRead,
 				CASE
+                    WHEN last_msg.is_deleted = 1 THEN
+                        'This message was deleted'
                     WHEN last_msg.content = '' THEN
                         'media'
                     ELSE last_msg.content
@@ -216,12 +219,28 @@ lib.callback.register('z-phone:server:GetChatting', function(source, body)
     if Player ~= nil then
         local citizenid = Player.PlayerData.citizenid
         local query = [[
-            select 
-                zpcm.content as message,
-                zpcm.media,
-                DATE_FORMAT(zpcm.created_at, '%d/%m/%y %H:%i') as time,
-                zpcm.sender_citizenid
-            from zp_conversation_messages zpcm WHERE conversationid = ?
+            SELECT
+                * 
+            FROM
+                (
+                SELECT
+                    zpcm.id,
+                    zpcm.content as message,
+                    zpcm.media,
+                    DATE_FORMAT(zpcm.created_at, '%d %b %Y %H:%i') as time,
+                    zpcm.sender_citizenid,
+                    zpcm.is_deleted,
+                    TIMESTAMPDIFF(MINUTE, zpcm.created_at, NOW()) AS minute_diff
+                FROM
+                    zp_conversation_messages zpcm 
+                WHERE
+                    conversationid = ? 
+                ORDER BY
+                    id DESC 
+                    LIMIT 200 
+                ) AS subquery 
+            ORDER BY
+                id ASC;
         ]]
 
         local result = MySQL.query.await(query, {
@@ -274,4 +293,22 @@ lib.callback.register('z-phone:server:SendChatting', function(source, body)
         end
     end
     return false
+end)
+
+lib.callback.register('z-phone:server:DeleteMessage', function(source, body)
+    local Player = QBCore.Functions.GetPlayer(source)
+
+    if Player == nil then return false end
+    local citizenid = Player.PlayerData.citizenid
+
+    local query = [[
+        UPDATE zp_conversation_messages SET is_deleted = 1 WHERE id = ? and sender_citizenid = ?
+    ]]
+
+    MySQL.update.await(query, {
+        body.id,
+        citizenid
+    })
+
+    return true
 end)

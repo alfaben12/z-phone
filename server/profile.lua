@@ -19,7 +19,8 @@ lib.callback.register('z-phone:server:GetProfile', function(source, body)
                 zpu.frame,
                 zpu.iban,
                 zpu.active_loops_userid,
-                zpu.inetmax_balance
+                zpu.inetmax_balance,
+                zpu.phone_height
             from zp_users zpu WHERE zpu.citizenid = ? LIMIT 1
         ]]
 
@@ -64,12 +65,12 @@ lib.callback.register('z-phone:server:UpdateProfile', function(source, body)
             affectedRows = MySQL.update.await('UPDATE zp_users SET frame = ? WHERE citizenid = ?', {
                 body.value, citizenid
             })
-        elseif body.type == 'loops' then
-            affectedRows = MySQL.update.await('UPDATE zp_users SET loops_username = ?, loops_name = ? WHERE citizenid = ?', {
-                body.username, 
-                body.name, 
+        elseif body.type == 'phone_height' then
+            affectedRows = MySQL.update.await('UPDATE zp_users SET phone_height = ? WHERE citizenid = ?', {
+                body.value, 
                 citizenid
             })
+            
         else
             print("RETRIGER DETECTED, SHOULD BANN IF NEEDED")
         end

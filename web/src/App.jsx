@@ -84,11 +84,35 @@ function App() {
     message: null,
   });
 
+  function generateDimensions(height) {
+    const initWidthAndHeight = {
+      initWidth: resolution.frameWidth,
+      initHeight: resolution.frameHeight,
+    };
+
+    const aspectRatio =
+      initWidthAndHeight.initHeight / initWidthAndHeight.initWidth;
+    const newWidth = height / aspectRatio;
+    const newRadius = height * 0.066;
+    const newMargin = height * 0.033;
+    let newScale = (height / initWidthAndHeight.initHeight) * resolution.scale;
+
+    return {
+      frameWidth: newWidth,
+      frameHeight: height,
+      layoutWidth: newWidth - newMargin,
+      layoutHeight: height - newMargin,
+      radius: newRadius,
+      scale: newScale,
+    };
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.post("/get-profile");
         setProfile(response.data);
+        setResolution(generateDimensions(response.data.phone_height));
       } catch (err) {
         setProfile({});
       }
@@ -1131,7 +1155,7 @@ function App() {
                 }}
               >
                 <div
-                  className={`absolute flex justify-between px-4 py-2 z-50`}
+                  className={`absolute flex justify-between px-6 py-2 z-50`}
                   style={{
                     width: `${resolution.layoutWidth}px`,
                   }}
