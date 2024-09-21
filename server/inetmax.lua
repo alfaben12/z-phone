@@ -118,11 +118,13 @@ end
 
 RegisterNetEvent('z-phone:server:usage-internet-data', function(app, usageInKB)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if Player == nil then return false end
+    if Config.App.InetMax.IsUseInetMax then
+        local Player = QBCore.Functions.GetPlayer(src)
+        if Player == nil then return false end
 
-    local citizenid = Player.PlayerData.citizenid    
-    UseInternetData(citizenid, app, usageInKB)
+        local citizenid = Player.PlayerData.citizenid    
+        UseInternetData(citizenid, app, usageInKB)
 
-    TriggerClientEvent("z-phone:client:usage-internet-data", src,  app, usageInKB)
+        TriggerClientEvent("z-phone:client:usage-internet-data", src,  app, usageInKB)
+    end
 end)
