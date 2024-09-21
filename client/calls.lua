@@ -29,17 +29,7 @@ RegisterNUICallback('start-call', function(body, cb)
     end
 
     lib.callback('z-phone:server:StartCall', false, function(res)
-        if res.is_valid then
-            TriggerServerEvent("z-phone:server:usage-internet-data", Config.App.Phone.Name, Config.App.InetMax.InetMaxUsage.PhoneCall)
-            PhoneData.CallData.InCall = true
-            if PhoneData.isOpen then
-                DoPhoneAnimation('cellphone_text_to_call')
-            else
-                DoPhoneAnimation('cellphone_call_listen_base')
-            end
-
-            PhoneData.CallData.CallId = callId
-        else
+        if not res.is_valid then
             TriggerEvent("z-phone:client:sendNotifInternal", {
                 type = "Notification",
                 from = "Phone",
@@ -49,7 +39,45 @@ RegisterNUICallback('start-call', function(body, cb)
             return
         end
         
+        PhoneData.CallData.InCall = true
+        if PhoneData.isOpen then
+            DoPhoneAnimation('cellphone_text_to_call')
+        else
+            DoPhoneAnimation('cellphone_call_listen_base')
+        end
+
+        PhoneData.CallData.CallId = callId
         cb(res)
+
+        local RepeatCount = 0
+        for _ = 1, Config.CallRepeats + 1, 1 do
+            if not PhoneData.CallData.AnsweredCall then
+                if RepeatCount + 1 ~= Config.CallRepeats + 1 then
+                    if PhoneData.CallData.InCall then
+                        RepeatCount = RepeatCount + 1
+                        TriggerServerEvent('InteractSound_SV:PlayOnSource', 'zpcall', 0.2)
+                    else
+                        break
+                    end
+                    Wait(Config.RepeatTimeout)
+                else
+                    PhoneData.CallData.CallId = nil
+                    PhoneData.CallData.InCall = false
+
+                    TriggerEvent("z-phone:client:sendNotifInternal", {
+                        type = "Notification",
+                        from = "Phone",
+                        message = "Call not answered"
+                    })
+                    cb(false)
+                    
+                    lib.callback('z-phone:server:CancelCall', false, function(isOk)
+                        cb(isOk)
+                    end, { to_source = res.to_source })
+                    break
+                end
+            end
+        end
     end, body)
 end)
 
@@ -72,16 +100,6 @@ RegisterNUICallback('end-call', function(body, cb)
 end)
 
 RegisterNUICallback('accept-call', function(body, cb)
-    if PhoneData.CallData.InCall then
-        TriggerEvent("z-phone:client:sendNotifInternal", {
-            type = "Notification",
-            from = "Phone",
-            message = "You're in a call!"
-        })
-        cb(false)
-        return
-    end
-
     if PhoneData.isOpen then
         DoPhoneAnimation('cellphone_text_to_call')
     else

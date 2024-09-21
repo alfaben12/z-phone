@@ -17,6 +17,7 @@ import { MdOutlineReceiptLong } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
 import { currencyFormat } from "../utils/common";
 import axios from "axios";
+import { CFG_WALLET } from "./../constant/menu";
 
 const subMenuList = {
   balance: "balance",
@@ -29,6 +30,7 @@ const BankComponent = ({ isShow }) => {
   const { setMenu, bank, profile, setBank, resolution } =
     useContext(MenuContext);
   const [subMenu, setSubMenu] = useState(subMenuList["balance"]);
+  const [errorTransfer, setErrorTransfer] = useState(null);
   const [receiver, setReceiver] = useState({
     isValid: false,
     name: "",
@@ -82,10 +84,19 @@ const BankComponent = ({ isShow }) => {
       return;
     }
     if (bank.balance < formDataTransfer.total) {
+      setErrorTransfer("Your balance is not enough");
       return;
     }
+
     formDataTransfer.iban = formDataTransfer.receiver;
     formDataTransfer.total = parseInt(formDataTransfer.total, 10);
+    if (formDataTransfer.total < CFG_WALLET.MIN_TRANSFER) {
+      setErrorTransfer(
+        "$" + CFG_WALLET.MIN_TRANSFER + " is minimal amount for transfer."
+      );
+      return;
+    }
+
     await axios
       .post("/transfer", formDataTransfer)
       .then(function (response) {
@@ -114,6 +125,8 @@ const BankComponent = ({ isShow }) => {
             note: "",
           });
         }
+
+        setErrorTransfer(null);
       })
       .catch(function (error) {
         console.log(error);
@@ -578,6 +591,11 @@ const BankComponent = ({ isShow }) => {
                 <div className="text-xss text-gray-400">
                   * Pastikan data penerima benar!
                 </div>
+              </div>
+              <div className="px-3">
+                {errorTransfer != null ? (
+                  <span className="text-red-500 text-xs">{errorTransfer}</span>
+                ) : null}
               </div>
               <div className="px-5 pt-2">
                 <button

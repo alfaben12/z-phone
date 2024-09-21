@@ -1,6 +1,9 @@
 Config = {}
 
 Config.OpenPhone = 'M'
+Config.RepeatTimeout = 3000
+Config.CallRepeats = 5
+
 Config.App = {
     InetMax = {
         Name = "InetMax",
@@ -19,7 +22,8 @@ Config.App = {
             ServicesMessage = math.random(500, 1000),
             BankCheckTransferReceiver = math.random(300, 500),
             BankTransfer = math.random(10000, 20000),
-        }
+        },
+        SocietySeller = "government"
     },
     Phone = {
         Name = "Phone"

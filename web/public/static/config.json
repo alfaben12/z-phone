@@ -19,6 +19,9 @@
       }
     ]
   },
+  "WALLET": {
+    "MIN_TRANSFER": 20000
+  },
   "APPS": {
     "MENU_INTERNET_DATA": "InetMax",
     "MENU_LOCKSCREEN": "Lockscreen",

@@ -11,7 +11,8 @@ PhoneData = {
     },
     CallData = {
         InCall = false,
-        CallId = nil
+        CallId = nil,
+        AnsweredCall = false
     },
 }
 

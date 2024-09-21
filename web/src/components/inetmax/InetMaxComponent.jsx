@@ -41,8 +41,16 @@ const ACTIVE_TAB_LIST = {
   APP_HISTORY: "APP_HISTORY",
 };
 const InetMaxComponent = ({ isShow }) => {
-  const { resolution, profile, inetMax, setMenu, setProfile, setInetMax } =
-    useContext(MenuContext);
+  const {
+    resolution,
+    profile,
+    inetMax,
+    bank,
+    setMenu,
+    setProfile,
+    setInetMax,
+    setBank,
+  } = useContext(MenuContext);
   const [subMenu, setSubMenu] = useState("balance");
   const [activeTab, setActiveTab] = useState(ACTIVE_TAB_LIST.TOPUP_HISTORY);
   const [isOpenTopup, setIsOpenTopup] = useState(false);
@@ -164,7 +172,9 @@ const InetMaxComponent = ({ isShow }) => {
   const handleTopupSubmit = async (e) => {
     if (topupTotal < CFG_INETMAX.MIN_TOPUP) {
       setTopupTotalError(
-        "A minimum purchase of $50,000 is required for online orders."
+        "A minimum purchase of $" +
+          CFG_INETMAX.MIN_TOPUP +
+          " is required for online orders."
       );
       return;
     }
@@ -200,6 +210,19 @@ const InetMaxComponent = ({ isShow }) => {
         ],
       }));
 
+      setBank((prev) => ({
+        ...prev,
+        balance: bank.balance - topupTotal,
+        histories: [
+          {
+            type: "withdraw",
+            label: "InetMax purchase",
+            total: topupTotal,
+            created_at: "just now",
+          },
+          ...bank.histories,
+        ],
+      }));
       setTopupTotalError(null);
       setIsOpenTopup(false);
       setTopupTotal(0);

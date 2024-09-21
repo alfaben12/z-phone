@@ -220,7 +220,7 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
         return false
     end
 
-    local senderReason = string.format("%s - to %s", body.note, body.iban)
+    local senderReason = string.format("Transfer send: %s - to %s", body.note, body.iban)
     local receiverReason = string.format("%s - from %s", "Transfer received", body.iban)
     Player.Functions.RemoveMoney('bank', body.total, senderReason)
     ReceiverPlayer.Functions.AddMoney('bank', body.total, receiverReason)
@@ -249,6 +249,12 @@ Thank you for choosing our services!
         type = "Notification",
         from = "Wallet",
         message = "Successful Money Transfer"
+    })
+
+    TriggerClientEvent("z-phone:client:sendNotifInternal", ReceiverPlayer.PlayerData.source, {
+        type = "Notification",
+        from = "Wallet",
+        message = "Received Money Transfer"
     })
     return true
 end)

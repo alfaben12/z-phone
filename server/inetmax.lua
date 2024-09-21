@@ -68,6 +68,9 @@ lib.callback.register('z-phone:server:TopupInternetData', function(source, body)
         citizenid
     })
 
+    Player.Functions.RemoveMoney('bank', body.total, "InetMax purchase")
+    exports['qb-banking']:AddMoney(Config.App.InetMax.SocietySeller, body.total, "InetMax purchase")
+
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",
         from = "InetMax",
@@ -91,6 +94,7 @@ Thank you for being a valued customer!
         "Your Internet Data Package Purchase Confirmation",
         string.format(content, body.total, Config.App.InetMax.TopupRate.Price, Config.App.InetMax.TopupRate.InKB, "Success"),
     })
+    
     return IncrementBalance
 end)
 

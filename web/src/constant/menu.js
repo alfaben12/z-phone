@@ -111,6 +111,7 @@ export const BOTTOM_MENU_CONSTANT = [
   },
 ];
 export const CFG_INETMAX = config.INETMAX;
+export const CFG_WALLET = config.WALLET;
 
 export const PHONE_FRAME_HEIGHT = 610;
 export const PHONE_FRAME_WIDTH = 300;
