@@ -7,7 +7,7 @@ RegisterNUICallback('start-call', function(body, cb)
     if PhoneData.CallData.InCall then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",
-            from = "Call",
+            from = "Phone",
             message = "You're in a call!"
         })
         cb(false)
@@ -18,8 +18,19 @@ RegisterNUICallback('start-call', function(body, cb)
     body.call_id = callId
     body.is_anonim = Profile.is_anonim
 
+    if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.PhoneCall then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgNotEnoughInternetData
+        })
+        cb(false)
+        return
+    end
+
     lib.callback('z-phone:server:StartCall', false, function(res)
         if res.is_valid then
+            TriggerServerEvent("z-phone:server:usage-internet-data", Config.App.Phone.Name, Config.App.InetMax.InetMaxUsage.PhoneCall)
             PhoneData.CallData.InCall = true
             if PhoneData.isOpen then
                 DoPhoneAnimation('cellphone_text_to_call')
@@ -31,7 +42,7 @@ RegisterNUICallback('start-call', function(body, cb)
         else
             TriggerEvent("z-phone:client:sendNotifInternal", {
                 type = "Notification",
-                from = "Call",
+                from = "Phone",
                 message = res.message
             })
             cb(false)
@@ -64,7 +75,7 @@ RegisterNUICallback('accept-call', function(body, cb)
     if PhoneData.CallData.InCall then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",
-            from = "Call",
+            from = "Phone",
             message = "You're in a call!"
         })
         cb(false)

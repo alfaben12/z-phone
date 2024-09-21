@@ -56,7 +56,7 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
     if Player == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "Failed to pay bill"
         })
         return false
@@ -65,7 +65,7 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
     if Player.PlayerData.money.bank < body.amount then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "Balance is not enough"
         })
         return false
@@ -84,7 +84,7 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
     if not invoice then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "Failed to pay bill"
         })
         return false
@@ -96,7 +96,7 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
     
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",
-        from = "Bank",
+        from = "Wallet",
         message = "Success pay bill"
     })
     return true
@@ -107,7 +107,7 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
     if Player == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "Failed to check receiver!"
         })
         return {
@@ -125,7 +125,7 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
     if not receiverCitizenid then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "IBAN not registered!"
         })
         return {
@@ -137,7 +137,7 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
     if receiverCitizenid == citizenid then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "Cannot transfer to your self!"
         })
         return {
@@ -150,7 +150,7 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
     if ReceiverPlayer == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "Receiver is offline!"
         })
         return {
@@ -170,13 +170,23 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
     if Player == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "Failed to check receiver!"
         })
         return false
     end
 
     local citizenid = Player.PlayerData.citizenid
+
+    if Player.PlayerData.money.bank < body.total then 
+        TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+            type = "Notification",
+            from = "Wallet",
+            message = "Balance is not enough"
+        })
+        return false
+    end
+    
     local queryGetCitizenByIban = "select citizenid from zp_users where iban = ?"
     local receiverCitizenid = MySQL.scalar.await(queryGetCitizenByIban, {
         body.iban
@@ -185,7 +195,7 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
     if not receiverCitizenid then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "IBAN not registered!"
         })
         return false
@@ -194,7 +204,7 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
     if receiverCitizenid == citizenid then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "Cannot transfer to your self!"
         })
         return false
@@ -204,7 +214,7 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
     if ReceiverPlayer == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Wallet",
             message = "Receiver is offline!"
         })
         return false
@@ -214,5 +224,31 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
     local receiverReason = string.format("%s - from %s", "Transfer received", body.iban)
     Player.Functions.RemoveMoney('bank', body.total, senderReason)
     ReceiverPlayer.Functions.AddMoney('bank', body.total, receiverReason)
+
+    local content = [[
+We are pleased to inform you that your recent money transfer has been successfully completed. 
+\
+Here are the details of the transaction:
+\
+Total: %s \
+IBAN : %s \
+Note : %s \
+\
+If you have any questions or need further assistance, please don't hesitate to reach out.
+\
+Thank you for choosing our services!
+    ]]
+    MySQL.Async.insert('INSERT INTO zp_emails (institution, citizenid, subject, content) VALUES (?, ?, ?, ?)', {
+        "wallet",
+        Player.PlayerData.citizenid,
+        "Successful Money Transfer Confirmation",
+        string.format(content, body.total, body.iban, body.note),
+    })
+
+    TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+        type = "Notification",
+        from = "Wallet",
+        message = "Successful Money Transfer"
+    })
     return true
 end)

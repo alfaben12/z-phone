@@ -61,7 +61,12 @@ const MenuContext = createContext({
   news: [],
   newsStreams: [],
   lovys: [],
-  inetMax: {},
+  inetMax: {
+    balance: 0,
+    group_usage: [],
+    topup_histories: [],
+    usage_histories: [],
+  },
 });
 
 export const MenuProvider = ({ children }) => {

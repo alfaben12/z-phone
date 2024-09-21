@@ -27,7 +27,14 @@ const NewMessageNotificationComponent = ({ isShow }) => {
         }}
       >
         <div className="flex w-full items-center space-x-2 w-full">
-          <img src="./images/notif.svg" className="w-8 h-8" alt="" />
+          <img
+            className="w-8 h-8"
+            src={`./images/${notificationInternal?.from?.toLowerCase()}.svg`}
+            alt=""
+            onError={(error) => {
+              error.target.src = "./images/notif.svg";
+            }}
+          />
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white line-clamp-1">
               {notificationInternal.from}

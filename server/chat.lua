@@ -9,7 +9,7 @@ lib.callback.register('z-phone:server:StartOrContinueChatting', function(source,
     if body.to_citizenid == citizenid then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Loops",
+            from = "Message",
             message = "Cannot chat to your self!"
         })
         return nil 
@@ -26,7 +26,7 @@ lib.callback.register('z-phone:server:StartOrContinueChatting', function(source,
         if not userTarget then
             TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
                 type = "Notification",
-                from = "Loops",
+                from = "Message",
                 message = "Invalid phone number!"
             })
             return nil 
@@ -38,7 +38,7 @@ lib.callback.register('z-phone:server:StartOrContinueChatting', function(source,
     if body.to_citizenid == citizenid then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Bank",
+            from = "Message",
             message = "Cannot chat to your self!"
         })
         return nil 

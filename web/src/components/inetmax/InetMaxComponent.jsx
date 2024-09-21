@@ -10,6 +10,7 @@ import ApexCharts from "apexcharts";
 import { convertFromKb } from "../../utils/common";
 import { LuArrowUpDown, LuPackage } from "react-icons/lu";
 import { FaCartArrowDown, FaDollarSign } from "react-icons/fa6";
+import axios from "axios";
 
 const pastelColors = [
   "#FF6384", // Soft Red
@@ -40,7 +41,8 @@ const ACTIVE_TAB_LIST = {
   APP_HISTORY: "APP_HISTORY",
 };
 const InetMaxComponent = ({ isShow }) => {
-  const { resolution, profile, inetMax, setMenu } = useContext(MenuContext);
+  const { resolution, profile, inetMax, setMenu, setProfile, setInetMax } =
+    useContext(MenuContext);
   const [subMenu, setSubMenu] = useState("balance");
   const [activeTab, setActiveTab] = useState(ACTIVE_TAB_LIST.TOPUP_HISTORY);
   const [isOpenTopup, setIsOpenTopup] = useState(false);
@@ -159,7 +161,7 @@ const InetMaxComponent = ({ isShow }) => {
     }
   };
 
-  const handleTopupSubmit = (e) => {
+  const handleTopupSubmit = async (e) => {
     if (topupTotal < CFG_INETMAX.MIN_TOPUP) {
       setTopupTotalError(
         "A minimum purchase of $50,000 is required for online orders."
@@ -167,6 +169,41 @@ const InetMaxComponent = ({ isShow }) => {
       return;
     }
 
+    let result = 0;
+    try {
+      const response = await axios.post("/topup-internet-data", {
+        label: "Online purchase",
+        total: topupTotal,
+      });
+      result = response.data == null ? 0 : response.data;
+    } catch (error) {
+      setTopupTotalError("Please try again later!");
+      console.error("error /topup-internet-data", error);
+    }
+
+    if (result != 0) {
+      setProfile((prev) => ({
+        ...prev,
+        inetmax_balance: profile.inetmax_balance + result,
+      }));
+
+      setInetMax((prev) => ({
+        ...prev,
+        topup_histories: [
+          {
+            total: result,
+            created_at: "now",
+            flag: "CREDIT",
+            label: "Online purchase",
+          },
+          ...inetMax.topup_histories,
+        ],
+      }));
+
+      setTopupTotalError(null);
+      setIsOpenTopup(false);
+      setTopupTotal(0);
+    }
     console.log("submit");
   };
 
@@ -188,7 +225,6 @@ const InetMaxComponent = ({ isShow }) => {
       colors: chartData.colors,
       labels: chartData.labels,
     });
-    console.log(chartData);
 
     return () => {
       chart.destroy();
@@ -197,9 +233,9 @@ const InetMaxComponent = ({ isShow }) => {
 
   useEffect(() => {
     if (inetMax != undefined) {
-      const apps = inetMax.group_usage.map((item) => item.app);
-      const total = inetMax.group_usage.map((item) => item.total);
-      const color = apps.map(
+      const apps = inetMax?.group_usage?.map((item) => item.app);
+      const total = inetMax?.group_usage?.map((item) => item.total);
+      const color = apps?.map(
         (_, index) => pastelColors[index % pastelColors.length]
       );
 
@@ -258,22 +294,24 @@ const InetMaxComponent = ({ isShow }) => {
                   <div className="flex flex items-center space-x-1">
                     <LuArrowUpDown className="text-white text-xl" />
                     <span className="text-white font-lg font-semibold">
-                      {convertFromKb(inetMax?.balance)}
+                      {convertFromKb(profile?.inetmax_balance)}
                     </span>
                   </div>
                 </div>
-                <div className="flex space-x-2">
-                  <button
-                    className="px-2 py-1 bg-slate-500 hover:bg-slate-600 flex justify-center space-x-1 items-center rounded"
-                    onClick={() => {
-                      setIsOpenTopup(true);
-                      setTopupTotal(0);
-                    }}
-                  >
-                    <MdOutlineShoppingCart className="text-white text-xl" />
-                    <span className="text-white text-sm">Buy</span>
-                  </button>
-                </div>
+                {CFG_INETMAX.IS_DISABLE_TOPUP ? (
+                  <div className="flex space-x-2">
+                    <button
+                      className="px-2 py-1 bg-slate-500 hover:bg-slate-600 flex justify-center space-x-1 items-center rounded"
+                      onClick={() => {
+                        setIsOpenTopup(true);
+                        setTopupTotal(0);
+                      }}
+                    >
+                      <MdOutlineShoppingCart className="text-white text-xl" />
+                      <span className="text-white text-sm">Buy</span>
+                    </button>
+                  </div>
+                ) : null}
               </div>
               <div className="flex w-full justify-center">
                 <div id="donut-chart"></div>
@@ -331,6 +369,13 @@ const InetMaxComponent = ({ isShow }) => {
                         : "none",
                   }}
                 >
+                  {inetMax?.topup_histories?.length == 0 ? (
+                    <div className="flex justify-center w-full">
+                      <span className="text-white text-xs">
+                        No purchase histories
+                      </span>
+                    </div>
+                  ) : null}
                   <div className="flow-root">
                     <ul
                       role="list-history"
@@ -342,10 +387,10 @@ const InetMaxComponent = ({ isShow }) => {
                             <div className="flex items-center space-x-4">
                               <div className="flex-1 line-clamp-1">
                                 <p className="text-sm font-medium truncate text-white">
-                                  {v.type}
+                                  {v.flag}
                                 </p>
                                 <p className="text-xs truncate text-gray-400">
-                                  {v.desc}
+                                  {v.label}
                                 </p>
                               </div>
                               <div className="inline-flex items-end text-base font-semibold">
@@ -373,6 +418,13 @@ const InetMaxComponent = ({ isShow }) => {
                         : "none",
                   }}
                 >
+                  {inetMax?.usage_histories?.length == 0 ? (
+                    <div className="flex justify-center w-full">
+                      <span className="text-white text-xs">
+                        No usage histories
+                      </span>
+                    </div>
+                  ) : null}
                   <div className="flow-root">
                     <ul
                       role="list-history"

@@ -30,7 +30,7 @@ const MessageChattingComponent = ({ isShow }) => {
     setMessage(value);
   };
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     // console.log("send " + message);
     setMessage("");
 
@@ -39,18 +39,21 @@ const MessageChattingComponent = ({ isShow }) => {
       message: message,
       sender_citizenid: profile.citizenid,
     };
-    setChatting((prevChatting) => ({
-      ...prevChatting,
-      chats: [...prevChatting.chats, newMessage],
-    }));
 
-    axios.post("/send-chatting", {
+    const response = await axios.post("/send-chatting", {
       conversationid: chatting.conversationid,
       message: message,
       media: "",
       conversation_name: chatting.conversation_name,
       to_citizenid: chatting.citizenid,
     });
+
+    if (response.data) {
+      setChatting((prevChatting) => ({
+        ...prevChatting,
+        chats: [...prevChatting.chats, newMessage],
+      }));
+    }
   };
 
   function hide() {

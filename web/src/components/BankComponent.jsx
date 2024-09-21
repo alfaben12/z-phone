@@ -85,7 +85,7 @@ const BankComponent = ({ isShow }) => {
       return;
     }
     formDataTransfer.iban = formDataTransfer.receiver;
-
+    formDataTransfer.total = parseInt(formDataTransfer.total, 10);
     await axios
       .post("/transfer", formDataTransfer)
       .then(function (response) {

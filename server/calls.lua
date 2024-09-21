@@ -39,7 +39,7 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
     if InCalls[targetUser.citizenid] then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Phone Call",
+            from = "Phone",
             message = "Person in a call!"
         })
 
@@ -66,7 +66,7 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
     if not TargetPlayer then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Phone Call",
+            from = "Phone",
             message = "Person is unavailable to call!"
         })
 
@@ -155,7 +155,7 @@ lib.callback.register('z-phone:server:DeclineCall', function(source, body)
 
     TriggerClientEvent("z-phone:client:sendNotifInternal", body.to_source, {
         type = "Notification",
-        from = "Phone Call",
+        from = "Phone",
         message = "Call declined!"
     })
     return true
@@ -198,7 +198,7 @@ lib.callback.register('z-phone:server:EndCall', function(source, body)
     
     TriggerClientEvent("z-phone:client:sendNotifInternal", body.to_source, {
         type = "Notification",
-        from = "Phone Call",
+        from = "Phone",
         message = "Call ended!"
     })
 

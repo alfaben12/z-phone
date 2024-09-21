@@ -736,8 +736,8 @@ function App() {
       return;
     }
 
-    // setMenu(MENU_LOCKSCREEN);
-    setMenu(MENU_INTERNET_DATA);
+    setMenu(MENU_LOCKSCREEN);
+    // setMenu(MENU_INTERNET_DATA);
     setIsOpen(data.isOpen);
     switch (data.event) {
       case "z-phone":
@@ -828,7 +828,16 @@ function App() {
         setNews(data.news ? data.news : []);
         setNewsStreams(data.newsStreams ? data.newsStreams : []);
         setLovys(data.lovys ? data.lovys : []);
-        setInetMax(data.inetMax ? data.inetMax : null);
+        setInetMax(
+          data.inetMax
+            ? data.inetMax
+            : {
+                balance: 0,
+                group_usage: [],
+                topup_histories: [],
+                usage_histories: [],
+              }
+        );
       }
     }
   };
@@ -865,7 +874,7 @@ function App() {
     //   getConfigFromDefaultConfig();
     // }
 
-    openPhone(true);
+    // openPhone(true);
     getConfigFromDefaultConfig();
     setNotificationInternal({ type: "" });
     setNotificationMessage({ type: "" });

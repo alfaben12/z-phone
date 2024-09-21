@@ -57,17 +57,17 @@ export function convertFromKb(valueInKb) {
   let value;
   let unit;
 
-  if (valueInKb < 1024) {
+  if (valueInKb < 1000) {
     value = valueInKb;
     unit = "KB";
-  } else if (valueInKb < 1024 * 1024) {
-    value = valueInKb / 1024;
+  } else if (valueInKb < 1000 * 1000) {
+    value = valueInKb / 1000;
     unit = "MB";
-  } else if (valueInKb < 1024 * 1024 * 1024) {
-    value = valueInKb / (1024 * 1024);
+  } else if (valueInKb < 1000 * 1000 * 1000) {
+    value = valueInKb / (1000 * 1000);
     unit = "GB";
   } else {
-    value = valueInKb / (1024 * 1024 * 1024);
+    value = valueInKb / (1000 * 1000 * 1000);
     unit = "TB"; // Optionally, you can handle terabytes (TB) as well
   }
 

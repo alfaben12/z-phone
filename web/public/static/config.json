@@ -2,19 +2,20 @@
   "name": "Kota V",
   "logo": "./images/kota-v.png",
   "INETMAX": {
-    "MIN_TOPUP": 10,
+    "IS_DISABLE_TOPUP": true,
+    "MIN_TOPUP": 100,
     "BUY": [
       {
-        "text": "50",
-        "total": 50
+        "text": "$500",
+        "total": 500
       },
       {
-        "text": "100",
-        "total": 100
+        "text": "$1000",
+        "total": 1000
       },
       {
-        "text": "250",
-        "total": 250
+        "text": "$2500",
+        "total": 2500
       }
     ]
   },
@@ -90,7 +91,7 @@
       "label": "Photos"
     },
     {
-      "icon": "./images/internet-data.svg",
+      "icon": "./images/inetmax.svg",
       "label": "InetMax"
     }
   ],

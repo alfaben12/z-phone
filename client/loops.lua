@@ -17,7 +17,18 @@ RegisterNUICallback('get-tweets', function(_, cb)
 end)
 
 RegisterNUICallback('send-tweet', function(body, cb)
+    if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.LoopsPostTweet then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgNotEnoughInternetData
+        })
+        cb(false)
+        return
+    end
+
     lib.callback('z-phone:server:SendTweet', false, function(isOk)
+        TriggerServerEvent("z-phone:server:usage-internet-data", Config.App.Loops.Name, Config.App.InetMax.InetMaxUsage.LoopsPostTweet)
         lib.callback('z-phone:server:GetTweets', false, function(tweets)
             cb(tweets)
         end)
@@ -31,7 +42,18 @@ RegisterNUICallback('get-tweet-comments', function(body, cb)
 end)
 
 RegisterNUICallback('send-tweet-comments', function(body, cb)
+    if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.LoopsPostComment then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgNotEnoughInternetData
+        })
+        cb(false)
+        return
+    end
+
     lib.callback('z-phone:server:SendTweetComment', false, function(isOk)
+        TriggerServerEvent("z-phone:server:usage-internet-data", Config.App.Loops.Name, Config.App.InetMax.InetMaxUsage.LoopsPostComment)
         cb(isOk)
     end, body)
 end)

@@ -36,7 +36,9 @@ const AdsComponent = ({ isShow }) => {
 
     setMedia("");
     setContent("");
-    setAds(response.data);
+    if (response.data) {
+      setAds(response.data);
+    }
     setSubMenu("list");
   };
 
