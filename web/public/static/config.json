@@ -2,7 +2,10 @@
   "name": "Kota V",
   "logo": "./images/kota-v.png",
   "LATEST_NEWS": {
-    
+    "AUTHOR": "Reporter",
+    "IMG_URL": "https://i.ytimg.com/vi/0GZKDlppO2g/maxresdefault.jpg",
+    "content": "In an alarming turn of events, Los Santos has seen a dramatic rise in criminal activity over the past week, leaving residents and law enforcement on high alert.",
+    "more_updates": "Please come to the reporter's office and stay tuned for updates as this story develops."
   },
   "INETMAX": {
     "IS_DISABLE_TOPUP": true,

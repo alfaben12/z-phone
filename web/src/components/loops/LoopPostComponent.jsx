@@ -40,7 +40,7 @@ const LoopPostComponent = ({ isShow, setSubMenu, setProfileID }) => {
         media: media,
       });
 
-      if (response.data != null) {
+      if (response.data) {
         setTweets(response.data);
         setMedia("");
         setFormData({

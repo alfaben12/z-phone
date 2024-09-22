@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Debug = true
+Config.Debug = false
 Config.OpenPhone = 'M'
 Config.RepeatTimeout = 3000
 Config.CallRepeats = 5

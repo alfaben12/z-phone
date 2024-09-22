@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MENU_DEFAULT, NAME } from "../constant/menu";
+import { MENU_DEFAULT, NAME, CFG_LATEST_NEWS } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { FaAngleUp } from "react-icons/fa6";
 
@@ -106,7 +106,7 @@ const LockScreenComponent = ({ isShow }) => {
                 {resolution.frameHeight > 550 ? (
                   <img
                     className="rounded-lg h-24 w-24 object-cover"
-                    src="https://www.dojrp.com/uploads/monthly_2019_01/large.20190116151045_1.jpg.352d6fa3b008f95193fa9c04fe450524.jpg"
+                    src={CFG_LATEST_NEWS.IMG_URL}
                     alt=""
                     onError={(error) => {
                       error.target.src = "./images/noimage.jpg";
@@ -116,10 +116,10 @@ const LockScreenComponent = ({ isShow }) => {
 
                 <div>
                   <h3 className="mt-2 text-sm font-bold leading-tight">
-                    Disnaker Kota
+                    {CFG_LATEST_NEWS.AUTHOR}
                   </h3>
                   <p className="mt-1 text-xs line-clamp-3">
-                    Harga barang hasil kerja Disnaker naik 3x lipat...
+                    {CFG_LATEST_NEWS.content}
                   </p>
                 </div>
               </div>
@@ -128,7 +128,7 @@ const LockScreenComponent = ({ isShow }) => {
             <div className="col-span-2 pt-2">
               <h3 className="text-xs font-bold">More Updates</h3>
               <p className="mt-0.5 text-xs line-clamp-2">
-                Badside tersebar diseluruh kota, silahkan mendaftar!
+                {CFG_LATEST_NEWS.more_updates}
               </p>
             </div>
           </div>

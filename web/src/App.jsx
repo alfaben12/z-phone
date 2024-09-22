@@ -1174,6 +1174,9 @@ function App() {
                         src={`./images/signal/${Math.ceil(
                           profile.signal * 4
                         )}.svg`}
+                        onError={(error) => {
+                          error.target.src = "./images/signal/0.svg";
+                        }}
                       />
                     </div>
                     <span className="text-xs font-medium text-white pl-1">

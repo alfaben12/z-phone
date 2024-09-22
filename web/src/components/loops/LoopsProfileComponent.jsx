@@ -201,6 +201,9 @@ const LoopsProfileComponent = ({
             <img
               src={loopsProfile?.cover}
               className="h-24 w-full object-cover"
+              onError={(error) => {
+                error.target.src = "./images/loops_default_cover.jpg";
+              }}
             />
           </div>
           <div className="flex w-full justify-between z-10 pb-2.5">
@@ -596,7 +599,6 @@ const LoopsProfileComponent = ({
                         name="avatar"
                         value={formData.avatar}
                         onChange={handleChangeSetting}
-                        required
                       />
                     </div>
                   </div>
