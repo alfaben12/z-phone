@@ -66,10 +66,6 @@ const DynamicComponent = () => {
     notificationNews,
   } = useContext(MenuContext);
 
-  useEffect(() => {
-    console.log("change state " + menu);
-  }, [menu]);
-
   function isNullOrUndefined(value) {
     return value === menus.APPS.null || value === menus.APPS.undefined;
   }

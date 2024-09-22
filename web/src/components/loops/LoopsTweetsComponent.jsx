@@ -28,7 +28,7 @@ const LoopsTweetsComponent = ({
       } w-full h-full absolute top-0 left-0`}
     >
       <div
-        className="absolute bottom-10 right-5 h-10 w-10 rounded-full bg-gray-700 cursor-pointer z-50"
+        className="absolute bottom-10 right-5 h-10 w-10 rounded-full bg-gray-800 cursor-pointer z-50"
         onClick={() => setSubMenu(LOOPS_POST)}
       >
         <img

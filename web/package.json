@@ -20,6 +20,7 @@
     "react-icons": "^5.2.1",
     "react-markdown": "^9.0.1",
     "react-player": "^2.16.0",
+    "react-select": "^5.8.1",
     "react-swipeable": "^7.0.1",
     "react-tabs": "^6.0.2",
     "use-sound": "^4.0.3"

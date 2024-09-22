@@ -38,21 +38,22 @@ const MessageChattingComponent = ({ isShow }) => {
     // console.log("send " + message);
     setMessage("");
 
-    const newMessage = {
-      time: "just now",
-      message: message,
-      sender_citizenid: profile.citizenid,
-    };
-
     const response = await axios.post("/send-chatting", {
       conversationid: chatting.conversationid,
       message: message,
       media: "",
       conversation_name: chatting.conversation_name,
       to_citizenid: chatting.citizenid,
+      is_group: chatting.is_group,
     });
 
     if (response.data) {
+      const newMessage = {
+        time: "just now",
+        message: message,
+        sender_citizenid: profile.citizenid,
+        id: response.data,
+      };
       setChatting((prevChatting) => ({
         ...prevChatting,
         chats: [...prevChatting.chats, newMessage],
@@ -82,22 +83,23 @@ const MessageChattingComponent = ({ isShow }) => {
     await axios
       .post("/TakePhoto")
       .then(async function (response) {
-        const newMessage = {
-          time: "just now",
-          message: "",
-          media: response.data,
-          sender_citizenid: profile.citizenid,
-        };
-
         const responseSend = await axios.post("/send-chatting", {
           conversationid: chatting.conversationid,
           message: "",
           media: response.data,
           conversation_name: chatting.conversation_name,
           to_citizenid: chatting.citizenid,
+          is_group: chatting.is_group,
         });
 
         if (responseSend.data) {
+          const newMessage = {
+            time: "just now",
+            message: "",
+            media: response.data,
+            sender_citizenid: profile.citizenid,
+            id: responseSend.data,
+          };
           setChatting((prevChatting) => ({
             ...prevChatting,
             chats: [...prevChatting.chats, newMessage],
@@ -216,14 +218,32 @@ const MessageChattingComponent = ({ isShow }) => {
                 <div className="text-sm text-white line-clamp-1 font-medium">
                   {chatting.conversation_name}
                 </div>
-                <span className="text-xss font-light text-gray-400 -mt-1">
+                <span className="text-xss font-light text-gray-400">
                   last seen {chatting.last_seen}
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center px-2 text-white cursor-pointer">
-              <MdOutlinePhone className="text-lg" />
+            <div>
+              {!chatting.is_group ? (
+                <div
+                  className="flex items-center px-2 text-white cursor-pointer hover:text-green-600"
+                  onClick={async () => {
+                    try {
+                      const response = await axios.post("/start-call", {
+                        from_avatar: profile.avatar,
+                        from_phone_number: profile.phone_number,
+                        to_phone_number: chatting.phone_number,
+                      });
+                      result = response.data;
+                    } catch (error) {
+                      console.error("error /start-call", error);
+                    }
+                  }}
+                >
+                  <MdOutlinePhone className="text-lg" />
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -333,7 +353,7 @@ const MessageChattingComponent = ({ isShow }) => {
                                       index: i,
                                     })}
                                   >
-                                    {v.message} {v.minute_diff}
+                                    {v.message}
                                   </span>
                                 )}
                               </>

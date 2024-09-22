@@ -17,6 +17,16 @@ RegisterNUICallback('get-chatting', function(body, cb)
 end)
 
 RegisterNUICallback('send-chatting', function(body, cb)
+    if not IsAllowToSendOrCall() then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgSignalZone
+        })
+        cb(false)
+        return
+    end
+    
     if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.MessageSend then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",
@@ -35,6 +45,19 @@ end)
 
 RegisterNUICallback('delete-message', function(body, cb)
     lib.callback('z-phone:server:DeleteMessage', false, function(isOk)
+        cb(isOk)
+    end, body)
+end)
+
+RegisterNUICallback('create-group', function(body, cb)
+    lib.callback('z-phone:server:CreateGroup', false, function(isOk)
+        if (isOk) then
+            TriggerEvent("z-phone:client:sendNotifInternal", {
+                type = "Notification",
+                from = "Message",
+                message = "Group chat created!"
+            })
+        end
         cb(isOk)
     end, body)
 end)

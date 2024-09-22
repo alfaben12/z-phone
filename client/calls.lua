@@ -14,10 +14,16 @@ RegisterNUICallback('start-call', function(body, cb)
         return
     end
 
-    local callId = GenerateCallId(Profile.phone_number, body.to_phone_number)
-    body.call_id = callId
-    body.is_anonim = Profile.is_anonim
-
+    if not IsAllowToSendOrCall() then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgSignalZone
+        })
+        cb(false)
+        return
+    end
+    
     if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.PhoneCall then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",
@@ -27,6 +33,10 @@ RegisterNUICallback('start-call', function(body, cb)
         cb(false)
         return
     end
+    
+    local callId = GenerateCallId(Profile.phone_number, body.to_phone_number)
+    body.call_id = callId
+    body.is_anonim = Profile.is_anonim
 
     lib.callback('z-phone:server:StartCall', false, function(res)
         if not res.is_valid then

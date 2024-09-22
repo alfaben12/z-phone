@@ -227,7 +227,6 @@ const InetMaxComponent = ({ isShow }) => {
       setIsOpenTopup(false);
       setTopupTotal(0);
     }
-    console.log("submit");
   };
 
   useEffect(() => {

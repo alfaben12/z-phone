@@ -2,6 +2,7 @@ QBCore = exports['qb-core']:GetCoreObject()
 PlayerJob = {}
 Profile = {}
 PhoneData = {
+    SignalZone = Config.Signal.DefaultSignalZones,
     MetaData = {},
     isOpen = false,
     PlayerData = nil,

@@ -1,13 +1,62 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { MENU_DEFAULT, MENU_MESSAGE_CHATTING } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdOutlineSearch } from "react-icons/md";
+import { FaUserGroup } from "react-icons/fa6";
 import { searchByKeyValueContains } from "../utils/common";
+import Select from "react-select";
+import axios from "axios";
 
 const MessageComponent = ({ isShow }) => {
-  const { setMenu, chats, setChats, chatsBk, setChatting } =
+  const { setMenu, chats, resolution, setChats, chatsBk, setChatting } =
     useContext(MenuContext);
+  const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [errorCreateGroup, setErrorCreateGroup] = useState(null);
+  const [groupName, setGroupName] = useState("");
+  const [contactGroup, setContactGroup] = useState([]);
+  const [selectedGroupContact, setSelectedGroupContact] = useState([]);
 
+  const handleChangeGroupName = (e) => {
+    const { value } = e.target;
+    setGroupName(value);
+    if (value != "") {
+      setErrorCreateGroup(null);
+    }
+  };
+
+  const handleChangeSelectedGroupContact = (selectedOptions) => {
+    setSelectedGroupContact(selectedOptions);
+    if (selectedOptions.length >= 3) {
+      setErrorCreateGroup(null);
+    }
+  };
+
+  const handleCreateGroup = async () => {
+    if (selectedGroupContact.length < 3) {
+      setErrorCreateGroup(
+        "Please add at least three contacts to create a group."
+      );
+      return;
+    }
+
+    if (groupName == "") {
+      setErrorCreateGroup("Please fill group name.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("/create-group", {
+        name: groupName,
+        phone_numbers: selectedGroupContact.map((item) => item.value),
+      });
+    } catch (error) {
+      console.error("error /get-contacts", error);
+    }
+
+    setIsOpenCreate(false);
+    setSelectedGroupContact([]);
+    setGroupName("");
+  };
   return (
     <div
       className="relative flex flex-col w-full h-full"
@@ -15,6 +64,108 @@ const MessageComponent = ({ isShow }) => {
         display: isShow ? "block" : "none",
       }}
     >
+      <div
+        className="absolute bottom-10 right-5 h-10 w-10 rounded-full bg-gray-800 cursor-pointer z-50 flex items-center justify-center text-white"
+        onClick={async () => {
+          try {
+            const response = await axios.post("/get-contacts");
+            setContactGroup(
+              response.data.map((item) => ({
+                value: item.phone_number,
+                label: item.name,
+              }))
+            );
+            setIsOpenCreate(true);
+          } catch (error) {
+            console.error("error /get-contacts", error);
+          }
+        }}
+      >
+        <FaUserGroup className="text-lg" />
+      </div>
+      <div
+        style={{
+          display: isOpenCreate ? "block" : "none",
+        }}
+      >
+        <div
+          className="absolute bottom-0 left-0 z-30"
+          style={{
+            height: resolution.layoutHeight,
+            width: resolution.layoutWidth,
+            backgroundColor: "rgba(31, 41, 55, 0.8)",
+          }}
+          onClick={() => {
+            setIsOpenCreate(false);
+            setSelectedGroupContact([]);
+            setGroupName("");
+          }}
+        ></div>
+        <div className="absolute bottom-0 left-0 w-full bg-slate-800 rounded-t-lg pb-8 z-50">
+          <div className="flex flex-col space-y-1 px-4">
+            <div
+              className="flex justify-center cursor-pointer py-3"
+              onClick={() => {
+                setIsOpenCreate(false);
+                setSelectedGroupContact([]);
+                setGroupName("");
+              }}
+            >
+              <div className="w-1/3 h-1 bg-white rounded-full"></div>
+            </div>
+            <div className="text-white flex items-center space-x-2 pb-2">
+              <Select
+                value={selectedGroupContact}
+                isMulti
+                name="contact"
+                options={contactGroup}
+                className="text-black text-sm bg-black w-full"
+                classNamePrefix="select"
+                placeholder="Choose contact"
+                onChange={handleChangeSelectedGroupContact}
+                styles={{
+                  menu: (provided) => ({
+                    ...provided,
+                    maxHeight: 200, // Set max height
+                    overflowY: "auto", // Enable scrolling
+                    padding: 0, // Remove padding
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    padding: 4, // Adjust padding for options
+                  }),
+                }}
+              />
+            </div>
+            <input
+              type="text"
+              placeholder="Group Name"
+              className="w-full text-sm text-white flex-1 border border-slate-600 bg-slate-800 focus:outline-none rounded pl-2 pr-1 py-2.5"
+              autoComplete="off"
+              name="name"
+              required
+              value={groupName}
+              onChange={handleChangeGroupName}
+            />
+            <span className="text-white text-xs pb-1 pt-1">
+              <strong>Note</strong>: Only saved contacts can be added, but other
+              members can also add contacts from their saved list. The group
+              creator serves as the admin, so please set conditions for the
+              group.
+            </span>
+            {errorCreateGroup != null ? (
+              <span className="text-red-500 text-xs">{errorCreateGroup}</span>
+            ) : null}
+            <button
+              className="px-2 py-1 bg-blue-500 rounded font-semibold text-sm text-white"
+              onClick={handleCreateGroup}
+            >
+              Create Group
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="absolute top-0 flex w-full justify-between py-2 bg-black pt-8 z-10">
         <div
           className="flex items-center px-2 text-blue-500 cursor-pointer"
@@ -77,7 +228,7 @@ const MessageComponent = ({ isShow }) => {
                 >
                   <div
                     className={`w-full cursor-pointer flex space-x-2
-                  ${v.isRead ? "text-gray-400" : "text-white"}`}
+                  ${v.is_read ? "text-gray-400" : "text-white"}`}
                   >
                     <img
                       src={v.avatar}

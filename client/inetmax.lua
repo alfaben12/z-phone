@@ -5,6 +5,16 @@ RegisterNUICallback('get-internet-data', function(_, cb)
 end)
 
 RegisterNUICallback('topup-internet-data', function(body, cb)
+    if not IsAllowToSendOrCall() then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgSignalZone
+        })
+        cb(false)
+        return
+    end
+    
     lib.callback('z-phone:server:TopupInternetData', false, function(purchaseInKB)
         Profile.inetmax_balance = Profile.inetmax_balance + purchaseInKB
         cb(purchaseInKB)

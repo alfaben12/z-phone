@@ -17,6 +17,16 @@ RegisterNUICallback('get-tweets', function(_, cb)
 end)
 
 RegisterNUICallback('send-tweet', function(body, cb)
+    if not IsAllowToSendOrCall() then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgSignalZone
+        })
+        cb(false)
+        return
+    end
+
     if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.LoopsPostTweet then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",
@@ -42,6 +52,16 @@ RegisterNUICallback('get-tweet-comments', function(body, cb)
 end)
 
 RegisterNUICallback('send-tweet-comments', function(body, cb)
+    if not IsAllowToSendOrCall() then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgSignalZone
+        })
+        cb(false)
+        return
+    end
+    
     if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.LoopsPostComment then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",

@@ -28,6 +28,16 @@ RegisterNUICallback('get-services', function(_, cb)
 end)
 
 RegisterNUICallback('send-message-service', function(body, cb)
+    if not IsAllowToSendOrCall() then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgSignalZone
+        })
+        cb(false)
+        return
+    end
+
     if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.ServicesMessage then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",

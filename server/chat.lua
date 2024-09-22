@@ -101,7 +101,7 @@ lib.callback.register('z-phone:server:StartOrContinueChatting', function(source,
                 ELSE c.name
             END AS conversation_name,
             DATE_FORMAT(from_user.last_seen, '%d/%m/%y %H:%i') as last_seen,
-            0 as isRead,
+            0 as is_read,
             c.id as conversationid,
 			c.is_group
         FROM
@@ -163,6 +163,7 @@ lib.callback.register('z-phone:server:GetChats', function(source)
                         )
                     ELSE c.name
                 END AS conversation_name,
+                from_user.phone_number,
                 DATE_FORMAT(from_user.last_seen, '%d/%m/%y %H:%i') as last_seen,
                 0 as isRead,
 				CASE
@@ -196,6 +197,7 @@ lib.callback.register('z-phone:server:GetChats', function(source)
                 ON c.id = last_msg.conversationid AND last_msg.rn = 1
             WHERE
                 p.citizenid = ?
+            GROUP BY conversation_name
             ORDER BY
                 last_msg.created_at DESC
         ]]
@@ -259,40 +261,59 @@ end)
 lib.callback.register('z-phone:server:SendChatting', function(source, body)
     local Player = QBCore.Functions.GetPlayer(source)
 
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
-        local query = "INSERT INTO zp_conversation_messages (conversationid, sender_citizenid, content, media) VALUES (?, ?, ?, ?)"
+    if Player == nil then return false end
+    local citizenid = Player.PlayerData.citizenid
+    local query = "INSERT INTO zp_conversation_messages (conversationid, sender_citizenid, content, media) VALUES (?, ?, ?, ?)"
 
-        local id = MySQL.insert.await(query, {
-            body.conversationid,
-            citizenid,
-            body.message,
-            body.media,
-        })
+    local id = MySQL.insert.await(query, {
+        body.conversationid,
+        citizenid,
+        body.message,
+        body.media,
+    })
 
-        if id then
-            local contactName = MySQL.scalar.await([[
-                SELECT
-                COALESCE(
-                    (SELECT contact_name FROM zp_contacts WHERE citizenid = ? and contact_citizenid = ?),
-                    (SELECT phone_number FROM zp_users WHERE citizenid = ?)
-                ) AS name
-            ]], { body.to_citizenid, citizenid, citizenid })
-            if contactName then
-                body.from = contactName
-                body.from_citizenid = citizenid
-                local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(body.to_citizenid)
+    if not id then return false end
+
+    if not body.is_group then
+        local contactName = MySQL.scalar.await([[
+            SELECT
+            COALESCE(
+                (SELECT contact_name FROM zp_contacts WHERE citizenid = ? and contact_citizenid = ?),
+                (SELECT phone_number FROM zp_users WHERE citizenid = ?)
+            ) AS name
+        ]], { body.to_citizenid, citizenid, citizenid })
+        if contactName then
+            body.from = contactName
+            body.from_citizenid = citizenid
+            local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(body.to_citizenid)
+            if TargetPlayer ~= nil then
+                TriggerClientEvent("z-phone:client:sendNotifMessage", TargetPlayer.PlayerData.source, body)
+            end
+        end
+    else
+        local queryGetParticipants = [[
+            SELECT * FROM zp_conversation_participants WHERE conversationid = ?
+        ]]
+        local participans = MySQL.query.await(queryGetParticipants, {body.conversationid})
+    
+        if not participans then
+            return false
+        end
+
+        for i, v in pairs(participans) do
+            if v.citizenid ~= citizenid then
+                local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(v.citizenid)
                 if TargetPlayer ~= nil then
+                    body.to_citizenid = v.citizenid
+                    body.from = body.conversation_name
+                    body.from_citizenid = citizenid
                     TriggerClientEvent("z-phone:client:sendNotifMessage", TargetPlayer.PlayerData.source, body)
                 end
             end
-
-            return true
-        else
-            return false
         end
     end
-    return false
+
+    return id
 end)
 
 lib.callback.register('z-phone:server:DeleteMessage', function(source, body)
@@ -311,4 +332,59 @@ lib.callback.register('z-phone:server:DeleteMessage', function(source, body)
     })
 
     return true
+end)
+
+lib.callback.register('z-phone:server:CreateGroup', function(source, body)
+    local Player = QBCore.Functions.GetPlayer(source)
+
+    if Player == nil then return false end
+    local citizenid = Player.PlayerData.citizenid
+
+    local queryGetUser = [[
+        SELECT * FROM zp_users WHERE phone_number IN (?)
+    ]]
+    local users = MySQL.query.await(queryGetUser, {body.phone_numbers})
+
+    if not users then
+        return false
+    end
+
+    local queryNewConv = "INSERT INTO zp_conversations (name, is_group, admin_citizenid) VALUES (?, ?, ?)"
+    local conversationid = MySQL.insert.await(queryNewConv, {
+        body.name,
+        true,
+        citizenid,
+    })
+
+    local queryParticipant = "INSERT INTO zp_conversation_participants (conversationid, citizenid) VALUES (?, ?)"
+    MySQL.insert.await(queryParticipant, {
+        conversationid,
+        citizenid,
+    })
+
+    for i, v in pairs(users) do
+        MySQL.Async.insert(queryParticipant, {
+            conversationid,
+            v.citizenid,
+        })
+
+        if v.citizenid ~= citizenid then
+            local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(v.citizenid)
+            if TargetPlayer ~= nil then
+                TriggerClientEvent("z-phone:client:sendNotifInternal", TargetPlayer.PlayerData.source, {
+                    type = "Notification",
+                    from = "Message",
+                    message = "You invited to group ".. body.name
+                })
+            end
+        end
+    end
+
+    local queryInitChat = "INSERT INTO zp_conversation_messages (conversationid, sender_citizenid, content) VALUES (?, ?, ?)"
+    MySQL.insert.await(queryInitChat, {
+        conversationid,
+        citizenid,
+        "Created this group."
+    })
+    return conversationid
 end)

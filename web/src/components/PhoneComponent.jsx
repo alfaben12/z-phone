@@ -28,6 +28,7 @@ const PhoneComponent = ({ isShow }) => {
     resolution,
     callHistories,
     contactRequests,
+    profile,
     setMenu,
     setContactRequests,
   } = useContext(MenuContext);
@@ -399,7 +400,21 @@ const PhoneComponent = ({ isShow }) => {
           </div>
           <div className="grid grid-cols-3 gap-x-4 gap-y-2 pt-2">
             <div></div>
-            <div className="flex justify-center items-center bg-[#29d258] w-12 h-12 rounded-full text-3xl cursor-pointer">
+            <div
+              className="flex justify-center items-center bg-[#29d258] w-12 h-12 rounded-full text-3xl cursor-pointer"
+              onClick={async () => {
+                try {
+                  const response = await axios.post("/start-call", {
+                    from_avatar: profile.avatar,
+                    from_phone_number: profile.phone_number,
+                    to_phone_number: newPhone,
+                  });
+                  result = response.data;
+                } catch (error) {
+                  console.error("error /start-call", error);
+                }
+              }}
+            >
               <MdOutlinePhone className="text-2xl" />
             </div>
             <div

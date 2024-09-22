@@ -32,11 +32,11 @@ const HomeComponent = ({ isShow }) => {
               key={i}
               className="relative w-11 h-11 flex flex-col items-center mb-6 cursor-pointer"
             >
-              {v.label === MENU_SERVICE ? (
+              {/* {v.label === MENU_SERVICE ? (
                 <span className="absolute rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center -top-2 -right-1.5 bg-red-500 text-white min-w-[20px] min-h-[20px]">
                   {profile.unread_message_service}
                 </span>
-              ) : null}
+              ) : null} */}
               <img className="rounded-xl" src={v.icon} alt="" />
               <div>
                 <p className="text-xs text-white font-normal">{v.label}</p>
@@ -67,11 +67,11 @@ const HomeComponent = ({ isShow }) => {
                   key={i}
                   className="relative w-11 h-11 flex flex-col items-center cursor-pointer"
                 >
-                  {v.label === MENU_MESSAGE ? (
+                  {/* {v.label === MENU_MESSAGE ? (
                     <span className="absolute rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center -top-2 -right-1.5 bg-red-500 text-white min-w-[20px] min-h-[20px]">
                       {profile.unread_message}
                     </span>
-                  ) : null}
+                  ) : null} */}
                   <img className="rounded-xl" src={v.icon} alt="" />
                 </div>
               );

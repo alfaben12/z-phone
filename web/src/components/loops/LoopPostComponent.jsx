@@ -121,8 +121,8 @@ const LoopPostComponent = ({ isShow, setSubMenu, setProfileID }) => {
           <div className="no-scrollbar w-full h-full overflow-y-auto">
             <form onSubmit={handleSubmit} className="flex w-full p-2 space-x-2">
               <img
-                className="w-9 h-9 rounded-full object-cover"
-                src={profile.avatar}
+                className="w-8 h-8 rounded-full object-cover"
+                src="./images/loops-tweet.svg"
                 alt=""
                 onError={(error) => {
                   error.target.src = "./images/noimage.jpg";

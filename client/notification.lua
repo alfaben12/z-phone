@@ -1,12 +1,3 @@
--- CreateThread(function() 
---     while true do
---         local hasItem = QBCore.Functions.HasItem('phone')
-
---         print(hasItem)
---         Wait(1000)
---     end
--- end)
-
 RegisterNetEvent('z-phone:client:sendNotifMessage', function(message)
     if QBCore.Functions.HasItem('phone') then
         if PhoneData.isOpen then

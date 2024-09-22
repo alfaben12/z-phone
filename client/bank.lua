@@ -11,6 +11,16 @@ RegisterNUICallback('pay-invoice', function(body, cb)
 end)
 
 RegisterNUICallback('transfer-check', function(body, cb)
+    if not IsAllowToSendOrCall() then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgSignalZone
+        })
+        cb(false)
+        return
+    end
+
     if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.BankCheckTransferReceiver then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",
@@ -28,6 +38,16 @@ RegisterNUICallback('transfer-check', function(body, cb)
 end)
 
 RegisterNUICallback('transfer', function(body, cb)
+    if not IsAllowToSendOrCall() then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = Config.App.InetMax.Name,
+            message = Config.MsgSignalZone
+        })
+        cb(false)
+        return
+    end
+    
     if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.BankTransfer then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",
