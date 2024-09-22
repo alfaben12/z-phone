@@ -61,7 +61,7 @@ lib.callback.register('z-phone:server:SolvedMessageService', function(source, bo
     MySQL.update.await('UPDATE zp_service_messages SET solved_by_citizenid = ?, solved_reason = ? WHERE id = ?', {
         citizenid,
         body.reason, 
-        body.id, 
+        body.id,
     })
     
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {

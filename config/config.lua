@@ -50,7 +50,7 @@ Config.MsgNotEnoughInternetData = "Your internet data not enough!"
 Config.MsgSignalZone = "No Signal"
 
 Config.Signal = {
-    IsUse = true,
+    IsUse = false,
     DefaultSignalZones = "FULL_SIGNAL",
     Zones = {
         ["FULL_SIGNAL"] = {

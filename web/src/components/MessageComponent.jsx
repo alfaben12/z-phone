@@ -148,10 +148,13 @@ const MessageComponent = ({ isShow }) => {
               onChange={handleChangeGroupName}
             />
             <span className="text-white text-xs pb-1 pt-1">
-              <strong>Note</strong>: Only saved contacts can be added, but other
-              members can also add contacts from their saved list. The group
+              <strong>Note</strong>: Only saved contacts can be added. The group
               creator serves as the admin, so please set conditions for the
               group.
+              {/* Only saved contacts can be added, but other
+              members can also add contacts from their saved list. The group
+              creator serves as the admin, so please set conditions for the
+              group. */}
             </span>
             {errorCreateGroup != null ? (
               <span className="text-red-500 text-xs">{errorCreateGroup}</span>
