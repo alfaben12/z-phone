@@ -25,6 +25,12 @@
       }
     ]
   },
+  "NEWS": {
+    "ALLOWED_JOBS": ["reporter", "government"]
+  },
+  "SERVICES": {
+    "ALLOWED_JOBS": ["police", "government", "ems", "reporter"]
+  },
   "WALLET": {
     "MIN_TRANSFER": 20000
   },

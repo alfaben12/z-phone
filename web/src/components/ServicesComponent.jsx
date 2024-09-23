@@ -1,5 +1,10 @@
 import React, { useContext, useState } from "react";
-import { MENU_DEFAULT, NAME, MENU_MESSAGE_CHATTING } from "../constant/menu";
+import {
+  MENU_DEFAULT,
+  NAME,
+  MENU_MESSAGE_CHATTING,
+  CFG_SERVICES,
+} from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 import { MdArrowBackIosNew, MdClose } from "react-icons/md";
 import LoadingComponent from "./LoadingComponent";
@@ -7,7 +12,7 @@ import { FaBell } from "react-icons/fa6";
 import axios from "axios";
 
 const ServicesComponent = ({ isShow }) => {
-  const { resolution, setMenu, services, setChatting, setServices } =
+  const { resolution, profile, setMenu, services, setChatting, setServices } =
     useContext(MenuContext);
   const [isShowModal, setIsShowModal] = useState(false);
   const [ackReport, setAckReport] = useState(null);
@@ -135,11 +140,13 @@ const ServicesComponent = ({ isShow }) => {
           <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit">
             {/* Services */}
           </span>
-          <div
-            className="flex items-center px-2 text-white cursor-pointer hover:text-blue-400"
-            onClick={() => setSubMenu("report")}
-          >
-            <FaBell className="text-lg" />
+          <div className="flex items-center px-2 text-white cursor-pointer hover:text-blue-400">
+            {CFG_SERVICES.ALLOWED_JOBS.includes(profile?.job?.name) ? (
+              <FaBell
+                className="text-lg"
+                onClick={() => setSubMenu("report")}
+              />
+            ) : null}
           </div>
         </div>
         <div

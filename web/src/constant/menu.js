@@ -113,6 +113,8 @@ export const BOTTOM_MENU_CONSTANT = [
 export const CFG_INETMAX = config.INETMAX;
 export const CFG_WALLET = config.WALLET;
 export const CFG_LATEST_NEWS = config.LATEST_NEWS;
+export const CFG_NEWS = config.NEWS;
+export const CFG_SERVICES = config.SERVICES;
 
 export const PHONE_FRAME_HEIGHT = 610;
 export const PHONE_FRAME_WIDTH = 300;
