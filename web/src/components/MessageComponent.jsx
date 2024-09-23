@@ -91,8 +91,8 @@ const MessageComponent = ({ isShow }) => {
         <div
           className="absolute bottom-0 left-0 z-30"
           style={{
-            height: resolution.layoutHeight,
-            width: resolution.layoutWidth,
+            height: resolution.layoutHeight ? resolution.layoutHeight : 0,
+            width: resolution.layoutWidth ? resolution.layoutWidth : 0,
             backgroundColor: "rgba(31, 41, 55, 0.8)",
           }}
           onClick={() => {

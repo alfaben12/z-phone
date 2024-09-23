@@ -74,7 +74,9 @@ const LockScreenComponent = ({ isShow }) => {
           <p
             className={`text-white font-extralight`}
             style={{
-              fontSize: resolution.frameHeight / 14,
+              fontSize: resolution.frameHeight
+                ? resolution.frameHeight / 14
+                : 0,
             }}
           >
             {hour}:{minute}
@@ -82,7 +84,9 @@ const LockScreenComponent = ({ isShow }) => {
           <p
             className="text-white font-light"
             style={{
-              fontSize: resolution.frameHeight / 33,
+              fontSize: resolution.frameHeight
+                ? resolution.frameHeight / 33
+                : 0,
             }}
           >
             {day}, {month} {dateNumber}

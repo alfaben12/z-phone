@@ -142,8 +142,8 @@ const MessageChattingComponent = ({ isShow }) => {
           isOpenDelete ? "visible" : "invisible"
         }`}
         style={{
-          height: resolution.layoutHeight,
-          width: resolution.layoutWidth,
+          height: resolution.layoutHeight ? resolution.layoutHeight : 0,
+          width: resolution.layoutWidth ? resolution.layoutWidth : 0,
           backgroundColor: "rgba(31, 41, 55, 0.8)",
         }}
       >

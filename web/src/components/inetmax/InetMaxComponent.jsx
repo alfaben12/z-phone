@@ -235,22 +235,24 @@ const InetMaxComponent = ({ isShow }) => {
     }
   }, [topupTotal]);
   useEffect(() => {
-    const chart = new ApexCharts(
-      document.querySelector("#donut-chart"),
-      chartOptions
-    );
-    chart.render();
+    if (chartData?.series?.length > 0) {
+      const chart = new ApexCharts(
+        document.querySelector("#donut-chart"),
+        chartOptions
+      );
+      chart.render();
 
-    // Update chart when data changes
-    chart.updateSeries(chartData.series);
-    chart.updateOptions({
-      colors: chartData.colors,
-      labels: chartData.labels,
-    });
+      // Update chart when data changes
+      chart.updateSeries(chartData.series);
+      chart.updateOptions({
+        colors: chartData.colors,
+        labels: chartData.labels,
+      });
 
-    return () => {
-      chart.destroy();
-    };
+      return () => {
+        chart.destroy();
+      };
+    }
   }, [chartOptions, chartData]);
 
   useEffect(() => {
