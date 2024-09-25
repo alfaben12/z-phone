@@ -5,8 +5,8 @@ author "Alfaben"
 description "iPhone 15"
 version "1.0.0"
 
-ui_page "http://localhost:5173"
--- ui_page "html/index.html"
+-- ui_page "http://localhost:5173"
+ui_page "html/index.html"
 
 client_scripts {
 	"client/**"
@@ -23,7 +23,9 @@ shared_scripts {
 }
 
 files {
-  "html/index.html",
-  "html/**/*.png",
-  "html/**/*.svg",
+  	"html/index.html",
+	"html/**/*.png",
+	"html/**/*.svg",
+	"html/assets/*.css",
+	"html/assets/*.js",
 }

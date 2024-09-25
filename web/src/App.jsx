@@ -976,7 +976,7 @@ function App() {
 
   return (
     <div className="font-normal">
-      <div className="flex-col space-y-2">
+      {/* <div className="flex-col space-y-2">
         <button
           className="bg-blue-500"
           onClick={() => {
@@ -1076,7 +1076,7 @@ function App() {
             Close CALL (X)
           </button>
         </div>
-      </div>
+      </div> */}
       {outsideMessageNotif.message != null && !isOpen ? (
         <>
           <div className="animate-fadeIn absolute bottom-10 right-5">

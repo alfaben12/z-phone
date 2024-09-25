@@ -1,0 +1,131 @@
+{
+  "name": "Kota V",
+  "logo": "./images/kota-v.png",
+  "LATEST_NEWS": {
+    "AUTHOR": "Reporter",
+    "IMG_URL": "https://i.ytimg.com/vi/0GZKDlppO2g/maxresdefault.jpg",
+    "content": "In an alarming turn of events, Los Santos has seen a dramatic rise in criminal activity over the past week, leaving residents and law enforcement on high alert.",
+    "more_updates": "Please come to the reporter's office and stay tuned for updates as this story develops."
+  },
+  "INETMAX": {
+    "IS_DISABLE_TOPUP": true,
+    "MIN_TOPUP": 100,
+    "BUY": [
+      {
+        "text": "$500",
+        "total": 500
+      },
+      {
+        "text": "$1000",
+        "total": 1000
+      },
+      {
+        "text": "$2500",
+        "total": 2500
+      }
+    ]
+  },
+  "NEWS": {
+    "ALLOWED_JOBS": ["reporter", "government", "ambulance"]
+  },
+  "SERVICES": {
+    "ALLOWED_JOBS": ["police", "government", "ambulance", "reporter"]
+  },
+  "WALLET": {
+    "MIN_TRANSFER": 20000
+  },
+  "APPS": {
+    "MENU_INTERNET_DATA": "InetMax",
+    "MENU_LOCKSCREEN": "Lockscreen",
+    "MENU_GARAGE": "Garage",
+    "MENU_EMAIL": "Email",
+    "MENU_ADS": "Ads",
+    "MENU_BANK": "Wallet",
+    "MENU_HOUSE": "Houses",
+    "MENU_SERVICE": "Services",
+    "MENU_CAMERA": "Camera",
+    "MENU_GALLERY": "Photos",
+    "MENU_RACE": "Race",
+    "MENU_PHONE": "Phone",
+    "MENU_MESSAGE": "Message",
+    "MENU_LOOPS": "Loops",
+    "MENU_SETTING": "Setting",
+    "MENU_CONTACT": "Contact",
+    "MENU_DEFAULT": "Home",
+    "MENU_LOVY": "Lovy",
+    "MENU_PLAYTV": "Play TV",
+    "MENU_MESSAGE_CHATTING": "Chatting",
+    "MENU_EMAIL_DETAIL": "Email Detail",
+    "MENU_INCOMING_CALL_NOTIFICATION": "Incoming Call",
+    "MENU_START_CALL_NOTIFICATION": "Calling...",
+    "MENU_NEW_MESSAGE_NOTIFICATION": "New Message",
+    "MENU_INCALL": "In Call",
+    "MENU_NEWS": "News",
+    "MENU_NEW_NEWS_NOTIFICATION": "Reporter News",
+    "MENU_INTERNAL_NOTIFICATION": "Notification"
+  },
+  "MENUS": [
+    {
+      "icon": "./images/contact.svg",
+      "label": "Contact"
+    },
+    {
+      "icon": "./images/mail.svg",
+      "label": "Email"
+    },
+    {
+      "icon": "./images/ads.svg",
+      "label": "Ads"
+    },
+    {
+      "icon": "./images/services.svg",
+      "label": "Services"
+    },
+    {
+      "icon": "./images/garage.svg",
+      "label": "Garage"
+    },
+    {
+      "icon": "./images/houses.svg",
+      "label": "Houses"
+    },
+    {
+      "icon": "./images/wallet.svg",
+      "label": "Wallet"
+    },
+    {
+      "icon": "./images/loops.svg",
+      "label": "Loops"
+    },
+    {
+      "icon": "./images/news.svg",
+      "label": "News"
+    },
+    {
+      "icon": "./images/gallery.svg",
+      "label": "Photos"
+    },
+    {
+      "icon": "./images/inetmax.svg",
+      "label": "InetMax"
+    }
+  ],
+  "BOTTOM_MENUS": [
+    {
+      "icon": "./images/phone.svg",
+      "label": "Phone"
+    },
+    {
+      "icon": "./images/message.svg",
+      "label": "Message"
+    },
+    {
+      "icon": "./images/camera.svg",
+      "label": "Camera"
+    },
+    {
+      "icon": "./images/setting.svg",
+      "label": "Setting"
+    }
+  ]
+}
