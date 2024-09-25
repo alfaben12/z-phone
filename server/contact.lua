@@ -7,7 +7,7 @@ lib.callback.register('z-phone:server:GetContacts', function(source)
         local query = [[
             select 
                 zpc.contact_name as name,
-                DATE_FORMAT(zpc.created_at, '%d/%m/%y %H:%i') as add_at,
+                DATE_FORMAT(zpc.created_at, '%d/%m/%Y %H:%i') as add_at,
                 zpc.contact_citizenid,
                 zpu.avatar,
                 zpu.phone_number

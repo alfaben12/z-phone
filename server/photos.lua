@@ -8,7 +8,7 @@ lib.callback.register('z-phone:server:GetPhotos', function(source)
             select 
                 zpp.id,
                 zpp.media as photo,
-                DATE_FORMAT(zpp.created_at, '%d/%m/%y %H:%i') as created_at
+                DATE_FORMAT(zpp.created_at, '%d/%m/%Y %H:%i') as created_at
             from zp_photos zpp
             WHERE zpp.citizenid = ? ORDER BY zpp.id DESC
         ]]

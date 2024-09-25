@@ -79,7 +79,7 @@ const EmailComponent = ({ isShow }) => {
                 onClick={() => handleDetail(v)}
               >
                 <div
-                  className={`w-full grid grid-cols-6 ${
+                  className={`w-full flex space-x-2 ${
                     v.is_read ? "text-gray-400" : "text-white"
                   }`}
                 >
@@ -94,11 +94,13 @@ const EmailComponent = ({ isShow }) => {
                   <div className="leading-1 col-span-4 text-sm">
                     <div className="line-clamp-1">{v.name}</div>
                     <div className="line-clamp-1 text-xs">{v.subject}</div>
-                    <div className="text-xs line-clamp-1">{v.content}</div>
+                    <div className="text-xs line-clamp-1 text-gray-400">
+                      {v.content}
+                    </div>
                   </div>
-                  <div className="flex flex-col items-end justify-between">
-                    <div className="text-xs">{v.created_at}</div>
-                  </div>
+                  {/* <div className="flex flex-col items-end justify-between text-gray-400">
+                    <div className="text-xss">{v.created_at}</div>
+                  </div> */}
                 </div>
               </div>
             );

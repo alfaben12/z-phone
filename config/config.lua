@@ -15,14 +15,14 @@ Config.App = {
         },
         InetMaxUsage = {
             -- IN KB
-            MessageSend = math.random(1000, 1500),
-            LoopsPostTweet = math.random(3000, 5000),
-            LoopsPostComment = math.random(1000, 3000),
-            AdsPost = math.random(3000, 5000),
-            PhoneCall = math.random(20000, 50000),
-            ServicesMessage = math.random(500, 1000),
-            BankCheckTransferReceiver = math.random(300, 500),
-            BankTransfer = math.random(10000, 20000),
+            MessageSend = math.random(10000, 15000),
+            LoopsPostTweet = math.random(50000, 150000),
+            LoopsPostComment = math.random(10000, 30000),
+            AdsPost = math.random(50000, 150000),
+            PhoneCall = math.random(300000, 800000),
+            ServicesMessage = math.random(5000, 10000),
+            BankCheckTransferReceiver = math.random(5000, 15000),
+            BankTransfer = math.random(100000, 200000),
         },
         SocietySeller = "government"
     },

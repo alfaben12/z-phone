@@ -9,7 +9,7 @@ lib.callback.register('z-phone:server:GetBank', function(source)
                 bs.statement_type as type,
                 bs.reason as label,
                 bs.amount as total,
-                DATE_FORMAT(bs.date, '%d/%m/%y %H:%i') as created_at
+                DATE_FORMAT(bs.date, '%d/%m/%Y %H:%i') as created_at
             from bank_statements as bs
             where bs.citizenid = ? order by bs.id desc
         ]]
@@ -21,7 +21,7 @@ lib.callback.register('z-phone:server:GetBank', function(source)
                 pi.reason,
                 pi.amount,
                 pi.sendercitizenid,
-                DATE_FORMAT(pi.created_at, '%d/%m/%y %H:%i') as created_at
+                DATE_FORMAT(pi.created_at, '%d/%m/%Y %H:%i') as created_at
             from phone_invoices as pi
             where pi.citizenid = ? order by pi.id desc
         ]]

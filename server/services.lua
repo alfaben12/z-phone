@@ -12,7 +12,7 @@ lib.callback.register('z-phone:server:GetServices', function(source)
             zpsm.id,
             zpsm.citizenid,
             zpsm.message,
-            DATE_FORMAT(zpsm.created_at, '%d/%m/%y %H:%i') as created_at
+            DATE_FORMAT(zpsm.created_at, '%d/%m/%Y %H:%i') as created_at
         FROM zp_service_messages zpsm 
         JOIN zp_users zpu ON zpu.citizenid = zpsm.citizenid
         WHERE zpsm.service = ? AND zpsm.solved_by_citizenid IS NULL

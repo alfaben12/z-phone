@@ -42,7 +42,7 @@ const EmailDetailComponent = ({ isShow }) => {
             <div className="flex items-center text-base pb-5">
               <div>{email.subject}</div>
             </div>
-            <div className="w-full cursor-pointer grid grid-cols-6 space-x-2">
+            <div className="flex w-full cursor-pointer space-x-2">
               <img
                 src={email.avatar}
                 className="w-9 h-9 object-cover rounded-full"
@@ -51,30 +51,32 @@ const EmailDetailComponent = ({ isShow }) => {
                   error.target.src = "./images/noimage.jpg";
                 }}
               />
-              <div className="leading-none col-span-4 text-sm pb-2 mb-2">
-                <span className="text-xs line-clamp-1 font-medium">
-                  {email.name}
-                </span>
-                <div className="flex items-center text-gray-400 text-xs">
-                  <span className="text-xs"> to me </span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-3"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
+              <div className="flex w-full justify-between">
+                <div className="text-sm pb-2 mb-2">
+                  <span className="text-xs line-clamp-1 font-medium">
+                    {email.name}
+                  </span>
+                  <div className="flex items-center text-gray-400 text-xs">
+                    <span className="text-xs"> to me </span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-3"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      ></path>
+                    </svg>
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-col items-end justify-between text-gray-400">
-                <div className="text-xss">{email.created_at}</div>
+                <div className="text-gray-400">
+                  <div className="text-xss">{email.created_at}</div>
+                </div>
               </div>
             </div>
             <div className="w-full flex flex-col justify-between flex-1 mt-2 overflow-auto text-xs">

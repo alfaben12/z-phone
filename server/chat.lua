@@ -100,7 +100,7 @@ lib.callback.register('z-phone:server:StartOrContinueChatting', function(source,
                     )
                 ELSE c.name
             END AS conversation_name,
-            DATE_FORMAT(from_user.last_seen, '%d/%m/%y %H:%i') as last_seen,
+            DATE_FORMAT(from_user.last_seen, '%d/%m/%Y %H:%i') as last_seen,
             0 as is_read,
             c.id as conversationid,
 			c.is_group
@@ -141,6 +141,9 @@ lib.callback.register('z-phone:server:GetChats', function(source)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player ~= nil then
         local citizenid = Player.PlayerData.citizenid
+
+        MySQL.Async.execute('UPDATE zp_users SET last_seen = now() WHERE citizenid = ?', { citizenid })
+
         local query = [[
             WITH LatestMessages AS (
                 SELECT
@@ -164,7 +167,7 @@ lib.callback.register('z-phone:server:GetChats', function(source)
                     ELSE c.name
                 END AS conversation_name,
                 from_user.phone_number,
-                DATE_FORMAT(from_user.last_seen, '%d/%m/%y %H:%i') as last_seen,
+                DATE_FORMAT(from_user.last_seen, '%d/%m/%Y %H:%i') as last_seen,
                 0 as isRead,
 				CASE
                     WHEN last_msg.is_deleted = 1 THEN
