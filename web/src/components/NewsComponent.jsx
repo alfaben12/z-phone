@@ -321,7 +321,7 @@ const NewsComponent = ({ isShow }) => {
                     onClick={() => setDetail(v)}
                   >
                     <img
-                      className="rounded-t-lg object-cover"
+                      className="rounded-t-lg object-cover h-[150px]"
                       src={v.image}
                       alt=""
                       onError={(error) => {
@@ -366,7 +366,7 @@ const NewsComponent = ({ isShow }) => {
                     key={i}
                     onClick={() => setStream(v)}
                   >
-                    <div className="w-[100px]">
+                    <div className="w-1/3">
                       <img
                         className="object-cover"
                         src={v.image}
@@ -388,50 +388,9 @@ const NewsComponent = ({ isShow }) => {
                       <span className="text-xss text-gray-200">
                         {v.created_at}
                       </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-        <div
-          style={{
-            ...(subMenu !== subMenuList["stream"] ? { display: "none" } : {}),
-          }}
-        >
-          {newsStreams == undefined ? (
-            <LoadingComponent />
-          ) : (
-            <div className="flex flex-col space-y-2 mb-14">
-              {newsStreams.map((v, i) => {
-                return (
-                  <div
-                    className="flex space-x-2 w-full cursor-pointer"
-                    key={i}
-                    onClick={() => setStream(v)}
-                  >
-                    <div className="w-[100px]">
-                      <img
-                        className="object-cover"
-                        src={v.image}
-                        alt=""
-                        onError={(error) => {
-                          error.target.src = "./images/noimage.jpg";
-                        }}
-                      />
-                    </div>
-                    <div className="w-2/3 flex flex-col space-y-1">
-                      <span
-                        className="text-sm text-white line-clamp-2"
-                        style={{
-                          lineHeight: 1.3,
-                        }}
-                      >
-                        {v.title}
-                      </span>
-                      <span className="text-xss text-gray-200">
-                        {v.created_at}
+
+                      <span className="text-xss text-gray-200 line-clamp-2">
+                        {v.body}
                       </span>
                     </div>
                   </div>

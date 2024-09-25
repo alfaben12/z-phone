@@ -26,7 +26,7 @@
     ]
   },
   "NEWS": {
-    "ALLOWED_JOBS": ["reporter", "government"]
+    "ALLOWED_JOBS": ["reporter", "government", "ambulance"]
   },
   "SERVICES": {
     "ALLOWED_JOBS": ["police", "government", "ambulance", "reporter"]

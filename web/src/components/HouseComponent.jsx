@@ -10,6 +10,12 @@ const HouseComponent = ({ isShow }) => {
   const { setMenu, houses, resolution } = useContext(MenuContext);
   const [isShowModal, setIsShowModal] = useState(false);
   const [dataModal, setDataModal] = useState(null);
+  const [citizenID, setCitizenID] = useState("");
+
+  const handleChangeCitizenID = (e) => {
+    const { value } = e.target;
+    setCitizenID(value);
+  };
 
   const handleGPS = async (house) => {
     if (house.coords == null || house.coord == "") {
@@ -78,13 +84,15 @@ const HouseComponent = ({ isShow }) => {
                   </span>
                 </div>
                 <div className="flex flex-col gap-3 pb-2 pt-2 text-xs">
-                  <span className="flex justify-between items-center">
+                  {/* <span className="flex justify-between items-center">
                     <span className="text-gray-800">Share Key:</span>
                     <span>
                       <input
                         className="border-b w-24 text-base font-medium focus:outline-none"
                         placeholder="CITIZENID"
                         autoComplete="off"
+                        value={citizenid}
+                        onChange={handleChangeCitizenID}
                       />
                     </span>
                     <div>
@@ -95,7 +103,7 @@ const HouseComponent = ({ isShow }) => {
                         <span>Give</span>
                       </button>
                     </div>
-                  </span>
+                  </span> */}
                   <span className="flex justify-center space-x-2 items-center pt-2">
                     <div>
                       <FaHouse className="text-sm" />
