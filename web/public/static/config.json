@@ -29,7 +29,7 @@
     "ALLOWED_JOBS": ["reporter", "government"]
   },
   "SERVICES": {
-    "ALLOWED_JOBS": ["police", "government", "ems", "reporter"]
+    "ALLOWED_JOBS": ["police", "government", "ambulance", "reporter"]
   },
   "WALLET": {
     "MIN_TRANSFER": 20000

@@ -47,6 +47,9 @@ lib.callback.register('z-phone:server:GetProfile', function(source, body)
     end
 
     result.name = Player.PlayerData.charinfo.firstname .. ' '.. Player.PlayerData.charinfo.lastname
+    result.job = {}
+    result.job.name = Player.PlayerData.job.name
+    result.job.label = Player.PlayerData.job.label
 
     return result
 end)

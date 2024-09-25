@@ -47,7 +47,7 @@ const HouseComponent = ({ isShow }) => {
               </span>
               <div>
                 <MdClose
-                  className="text-2xl cursor-pointer text-white hover:text-red-500"
+                  className="text-2xl cursor-pointer text-black hover:text-red-500"
                   onClick={() => setIsShowModal(false)}
                 />
               </div>

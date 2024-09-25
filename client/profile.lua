@@ -10,6 +10,7 @@ RegisterNUICallback('update-profile', function(body, cb)
         if isOk then
             lib.callback('z-phone:server:GetProfile', false, function(profile)
                 Profile = profile
+                profile.signal = Config.Signal.Zones[PhoneData.SignalZone].ChanceSignal
                 cb(profile)
             end)
         end
