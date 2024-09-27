@@ -262,7 +262,12 @@ const BankComponent = ({ isShow }) => {
                 }}
               >
                 <div className="flex flex-col space-y-3">
-                  <span className="text-xs font-semibold">MAIN ACCOUNT</span>
+                  <div className="flex justify-between space-x-2 items-center">
+                    <span className="text-xs font-semibold">MAIN ACCOUNT</span>
+                    <span className="text-sm font-semibold">
+                      {profile.iban}
+                    </span>
+                  </div>
                   <div className="relative flex flex-col space-y-2 border rounded-lg border-slate-700 text-white px-3 py-3">
                     <div className="flex justify-between">
                       <span className="text-xs text-slate-300">

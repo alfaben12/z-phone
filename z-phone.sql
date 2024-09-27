@@ -1,5 +1,17 @@
 /*
-    Z-PHONE DATABASE
+ Navicat Premium Data Transfer
+
+ Source Server         : localhost
+ Source Server Type    : MySQL
+ Source Server Version : 100422 (10.4.22-MariaDB)
+ Source Host           : localhost:3306
+ Source Schema         : zphone
+
+ Target Server Type    : MySQL
+ Target Server Version : 100422 (10.4.22-MariaDB)
+ File Encoding         : 65001
+
+ Date: 27/09/2024 22:20:03
 */
 
 SET NAMES utf8mb4;
@@ -16,7 +28,7 @@ CREATE TABLE `zp_ads`  (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   `citizenid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_calls_histories
@@ -31,7 +43,7 @@ CREATE TABLE `zp_calls_histories`  (
   `is_anonim` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `citizenid`(`citizenid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_contacts
@@ -49,7 +61,7 @@ CREATE TABLE `zp_contacts`  (
   INDEX `citizenid_contact_citizenid`(`citizenid` ASC, `contact_citizenid` ASC) USING BTREE,
   CONSTRAINT `zp_contacts_ibfk_1` FOREIGN KEY (`citizenid`) REFERENCES `zp_users` (`citizenid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `zp_contacts_ibfk_2` FOREIGN KEY (`contact_citizenid`) REFERENCES `zp_users` (`citizenid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_contacts_requests
@@ -62,7 +74,7 @@ CREATE TABLE `zp_contacts_requests`  (
   `created_at` datetime NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `citizenid`(`citizenid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_conversation_messages
@@ -81,7 +93,7 @@ CREATE TABLE `zp_conversation_messages`  (
   INDEX `idx_sender_citizenid`(`sender_citizenid` ASC) USING BTREE,
   CONSTRAINT `zp_conversation_messages_ibfk_1` FOREIGN KEY (`conversationid`) REFERENCES `zp_conversations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `zp_conversation_messages_ibfk_2` FOREIGN KEY (`sender_citizenid`) REFERENCES `zp_users` (`citizenid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_conversation_participants
@@ -110,7 +122,7 @@ CREATE TABLE `zp_conversations`  (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   `admin_citizenid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_emails
@@ -126,7 +138,7 @@ CREATE TABLE `zp_emails`  (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `citizenid`(`citizenid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_inetmax_histories
@@ -142,7 +154,7 @@ CREATE TABLE `zp_inetmax_histories`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `citizenid`(`citizenid` ASC) USING BTREE,
   INDEX `citizenid_flag`(`citizenid` ASC, `flag` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_loops_users
@@ -164,7 +176,7 @@ CREATE TABLE `zp_loops_users`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_username`(`username` ASC) USING BTREE,
   INDEX `citizenid`(`citizenid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_news
@@ -172,6 +184,7 @@ CREATE TABLE `zp_loops_users`  (
 DROP TABLE IF EXISTS `zp_news`;
 CREATE TABLE `zp_news`  (
   `id` int NOT NULL AUTO_INCREMENT,
+  `citizenid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `reporter` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -182,7 +195,7 @@ CREATE TABLE `zp_news`  (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `is_stream`(`is_stream` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_photos
@@ -196,7 +209,7 @@ CREATE TABLE `zp_photos`  (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `citizenid`(`citizenid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_service_messages
@@ -213,7 +226,7 @@ CREATE TABLE `zp_service_messages`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `service`(`service` ASC) USING BTREE,
   INDEX `service_solved_by_citizenid`(`solved_by_citizenid` ASC, `service` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_tweet_comments
@@ -226,7 +239,7 @@ CREATE TABLE `zp_tweet_comments`  (
   `loops_userid` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_tweets
@@ -239,7 +252,7 @@ CREATE TABLE `zp_tweets`  (
   `media` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for zp_users
@@ -257,10 +270,10 @@ CREATE TABLE `zp_users`  (
   `is_anonim` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `is_donot_disturb` tinyint(1) NOT NULL DEFAULT 0,
   `frame` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1.svg',
-  `iban` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `iban` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `active_loops_userid` int NOT NULL DEFAULT 0,
-  `inetmax_balance` int NOT NULL,
-  `phone_height` float NOT NULL DEFAULT 0,
+  `inetmax_balance` int NOT NULL DEFAULT 5000000,
+  `phone_height` float NOT NULL DEFAULT 610,
   PRIMARY KEY (`citizenid`) USING BTREE,
   INDEX `citizenid`(`citizenid` ASC) USING BTREE,
   INDEX `phone_number`(`phone_number` ASC) USING BTREE,
