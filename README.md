@@ -14,7 +14,7 @@ This project is inspired by **QBPhone** from **QBCore**, combining its core func
 
 - **[QB Core](https://github.com/qbcore-framework/qb-core "QB Core")**: This project relies on the QBCore framework for core functionalities.
 - **[QB Banking](https://github.com/qbcore-framework/qb-banking "QB Banking")**: QB Banking is need for digital banking app.
-- **[OX Core](https://github.com/overextended/ox_core "OX Core")**: OX Core is also required to ensure seamless integration with existing systems.
+- **[OX Lib](https://github.com/overextended/ox_lin "OX Lib")**: OX Lib is also required to ensure seamless integration with existing systems.
 
 ## Tech Stack
 
