@@ -71,7 +71,7 @@ const LoopsDetailComponent = ({
       tweetid: selectedTweet.id,
       loops_userid: selectedTweet.loops_userid,
       comment: formData.comment,
-      comment_username: profile.username,
+      comment_username: profileLoops.username,
     });
 
     setFormData({

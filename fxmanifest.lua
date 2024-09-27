@@ -26,6 +26,8 @@ files {
   	"html/index.html",
 	"html/**/*.png",
 	"html/**/*.svg",
+	"html/**/*.json",
+	"html/**/*.jpg",
 	"html/assets/*.css",
 	"html/assets/*.js",
 }

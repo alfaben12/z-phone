@@ -1,10 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import {
-  BOTTOM_MENU_CONSTANT,
-  MENU_CONSTANT,
-  MENU_MESSAGE,
-  MENU_SERVICE,
-} from "../constant/menu";
+import { MENU_MESSAGE, MENU_SERVICE } from "../constant/menu";
 import MenuContext from "../context/MenuContext";
 
 const HomeComponent = ({ isShow }) => {
@@ -60,7 +55,7 @@ const HomeComponent = ({ isShow }) => {
               borderRadius: 30,
             }}
           >
-            {BOTTOM_MENU_CONSTANT.map((v, i) => {
+            {menus.BOTTOM_MENUS.map((v, i) => {
               return (
                 <div
                   onClick={() => setMenu(v.label)}

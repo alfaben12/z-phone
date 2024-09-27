@@ -1,4 +1,5 @@
 RegisterNetEvent('z-phone:client:sendNotifMessage', function(message)
+    TriggerServerEvent('InteractSound_SV:PlayOnSource', 'monkeyopening', 0.2)
     if QBCore.Functions.HasItem('phone') then
         if PhoneData.isOpen then
             SendNUIMessage({

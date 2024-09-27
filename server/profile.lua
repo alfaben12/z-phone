@@ -50,7 +50,7 @@ lib.callback.register('z-phone:server:GetProfile', function(source, body)
     result.job = {}
     result.job.name = Player.PlayerData.job.name
     result.job.label = Player.PlayerData.job.label
-
+    result.signal = Config.Signal.Zones[Config.Signal.DefaultSignalZones].ChanceSignal
     return result
 end)
 
