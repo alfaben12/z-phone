@@ -282,3 +282,6 @@ CREATE TABLE `zp_users`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+ALTER TABLE phone_invoices ADD reason varchar(255);
+ALTER TABLE phone_invoices ADD created_at DATETIME DEFAULT CURRENT_TIMESTAMP;

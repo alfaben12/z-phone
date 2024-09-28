@@ -91,6 +91,13 @@ Go to https://github.com/alfaben12/z-phone/tree/main/html/sounds copy all files 
 
 Go to https://github.com/alfaben12/z-phone/blob/main/z-phone.sql import query to your database to add all table for support z-phone
 
+#### (Required) **NEW COLUMN**
+
+ALTER TABLE phone_invoices ADD reason varchar(255);
+ALTER TABLE phone_invoices ADD created_at DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+This query included on z-phone.sql
+
 ## IMPORTANT NOTES
 
 Default phone number in QBCore may not be compatible with z-phone. If you use QBCore.Functions.GetPlayerByPhone(number) with a z-phone number, it is likely to return incorrect results. To avoid this issue, it's essential to synchronize the z-phone numbers with the QBCore character information (on table players, column charinfo, key phone).
