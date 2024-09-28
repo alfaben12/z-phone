@@ -108,6 +108,9 @@ I forgot where I downloaded this iPhone object, as far as I remember I downloade
 
 Please note that in V1.x.x, z-phone has not been optimized. If you want it optimized, that's fine and don't forget to make a pull request.
 
+## DISCUSSION
+https://discord.com/channels/1012753553418354748/1289265300457525269/1289265300457525269
+
 ## SUPPORT
 
 Thank you for your support! [ko-fi](https://ko-fi.com/alfaben)
