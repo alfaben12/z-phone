@@ -99,7 +99,7 @@ Default phone number in QBCore may not be compatible with z-phone. If you use QB
 
 I forgot where I downloaded this iPhone object, as far as I remember I downloaded it from forum.cfx.re, remind me if you know the author.
 
-Please note that in V1.0.0, z-phone has not been optimized. If you want it optimized, that's fine and don't forget to make a pull request.
+Please note that in V1.x.x, z-phone has not been optimized. If you want it optimized, that's fine and don't forget to make a pull request.
 
 ## SUPPORT
 
