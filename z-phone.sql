@@ -270,7 +270,7 @@ CREATE TABLE `zp_users`  (
   `is_anonim` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `is_donot_disturb` tinyint(1) NOT NULL DEFAULT 0,
   `frame` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1.svg',
-  `iban` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `iban` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `active_loops_userid` int NOT NULL DEFAULT 0,
   `inetmax_balance` int NOT NULL DEFAULT 5000000,
   `phone_height` float NOT NULL DEFAULT 610,
