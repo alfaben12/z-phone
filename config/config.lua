@@ -4,6 +4,7 @@ Config.Debug = false
 Config.OpenPhone = 'M'
 Config.RepeatTimeout = 3000
 Config.CallRepeats = 5
+Config.AllowWalking = true
 
 Config.App = {
     InetMax = {
