@@ -1,10 +1,8 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 lib.callback.register('z-phone:server:StartOrContinueChatting', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then return nil end
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer == nil then return nil end
 
-    local citizenid = Player.PlayerData.citizenid
+    local citizenid = Config.Framework.GetCitizenId(xPlayer)
 
     if body.to_citizenid == citizenid then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
@@ -138,9 +136,9 @@ lib.callback.register('z-phone:server:StartOrContinueChatting', function(source,
 end)
 
 lib.callback.register('z-phone:server:GetChats', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then
+    	local citizenid = Config.Framework.GetCitizenId(xPlayer)
 
         MySQL.Async.execute('UPDATE zp_users SET last_seen = now() WHERE citizenid = ?', { citizenid })
 
@@ -219,10 +217,10 @@ lib.callback.register('z-phone:server:GetChats', function(source)
 end)
 
 lib.callback.register('z-phone:server:GetChatting', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer ~= nil then
+    	local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = [[
             SELECT
                 * 
@@ -262,10 +260,10 @@ lib.callback.register('z-phone:server:GetChatting', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:SendChatting', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-
-    if Player == nil then return false end
-    local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer == nil then return false end
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
     local query = "INSERT INTO zp_conversation_messages (conversationid, sender_citizenid, content, media) VALUES (?, ?, ?, ?)"
 
     local id = MySQL.insert.await(query, {
@@ -288,29 +286,26 @@ lib.callback.register('z-phone:server:SendChatting', function(source, body)
         if contactName then
             body.from = contactName
             body.from_citizenid = citizenid
-            local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(body.to_citizenid)
+            local TargetPlayer = Config.Framework.GetPlayerObjectFromRockstar(body.to_citizenid)
             if TargetPlayer ~= nil then
-                TriggerClientEvent("z-phone:client:sendNotifMessage", TargetPlayer.PlayerData.source, body)
+                TriggerClientEvent("z-phone:client:sendNotifMessage", TargetPlayer.source, body)
             end
         end
     else
         local queryGetParticipants = [[
             SELECT * FROM zp_conversation_participants WHERE conversationid = ?
         ]]
-        local participans = MySQL.query.await(queryGetParticipants, {body.conversationid})
-    
-        if not participans then
-            return false
-        end
+        local participans = MySQL.query.await(queryGetParticipants, {
+            body.conversationid,
+        })
 
-        for i, v in pairs(participans) do
-            if v.citizenid ~= citizenid then
-                local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(v.citizenid)
+        for i = 1, #participans do
+            if participans[i].citizenid ~= citizenid then
+                local TargetPlayer = Config.Framework.GetPlayerObjectFromRockstar(participans[i].citizenid)
                 if TargetPlayer ~= nil then
-                    body.to_citizenid = v.citizenid
-                    body.from = body.conversation_name
                     body.from_citizenid = citizenid
-                    TriggerClientEvent("z-phone:client:sendNotifMessage", TargetPlayer.PlayerData.source, body)
+                    body.from = body.phone_number
+                    TriggerClientEvent("z-phone:client:sendNotifMessage", TargetPlayer.source, body)
                 end
             end
         end
@@ -320,10 +315,10 @@ lib.callback.register('z-phone:server:SendChatting', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:DeleteMessage', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-
-    if Player == nil then return false end
-    local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer == nil then return false end
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
 
     local query = [[
         UPDATE zp_conversation_messages SET is_deleted = 1 WHERE id = ? and sender_citizenid = ?
@@ -338,10 +333,10 @@ lib.callback.register('z-phone:server:DeleteMessage', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:CreateGroup', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-
-    if Player == nil then return false end
-    local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer == nil then return false end
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
 
     local queryGetUser = [[
         SELECT * FROM zp_users WHERE phone_number IN (?)
@@ -372,7 +367,7 @@ lib.callback.register('z-phone:server:CreateGroup', function(source, body)
         })
 
         if v.citizenid ~= citizenid then
-            local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(v.citizenid)
+            local TargetPlayer = Config.Framework.GetPlayerObjectFromRockstar(v.citizenid)
             if TargetPlayer ~= nil then
                 TriggerClientEvent("z-phone:client:sendNotifInternal", TargetPlayer.PlayerData.source, {
                     type = "Notification",

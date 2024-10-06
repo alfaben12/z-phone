@@ -1,11 +1,9 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 lib.callback.register('z-phone:server:GetServices', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then return false end
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if not xPlayer then return false end
 
-    local job = Player.PlayerData.job.name
-    local citizenid = Player.PlayerData.citizenid
+    local job = xPlayer.getJob().name
+    local citizenid = Config.Framework.GetCitizenId(xPlayer)
     local query = [[
         SELECT 
             zpu.phone_number,
@@ -27,12 +25,11 @@ lib.callback.register('z-phone:server:GetServices', function(source)
     return result
 end)
 
-
 lib.callback.register('z-phone:server:SendMessageService', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then return false end
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if not xPlayer then return false end
     
-    local citizenid = Player.PlayerData.citizenid
+    local citizenid = Config.Framework.GetCitizenId(xPlayer)
     local query = "INSERT INTO zp_service_messages (citizenid, message, service) VALUES (?, ?, ?)"
 
     local id = MySQL.insert.await(query, {
@@ -48,16 +45,16 @@ lib.callback.register('z-phone:server:SendMessageService', function(source, body
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",
         from = "Services",
-        message = "Message sended!"
+        message = "Message sent!"
     })
     return true
 end)
 
 lib.callback.register('z-phone:server:SolvedMessageService', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then return false end
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if not xPlayer then return false end
 
-    local citizenid = Player.PlayerData.citizenid
+    local citizenid = Config.Framework.GetCitizenId(xPlayer)
     MySQL.update.await('UPDATE zp_service_messages SET solved_by_citizenid = ?, solved_reason = ? WHERE id = ?', {
         citizenid,
         body.reason, 

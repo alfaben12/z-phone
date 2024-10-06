@@ -1,10 +1,8 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 lib.callback.register('z-phone:server:GetEmails', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then return false end
-    
-    local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer == nil then return false end 
+        
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
     local query = [[
         SELECT 
             id,

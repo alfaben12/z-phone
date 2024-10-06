@@ -1,19 +1,10 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local InCalls = {}
 
--- CreateThread(function()
---     while true do
---         print(json.encode(InCalls, {indent=true}))
-
---         Wait(1000)
---     end
--- end)
-
 lib.callback.register('z-phone:server:StartCall', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return false end
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if not xPlayer then return false end
 
-    local citizenid = Player.PlayerData.citizenid
+    local citizenid = Config.Framework.GetCitizenId(xPlayer)
     local userQuery = [[
         SELECT zpu.* FROM zp_users zpu WHERE zpu.phone_number = ? LIMIT 1
     ]]
@@ -62,7 +53,7 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
         contactNameTarget = body.to_phone_number
     end
 
-    local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(targetUser.citizenid)
+    local TargetPlayer = Config.Framework.GetPlayerObjectFromRockstar(targetUser.citizenid)
     if not TargetPlayer then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
@@ -90,12 +81,12 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
         body.from_avatar = ""
     end
 
-    TriggerClientEvent("z-phone:client:sendNotifIncomingCall", TargetPlayer.PlayerData.source, {
+    TriggerClientEvent("z-phone:client:sendNotifIncomingCall", TargetPlayer.source, {
         from = contactNameCaller,
         photo = body.from_avatar,
         message = "Incoming call..",
         to_source = source,
-        from_source = TargetPlayer.PlayerData.source,
+        from_source = TargetPlayer.source,
         to_person_for_caller = contactNameTarget,
         to_photo_for_caller = targetUser.avatar,
         call_id = body.call_id
@@ -104,7 +95,7 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
     TriggerClientEvent("z-phone:client:sendNotifStartCall", source, {
         to_person = contactNameTarget,
         photo = targetUser.avatar,
-        to_source = TargetPlayer.PlayerData.source,
+        to_source = TargetPlayer.source,
         from_source = source,
     })
 
@@ -126,30 +117,30 @@ lib.callback.register('z-phone:server:StartCall', function(source, body)
     InCalls[citizenid] = true
     return {
         is_valid = true,
-        to_source =TargetPlayer.PlayerData.source,
+        to_source = TargetPlayer.source,
         message = "Waiting for response!"
     }  
 end)
 
 lib.callback.register('z-phone:server:CancelCall', function(source, body)
-    local Player1 = QBCore.Functions.GetPlayer(source)
-    local Player2 = QBCore.Functions.GetPlayer(body.to_source)
+    local Player1 = Config.Framework.GetPlayerObject(source)
+    local Player2 = Config.Framework.GetPlayerObject(body.to_source)
     
     TriggerClientEvent("z-phone:client:closeCall", body.to_source)
     TriggerClientEvent("z-phone:client:closeCallSelf", source)
 
-    InCalls[Player1.PlayerData.citizenid] = nil
-    InCalls[Player2.PlayerData.citizenid] = nil
+    InCalls[Player1.getIdentifier()] = nil
+    InCalls[Player2.getIdentifier()] = nil
 
     return true
 end)
 
 lib.callback.register('z-phone:server:DeclineCall', function(source, body)
-    local Player1 = QBCore.Functions.GetPlayer(source)
-    local Player2 = QBCore.Functions.GetPlayer(body.to_source)
+    local Player1 = Config.Framework.GetPlayerObject(source)
+    local Player2 = Config.Framework.GetPlayerObject(body.to_source)
 
-    InCalls[Player1.PlayerData.citizenid] = nil
-    InCalls[Player2.PlayerData.citizenid] = nil
+    InCalls[Player1.getIdentifier()] = nil
+    InCalls[Player2.getIdentifier()] = nil
 
     TriggerClientEvent("z-phone:client:closeCallSelf", body.to_source)
     TriggerClientEvent("z-phone:client:closeCall", source)
@@ -163,11 +154,11 @@ lib.callback.register('z-phone:server:DeclineCall', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:AcceptCall', function(source, body)
-    local Player1 = QBCore.Functions.GetPlayer(source)
-    local Player2 = QBCore.Functions.GetPlayer(body.to_source)
+    local Player1 = Config.Framework.GetPlayerObject(source)
+    local Player2 = Config.Framework.GetPlayerObject(body.to_source)
 
-    InCalls[Player1.PlayerData.citizenid] = true
-    InCalls[Player2.PlayerData.citizenid] = true
+    InCalls[Player1.getIdentifier()] = true
+    InCalls[Player2.getIdentifier()] = true
 
     -- CALLER
     TriggerClientEvent("z-phone:client:setInCall", body.to_source, {
@@ -191,11 +182,11 @@ lib.callback.register('z-phone:server:AcceptCall', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:EndCall', function(source, body)
-    local Player1 = QBCore.Functions.GetPlayer(source)
-    local Player2 = QBCore.Functions.GetPlayer(body.to_source)
+    local Player1 = Config.Framework.GetPlayerObject(source)
+    local Player2 = Config.Framework.GetPlayerObject(body.to_source)
 
-    InCalls[Player1.PlayerData.citizenid] = nil
-    InCalls[Player2.PlayerData.citizenid] = nil
+    InCalls[Player1.getIdentifier()] = nil
+    InCalls[Player2.getIdentifier()] = nil
     
     TriggerClientEvent("z-phone:client:sendNotifInternal", body.to_source, {
         type = "Notification",
@@ -210,10 +201,10 @@ lib.callback.register('z-phone:server:EndCall', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:GetCallHistories', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return false end
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if not xPlayer then return false end
 
-    local citizenid = Player.PlayerData.citizenid
+    local citizenid = Config.Framework.GetCitizenId(xPlayer)
     local query = [[
         SELECT 
             CASE

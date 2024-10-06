@@ -1,29 +1,19 @@
 RegisterNUICallback('get-services', function(_, cb)
-    local services = {
-        "goverment",
-        "police",
-        "ambulance",
-        "realestate",
-        "kmmechanic",
-        "taxi",
-        "kmpedagang",
-        "reporter",
-    }
+    local jobs = Config.Framework.GetJobs()
     local ServicesFormatted = {}
 
-    for i, v in ipairs(services) do
-        if QBCore.Shared.Jobs[v] ~= nil then
+    for i, v in ipairs(Config.Framework.AvailableServices) do
+        if jobs[v] ~= nil then
             ServicesFormatted[#ServicesFormatted + 1] = {
                 logo = 'https://raw.githubusercontent.com/alfaben12/kmrp-assets/main/logo/business/goverment.png',
-                service = QBCore.Shared.Jobs[v].label,
+                service = jobs[v].label,
                 job = v,
-                type = QBCore.Shared.Jobs[v].type and QBCore.Shared.Jobs[v].type or "General",
-            }
+                type = jobs[v].type or "General",
         end
     end
 
     lib.callback('z-phone:server:GetServices', false, function(messages)
-        cb({ list = ServicesFormatted, reports = messages})
+        cb({ list = ServicesFormatted, reports = messages })
     end)
 end)
 

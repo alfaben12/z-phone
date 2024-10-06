@@ -1,10 +1,10 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 
 lib.callback.register('z-phone:server:GetInternetData', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then return {} end
-
-    local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer == nil then return {} end 
+        
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
     local queryTopupQuery = [[
         SELECT
         total,
@@ -37,11 +37,24 @@ lib.callback.register('z-phone:server:GetInternetData', function(source)
 end)
 
 lib.callback.register('z-phone:server:TopupInternetData', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then return false end
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer == nil then return false end 
+        
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
 
-    local citizenid = Player.PlayerData.citizenid    
-    if Player.PlayerData.money.bank < body.total then 
+    local result = MySQL.single.await("SELECT accounts FROM users WHERE identifier = ?", {citizenid})
+    if not result or not result.accounts then
+        TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
+            type = "Notification",
+            from = "InetMax",
+            message = "Error fetching bank balance"
+        })
+        return false
+    end
+
+    local accounts = json.decode(result.accounts)
+    
+    if accounts.bank < body.total then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "InetMax",
@@ -49,6 +62,10 @@ lib.callback.register('z-phone:server:TopupInternetData', function(source, body)
         })
         return false
     end
+
+    accounts.bank = accounts.bank - body.total
+
+    MySQL.update.await("UPDATE users SET accounts = ? WHERE identifier = ?", {json.encode(accounts), citizenid})
 
     local IncrementBalance = math.floor(body.total / Config.App.InetMax.TopupRate.Price) * Config.App.InetMax.TopupRate.InKB
     local queryHistories = "INSERT INTO zp_inetmax_histories (citizenid, flag, label, total) VALUES (?, ?, ?, ?)"
@@ -67,9 +84,6 @@ lib.callback.register('z-phone:server:TopupInternetData', function(source, body)
         IncrementBalance,
         citizenid
     })
-
-    Player.Functions.RemoveMoney('bank', body.total, "InetMax purchase")
-    exports['qb-banking']:AddMoney(Config.App.InetMax.SocietySeller, body.total, "InetMax purchase")
 
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",
@@ -90,7 +104,7 @@ Thank you for being a valued customer!
     ]]
     MySQL.Async.insert('INSERT INTO zp_emails (institution, citizenid, subject, content) VALUES (?, ?, ?, ?)', {
         "inetmax",
-        Player.PlayerData.citizenid,
+        citizenid,
         "Your Internet Data Package Purchase Confirmation",
         string.format(content, body.total, Config.App.InetMax.TopupRate.Price, Config.App.InetMax.TopupRate.InKB, "Success"),
     })
@@ -119,10 +133,10 @@ end
 RegisterNetEvent('z-phone:server:usage-internet-data', function(app, usageInKB)
     local src = source
     if Config.App.InetMax.IsUseInetMax then
-        local Player = QBCore.Functions.GetPlayer(src)
-        if Player == nil then return false end
-
-        local citizenid = Player.PlayerData.citizenid    
+        local xPlayer = Config.Framework.GetPlayerObject(source)
+        if xPlayer == nil then return false end 
+            
+    	local citizenid = Config.Framework.GetCitizenId(xPlayer)
         UseInternetData(citizenid, app, usageInKB)
 
         TriggerClientEvent("z-phone:client:usage-internet-data", src,  app, usageInKB)

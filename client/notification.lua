@@ -1,6 +1,20 @@
+hasPhone = function()
+    local items = exports.ox_inventory:GetPlayerItems()
+
+    for _, item in pairs(items) do
+        if item.name == 'phone' then
+            return true
+        end
+    end
+
+    return false
+end
+
+
 RegisterNetEvent('z-phone:client:sendNotifMessage', function(message)
     TriggerServerEvent('InteractSound_SV:PlayOnSource', 'monkeyopening', 0.2)
-    if QBCore.Functions.HasItem('phone') then
+        
+    if hasPhone() then
         if PhoneData.isOpen then
             SendNUIMessage({
                 event = 'z-phone',
@@ -25,7 +39,7 @@ RegisterNetEvent('z-phone:client:sendNotifMessage', function(message)
 end)
 
 RegisterNetEvent('z-phone:client:sendNotifInternal', function(message)
-    if QBCore.Functions.HasItem('phone') then
+    if hasPhone() then
         if PhoneData.isOpen then
             SendNUIMessage({
                 event = 'z-phone',
@@ -36,7 +50,17 @@ RegisterNetEvent('z-phone:client:sendNotifInternal', function(message)
                 },
             })
         else
-            QBCore.Functions.Notify(string.format("[%s] %s", message.from, message.message))
+            local lib_notify_map = {
+                error = 'error',
+                warning = 'warning',
+                success = 'success'
+            }
+
+            lib.notify({
+			    title = 'Phone',
+			    description = string.format("[%s] %s", message.from,
+			    type = lib_notify_map[message.message] or 'inform'
+			})
         end
     end
 end)
@@ -45,7 +69,7 @@ RegisterNetEvent('z-phone:client:sendNotifIncomingCall', function(message)
     PhoneData.CallData.InCall = true
     PhoneData.CallData.CallId = message.call_id
 
-    if QBCore.Functions.HasItem('phone') then
+    if hasPhone() then
         if PhoneData.isOpen then
             SendNUIMessage({
                 event = 'z-phone',
@@ -109,7 +133,7 @@ RegisterNetEvent('z-phone:client:sendNotifIncomingCall', function(message)
 end)
 
 RegisterNetEvent('z-phone:client:sendNotifStartCall', function(message)
-    if QBCore.Functions.HasItem('phone') then
+    if hasPhone() then
         SendNUIMessage({
             event = 'z-phone',
             notification = {

@@ -1,10 +1,10 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 
 lib.callback.register('z-phone:server:LoopsLogin', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer ~= nil then
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local checkUserQuery = "select id from zp_loops_users where username = ? and password = ?"
         local id = MySQL.scalar.await(checkUserQuery, {
             body.username,
@@ -57,10 +57,10 @@ lib.callback.register('z-phone:server:LoopsLogin', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:LoopsSignup', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer ~= nil then
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local checkUsernameQuery = "select id from zp_loops_users where username = ?"
         local duplicateUsername = MySQL.scalar.await(checkUsernameQuery, {
             body.username
@@ -126,9 +126,9 @@ We're excited to see you dive in and start exploring. Welcome to the Loopsverse!
 end)
 
 lib.callback.register('z-phone:server:GetTweets', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = [[
             SELECT
                 zpt.id,
@@ -163,9 +163,9 @@ lib.callback.register('z-phone:server:GetTweets', function(source)
 end)
 
 lib.callback.register('z-phone:server:GetComments', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = [[
             SELECT
                 zptc.comment,
@@ -193,10 +193,10 @@ lib.callback.register('z-phone:server:GetComments', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:SendTweet', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer ~= nil then
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
 
         local getLoopsUserIDQuery = "select active_loops_userid from zp_users where citizenid = ?"
         local loopsUserID = MySQL.scalar.await(getLoopsUserIDQuery, {
@@ -234,10 +234,10 @@ lib.callback.register('z-phone:server:SendTweet', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:SendTweetComment', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer ~= nil then
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local getLoopsUserIDQuery = "select active_loops_userid from zp_users where citizenid = ?"
         local loopsUserID = MySQL.scalar.await(getLoopsUserIDQuery, {
             citizenid
@@ -270,7 +270,7 @@ lib.callback.register('z-phone:server:SendTweetComment', function(source, body)
             end
 
             for i, v in pairs(notifications) do
-                local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(v.citizenid)
+                local TargetPlayer = Config.Framework.GetPlayerObjectFromRockstar(v.citizenid)
                 if TargetPlayer ~= nil and TargetPlayer.PlayerData.source ~= source then
                     TriggerClientEvent("z-phone:client:sendNotifInternal", TargetPlayer.PlayerData.source, {
                         type = "Notification",
@@ -288,9 +288,10 @@ lib.callback.register('z-phone:server:SendTweetComment', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:UpdateLoopsProfile', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer ~= nil then
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
 
         local checkUsernameQuery = "select id from zp_loops_users where username = ? and id != ?"
         local duplicateUsername = MySQL.scalar.await(checkUsernameQuery, {
@@ -383,9 +384,10 @@ lib.callback.register('z-phone:server:UpdateLoopsProfile', function(source, body
 end)
 
 lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer ~= nil then
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
         if body.id == 0 then
             return {
                 is_me = false,
@@ -511,9 +513,10 @@ lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:UpdateLoopsLogout', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer ~= nil then
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
 
         local affectedRow = MySQL.update.await([[
             UPDATE zp_users SET 

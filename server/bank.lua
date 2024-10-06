@@ -1,9 +1,7 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 lib.callback.register('z-phone:server:GetBank', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then
+        local identifier = Config.Framework.GetCitizenId(xPlayer)
         local queryHistories = [[
             select
                 bs.statement_type as type,
@@ -11,7 +9,7 @@ lib.callback.register('z-phone:server:GetBank', function(source)
                 bs.amount as total,
                 DATE_FORMAT(bs.date, '%d/%m/%Y %H:%i') as created_at
             from bank_statements as bs
-            where bs.citizenid = ? order by bs.id desc
+            where bs.identifier = ? order by bs.id desc
         ]]
 
         local querybill = [[
@@ -20,18 +18,18 @@ lib.callback.register('z-phone:server:GetBank', function(source)
                 pi.society,
                 pi.reason,
                 pi.amount,
-                pi.sendercitizenid,
+                pi.senderidentifier,
                 DATE_FORMAT(pi.created_at, '%d/%m/%Y %H:%i') as created_at
             from phone_invoices as pi
-            where pi.citizenid = ? order by pi.id desc
+            where pi.identifier = ? order by pi.id desc
         ]]
 
         local histories = MySQL.query.await(queryHistories, {
-            citizenid
+            identifier
         })
 
         local bills = MySQL.query.await(querybill, {
-            citizenid
+            identifier
         })
 
         if not histories then
@@ -45,15 +43,15 @@ lib.callback.register('z-phone:server:GetBank', function(source)
         return {
             histories = histories,
             bills = bills,
-            balance = Player.PlayerData.money['bank']
+            balance = GetBankMoney(xPlayer)
         }
     end
     return {}
 end)
 
 lib.callback.register('z-phone:server:PayInvoice', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then 
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "Wallet",
@@ -62,7 +60,7 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
         return false
     end
 
-    if Player.PlayerData.money.bank < body.amount then 
+    if Config.Framework.GetBankMoney(xPlayer) < body.amount then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "Wallet",
@@ -71,14 +69,14 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
         return false
     end
     
-    local citizenid = Player.PlayerData.citizenid
+    local identifier = Config.Framework.GetCitizenId(xPlayer)
     local query = [[
-        select pi.* from phone_invoices pi WHERE pi.id = ? and pi.citizenid = ? LIMIT 1
+        select pi.* from phone_invoices pi WHERE pi.id = ? and pi.identifier = ? LIMIT 1
     ]]
 
     local invoice = MySQL.single.await(query, {
         body.id,
-        citizenid
+        identifier
     })
 
     if not invoice then 
@@ -90,8 +88,8 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
         return false
     end
 
-    Player.Functions.RemoveMoney('bank', invoice.amount, invoice.reason)
-    exports['qb-banking']:AddMoney(invoice.society, invoice.amount, invoice.reason)
+    Config.Framework.RemoveBankMoney(xPlayer, invoice.amount, invoice.reason)
+    Config.Framework.AddMoneyToSociety(invoice.society, invoice.amount)
     MySQL.query('DELETE FROM phone_invoices WHERE id = ?', { invoice.id })
     
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
@@ -103,8 +101,8 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:TransferCheck', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then 
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "Wallet",
@@ -116,13 +114,13 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
         }
     end
 
-    local citizenid = Player.PlayerData.citizenid
-    local queryGetCitizenByIban = "select citizenid from zp_users where iban = ?"
-    local receiverCitizenid = MySQL.scalar.await(queryGetCitizenByIban, {
+    local identifier = Config.Framework.GetCitizenId(xPlayer)
+    local queryGetCitizenByIban = "select identifier from zp_users where iban = ?"
+    local receiverIdentifier = MySQL.scalar.await(queryGetCitizenByIban, {
         body.iban
     })
 
-    if not receiverCitizenid then
+    if not receiverIdentifier then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "Wallet",
@@ -134,7 +132,7 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
         }
     end
 
-    if receiverCitizenid == citizenid then
+    if receiverIdentifier == identifier then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "Wallet",
@@ -146,7 +144,7 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
         }
     end
 
-    local ReceiverPlayer = QBCore.Functions.GetPlayerByCitizenId(receiverCitizenid)
+    local ReceiverPlayer = Config.Framework.GetPlayerObjectFromRockstar(receiverIdentifier)
     if ReceiverPlayer == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
@@ -161,13 +159,13 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
 
     return {
         isValid = true,
-        name = ReceiverPlayer.PlayerData.charinfo.firstname .. ' '.. ReceiverPlayer.PlayerData.charinfo.lastname
+        name = ReceiverPlayer.getName()
     }
 end)
 
 lib.callback.register('z-phone:server:Transfer', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then 
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "Wallet",
@@ -176,9 +174,9 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
         return false
     end
 
-    local citizenid = Player.PlayerData.citizenid
+    local identifier = Config.Framework.GetCitizenId(xPlayer)
 
-    if Player.PlayerData.money.bank < body.total then 
+    if Config.Framework.GetBankMoney(xPlayer) < body.total then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "Wallet",
@@ -187,12 +185,12 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
         return false
     end
     
-    local queryGetCitizenByIban = "select citizenid from zp_users where iban = ?"
-    local receiverCitizenid = MySQL.scalar.await(queryGetCitizenByIban, {
+    local queryGetCitizenByIban = "select identifier from zp_users where iban = ?"
+    local receiverIdentifier = MySQL.scalar.await(queryGetCitizenByIban, {
         body.iban
     })
 
-    if not receiverCitizenid then
+    if not receiverIdentifier then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "Wallet",
@@ -201,7 +199,7 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
         return false
     end
 
-    if receiverCitizenid == citizenid then
+    if receiverIdentifier == identifier then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "Wallet",
@@ -210,7 +208,7 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
         return false
     end
 
-    local ReceiverPlayer = QBCore.Functions.GetPlayerByCitizenId(receiverCitizenid)
+    local ReceiverPlayer = Config.Framework.GetPlayerObjectFromRockstar(receiverIdentifier)
     if ReceiverPlayer == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
@@ -222,8 +220,8 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
 
     local senderReason = string.format("Transfer send: %s - to %s", body.note, body.iban)
     local receiverReason = string.format("%s - from %s", "Transfer received", body.iban)
-    Player.Functions.RemoveMoney('bank', body.total, senderReason)
-    ReceiverPlayer.Functions.AddMoney('bank', body.total, receiverReason)
+    Config.Framework.RemoveBankMoney(xPlayer, body.total, senderReason)
+    Config.Framework.AddBankMoney(ReceiverPlayer, body.total, receiverReason)
 
     local content = [[
 We are pleased to inform you that your recent money transfer has been successfully completed. 
@@ -238,9 +236,9 @@ If you have any questions or need further assistance, please don't hesitate to r
 \
 Thank you for choosing our services!
     ]]
-    MySQL.Async.insert('INSERT INTO zp_emails (institution, citizenid, subject, content) VALUES (?, ?, ?, ?)', {
+    MySQL.Async.insert('INSERT INTO zp_emails (institution, identifier, subject, content) VALUES (?, ?, ?, ?)', {
         "wallet",
-        Player.PlayerData.citizenid,
+        Config.Framework.GetCitizenId(xPlayer),
         "Successful Money Transfer Confirmation",
         string.format(content, body.total, body.iban, body.note),
     })
@@ -251,7 +249,7 @@ Thank you for choosing our services!
         message = "Successful Money Transfer"
     })
 
-    TriggerClientEvent("z-phone:client:sendNotifInternal", ReceiverPlayer.PlayerData.source, {
+    TriggerClientEvent("z-phone:client:sendNotifInternal", ReceiverPlayer.source, {
         type = "Notification",
         from = "Wallet",
         message = "Received Money Transfer"

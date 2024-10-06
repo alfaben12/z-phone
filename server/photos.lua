@@ -1,9 +1,9 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 
 lib.callback.register('z-phone:server:GetPhotos', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then
+	    local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = [[
             select 
                 zpp.id,
@@ -27,9 +27,9 @@ lib.callback.register('z-phone:server:GetPhotos', function(source)
 end)
 
 lib.callback.register('z-phone:server:SavePhotos', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then
+	    local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = "INSERT INTO zp_photos (citizenid, media, location) VALUES (?, ?, ?)"
 
         local id = MySQL.insert.await(query, {
@@ -48,9 +48,9 @@ lib.callback.register('z-phone:server:SavePhotos', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:DeletePhotos', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then
+	    local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = "DELETE from zp_photos WHERE id = ? AND citizenid = ?"
 
         MySQL.query.await(query, {

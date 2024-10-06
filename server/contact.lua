@@ -1,9 +1,7 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 lib.callback.register('z-phone:server:GetContacts', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then 
+	    local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = [[
             select 
                 zpc.contact_name as name,
@@ -30,9 +28,9 @@ lib.callback.register('z-phone:server:GetContacts', function(source)
 end)
 
 lib.callback.register('z-phone:server:DeleteContact', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then 
+	    local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = [[
             DELETE FROM zp_contacts WHERE citizenid = ? and contact_citizenid = ?
         ]]
@@ -53,9 +51,9 @@ lib.callback.register('z-phone:server:DeleteContact', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:UpdateContact', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then 
+	    local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = [[
             UPDATE zp_contacts SET contact_name = ? WHERE contact_citizenid = ? AND citizenid = ?
         ]]
@@ -77,9 +75,9 @@ lib.callback.register('z-phone:server:UpdateContact', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:SaveContact', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then 
+	    local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local queryCheckPhoneNumber = [[
             select zpu.* from zp_users zpu WHERE zpu.phone_number = ? LIMIT 1
         ]]
@@ -134,10 +132,10 @@ lib.callback.register('z-phone:server:SaveContact', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:GetContactRequest', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return false end
-
-    local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if not xPlayer then return false end 
+        
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
     local query = [[
         SELECT 
             zpcr.id,
@@ -161,14 +159,14 @@ lib.callback.register('z-phone:server:GetContactRequest', function(source)
 end)
 
 lib.callback.register('z-phone:server:ShareContact', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return false end
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if not xPlayer then return false end
 
-    local TargetPlayer = QBCore.Functions.GetPlayer(body.to_source)
+    local TargetPlayer = Config.Framework.GetPlayerObjectFromRockstar(body.to_source)
     if not TargetPlayer then return false end
 
-    local citizenid = Player.PlayerData.citizenid
-    local targetCitizenID = TargetPlayer.PlayerData.citizenid
+    local citizenid = Config.Framework.GetCitizenId(xPlayer)
+    local targetCitizenID = TargetPlayer.identifier
     local query = "INSERT INTO zp_contacts_requests (citizenid, from_citizenid) VALUES (?, ?)"
     MySQL.insert.await(query, {
         targetCitizenID,

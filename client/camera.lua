@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local frontCam = false
 
 local function SaveToInternalGallery()
@@ -33,7 +32,11 @@ RegisterNUICallback('TakePhoto', function(_, cb)
         elseif IsControlJustPressed(1, 176) then -- TAKE.. PIC
             lib.callback('z-phone:server:GetWebhook', false, function(hook)
             if not hook then
-                    QBCore.Functions.Notify('Camera not setup', 'error')
+                    lib.notify({
+                        title = 'Camera',
+                        description = 'Camera not setup',
+                        type = 'error'
+                    })
                     return
                 end
                 exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), 'files[]', function(data)
