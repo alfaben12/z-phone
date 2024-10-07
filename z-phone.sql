@@ -11,7 +11,7 @@
  Target Server Version : 100422 (10.4.22-MariaDB)
  File Encoding         : 65001
 
- Date: 27/09/2024 22:20:03
+ Date: 07/10/2024 21:30:00
 */
 
 SET NAMES utf8mb4;
@@ -58,9 +58,7 @@ CREATE TABLE `zp_contacts`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_contact`(`citizenid` ASC, `contact_citizenid` ASC) USING BTREE,
   INDEX `contact_citizenid`(`contact_citizenid` ASC) USING BTREE,
-  INDEX `citizenid_contact_citizenid`(`citizenid` ASC, `contact_citizenid` ASC) USING BTREE,
-  CONSTRAINT `zp_contacts_ibfk_1` FOREIGN KEY (`citizenid`) REFERENCES `zp_users` (`citizenid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `zp_contacts_ibfk_2` FOREIGN KEY (`contact_citizenid`) REFERENCES `zp_users` (`citizenid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `citizenid_contact_citizenid`(`citizenid` ASC, `contact_citizenid` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -90,9 +88,7 @@ CREATE TABLE `zp_conversation_messages`  (
   `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_conversationid`(`conversationid` ASC) USING BTREE,
-  INDEX `idx_sender_citizenid`(`sender_citizenid` ASC) USING BTREE,
-  CONSTRAINT `zp_conversation_messages_ibfk_1` FOREIGN KEY (`conversationid`) REFERENCES `zp_conversations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `zp_conversation_messages_ibfk_2` FOREIGN KEY (`sender_citizenid`) REFERENCES `zp_users` (`citizenid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `idx_sender_citizenid`(`sender_citizenid` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -105,9 +101,7 @@ CREATE TABLE `zp_conversation_participants`  (
   `join_at` timestamp NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (`conversationid`, `citizenid`) USING BTREE,
   INDEX `citizenid`(`citizenid` ASC) USING BTREE,
-  INDEX `idx_conversationid_citizenid`(`conversationid` ASC, `citizenid` ASC) USING BTREE,
-  CONSTRAINT `zp_conversation_participants_ibfk_1` FOREIGN KEY (`conversationid`) REFERENCES `zp_conversations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `zp_conversation_participants_ibfk_2` FOREIGN KEY (`citizenid`) REFERENCES `zp_users` (`citizenid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `idx_conversationid_citizenid`(`conversationid` ASC, `citizenid` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
