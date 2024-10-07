@@ -114,3 +114,20 @@ https://discord.com/channels/1012753553418354748/1289265300457525269/12892653004
 ## SUPPORT
 
 Thank you for your support! [ko-fi](https://ko-fi.com/alfaben)
+
+## All Thanks to Our Contributors
+<table>
+   <tbody>
+      <tr>
+         <td align="center" valign="top">
+            <a href="https://github.com/alfaben12"
+                style="text-decoration: none;"
+               ><img
+               src="https://avatars.githubusercontent.com/u/20008086?v=4"
+               width="50px"
+               alt="Thariq Alfa"
+               /><br /><sub><b>alfaben12</b></sub></a>
+         </td>
+      </tr>
+   </tbody>
+</table>
