@@ -1,10 +1,10 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 
 lib.callback.register('z-phone:server:GetProfile', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player == nil then return nil end
-
-    local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer == nil then return nil end
+        
+	local citizenid = Config.Framework.GetCitizenId(xPlayer)
     local query = [[
         select 
             zpu.citizenid,
@@ -30,8 +30,9 @@ lib.callback.register('z-phone:server:GetProfile', function(source, body)
     })
 
     if not result then
-        local phone_number = math.random(81, 89)..QBCore.Shared.RandomInt(6)
-        local iban = math.random(7, 9)..QBCore.Shared.RandomInt(10)
+        local phone_number = math.random(81, 89) .. tostring(math.random(100000, 999999))
+        local iban = math.random(7, 9) .. tostring(math.random(1000000000, 9999999999))
+			
         local queryNew = "INSERT INTO zp_users (citizenid, phone_number, iban, inetmax_balance) VALUES (?, ?, ?, ?)"
 
         local id = MySQL.insert.await(queryNew, {
@@ -56,9 +57,9 @@ end)
 
 lib.callback.register('z-phone:server:UpdateProfile', function(source, body)
     local affectedRows = nil
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then
+	    local citizenid = Config.Framework.GetCitizenId(xPlayer)
         if body.type == 'avatar' then
             affectedRows = MySQL.update.await('UPDATE zp_users SET avatar = ? WHERE citizenid = ?', {
                 body.value, citizenid

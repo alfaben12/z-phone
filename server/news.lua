@@ -1,8 +1,8 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
 
 lib.callback.register('z-phone:server:GetNews', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then
         local query = [[
             SELECT 
                 id,
@@ -29,10 +29,10 @@ lib.callback.register('z-phone:server:GetNews', function(source, body)
 end)
 
 lib.callback.register('z-phone:server:CreateNews', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
-
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+		
+    if xPlayer ~= nil then
+	    local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = "INSERT INTO zp_news (citizenid, reporter, company, image, title, body, stream, is_stream) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
 
         local id = MySQL.insert.await(query, {

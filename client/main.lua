@@ -1,4 +1,3 @@
-QBCore = exports['qb-core']:GetCoreObject()
 PlayerJob = {}
 Profile = {}
 PhoneData = {
@@ -27,12 +26,50 @@ CreateThread(function()
     end
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    lib.callback('z-phone:server:GetProfile', false, function(profile)
-        profile.signal = Config.Signal.Zones[PhoneData.SignalZone].ChanceSignal
-        Profile = profile
-    end)
-end)
+loadFrameworkEvents = function()
+	es_extended = GetResourceState('es_extended') == 'started';
+	qb_core = GetResourceState('qb-core') == 'started';
+	qbx_core = GetResourceState('qbx_core') == 'started';
+	if ( es_extended ) then
+		RegisterNetEvent('esx:playerLoaded', function(player, xPlayer, isNew)
+			lib.callback('z-phone:server:GetProfile', false, function(profile)
+				profile.signal = Config.Signal.Zones[PhoneData.SignalZone].ChanceSignal
+				Profile = profile
+			end)
+		end)
+	
+		RegisterNetEvent('esx:setJob')
+		AddEventHandler('esx:setJob', function(job)
+		    PlayerJob = JobInfo
+		end)
+	elseif ( qb_core ) then
+		RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+		    lib.callback('z-phone:server:GetProfile', false, function(profile)
+		        profile.signal = Config.Signal.Zones[PhoneData.SignalZone].ChanceSignal
+		        Profile = profile
+		    end)
+		end)
+	
+		RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
+		    PlayerJob = JobInfo
+		end)
+	elseif ( qbx_core ) then
+		AddEvent('qbox:client:OnPlayerLoaded', function()
+		    lib.callback('z-phone:server:GetProfile', false, function(profile)
+		        profile.signal = Config.Signal.Zones[PhoneData.SignalZone].ChanceSignal
+		        Profile = profile
+		    end)
+		end)
+	
+		AddEvent('qbox:client:OnJobUpdate', function(JobInfo)
+		    PlayerJob = JobInfo
+		end)
+	else
+		warn("No framework core found.")
+	end
+end
+
+CreateThread(loadFrameworkEvents)
 
 function GetStreetName()
     local pos = GetEntityCoords(PlayerPedId())
@@ -46,10 +83,6 @@ function GetStreetName()
 
     return streetLabel
 end
-
-RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
-    PlayerJob = JobInfo
-end)
 
 local function DisableDisplayControlActions()
     DisableControlAction(0, 1, true)   -- disable mouse look
@@ -75,13 +108,17 @@ end
 function OpenPhone()
     local hasWeapon, weaponHash = GetCurrentPedWeapon(PlayerPedId(), true)
     if weaponHash ~= GetHashKey("WEAPON_UNARMED") then
-        QBCore.Functions.Notify("Cannot open radio!", 'error')
+		lib.notify({
+		    title = 'Radio',
+		    description = "Cannot open radio!",
+		    type = 'error'
+		})
         return
     end
 
     lib.callback('z-phone:server:HasPhone', false, function(HasPhone)
         if HasPhone then
-            PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
+            PhoneData.PlayerData = Config.Framework.GetPlayerData()
             SetNuiFocus(true, true)
             -- SetNuiFocusKeepInput(true)
             SendNUIMessage({
@@ -107,18 +144,26 @@ function OpenPhone()
                 newPhoneProp()
             end)
         else
-            QBCore.Functions.Notify("You don't have a phone", 'error')
+			lib.notify({
+			    title = 'No Phone',
+			    description = "You don't have a phone",
+			    type = 'error'
+			})
         end
     end)
 end
 
 RegisterCommand('phone', function()
-    local PlayerData = QBCore.Functions.GetPlayerData()
+    local PlayerData = Config.Framework.GetPlayerData()
     if not PhoneData.isOpen and LocalPlayer.state.isLoggedIn then
         if not PlayerData.metadata['ishandcuffed'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] and not IsPauseMenuActive() then
             OpenPhone()
         else
-            QBCore.Functions.Notify('Action not available at the moment..', 'error')
+			lib.notify({
+			    title = 'Phone',
+			    description = 'Action not available at the moment..',
+			    type = 'error'
+			})
         end
     end
 end)

@@ -1,9 +1,70 @@
+ESX = exports["es_extended"]:getSharedObject()
+
 Config = {}
 
 Config.Debug = false
 Config.OpenPhone = 'M'
 Config.RepeatTimeout = 3000
 Config.CallRepeats = 5
+
+Config.Framework = { -- ALL OF THIS IS MADE FOR ESX CURRENTLY, EDIT IT FOR YOUR FRAMEWORK
+
+    -- SHARED --
+    AvailableServices =  { -- sorry leaving this, I dont know esx's services, I use my own
+        "goverment",
+        "police",
+        "ambulance",
+        "realestate",
+        "kmmechanic",
+        "taxi",
+        "kmpedagang",
+        "reporter",
+    },
+
+    -- CLIENT --
+    GetJobs = function()
+        return ESX.GetJobs();
+    end,
+
+    GetPlayerData = function()
+        return ESX.GetPlayerData();
+    end,
+
+    -- SERVER --
+    GetPlayerObject = function(source)
+        -- This function gets a ESX player object from a server id. Returns nil for invalid players.
+        return ESX.GetPlayerFromId;
+    end,
+
+    GetPlayerFromRockstar = function(identifier)
+        -- This function returns the ESX player from the Rockstar identifier. Returns nil if no player is found.
+        return ESX.GetPlayerFromIdentifier(identifier);
+    end,
+
+    GetCitizenId = function(Player)
+        return Player.identifier or xPlayer.getIdentifier();
+    end,
+
+    GetBankMoney = function(Player)
+        Player.getAccount('bank').money;
+    end,
+
+    RemoveBankMoney = function(Player, amount, reason)
+        Player.removeAccountMoney('bank', amount, reason);
+    end,
+
+    AddBankMoney = function(Player, amount, reason)
+        Player.addAccountMoney('bank', amount, reason);
+    end,
+
+    AddMoneyToSociety = function(society, amount)
+        TriggerEvent('esx_addonaccount:getSharedAccount', invoice.society, function(account)
+            account.addMoney(invoice.amount);
+        end)
+    end,
+
+    
+}
 
 Config.App = {
     InetMax = {

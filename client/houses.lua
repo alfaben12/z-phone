@@ -11,6 +11,10 @@ end)
 
 RegisterNUICallback('get-direction', function(body, cb)
     SetNewWaypoint(body.coords.enter.x, body.coords.enter.y)
-    QBCore.Functions.Notify('GPS has been set to ' .. body.name .. '!', 'success')
+    lib.notify({
+        title = 'GPS',
+        description = 'GPS has been set to ' .. body.name .. '!',
+        type = 'success'
+    })
     cb("ok")
 end)

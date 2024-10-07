@@ -1,9 +1,8 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 lib.callback.register('z-phone:server:GetAds', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    local xPlayer = Config.Framework.GetPlayerObject(source)
+    if xPlayer ~= nil then
+        local citizenid = Config.Framework.GetCitizenId(xPlayer)
+
         local query = [[
             select 
                 zpa.content,
@@ -18,7 +17,7 @@ lib.callback.register('z-phone:server:GetAds', function(source)
                 ) AS name
             from zp_ads zpa
             JOIN zp_users zpu ON zpu.citizenid = zpa.citizenid
-            JOIN players p ON p.citizenid = zpa.citizenid
+            JOIN users p ON p.identifier = zpa.citizenid
             ORDER BY zpa.id DESC
             LIMIT 100
         ]]
@@ -38,10 +37,10 @@ lib.callback.register('z-phone:server:GetAds', function(source)
 end)
 
 lib.callback.register('z-phone:server:SendAds', function(source, body)
-    local Player = QBCore.Functions.GetPlayer(source)
+    local xPlayer = Config.Framework.GetPlayerObject(source)
 
-    if Player ~= nil then
-        local citizenid = Player.PlayerData.citizenid
+    if xPlayer ~= nil then
+        local citizenid = Config.Framework.GetCitizenId(xPlayer)
         local query = "INSERT INTO zp_ads (citizenid, media, content) VALUES (?, ?, ?)"
 
         local id = MySQL.insert.await(query, {

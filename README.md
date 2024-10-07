@@ -12,9 +12,10 @@ This project is inspired by **QBPhone** from **QBCore**, combining its core func
 
 ## Dependencies
 
-- **[QB Core](https://github.com/qbcore-framework/qb-core "QB Core")**: This project relies on the QBCore framework for core functionalities.
-- **[QB Banking](https://github.com/qbcore-framework/qb-banking "QB Banking")**: QB Banking is need for digital banking app.
+- **[ESX Core](https://github.com/esx-framework/esx_core "ESX Core")**: This project relies on the ESX framework for core functionalities.
+- here was a dependency for qb_banking, you do not need esx_banking for this version.
 - **[OX Lib](https://github.com/overextended/ox_lib "OX Lib")**: OX Lib is also required to ensure seamless integration with existing systems.
+- **[OX Inventory](https://github.com/overextended/ox_inventory "OX Inventory")**: OX Inventory is also required for item handling.
 
 ## Tech Stack
 
@@ -39,50 +40,6 @@ Thank you for checking out Z-Phone! We hope you enjoy the new experience as much
 
 ## Ready to Use???
 
-#### (Optional) **BANK TRANSACTION**
-
-If you want all bank transactions recorded, then do it
-in **qb-core/server/player.lua**
-
-**function self.Functions.AddMoney**
-
-```lua
--- OTHERS CODE
-if not self.Offline then
-    -- OTHERS CODE
-    if moneytype == 'bank' then
-        MySQL.Async.insert('INSERT INTO bank_statements (citizenid, account_name, amount, reason, statement_type) VALUES (?, ?, ?, ?, ?)', {
-            self.PlayerData.citizenid,
-            'checking',
-            amount,
-            reason,
-            'deposit'
-        })
-    end
-    -- OTHERS CODE
-end
-```
-
-**self.Functions.RemoveMoney**
-
-```lua
--- OTHERS CODE
-if not self.Offline then
-    -- OTHERS CODE
-   if moneytype == 'bank' then
-        MySQL.Async.insert('INSERT INTO bank_statements (citizenid, account_name, amount, reason, statement_type) VALUES (?, ?, ?, ?, ?)', {
-            self.PlayerData.citizenid,
-            'checking',
-            amount,
-            reason,
-            'withdraw'
-        })
-        TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
-    end
-    -- OTHERS CODE
-end
-```
-
 #### (Required) **IMPORT SOUND**
 
 Go to https://github.com/alfaben12/z-phone/tree/main/html/sounds copy all files then paste to resources/[standalone]/interact-sound/client/html/sounds
@@ -100,7 +57,7 @@ This query included on z-phone.sql
 
 ## IMPORTANT NOTES
 
-Default phone number in QBCore may not be compatible with z-phone. If you use QBCore.Functions.GetPlayerByPhone(number) with a z-phone number, it is likely to return incorrect results. To avoid this issue, it's essential to synchronize the z-phone numbers with the QBCore character information (on table players, column charinfo, key phone).
+Here was note for changing the phone number, but in this version it generates a new phone number for each person
 
 ## BTW
 

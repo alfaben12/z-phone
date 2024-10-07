@@ -29,10 +29,19 @@ RegisterNUICallback('get-contact-requests', function(_, cb)
 end)
 
 RegisterNUICallback('share-contact', function(body, cb)
-    local closestPlayer, distance = QBCore.Functions.GetClosestPlayer()
+    local closestPlayer = lib.getClosestPlayer(GetEntityCoords(cache.ped), 10.0, false)
+    if ( not closestPlayer ) then
+        TriggerEvent("z-phone:client:sendNotifInternal", {
+            type = "Notification",
+            from = "Contact",
+            message = "Cannot share contact!"
+        })
+        return
+    end
+    local distance = #(vec3(closestPlayer.coords.x, closestPlayer.coords.y, closestPlayer.coords.z) - GetEntityCoords(cache.ped))
     local ped = PlayerPedId()
 
-    if not (distance ~= -1 and distance < 2 and GetEntitySpeed(ped) < 5.0 and not QBCore.Functions.GetPlayerData().metadata.ishandcuffed and not IsPedRagdoll(ped)) then
+    if not (distance ~= -1 and distance < 2 and GetEntitySpeed(ped) < 5.0 and not IsPedCuffed(ped) and not IsPedRagdoll(ped)) then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",
             from = "Contact",
