@@ -75,7 +75,7 @@ end
 function OpenPhone()
     local hasWeapon, weaponHash = GetCurrentPedWeapon(PlayerPedId(), true)
     if weaponHash ~= GetHashKey("WEAPON_UNARMED") then
-        QBCore.Functions.Notify("Cannot open radio!", 'error')
+        QBCore.Functions.Notify("Cannot open phone!", 'error')
         return
     end
 
