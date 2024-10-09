@@ -279,3 +279,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 ALTER TABLE phone_invoices ADD reason varchar(255);
 ALTER TABLE phone_invoices ADD created_at DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE player_vehicles ADD created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL;
+ALTER TABLE houselocations ADD is_house_locked bool DEFAULT 0;
+ALTER TABLE houselocations ADD is_garage_locked bool DEFAULT 0;
+ALTER TABLE houselocations ADD is_stash_locked bool DEFAULT 0;
