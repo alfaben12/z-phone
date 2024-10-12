@@ -29,7 +29,15 @@
     "ALLOWED_JOBS": ["reporter", "government", "ambulance"]
   },
   "SERVICES": {
-    "ALLOWED_JOBS": ["police", "government", "ambulance", "reporter"]
+    "ALLOWED_JOBS": [
+      "goverment",
+      "police",
+      "ambulance",
+      "realestate",
+      "taxi",
+      "burgershot",
+      "kfc"
+    ]
   },
   "WALLET": {
     "MIN_TRANSFER": 20000
