@@ -83,19 +83,20 @@ function OpenPhone()
         if HasPhone then
             PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
             SetNuiFocus(true, true)
-            -- SetNuiFocusKeepInput(true)
             SendNUIMessage({
                 event = 'z-phone',
                 isOpen = true,
             })
             PhoneData.isOpen = true
-
+	if Config.AllowWalking then
+        SetNuiFocusKeepInput(true)
             CreateThread(function()
                 while PhoneData.isOpen do
-                    DisableDisplayControlActions()
+                    DisableLookAroundActions()  -- only disable looking around
                     Wait(1)
                 end
             end)
+        end
 
             if not PhoneData.CallData.InCall then
                 DoPhoneAnimation('cellphone_text_in')
