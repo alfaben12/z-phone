@@ -1,6 +1,7 @@
 Config = {}
 
 Config.Debug = false
+Config.Core = "ESX" -- QB or ESX
 Config.OpenPhone = 'M'
 Config.RepeatTimeout = 3000
 Config.CallRepeats = 5
@@ -79,4 +80,42 @@ Config.Signal = {
             ChanceSignal = 0.75
         }
     }
+}
+
+Config.Services = {
+    goverment = {
+        job = "goverment",
+        name = "Goverment",
+        type = "General"
+    },
+    police = {
+        job = "police",
+        name = "Police",
+        type = "General"
+    },
+    ambulance = {
+        job = "ambulance",
+        name = "Ambulance",
+        type = "Health"
+    },
+    realestate = {
+        job = "realestate",
+        name = "Real Estate",
+        type = "Property"
+    },
+    taxi = {
+        job = "taxi",
+        name = "Taxi",
+        type = "Transport"
+    },
+    burgershot = {
+        job = "burgershot",
+        name = "Burger Shot",
+        type = "Food"
+    },
+    kfc = {
+        job = "kfc",
+        name = "KFC",
+        type = "Food"
+    },
 }

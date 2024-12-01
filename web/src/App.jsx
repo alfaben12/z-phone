@@ -341,7 +341,6 @@ function App() {
       console.error("error /get-ads", error);
     }
 
-    console.log("ADS");
     setAds(result);
     // sendEventData({ ads: data });
   };

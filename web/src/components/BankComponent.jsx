@@ -211,7 +211,7 @@ const BankComponent = ({ isShow }) => {
           <span className="text-xs">Back</span>
         </div>
         <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit">
-          Bank Digital
+          Digital Banking
         </span>
         <div className="flex items-center px-2 text-blue-500">
           {/* <MdEdit className='text-lg' /> */}

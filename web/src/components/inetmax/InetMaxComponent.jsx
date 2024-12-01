@@ -11,6 +11,7 @@ import { convertFromKb } from "../../utils/common";
 import { LuArrowUpDown, LuPackage } from "react-icons/lu";
 import { FaCartArrowDown, FaDollarSign } from "react-icons/fa6";
 import axios from "axios";
+import { currencyFormat } from "../../utils/common";
 
 const pastelColors = [
   "#FF6384", // Soft Red
@@ -172,9 +173,9 @@ const InetMaxComponent = ({ isShow }) => {
   const handleTopupSubmit = async (e) => {
     if (topupTotal < CFG_INETMAX.MIN_TOPUP) {
       setTopupTotalError(
-        "A minimum purchase of $" +
+        "A minimum purchase of " +
           CFG_INETMAX.MIN_TOPUP +
-          " is required for online orders."
+          "GB is required for online orders."
       );
       return;
     }
@@ -183,7 +184,7 @@ const InetMaxComponent = ({ isShow }) => {
     try {
       const response = await axios.post("/topup-internet-data", {
         label: "Online purchase",
-        total: topupTotal,
+        total: topupTotal * CFG_INETMAX.PRICE_PER_GB,
       });
       result = response.data == null ? 0 : response.data;
     } catch (error) {
@@ -322,7 +323,7 @@ const InetMaxComponent = ({ isShow }) => {
                     </span>
                   </div>
                 </div>
-                {CFG_INETMAX.IS_DISABLE_TOPUP ? (
+                {!CFG_INETMAX.IS_DISABLE_TOPUP ? (
                   <div className="flex space-x-2">
                     <button
                       className="px-2 py-1 bg-slate-500 hover:bg-slate-600 flex justify-center space-x-1 items-center rounded"
@@ -544,10 +545,10 @@ const InetMaxComponent = ({ isShow }) => {
                       <div className="w-1/3 h-1 bg-white rounded-full"></div>
                     </div>
                     <div className="text-white flex items-center space-x-2">
-                      <FaDollarSign className="text-xl" />
+                      <span className="font-bold">GB</span>
                       <input
                         type="text"
-                        placeholder="100000"
+                        placeholder="10"
                         className="w-full text-sm text-white flex-1 border border-slate-600 bg-slate-800 focus:outline-none rounded-lg pl-2 pr-1 py-1"
                         autoComplete="off"
                         name="total"
@@ -585,7 +586,11 @@ const InetMaxComponent = ({ isShow }) => {
                       className="px-2 py-1 bg-blue-500 rounded font-semibold text-sm text-white"
                       onClick={handleTopupSubmit}
                     >
-                      Buy now
+                      Buy now{" "}
+                      {topupTotalError == null
+                        ? "$" +
+                          currencyFormat(topupTotal * CFG_INETMAX.PRICE_PER_GB)
+                        : ""}
                     </button>
                   </div>
                 </div>

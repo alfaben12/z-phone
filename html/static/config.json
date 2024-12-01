@@ -8,20 +8,21 @@
     "more_updates": "Please come to the reporter's office and stay tuned for updates as this story develops."
   },
   "INETMAX": {
-    "IS_DISABLE_TOPUP": true,
-    "MIN_TOPUP": 100,
+    "IS_DISABLE_TOPUP": false,
+    "PRICE_PER_GB": 100,
+    "MIN_TOPUP": 1,
     "BUY": [
       {
-        "text": "$500",
-        "total": 500
+        "text": "5GB",
+        "total": 5
       },
       {
-        "text": "$1000",
-        "total": 1000
+        "text": "25GB",
+        "total": 25
       },
       {
-        "text": "$2500",
-        "total": 2500
+        "text": "100GB",
+        "total": 100
       }
     ]
   },
@@ -29,7 +30,15 @@
     "ALLOWED_JOBS": ["reporter", "government", "ambulance"]
   },
   "SERVICES": {
-    "ALLOWED_JOBS": ["police", "government", "ambulance", "reporter"]
+    "ALLOWED_JOBS": [
+      "goverment",
+      "police",
+      "ambulance",
+      "realestate",
+      "taxi",
+      "burgershot",
+      "kfc"
+    ]
   },
   "WALLET": {
     "MIN_TRANSFER": 20000

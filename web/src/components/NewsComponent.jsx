@@ -416,6 +416,7 @@ const NewsComponent = ({ isShow }) => {
               className="w-full text-sm text-white flex-1 bg-gray-900 focus:outline-none rounded-lg pl-2 pr-1 py-1"
               autoComplete="off"
               name="title"
+              value={formData.title}
               onChange={handleChangeFormPost}
               required
             />
@@ -425,6 +426,7 @@ const NewsComponent = ({ isShow }) => {
               className="w-full text-sm text-white flex-1 bg-gray-900 focus:outline-none rounded-lg pl-2 pr-1 py-1"
               autoComplete="off"
               name="cover_url"
+              value={formData.cover_url}
               onChange={handleChangeFormPost}
               required
             />
@@ -435,6 +437,7 @@ const NewsComponent = ({ isShow }) => {
               autoComplete="off"
               onChange={handleChangeFormPost}
               name="stream_url"
+              value={formData.stream_url}
             />
             <span className="text-xs text-gray-400">
               If stream url is filled, it will mark as Live (Youtube URL).
@@ -442,6 +445,7 @@ const NewsComponent = ({ isShow }) => {
             <textarea
               onChange={handleChangeFormPost}
               name="content"
+              value={formData.content}
               placeholder="News content"
               rows={4}
               className="focus:outline-none text-white w-full text-xs resize-none no-scrollbar bg-gray-900 rounded-lg pl-2 pr-1 py-1"

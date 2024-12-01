@@ -1,4 +1,3 @@
-QBCore = exports['qb-core']:GetCoreObject()
 PlayerJob = {}
 Profile = {}
 PhoneData = {
@@ -21,17 +20,9 @@ CreateThread(function()
     Wait(500)
     if next(Profile) == nil then
         lib.callback('z-phone:server:GetProfile', false, function(profile)
-            profile.signal = Config.Signal.Zones[PhoneData.SignalZone].ChanceSignal
             Profile = profile
         end)
     end
-end)
-
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    lib.callback('z-phone:server:GetProfile', false, function(profile)
-        profile.signal = Config.Signal.Zones[PhoneData.SignalZone].ChanceSignal
-        Profile = profile
-    end)
 end)
 
 function GetStreetName()
@@ -46,10 +37,6 @@ function GetStreetName()
 
     return streetLabel
 end
-
-RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
-    PlayerJob = JobInfo
-end)
 
 local function DisableDisplayControlActions()
     DisableControlAction(0, 1, true)   -- disable mouse look
@@ -75,13 +62,13 @@ end
 function OpenPhone()
     local hasWeapon, weaponHash = GetCurrentPedWeapon(PlayerPedId(), true)
     if weaponHash ~= GetHashKey("WEAPON_UNARMED") then
-        QBCore.Functions.Notify("Cannot open phone!", 'error')
+        xCore.Notify("Cannot open phone!", 'error', 3000)
         return
     end
 
     lib.callback('z-phone:server:HasPhone', false, function(HasPhone)
         if HasPhone then
-            PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
+            PhoneData.PlayerData = xCore.GetPlayerData()
             SetNuiFocus(true, true)
             -- SetNuiFocusKeepInput(true)
             SendNUIMessage({
@@ -107,19 +94,15 @@ function OpenPhone()
                 newPhoneProp()
             end)
         else
-            QBCore.Functions.Notify("You don't have a phone", 'error')
+            xCore.Notify("You don't have a phone", 'error', 3000)
         end
     end)
 end
 
 RegisterCommand('phone', function()
-    local PlayerData = QBCore.Functions.GetPlayerData()
-    if not PhoneData.isOpen and LocalPlayer.state.isLoggedIn then
-        if not PlayerData.metadata['ishandcuffed'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] and not IsPauseMenuActive() then
-            OpenPhone()
-        else
-            QBCore.Functions.Notify('Action not available at the moment..', 'error')
-        end
+    local PlayerData = xCore.GetPlayerData()
+    if not PhoneData.isOpen and PlayerData then
+        OpenPhone()
     end
 end)
 
