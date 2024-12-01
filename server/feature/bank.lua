@@ -2,36 +2,13 @@ lib.callback.register('z-phone:server:GetBank', function(source)
     local Player = xCore.GetPlayerBySource(source)
     if Player ~= nil then
         local citizenid = Player.citizenid
-        local queryHistories = [[
-            select
-                bs.statement_type as type,
-                bs.reason as label,
-                bs.amount as total,
-                DATE_FORMAT(bs.date, '%d/%m/%Y %H:%i') as created_at
-            from bank_statements as bs
-            where bs.citizenid = ? order by bs.id desc
-        ]]
+        local queryHistories = xCore.queryBankHistories()
+        local querybill = xCore.queryBankInvoices()
 
-        local querybill = [[
-            select
-                pi.id,
-                pi.society,
-                pi.reason,
-                pi.amount,
-                pi.sendercitizenid,
-                DATE_FORMAT(pi.created_at, '%d/%m/%Y %H:%i') as created_at
-            from phone_invoices as pi
-            where pi.citizenid = ? order by pi.id desc
-        ]]
+        local histories = MySQL.query.await(queryHistories, { citizenid })
+        local bills = MySQL.query.await(querybill, { citizenid })
 
-        local histories = MySQL.query.await(queryHistories, {
-            citizenid
-        })
-
-        local bills = MySQL.query.await(querybill, {
-            citizenid
-        })
-
+        lib.print.info(querybill)
         if not histories then
             histories = {}
         end
@@ -43,7 +20,7 @@ lib.callback.register('z-phone:server:GetBank', function(source)
         return {
             histories = histories,
             bills = bills,
-            balance = Player.money['bank']
+            balance = Player.money.bank
         }
     end
     return {}
@@ -70,10 +47,7 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
     end
     
     local citizenid = Player.citizenid
-    local query = [[
-        select pi.* from phone_invoices pi WHERE pi.id = ? and pi.citizenid = ? LIMIT 1
-    ]]
-
+    local query = xCore.queryBankInvoiceByCitizenID()
     local invoice = MySQL.single.await(query, {
         body.id,
         citizenid
@@ -88,9 +62,10 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
         return false
     end
 
-    Player.Functions.RemoveMoney('bank', invoice.amount, invoice.reason)
-    exports['qb-banking']:AddMoney(invoice.society, invoice.amount, invoice.reason)
-    MySQL.query('DELETE FROM phone_invoices WHERE id = ?', { invoice.id })
+    Player.removeAccountMoney('bank', invoice.amount, invoice.reason)
+    
+    xCore.AddMoneyBankSociety(invoice.society, invoice.amount, invoice.reason)
+    MySQL.query(xCore.queryDeleteBankInvoiceByID(), { invoice.id })
     
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",
@@ -220,8 +195,8 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
 
     local senderReason = string.format("Transfer send: %s - to %s", body.note, body.iban)
     local receiverReason = string.format("%s - from %s", "Transfer received", body.iban)
-    Player.Functions.RemoveMoney('bank', body.total, senderReason)
-    ReceiverPlayer.Functions.AddMoney('bank', body.total, receiverReason)
+    Player.removeAccountMoney('bank', body.total, senderReason)
+    ReceiverPlayer.addAccountMoney('bank', body.total, receiverReason)
 
     local content = [[
 We are pleased to inform you that your recent money transfer has been successfully completed. 

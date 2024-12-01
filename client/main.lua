@@ -20,7 +20,6 @@ CreateThread(function()
     Wait(500)
     if next(Profile) == nil then
         lib.callback('z-phone:server:GetProfile', false, function(profile)
-            profile.signal = Config.Signal.Zones[PhoneData.SignalZone].ChanceSignal
             Profile = profile
         end)
     end

@@ -12,7 +12,20 @@ if Config.Core == "QB" then
             job = {
                 name = ply.PlayerData.job.name,
                 label = ply.PlayerData.job.label
-            }
+            },
+            money = {
+                cash = ply.money.cash,
+                bank = ply.money.bank,
+            },
+            removeCash = function (amount)
+                ply.Functions.RemoveMoney('cash', amount)
+            end,
+            removeAccountMoney = function (account, amount, reason)
+                ply.Functions.RemoveMoney(account, amount, reason)
+            end,
+            addAccountMoney = function (account, amount, reason)
+                ply.Functions.RemoveMoney(account, amount, reason)
+            end
         }
     end
 
@@ -26,7 +39,20 @@ if Config.Core == "QB" then
             job = {
                 name = ply.PlayerData.job.name,
                 label = ply.PlayerData.job.label
-            }
+            },
+            money = {
+                cash = ply.money.cash,
+                bank = ply.money.bank,
+            },
+            removeCash = function (amount)
+                ply.Functions.RemoveMoney('cash', amount)
+            end,
+            removeAccountMoney = function (account, amount, reason)
+                ply.Functions.RemoveMoney(account, amount, reason)
+            end,
+            addAccountMoney = function (account, amount, reason)
+                ply.Functions.RemoveMoney(account, amount, reason)
+            end
         }
     end
 
@@ -34,6 +60,10 @@ if Config.Core == "QB" then
         local ply = QB.Functions.GetPlayer(source)
         if not ply then return nil end
         return ply.Functions.HasItem(item) ~= nil
+    end
+
+    xCore.AddMoneyBankSociety = function(society, amount, reason)
+        exports['qb-banking']:AddMoney(invoice.society, invoice.amount, invoice.reason)
     end
 
     xCore.queryPlayerVehicles = function()
@@ -71,6 +101,52 @@ if Config.Core == "QB" then
             LEFT JOIN player_houses ph ON hl.name = ph.house 
             WHERE ph.citizenid = ?
             ORDER BY ph.id DESC
+        ]]
+
+        return query
+    end
+
+    xCore.queryBankHistories = function()
+        local query = [[
+            select
+                bs.statement_type as type,
+                bs.reason as label,
+                bs.amount as total,
+                DATE_FORMAT(bs.date, '%d/%m/%Y %H:%i') as created_at
+            from bank_statements as bs
+            where bs.citizenid = ? order by bs.id desc
+        ]]
+
+        return query
+    end
+
+    xCore.queryBankInvoices = function()
+        local query = [[
+            select
+                pi.id,
+                pi.society,
+                pi.reason,
+                pi.amount,
+                pi.sendercitizenid,
+                DATE_FORMAT(pi.created_at, '%d/%m/%Y %H:%i') as created_at
+            from phone_invoices as pi
+            where pi.citizenid = ? order by pi.id desc
+        ]]
+
+        return query
+    end
+
+    xCore.queryBankInvoiceByCitizenID = function()
+        local query = [[
+            select pi.id, pi.amount, pi.reason, pi.society, pi.amount from phone_invoices pi WHERE pi.id = ? and pi.citizenid = ? LIMIT 1
+        ]]
+
+        return query
+    end
+
+    xCore.queryDeleteBankInvoiceByID = function()
+        local query = [[
+            DELETE FROM phone_invoices WHERE id = ?
         ]]
 
         return query
