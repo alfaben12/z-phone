@@ -23,6 +23,6 @@ if Config.Core == "QB" then
     end
 
     xCore.GetClosestPlayer = function ()
-        return QB.Functions.GetClosestPlayer
+        return QB.Functions.GetClosestPlayer()
     end
 end
