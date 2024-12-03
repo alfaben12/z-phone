@@ -20,7 +20,7 @@ for ESX
 - **[ESX Banking](https://github.com/esx-framework/esx_banking "ESX Banking")**: ESX Banking is need for digital banking app.
 - **[ESX Billing](https://github.com/esx-framework/esx_billing "ESX Billing")**: ESX Banking is need for billing on banking app.
 
-**IMPORTANT**: If you use others **banking, garage, housing resource** you still can use this phone but need a little changes on **server/core/[your fw].lua** then update query for retrieving datas following structure, please dont change the structure if you dont want enter to .jsx code!
+**IMPORTANT**: If you use others **garage, housing, banking and invoice resource** you still can use this phone but need a little changes on **server/core/[your fw].lua** then update query for retrieving datas following structure, please dont change the structure if you dont want enter to .jsx code!
 
 always need
 - **[OX Lib](https://github.com/overextended/ox_lib "OX Lib")**: OX Lib is also required to ensure seamless integration with existing systems.
