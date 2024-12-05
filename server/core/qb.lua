@@ -1,6 +1,6 @@
 if Config.Core == "QB" then 
     xCore = {}
-    local QB = exports["qb-core"]:GetQBObject()
+    local QB = exports["qb-core"]:GetCoreObject()
 
     xCore.GetPlayerBySource = function(source)
         local ply = QB.Functions.GetPlayer(source)
