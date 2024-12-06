@@ -19,7 +19,7 @@ if Config.Core == "QB" then
     end
 
     xCore.HasItemByName = function(item)
-        return ply.Functions.HasItem(item)
+        return QB.Functions.HasItem(item)
     end
 
     xCore.GetClosestPlayer = function ()

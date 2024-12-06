@@ -8,7 +8,6 @@ lib.callback.register('z-phone:server:GetBank', function(source)
         local histories = MySQL.query.await(queryHistories, { citizenid })
         local bills = MySQL.query.await(querybill, { citizenid })
 
-        lib.print.info(querybill)
         if not histories then
             histories = {}
         end

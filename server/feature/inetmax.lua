@@ -36,7 +36,7 @@ end)
 
 lib.callback.register('z-phone:server:TopupInternetData', function(source, body)
     local Player = xCore.GetPlayerBySource(source)
-    if Player == nil then return false end
+    if Player == nil then return 0 end
 
     local citizenid = Player.citizenid    
     if Player.money.bank < body.total then 

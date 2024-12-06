@@ -1,5 +1,6 @@
 {
   "name": "Kota V",
+  "timezone": "Asia/Jakarta",
   "logo": "./images/kota-v.png",
   "LATEST_NEWS": {
     "AUTHOR": "Reporter",

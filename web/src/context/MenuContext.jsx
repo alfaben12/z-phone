@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { MENU_LOCKSCREEN } from "../constant/menu";
+import { MENU_LOCKSCREEN, CFG_TIMEZONE } from "../constant/menu";
 
 const MenuContext = createContext({
   time: "",
@@ -75,7 +75,7 @@ export const MenuProvider = ({ children }) => {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-    timeZone: "Asia/Jakarta",
+    timeZone: CFG_TIMEZONE,
   };
   const jakartaTime = date.toLocaleString("en-US", options);
   const [resolution, setResolution] = useState({
@@ -137,6 +137,26 @@ export const MenuProvider = ({ children }) => {
   const [newsStreams, setNewsStreams] = useState([]);
   const [lovys, setLovys] = useState([]);
   const [inetMax, setInetMax] = useState({});
+
+  useEffect(() => {
+    const updateTime = () => {
+      const date = new Date();
+      const options = {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: CFG_TIMEZONE,
+      };
+
+      const formattedTime = date.toLocaleString("en-US", options);
+      setTime(formattedTime);
+    };
+
+    updateTime();
+    const timer = setInterval(updateTime, 60000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <MenuContext.Provider

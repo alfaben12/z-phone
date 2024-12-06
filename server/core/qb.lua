@@ -5,17 +5,18 @@ if Config.Core == "QB" then
     xCore.GetPlayerBySource = function(source)
         local ply = QB.Functions.GetPlayer(source)
         if not ply then return nil end
+
         return {
             source = ply.PlayerData.source,
             citizenid = ply.PlayerData.citizenid,
-            name = ply.PlayerData.charinfo.firstname .. ' '.. ply.charinfo.lastname,
+            name = ply.PlayerData.charinfo.firstname .. ' '.. ply.PlayerData.charinfo.lastname,
             job = {
                 name = ply.PlayerData.job.name,
                 label = ply.PlayerData.job.label
             },
             money = {
-                cash = ply.money.cash,
-                bank = ply.money.bank,
+                cash = ply.PlayerData.money.cash,
+                bank = ply.PlayerData.money.bank,
             },
             removeCash = function (amount)
                 ply.Functions.RemoveMoney('cash', amount)
@@ -35,14 +36,14 @@ if Config.Core == "QB" then
         return {
             source = ply.PlayerData.source,
             citizenid = ply.PlayerData.citizenid,
-            name = ply.PlayerData.charinfo.firstname .. ' '.. ply.charinfo.lastname,
+            name = ply.PlayerData.charinfo.firstname .. ' '.. ply.PlayerData.charinfo.lastname,
             job = {
                 name = ply.PlayerData.job.name,
                 label = ply.PlayerData.job.label
             },
             money = {
-                cash = ply.money.cash,
-                bank = ply.money.bank,
+                cash = ply.PlayerData.money.cash,
+                bank = ply.PlayerData.money.bank,
             },
             removeCash = function (amount)
                 ply.Functions.RemoveMoney('cash', amount)
@@ -63,7 +64,7 @@ if Config.Core == "QB" then
     end
 
     xCore.AddMoneyBankSociety = function(society, amount, reason)
-        exports['qb-banking']:AddMoney(invoice.society, invoice.amount, invoice.reason)
+        exports['qb-banking']:AddMoney(society, amount, reason)
     end
 
     xCore.queryPlayerVehicles = function()
@@ -76,7 +77,7 @@ if Config.Core == "QB" then
                 pv.engine,
                 pv.body,
                 pv.state,
-                DATE_FORMAT(pv.created_at, '%d %b %Y %H:%i') as created_at
+                DATE_FORMAT(now(), '%d %b %Y %H:%i') as created_at
             from player_vehicles pv WHERE pv.citizenid = ? order by plate asc
         ]]
 
@@ -125,10 +126,10 @@ if Config.Core == "QB" then
             select
                 pi.id,
                 pi.society,
-                pi.reason,
+                '-' as reason,
                 pi.amount,
                 pi.sendercitizenid,
-                DATE_FORMAT(pi.created_at, '%d/%m/%Y %H:%i') as created_at
+                DATE_FORMAT(now(), '%d/%m/%Y %H:%i') as created_at
             from phone_invoices as pi
             where pi.citizenid = ? order by pi.id desc
         ]]

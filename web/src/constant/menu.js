@@ -34,87 +34,12 @@ export const NAME = config.name;
 export const LOGO = config.logo;
 export const CLOSE_CALL = "CLOSE_CALL";
 export const MENU_INTERNET_DATA = config.APPS.MENU_INTERNET_DATA;
-
-export const MENU_CONSTANT = [
-  {
-    icon: "/images/contact.svg",
-    path: "/contact",
-    label: MENU_CONTACT,
-  },
-  {
-    icon: "/images/mail.svg",
-    path: "/mail",
-    label: MENU_EMAIL,
-  },
-  {
-    icon: "/images/ads.svg",
-    path: "/ads",
-    label: MENU_ADS,
-  },
-  {
-    icon: "/images/service.svg",
-    path: "/service",
-    label: MENU_SERVICE,
-  },
-  {
-    icon: "/images/garage.svg",
-    path: "/garage",
-    label: MENU_GARAGE,
-  },
-  {
-    icon: "/images/house.svg",
-    path: "/house",
-    label: MENU_HOUSE,
-  },
-  {
-    icon: "/images/wallet.svg",
-    path: "/wallet",
-    label: MENU_BANK,
-  },
-  {
-    icon: "/images/twitter.svg",
-    path: "/twitter",
-    label: MENU_LOOPS,
-  },
-  {
-    icon: "/images/news.svg",
-    path: "/news",
-    label: MENU_NEWS,
-  },
-  {
-    icon: "/images/gallery.svg",
-    path: "/gallery",
-    label: MENU_GALLERY,
-  },
-];
-
-export const BOTTOM_MENU_CONSTANT = [
-  {
-    icon: "/images/phone.svg",
-    path: "/phone",
-    label: MENU_PHONE,
-  },
-  {
-    icon: "/images/message.svg",
-    path: "/message",
-    label: MENU_MESSAGE,
-  },
-  {
-    icon: "/images/camera.svg",
-    path: "/camera",
-    label: MENU_CAMERA,
-  },
-  {
-    icon: "/images/setting.svg",
-    path: "/setting",
-    label: MENU_SETTING,
-  },
-];
 export const CFG_INETMAX = config.INETMAX;
 export const CFG_WALLET = config.WALLET;
 export const CFG_LATEST_NEWS = config.LATEST_NEWS;
 export const CFG_NEWS = config.NEWS;
 export const CFG_SERVICES = config.SERVICES;
+export const CFG_TIMEZONE = config.timezone;
 
 export const PHONE_FRAME_HEIGHT = 610;
 export const PHONE_FRAME_WIDTH = 300;

@@ -33,7 +33,7 @@ const month = [
 ][new Date().getMonth()];
 
 const LockScreenComponent = ({ isShow }) => {
-  const { resolution, profile, setMenu } = useContext(MenuContext);
+  const { time, resolution, profile, setMenu } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const LockScreenComponent = ({ isShow }) => {
                 : 0,
             }}
           >
-            {hour}:{minute}
+            {time}
           </p>
           <p
             className="text-white font-light"
