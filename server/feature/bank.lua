@@ -2,19 +2,9 @@ lib.callback.register('z-phone:server:GetBank', function(source)
     local Player = xCore.GetPlayerBySource(source)
     if Player ~= nil then
         local citizenid = Player.citizenid
-        local queryHistories = xCore.queryBankHistories()
-        local querybill = xCore.queryBankInvoices()
 
-        local histories = MySQL.query.await(queryHistories, { citizenid })
-        local bills = MySQL.query.await(querybill, { citizenid })
-
-        if not histories then
-            histories = {}
-        end
-
-        if not bills then
-            bills = {}
-        end
+        local histories = xCore.bankHistories(citizenid)
+        local bills = xCore.bankInvoices(citizenid)
 
         return {
             histories = histories,
@@ -46,11 +36,7 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
     end
     
     local citizenid = Player.citizenid
-    local query = xCore.queryBankInvoiceByCitizenID()
-    local invoice = MySQL.single.await(query, {
-        body.id,
-        citizenid
-    })
+    local invoice = xCore.bankInvoiceByCitizenID(body.id, citizenid)
 
     if not invoice then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
@@ -64,7 +50,7 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
     Player.removeAccountMoney('bank', invoice.amount, invoice.reason)
     
     xCore.AddMoneyBankSociety(invoice.society, invoice.amount, invoice.reason)
-    MySQL.query(xCore.queryDeleteBankInvoiceByID(), { invoice.id })
+    xCore.deleteBankInvoiceByID(invoice.id)
     
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",

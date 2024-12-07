@@ -1,9 +1,10 @@
-if Config.Core == "QB" then 
+if Config.Core == "QBX" then 
     xCore = {}
-    local QB = exports["qb-core"]:GetCoreObject()
+    local QBX = exports["qb-core"]:GetCoreObject()
+    local ox_inventory = exports.ox_inventory
 
     xCore.GetPlayerBySource = function(source)
-        local ply = QB.Functions.GetPlayer(source)
+        local ply = QBX.Functions.GetPlayer(source)
         if not ply then return nil end
 
         return {
@@ -31,7 +32,7 @@ if Config.Core == "QB" then
     end
 
     xCore.GetPlayerByIdentifier = function(identifier)
-        local ply = QB.Functions.GetPlayerByCitizenId(identifier)
+        local ply = QBX.Functions.GetPlayerByCitizenId(identifier)
         if not ply then return nil end
         return {
             source = ply.PlayerData.source,
@@ -58,9 +59,7 @@ if Config.Core == "QB" then
     end
 
     xCore.HasItemByName = function(source, item)
-        local ply = QB.Functions.GetPlayer(source)
-        if not ply then return nil end
-        return ply.Functions.HasItem(item) ~= nil
+        return ox_inventory:GetItem(source, item, nil, false).count >= 1
     end
 
     xCore.AddMoneyBankSociety = function(society, amount, reason)
@@ -89,19 +88,18 @@ if Config.Core == "QB" then
         local query = [[
             SELECT 
                 hl.id,
-                hl.label AS name, 
-                hl.tier,
+                hl.property_name AS name, 
+                0 as tier,
                 hl.coords,
                 0 as is_has_garage, 
                 1 AS is_house_locked, 
                 1 AS is_garage_locked, 
                 1 AS is_stash_locked, 
-                ph.keyholders 
+                hl.keyholders 
             FROM 
-                houselocations hl 
-            LEFT JOIN player_houses ph ON hl.name = ph.house 
-            WHERE ph.citizenid = ?
-            ORDER BY ph.id DESC
+                properties hl 
+            WHERE hl.owner = ?
+            ORDER BY hl.id DESC
         ]]
 
         return query
@@ -109,57 +107,69 @@ if Config.Core == "QB" then
 
     xCore.bankHistories = function(citizenid)
         local query = [[
-            select
-                bs.statement_type as type,
-                bs.reason as label,
-                bs.amount as total,
-                DATE_FORMAT(bs.date, '%d/%m/%Y %H:%i') as created_at
-            from bank_statements as bs
-            where bs.citizenid = ? order by bs.id desc
+            select transactions
+            from player_transactions
+            where id = ? order by id desc
         ]]
 
-        local histories = MySQL.query.await(query, { citizenid })
+        local histories = MySQL.single.await(query, { citizenid })
         if not histories then
             histories = {}
+        else
+            histories = json.decode(histories.transactions)
         end
 
-        return histories
+        local historiesNew = {}
+        for i, v in pairs(histories) do
+            historiesNew[#historiesNew + 1] = {
+                type = v.trans_type,
+                label = v.title,
+                total = v.amount,
+                created_at = os.date("%Y-%m-%d %H:%M:%S", v.time),
+            }
+        end
+        return historiesNew
     end
 
     xCore.bankInvoices = function(citizenid)
-        local query = [[
-            select
-                pi.id,
-                pi.society,
-                '-' as reason,
-                pi.amount,
-                pi.sendercitizenid,
-                DATE_FORMAT(now(), '%d/%m/%Y %H:%i') as created_at
-            from phone_invoices as pi
-            where pi.citizenid = ? order by pi.id desc
-        ]]
+        -- local query = [[
+        --     select
+        --         pi.id,
+        --         pi.society,
+        --         '-' as reason,
+        --         pi.amount,
+        --         pi.sendercitizenid,
+        --         DATE_FORMAT(now(), '%d/%m/%Y %H:%i') as created_at
+        --     from phone_invoices as pi
+        --     where pi.citizenid = ? order by pi.id desc
+        -- ]]
 
-        local bills = MySQL.query.await(query, { citizenid })
-        if not bills then
-            bills = {}
-        end
+        -- local bills = MySQL.query.await(querybill, { citizenid })
 
-        return bills
+        -- if not histories then
+        --     bills = {}
+        -- end
+
+        -- return bills
+        return {}
     end
 
     xCore.bankInvoiceByCitizenID = function(id, citizenid)
-        local query = [[
-            select pi.id, pi.amount, pi.reason, pi.society, pi.amount from phone_invoices pi WHERE pi.id = ? and pi.citizenid = ? LIMIT 1
-        ]]
+        -- local query = [[
+        --     select pi.id, pi.amount, pi.reason, pi.society, pi.amount from phone_invoices pi WHERE pi.id = ? and pi.citizenid = ? LIMIT 1
+        -- ]]
 
-        return MySQL.single.await(query, {id, citizenid})
+        -- return MySQL.single.await(query, {id, citizenid})
+        lib.print.info("CHANGE THIS CODE TO USE INVOICE bankInvoiceByCitizenID")
+        return nil
     end
 
     xCore.deleteBankInvoiceByID = function(id)
-        local query = [[
-            DELETE FROM phone_invoices WHERE id = ?
-        ]]
+        lib.print.info("CHANGE THIS CODE TO USE INVOICE deleteBankInvoiceByID")
 
-        MySQL.query(query, { id })
+        -- local query = [[
+        --     DELETE FROM phone_invoices WHERE id = ?
+        -- ]]
+        -- MySQL.query(query, { id })
     end
 end

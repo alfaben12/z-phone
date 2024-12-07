@@ -114,7 +114,7 @@ if Config.Core == "ESX" then
         return query
     end
 
-    xCore.queryBankHistories = function()
+    xCore.bankHistories = function(citizenid)
         -- type = withdraw or deposit (lowercase)
         local query = [[
             select
@@ -126,10 +126,15 @@ if Config.Core == "ESX" then
             where bs.identifier = ? order by bs.id desc
         ]]
 
-        return query
+        local histories = MySQL.query.await(query, { citizenid })
+        if not histories then
+            histories = {}
+        end
+
+        return histories
     end
 
-    xCore.queryBankInvoices = function()
+    xCore.bankInvoices = function(citizenid)
         local query = [[
             select
                 pi.id,
@@ -142,22 +147,27 @@ if Config.Core == "ESX" then
             where pi.identifier = ? order by pi.id desc
         ]]
 
-        return query
+        local bills = MySQL.query.await(query, { citizenid })
+        if not bills then
+            bills = {}
+        end
+
+        return bills
     end
 
-    xCore.queryBankInvoiceByCitizenID = function()
+    xCore.bankInvoiceByCitizenID = function(id, citizenid)
         local query = [[
             select pi.id, pi.amount, pi.label as reason, pi.target as society, pi.amount from billing pi WHERE pi.id = ? and pi.identifier = ? LIMIT 1
         ]]
 
-        return query
+        return MySQL.single.await(query, {id, citizenid})
     end
 
-    xCore.queryDeleteBankInvoiceByID = function()
+    xCore.deleteBankInvoiceByID = function(id)
         local query = [[
             DELETE FROM billing WHERE id = ?
         ]]
 
-        return query
+        MySQL.query(query, { id })
     end
 end
