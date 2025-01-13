@@ -1,6 +1,7 @@
 if Config.Core == "QB" then 
     xCore = {}
     local QB = exports["qb-core"]:GetCoreObject()
+    local ox_inventory = exports.ox_inventory
 
     xCore.GetPlayerBySource = function(source)
         local ply = QB.Functions.GetPlayer(source)
@@ -58,9 +59,13 @@ if Config.Core == "QB" then
     end
 
     xCore.HasItemByName = function(source, item)
-        local ply = QB.Functions.GetPlayer(source)
-        if not ply then return nil end
-        return ply.Functions.HasItem(item) ~= nil
+        if GetResourceState('ox_inventory') == 'started' then
+            return ox_inventory:GetItem(source, item, nil, false).count >= 1
+        else
+            local ply = QB.Functions.GetPlayer(source)
+            if not ply then return nil end
+            return ply.Functions.HasItem(item) ~= nil
+        end
     end
 
     xCore.AddMoneyBankSociety = function(society, amount, reason)
