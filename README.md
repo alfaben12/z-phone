@@ -138,8 +138,17 @@ Thank you for your support! [ko-fi](https://ko-fi.com/alfaben)
                ><img
                src="https://avatars.githubusercontent.com/u/20008086?v=4"
                width="50px"
-               alt="Thariq Alfa"
+               alt="alfaben12"
                /><br /><sub><b>alfaben12</b></sub></a>
+         </td>
+          <td align="center" valign="top">
+            <a href="https://github.com/QBStevie"
+                style="text-decoration: none;"
+               ><img
+               src="https://avatars.githubusercontent.com/u/43250308?v=4"
+               width="50px"
+               alt="QBStevie"
+               /><br /><sub><b>QBStevie</b></sub></a>
          </td>
       </tr>
    </tbody>
